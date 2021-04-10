@@ -110,8 +110,6 @@
 	Falta corregir error con Fame Checker
 	Falta corregir error con Fosil Pic
 	Falta corregir error con Climas
-- Velocidad de texto RÁPIDA 
-	(Innecesario debido a que se puede acceder a las opciones desde el Main Menu)
 
 ==============================================
 	Fixes
