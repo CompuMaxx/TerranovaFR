@@ -4934,4 +4934,14 @@ extern const u16 gUnknown_8E9C418[];
 extern const u16 gUnknown_8E9C14C[];
 extern const u16 gUnknown_8E9C16C[];
 
+//Option Menu
+extern const u16 gPalOptionMenuText[];
+extern const u16 gPalOptionMenuButtons[];
+extern const u16 gPalOptionMenuNoSel[];
+extern const u16 gPalOptionMenuSel[];
+extern const u32 gTilesOptionMenu[];
+extern const u32 gMapOptionMenuButtons[];
+extern const u32 gMapOptionMenuBG[];
+extern const u32 gMapOptionMenuFrame[];
+
 #endif //GUARD_GRAPHICS_H

@@ -3,7 +3,7 @@
 ==============================================
 + Sprites e Icons Pokemon GEN IV(LISTO)
 - Main Menu GEN V(LISTO)
-- Option Menu GEN V(LISTO)
++ Option Menu GEN V(LISTO)
 - Pokemon Summary Screen GEN V(LISTO)
 	(Falta mover todos los textos a una sola Window)
 - Expandir Capacidades de Objeto del Bolso y PC(LISTO)

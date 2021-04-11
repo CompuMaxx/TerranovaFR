@@ -1418,3 +1418,14 @@ const u16 gUnknown_8EAFEA0[] = INCBIN_U16("graphics/berry_crush/berry_crush.gbap
 const u16 gUnknown_8EAFF60[] = INCBIN_U16("graphics/unknown/unknown_EAFF60.gbapal");
 const u32 gUnknown_8EAFFC0[] = INCBIN_U32("graphics/berry_crush/berry_crush.4bpp.lz");
 const u32 gUnknown_8EB0ADC[] = INCBIN_U32("graphics/berry_crush/data_EB0ADC.bin.lz");
+
+//Option Menu
+const u16 gPalOptionMenuText[] = INCBIN_U16("graphics/option_menu/text.gbapal");
+const u16 gPalOptionMenuButtons[] = INCBIN_U16("graphics/option_menu/buttons.gbapal");
+const u16 gPalOptionMenuNoSel[] = INCBIN_U16("graphics/option_menu/no_sel.gbapal");
+const u16 gPalOptionMenuSel[] = INCBIN_U16("graphics/option_menu/sel.gbapal");
+const u32 gTilesOptionMenu[] = INCBIN_U32("graphics/option_menu/tiles.4bpp.lz");
+const u32 gMapOptionMenuButtons[] = INCBIN_U32("graphics/option_menu/buttons.bin.lz");
+const u32 gMapOptionMenuBG[] = INCBIN_U32("graphics/option_menu/bg.bin.lz");
+const u32 gMapOptionMenuFrame[] = INCBIN_U32("graphics/option_menu/frame.bin.lz");
+
