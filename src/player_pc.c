@@ -25,7 +25,7 @@
 
 #define PC_ITEM_ID  0
 #define PC_QUANTITY 1
-#define NEW_GAME_PC_ITEMS(i, type) (((u16 *)gNewGamePCItems + type)[i * 2])
+#define NEW_GAME_PC_ITEMS(i, type) (((u16 *)gText_NewGame_PCItems + type)[i * 2])
 
 #define tCount          data[2]
 #define tPageItems      data[4]
@@ -97,7 +97,7 @@ static const struct MenuAction sMenuActions_ItemPc[] = {
     {gFameCheckerText_Cancel, Task_PlayerPcCancel}
 };
 
-static const struct ItemSlot gNewGamePCItems[] = {
+static const struct ItemSlot gText_NewGame_PCItems[] = {
     { ITEM_POTION, 1 },
     { ITEM_NONE,   0 }
 };

@@ -4907,7 +4907,7 @@ extern const u32 gUnknown_8E98458[];
 extern const u32 gUnknown_8E98398[];
 extern const u32 gUnknown_8E98518[];
 extern const u32 gNamingScreenMenu_Gfx[];
-extern const u16 gUnknown_8E98004[];
+extern const u16 gRivalSpritePalette[];
 extern const u16 gUnknown_8E97FE4[];
 extern const u16 gNamingScreenMenu_Pal[];
 extern const u16 gUnknown_8E98858[];
@@ -4955,4 +4955,25 @@ extern const u32 gTilesMainMenuBG2[];
 extern const u32 gMapMainMenuBG2[];
 extern const u32 gMapMainMenuNewGame[];
 extern const u32 gMapMainMenuContinue[];
+
+//Naming Screen
+extern const u8 gNamingScreenCursorTiles[];
+extern const u8 gNamingScreenActiveCursorSmallTiles[];
+extern const u8 gNamingScreenActiveCursorBigTiles[];
+extern const u8 gNamingScreenUnderscoreTiles[];
+extern const u32 gNamingScreenBGTiles[];
+extern const u32 gNamingScreenBGMap[];
+extern const u32 gNamingScreenButtonsEng[];
+extern const u32 gNamingScreenButtonsSpa[];
+extern const u32 gNamingScreenCharUpperMap[];
+extern const u32 gNamingScreenCharLowerMap[];
+extern const u32 gNamingScreenCharOtherMap[];
+extern const u16 gNamingScreenTextPal[];
+extern const u16 gNamingScreenPal[];
+extern const u16 gNamingScreenSelPal[];
+extern const u16 gSpriteImage_PcIcon0[];
+extern const u16 gSpriteImage_PcIcon1[];
+extern const u16 gNamingScreenPalettes[][16];
+
+
 #endif //GUARD_GRAPHICS_H

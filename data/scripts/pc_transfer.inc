@@ -23,24 +23,24 @@ EventScript_TransferredSomeonesPC:: @ 81A8C57
 	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
 	compare VAR_RESULT, TRUE
 	goto_if_eq EventScript_TransferredSomeonesPCBoxFull
-	msgbox Text_MonSentToBoxInSomeonesPC
+	msgbox gText_MonSentToBoxInSomeonesPC
 	return
 
 EventScript_TransferredSomeonesPCBoxFull:: @ 81A8C70
 	specialvar VAR_RESULT, GetPCBoxToSendMon
 	bufferboxname 2, VAR_RESULT
-	msgbox Text_MonSentToBoxSomeonesBoxFull
+	msgbox gText_MonSentToBoxSomeonesBoxFull
 	return
 
 EventScript_TransferredBillsPC:: @ 81A8C82
 	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
 	compare VAR_RESULT, TRUE
 	goto_if_eq EventScript_TransferredBillsPCBoxFull
-	msgbox Text_MonSentToBoxInBillsPC
+	msgbox gText_MonSentToBoxInBillsPC
 	return
 
 EventScript_TransferredBillsPCBoxFull:: @ 81A8C9B
 	specialvar VAR_RESULT, GetPCBoxToSendMon
 	bufferboxname 2, VAR_RESULT
-	msgbox Text_MonSentToBoxBillsBoxFull
+	msgbox gText_MonSentToBoxBillsBoxFull
 	return

@@ -174,10 +174,10 @@ CableClub_EventScript_PlayerExitUnionRoom:: @ 81BB3B4
 	return
 
 CableClub_EventScript_TrainerCardDataOverwritten:: @ 81BB3E6
-	message CableClub_Text_TrainerCardDataOverwritten
+	message gText_CableClub_TrainerCardDataOverwritten
 	waitmessage
 	playse SE_PIN
-	message CableClub_Text_HopeToSeeYouAgain
+	message gText_CableClub_HopeToSeeYouAgain
 	waitmessage
 	applymovement OBJ_EVENT_ID_PLAYER, Movement_PlayerExitLinkRoom
 	waitmovement 0
@@ -195,12 +195,12 @@ CableClub_EventScript_Tutorial:: @ 81BB415
 	textcolor 1
 	applymovement OBJ_EVENT_ID_PLAYER, Movement_WalkInPlaceFastestUp
 	waitmovement 0
-	msgbox CableClub_Text_FirstTimeRightThisWay
+	msgbox gText_CableClub_FirstTimeRightThisWay
 	closemessage
 	applymovement OBJ_EVENT_ID_PLAYER, Movement_PlayerApproachCounter
 	waitmovement 0
 	delay 30
-	msgbox CableClub_Text_ExplainWirelessClubFirstTime
+	msgbox gText_CableClub_ExplainWirelessClubFirstTime
 	setvar VAR_MAP_SCENE_POKEMON_CENTER_TEALA, 2
 	releaseall
 	end
@@ -211,14 +211,14 @@ Movement_PlayerApproachCounter: @ 81BB447
 	step_end
 
 CableClub_EventScript_WelcomeToCableClub:: @ 81BB44A
-	message CableClub_Text_WelcomeWhichCableClubService
+	message gText_CableClub_WelcomeWhichCableClubService
 	waitmessage
 	delay 15
 	goto CableClub_EventScript_SelectCableClubRoom
 	end
 
 CableClub_EventScript_UnusedWelcomeToCableClub:: @ 81BB459
-	msgbox CableClub_Text_WhichService
+	msgbox gText_CableClub_WhichService
 	goto CableClub_EventScript_SelectCableClubRoom
 	end
 
@@ -238,7 +238,7 @@ CableClub_EventScript_Colosseum:: @ 81BB4A3
 	end
 
 CableClub_EventScript_SelectBattleMode:: @ 81BB4AE
-	message CableClub_Text_PlayWhichBattleMode
+	message gText_CableClub_PlayWhichBattleMode
 	waitmessage
 	multichoice 0, 0, MULTICHOICE_SINGLE_DOUBLE_MULTI_INFO_EXIT, FALSE
 	switch VAR_RESULT
@@ -251,7 +251,7 @@ CableClub_EventScript_SelectBattleMode:: @ 81BB4AE
 	end
 
 CableClub_EventScript_BattleModeInfo:: @ 81BB501
-	msgbox CableClub_Text_ExplainBattleModes
+	msgbox gText_CableClub_ExplainBattleModes
 	goto CableClub_EventScript_SelectBattleMode
 	end
 
@@ -269,7 +269,7 @@ CableClub_EventScript_DoubleBattleMode:: @ 81BB51A
 	end
 
 CableClub_EventScript_NeedTwoMonsForDoubleBattle:: @ 81BB533
-	msgbox CableClub_Text_NeedTwoMonsForDoubleBattle
+	msgbox gText_CableClub_NeedTwoMonsForDoubleBattle
 	goto CableClub_EventScript_SelectBattleMode
 	end
 
@@ -282,7 +282,7 @@ CableClub_EventScript_TryEnterColosseum:: @ 81BB54C
 	call EventScript_AskSaveGame
 	compare VAR_RESULT, 0
 	goto_if_eq CableClub_EventScript_AbortLink
-	message CableClub_Text_PleaseWaitBCancel
+	message gText_CableClub_PleaseWaitBCancel
 	waitmessage
 	special HelpSystem_Disable
 	textcolor 3
@@ -308,7 +308,7 @@ CableClub_EventScript_EnterColosseum:: @ 81BB5B3
 	special SavePlayerParty
 	special LoadPlayerBag
 	copyvar VAR_CABLE_CLUB_STATE, VAR_0x8004
-	messageautoscroll CableClub_Text_PleaseEnter
+	messageautoscroll gText_CableClub_PleaseEnter
 	waitmessage
 	call CableClub_EventScript_OpenDirectCornerBarrier
 	special DrawWholeMapView
@@ -358,26 +358,26 @@ CableClub_EventScript_AbortLinkIncorrectNumberOfBattlers:: @ 81BB63C
 
 CableClub_EventScript_AbortLinkNeedFourPlayers:: @ 81BB668
 	special CloseLink
-	msgbox CableClub_Text_NeedFourPlayers
+	msgbox gText_CableClub_NeedFourPlayers
 	goto CableClub_EventScript_ConfirmNumberAndRestart
 	end
 
 CableClub_EventScript_AbortLinkWrongNumberForDoubleBattle:: @ 81BB679
 	special CloseLink
-	msgbox CableClub_Text_CantDoubleBattleWithXPlayers
+	msgbox gText_CableClub_CantDoubleBattleWithXPlayers
 	goto CableClub_EventScript_ConfirmNumberAndRestart
 	end
 
 CableClub_EventScript_AbortLinkWrongNumberForSingleBattle:: @ 81BB68A
 	special CloseLink
-	msgbox CableClub_Text_CantSingleBattleWithXPlayers
+	msgbox gText_CableClub_CantSingleBattleWithXPlayers
 	goto CableClub_EventScript_ConfirmNumberAndRestart
 	end
 
 CableClub_EventScript_ConfirmNumberAndRestart:: @ 81BB69B
 	special CloseLink  @ Redundant
 	special HelpSystem_Enable
-	msgbox CableClub_Text_PleaseConfirmNumberAndRestart
+	msgbox gText_CableClub_PleaseConfirmNumberAndRestart
 	release
 	end
 
@@ -389,7 +389,7 @@ CableClub_EventScript_TradeCenter:: @ 81BB6AB
 	call EventScript_AskSaveGame
 	compare VAR_RESULT, 0
 	goto_if_eq CableClub_EventScript_AbortLink
-	message CableClub_Text_PleaseWaitBCancel
+	message gText_CableClub_PleaseWaitBCancel
 	waitmessage
 	special HelpSystem_Disable
 	textcolor 3
@@ -417,7 +417,7 @@ CableClub_EventScript_TradeCenter:: @ 81BB6AB
 CableClub_EventScript_EnterTradeCenter:: @ 81BB73D
 	setvar VAR_0x8004, USING_TRADE_CENTER
 	copyvar VAR_CABLE_CLUB_STATE, VAR_0x8004
-	messageautoscroll CableClub_Text_PleaseEnter
+	messageautoscroll gText_CableClub_PleaseEnter
 	waitmessage
 	call CableClub_EventScript_OpenDirectCornerBarrier
 	special DrawWholeMapView
@@ -453,12 +453,12 @@ CableClub_EventScript_CheckPartyTradeRequirements:: @ 81BB79C
 	return
 
 CableClub_EventScript_NeedTwoMonsToTrade:: @ 81BB7C2
-	msgbox CableClub_Text_NeedTwoMonsToTrade
+	msgbox gText_CableClub_NeedTwoMonsToTrade
 	setvar VAR_RESULT, FALSE
 	return
 
 CableClub_EventScript_CantTradeEnigmaBerry:: @ 81BB7D0
-	msgbox CableClub_Text_CantTradeEnigmaBerry
+	msgbox gText_CableClub_CantTradeEnigmaBerry
 	setvar VAR_RESULT, FALSE
 	return
 
@@ -469,49 +469,49 @@ CableClub_EventScript_RecordCorner:: @ 81BB7DE
 CableClub_EventScript_AbortLinkPlayerNotReady:: @ 81BB7DF
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_NotSetUpForFarAwayRegion
+	msgbox gText_CableClub_NotSetUpForFarAwayRegion
 	release
 	end
 
 CableClub_EventScript_AbortLinkOtherTrainerNotReady:: @ 81BB7EF
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_OtherTrainerNotReady
+	msgbox gText_CableClub_OtherTrainerNotReady
 	release
 	end
 
 CableClub_EventScript_AbortLinkConnectionError:: @ 81BB7FF
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_LinkErrorPleaseReset
+	msgbox gText_CableClub_LinkErrorPleaseReset
 	release
 	end
 
 CableClub_EventScript_AbortLinkSomeoneNotReady:: @ 81BB80F
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_SomeoneIsNotReadyToLink
+	msgbox gText_CableClub_SomeoneIsNotReadyToLink
 	release
 	end
 
 CableClub_EventScript_AbortLinkDifferentSelections:: @ 81BB81F
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_PlayersMadeDifferentSelections
+	msgbox gText_CableClub_PlayersMadeDifferentSelections
 	release
 	end
 
 CableClub_EventScript_AbortLink:: @ 81BB82F
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_PleaseVisitAgain
+	msgbox gText_CableClub_PleaseVisitAgain
 	release
 	end
 
 CableClub_EventScript_AbortMinigame:: @ 81BB83F
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_ComeAgain
+	msgbox gText_CableClub_ComeAgain
 	release
 	end
 
@@ -525,14 +525,14 @@ CableClub_EventScript_CableClubWarp:: @ 81BB84F
 CableClub_EventScript_AbortLinkIncorrectNumberOfParticipants:: @ 81BB857
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_IncorrectNumberOfParticipants
+	msgbox gText_CableClub_IncorrectNumberOfParticipants
 	release
 	end
 
 CableClub_EventScript_AbortLinkPlayerHasBadEgg:: @ 81BB867
 	special CloseLink
 	special HelpSystem_Enable
-	msgbox CableClub_Text_YouHaveAMonThatCantBeTaken
+	msgbox gText_CableClub_YouHaveAMonThatCantBeTaken
 	release
 	end
 
@@ -786,7 +786,7 @@ CableClub_EventScript_UnionRoomAttendant:: @ 81BBA04
 	specialvar VAR_RESULT, IsWirelessAdapterConnected
 	compare VAR_RESULT, FALSE
 	goto_if_eq CableClub_EventScript_UnionRoomAdapterNotConnected
-	message CableClub_Text_WelcomeUnionRoomEnter
+	message gText_CableClub_WelcomeUnionRoomEnter
 	waitmessage
 	goto CableClub_EventScript_AskEnterUnionRoom
 	end
@@ -801,7 +801,7 @@ CableClub_EventScript_AskEnterUnionRoom:: @ 81BBA51
 	end
 
 CableClub_EventScript_UnionRoomInfo:: @ 81BBA88
-	message CableClub_Text_UnionRoomInfo
+	message gText_CableClub_UnionRoomInfo
 	waitmessage
 	goto CableClub_EventScript_AskEnterUnionRoom
 	end
@@ -813,7 +813,7 @@ CableClub_EventScript_EnterUnionRoom:: @ 81BBA94
 	call EventScript_AskSaveGame
 	compare VAR_RESULT, 0
 	goto_if_eq CableClub_EventScript_AbortLink
-	msgbox CableClub_Text_EnjoyUnionRoom
+	msgbox gText_CableClub_EnjoyUnionRoom
 	closemessage
 	special HealPlayerParty
 	setvar VAR_0x8004, USING_UNION_ROOM
@@ -853,17 +853,17 @@ CableClub_EventScript_CheckPartyUnionRoomRequirements:: @ 81BBB1E
 	return
 
 CableClub_EventScript_NeedTwoMonsForUnionRoom:: @ 81BBB44
-	msgbox CableClub_Text_NeedTwoMonsForUnionRoom
+	msgbox gText_CableClub_NeedTwoMonsForUnionRoom
 	goto EventScript_SetResultFalse
 	end
 
 CableClub_EventScript_NoEnigmaBerryInUnionRoom:: @ 81BBB52
-	msgbox CableClub_Text_NoEnigmaBerryInUnionRoom
+	msgbox gText_CableClub_NoEnigmaBerryInUnionRoom
 	goto EventScript_SetResultFalse
 	end
 
 CableClub_EventScript_UnionRoomAdapterNotConnected:: @ 81BBB60
-	msgbox CableClub_Text_UnionRoomAdapterNotConnected
+	msgbox gText_CableClub_UnionRoomAdapterNotConnected
 	release
 	return
 
@@ -871,15 +871,15 @@ CableClub_EventScript_WirelessClubAttendant:: @ 81BBB6A
 	lock
 	faceplayer
 	goto_if_unset FLAG_SYS_POKEDEX_GET, CableClub_EventScript_WirelessClubAdjustements
-	msgbox CableClub_Text_AskAboutLinking, MSGBOX_YESNO
+	msgbox gText_CableClub_AskAboutLinking, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq CableClub_EventScript_DontAskAboutLinking
-	msgbox CableClub_Text_ExplainWirelessClub
+	msgbox gText_CableClub_ExplainWirelessClub
 	release
 	return
 
 CableClub_EventScript_DontAskAboutLinking:: @ 81BBB92
-	msgbox CableClub_Text_HopeYouEnjoyWirelessSystem
+	msgbox gText_CableClub_HopeYouEnjoyWirelessSystem
 	release
 	return
 
@@ -895,7 +895,7 @@ CableClub_EventScript_DirectCornerAttendant:: @ 81BBB9C
 	specialvar VAR_RESULT, IsWirelessAdapterConnected
 	compare VAR_RESULT, FALSE
 	goto_if_eq CableClub_EventScript_WelcomeToCableClub
-	message CableClub_Text_WelcomeWhichDirectCornerRoom
+	message gText_CableClub_WelcomeWhichDirectCornerRoom
 	waitmessage
 	delay 15
 	goto CableClub_EventScript_DirectCornerSelectService
@@ -922,7 +922,7 @@ CableClub_EventScript_DirectCornerNoBerry:: @ 81BBC32
 	end
 
 CableClub_EventScript_WirelessTrade:: @ 81BBC69
-	msgbox CableClub_Text_TradePokemon, MSGBOX_YESNO
+	msgbox gText_CableClub_TradePokemon, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq CableClub_EventScript_AbortLink
 	call CableClub_EventScript_CheckPartyTradeRequirements
@@ -933,7 +933,7 @@ CableClub_EventScript_WirelessTrade:: @ 81BBC69
 	end
 
 CableClub_EventScript_WirelessBattleSelect:: @ 81BBC97
-	message CableClub_Text_PlayWhichBattleMode
+	message gText_CableClub_PlayWhichBattleMode
 	waitmessage
 	multichoice 0, 0, MULTICHOICE_SINGLE_DOUBLE_MULTI_INFO_EXIT, FALSE
 	switch VAR_RESULT
@@ -959,7 +959,7 @@ CableClub_EventScript_WirelessDoubleBattle:: @ 81BBCF5
 	end
 
 CableClub_EventScript_TwoMonsNeededForWirelessDoubleBattle:: @ 81BBD0E
-	msgbox CableClub_Text_NeedTwoMonsForDoubleBattle
+	msgbox gText_CableClub_NeedTwoMonsForDoubleBattle
 	goto CableClub_EventScript_WirelessBattleSelect
 	end
 
@@ -969,12 +969,12 @@ CableClub_EventScript_WirelessMultiBattle:: @ 81BBD1C
 	end
 
 CableClub_EventScript_WirelessBattleInfo:: @ 81BBD27
-	msgbox CableClub_Text_ExplainBattleModes
+	msgbox gText_CableClub_ExplainBattleModes
 	goto CableClub_EventScript_WirelessBattleSelect
 	end
 
 CableClub_EventScript_WirelessBerryCrush:: @ 81BBD35
-	msgbox CableClub_Text_UseBerryCrush, MSGBOX_YESNO
+	msgbox gText_CableClub_UseBerryCrush, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq CableClub_EventScript_AbortLink
 	special CheckHasAtLeastOneBerry
@@ -985,7 +985,7 @@ CableClub_EventScript_WirelessBerryCrush:: @ 81BBD35
 	end
 
 CableClub_EventScript_NeedBerryForBerryCrush:: @ 81BBD61
-	msgbox CableClub_Text_NeedBerryForBerryCrush
+	msgbox gText_CableClub_NeedBerryForBerryCrush
 	goto CableClub_EventScript_DirectCornerSelectService
 	end
 
@@ -1003,7 +1003,7 @@ CableClub_EventScript_SaveAndChooseLinkLeader:: @ 81BBD6F
 
 CableClub_EventScript_ChooseLinkLeaderFrom2:: @ 81BBDBC
 	textcolor 3
-	message CableClub_Text_ChooseGroupLeaderOfTwo
+	message gText_CableClub_ChooseGroupLeaderOfTwo
 	waitmessage
 	call EventScript_RestorePrevTextColor
 	multichoice 13, 6, MULTICHOICE_JOIN_OR_LEAD, FALSE
@@ -1038,7 +1038,7 @@ CableClub_EventScript_TryJoinGroup2Players:: @ 81BBE28
 
 CableClub_EventScript_ChooseLinkLeaderFrom4:: @ 81BBE50
 	textcolor 3
-	message CableClub_Text_ChooseGroupLeaderOfFour
+	message gText_CableClub_ChooseGroupLeaderOfFour
 	waitmessage
 	call EventScript_RestorePrevTextColor
 	multichoice 13, 6, MULTICHOICE_JOIN_OR_LEAD, FALSE
@@ -1073,7 +1073,7 @@ CableClub_EventScript_TryJoinGroup4Players:: @ 81BBEBC
 
 CableClub_EventScript_ChooseLinkLeader:: @ 81BBEE4
 	textcolor 3
-	message CableClub_Text_ChooseGroupLeader
+	message gText_CableClub_ChooseGroupLeader
 	waitmessage
 	call EventScript_RestorePrevTextColor
 	multichoice 13, 6, MULTICHOICE_JOIN_OR_LEAD, FALSE
@@ -1119,7 +1119,7 @@ CableClub_EventScript_TryJoinLinkGroup:: @ 81BBF80
 	return
 
 CableClub_EventScript_EnterWirelessLinkRoom:: @ 81BBF88
-	messageautoscroll CableClub_Text_DirectYouToYourRoom
+	messageautoscroll gText_CableClub_DirectYouToYourRoom
 	waitmessage
 	delay 60
 	closemessage
@@ -1155,13 +1155,13 @@ CableClub_EventScript_ShowWirelessCommunicationScreen:: @ 81BBFD8
 	fadescreen FADE_TO_BLACK
 	special ShowWirelessCommunicationScreen
 	waitstate
-	msgbox CableClub_Text_ParticipantsStepUpToCounter
+	msgbox gText_CableClub_ParticipantsStepUpToCounter
 	special HelpSystem_Enable
 	releaseall
 	end
 
 CableClub_EventScript_AdapterNotConnected:: @ 81BC016
-	msgbox CableClub_Text_AdapterNotConnected
+	msgbox gText_CableClub_AdapterNotConnected
 	releaseall
 	end
 
@@ -1283,7 +1283,7 @@ CableClub_EventScript_PlayDodrioBerryPicking:: @ 81BC184
 
 CableClub_EventScript_ChooseLinkLeaderMinigame:: @ 81BC1CE
 	textcolor 3
-	message CableClub_Text_ChooseGroupLeader
+	message gText_CableClub_ChooseGroupLeader
 	waitmessage
 	call EventScript_RestorePrevTextColor
 	multichoice 13, 6, MULTICHOICE_JOIN_OR_LEAD, FALSE
@@ -1376,102 +1376,102 @@ TwoIsland_JoyfulGameCorner_EventScript_ShowDodrioBerryPickingRecords:: @ 81BC2FC
 	releaseall
 	end
 
-CableClub_Text_WelcomeWhichCableClubService:: @ 81BC311
+gText_CableClub_WelcomeWhichCableClubService:: @ 81BC311
 	.string "Welcome to the POKéMON CABLE\n"
 	.string "CLUB.\p"
 	.string "Which of our services do you wish\n"
 	.string "to use?$"
 
-CableClub_Text_WhichService:: @ 81BC35E
+gText_CableClub_WhichService:: @ 81BC35E
 	.string "Which of our services do you wish\n"
 	.string "to use?$"
 
-CableClub_Text_TradeMonsUsingLinkCable:: @ 81BC388
+gText_CableClub_TradeMonsUsingLinkCable:: @ 81BC388
 	.string "Trade POKéMON with another player\n"
 	.string "using a GBA Game Link cable.$"
 
-CableClub_Text_BattleUsingLinkCable:: @ 81BC3C7
+gText_CableClub_BattleUsingLinkCable:: @ 81BC3C7
 	.string "You may battle another TRAINER\n"
 	.string "using a GBA Game Link cable.$"
 
 @ Unused, translated in Emerald
-CableClub_Text_CloseThisMenu:: @ 81BC403
+gText_CableClub_CloseThisMenu:: @ 81BC403
 	.string "おわります$"
 
-CableClub_Text_NeedTwoMonsForDoubleBattle:: @ 81BC409
+gText_CableClub_NeedTwoMonsForDoubleBattle:: @ 81BC409
 	.string "For a DOUBLE BATTLE, you must\n"
 	.string "have at least two POKéMON.$"
 
-CableClub_Text_NeedTwoMonsToTrade:: @ 81BC442
+gText_CableClub_NeedTwoMonsToTrade:: @ 81BC442
 	.string "For trading, you must have at\n"
 	.string "least two POKéMON with you.$"
 
-CableClub_Text_CantTradeEnigmaBerry:: @ 81BC47C
+gText_CableClub_CantTradeEnigmaBerry:: @ 81BC47C
 	.string "A POKéMON holding the {STR_VAR_1}\n"
 	.string "BERRY can't be traded.$"
 
-CableClub_Text_PleaseWaitBCancel:: @ 81BC4AC
+gText_CableClub_PleaseWaitBCancel:: @ 81BC4AC
 	.string "Please wait.\n"
 	.string "… … B Button: Cancel$"
 
-CableClub_Text_WhenAllPlayersReadyAConfirmBCancel:: @ 81BC4CE
+gText_CableClub_WhenAllPlayersReadyAConfirmBCancel:: @ 81BC4CE
 	.string "When all players are ready…\n"
 	.string "A Button: Confirm\l"
 	.string "B Button: Cancel$"
 
-CableClub_Text_StartLinkWithXPlayersAConfirmBCancel:: @ 81BC50D
+gText_CableClub_StartLinkWithXPlayersAConfirmBCancel:: @ 81BC50D
 	.string "Start link with {STR_VAR_1} players.\n"
 	.string "A Button: Confirm\l"
 	.string "B Button: Cancel$"
 
-CableClub_Text_AwaitingLinkupBCancel:: @ 81BC54C
+gText_CableClub_AwaitingLinkupBCancel:: @ 81BC54C
 	.string "Awaiting linkup…\n"
 	.string "… … B Button: Cancel$"
 
 @ Unused, translated in Emerald
-CableClub_Text_OkayToSaveProgress:: @ 81BC572
+gText_CableClub_OkayToSaveProgress:: @ 81BC572
 	.string "はじめる　まえに　レポートを\n"
 	.string "かきますが　よろしいですか？$"
 
-CableClub_Text_PleaseEnter:: @ 81BC590
+gText_CableClub_PleaseEnter:: @ 81BC590
 	.string "Please enter.$"
 
-CableClub_Text_DirectYouToYourRoom:: @ 81BC59E
+gText_CableClub_DirectYouToYourRoom:: @ 81BC59E
 	.string "I'll direct you to your room now.$"
 
-CableClub_Text_SomeoneIsNotReadyToLink:: @ 81BC5C0
+gText_CableClub_SomeoneIsNotReadyToLink:: @ 81BC5C0
 	.string "Someone is not ready to link.\p"
 	.string "Please come back after everyone\n"
 	.string "has made preparations.$"
 
-CableClub_Text_LinkErrorPleaseReset:: @ 81BC615
+gText_CableClub_LinkErrorPleaseReset:: @ 81BC615
 	.string "Sorry, we have a link error…\n"
 	.string "Please reset and try again.$"
 
-CableClub_Text_PlayersMadeDifferentSelections:: @ 81BC64E
+gText_CableClub_PlayersMadeDifferentSelections:: @ 81BC64E
 	.string "The link partners appear to have\n"
 	.string "made different selections.$"
 
-CableClub_Text_PleaseVisitAgain:: @ 81BC68A
+gText_CableClub_PleaseVisitAgain:: @ 81BC68A
 	.string "Please do visit again.$"
 
-CableClub_Text_IncorrectNumberOfParticipants:: @ 81BC6A1
+gText_CableClub_IncorrectNumberOfParticipants:: @ 81BC6A1
 	.string "The number of participants is\n"
 	.string "incorrect.$"
 
-CableClub_Text_CantSingleBattleWithXPlayers:: @ 81BC6CA
+gText_CableClub_CantSingleBattleWithXPlayers:: @ 81BC6CA
 	.string "The SINGLE BATTLE Mode can't be\n"
 	.string "played by {STR_VAR_1} players.$"
 
-CableClub_Text_CantDoubleBattleWithXPlayers:: @ 81BC700
+gText_CableClub_CantDoubleBattleWithXPlayers:: @ 81BC700
 	.string "The DOUBLE BATTLE Mode can't be\n"
 	.string "played by {STR_VAR_1} players.$"
 
-CableClub_Text_NeedFourPlayers:: @ 81BC736
+gText_CableClub_NeedFourPlayers:: @ 81BC736
 	.string "There must be four players to play\n"
 	.string "this Battle Mode.$"
 
-CableClub_Text_PleaseConfirmNumberAndRestart:: @ 81BC76B
+gText_CableClub_PleaseConfirmNumberAndRestart:: @ 81BC76B
 	.string "Please confirm the number of\n"
 	.string "players and start again.$"
 
@@ -1509,83 +1509,83 @@ Text_TakeSeatStartTrade:: @ 81BC8DA
 RecordCorner_Text_ThanksForComing:: @ 81BC906
 	.string "ごりよう　ありがとう　ございました$"
 
-CableClub_Text_TrainerCardDataOverwritten:: @ 81BC918
+gText_CableClub_TrainerCardDataOverwritten:: @ 81BC918
 	.string "The TRAINER CARD data will\n"
 	.string "be overwritten.$"
 
-CableClub_Text_HopeToSeeYouAgain:: @ 81BC943
+gText_CableClub_HopeToSeeYouAgain:: @ 81BC943
 	.string "I hope to see you again!$"
 
-CableClub_Text_NotSetUpForFarAwayRegion:: @ 81BC95C
+gText_CableClub_NotSetUpForFarAwayRegion:: @ 81BC95C
 	.string "I'm awfully sorry.\p"
 	.string "We're not set up to conduct trades\n"
 	.string "with TRAINERS far away in another\l"
 	.string "region yet…$"
 
-CableClub_Text_OtherTrainerNotReady:: @ 81BC9C0
+gText_CableClub_OtherTrainerNotReady:: @ 81BC9C0
 	.string "The other TRAINER is not ready.$"
 
-CableClub_Text_YouHaveAMonThatCantBeTaken:: @ 81BC9E0
+gText_CableClub_YouHaveAMonThatCantBeTaken:: @ 81BC9E0
 	.string "You have at least one POKéMON\n"
 	.string "that can't be taken.$"
 
-CableClub_Text_AdapterNotConnected:: @ 81BCA13
+gText_CableClub_AdapterNotConnected:: @ 81BCA13
 	.string "The Wireless Adapter is not\n"
 	.string "connected properly.$"
 
-CableClub_Text_ParticipantsStepUpToCounter:: @ 81BCA43
+gText_CableClub_ParticipantsStepUpToCounter:: @ 81BCA43
 	.string "Participants are asked to step up\n"
 	.string "to the reception counter.$"
 
 @ Unused, translated in Emerald
-CableClub_Text_Hello:: @ 81BCA7F
+gText_CableClub_Hello:: @ 81BCA7F
 	.string "こんにちは！$"
 
 @ Unused, translated in Emerald
-CableClub_Text_PleaseWait:: @ 81BCA86
+gText_CableClub_PleaseWait:: @ 81BCA86
 	.string "しょうしょう　おまちください$"
 
-CableClub_Text_YouMayTradeHere:: @ 81BCA95
+gText_CableClub_YouMayTradeHere:: @ 81BCA95
 	.string "You may trade your POKéMON here\n"
 	.string "with another TRAINER.$"
 
-CableClub_Text_YouMayBattleHere:: @ 81BCACB
+gText_CableClub_YouMayBattleHere:: @ 81BCACB
 	.string "You may battle with your friends\n"
 	.string "here.$"
 
-CableClub_Text_CanMakeBerryPowder:: @ 81BCAF2
+gText_CableClub_CanMakeBerryPowder:: @ 81BCAF2
 	.string "Two to five TRAINERS can make\n"
 	.string "BERRY POWDER together.$"
 
 @ Unused, Record Mix nopped
-CableClub_Text_CanMixRecords:: @ 81BCB27
+gText_CableClub_CanMixRecords:: @ 81BCB27
 	.string "ワイヤレス　クラブでの\n"
 	.string "あそびかたを　せつめいします$"
 
-CableClub_Text_CancelSelectedItem:: @ 81BCB42
+gText_CableClub_CancelSelectedItem:: @ 81BCB42
 	.string "Cancels the selected MENU item.$"
 
 @ Unused, translated in Emerald
-CableClub_Text_WhichBattleMode:: @ 81BCB62
+gText_CableClub_WhichBattleMode:: @ 81BCB62
 	.string "どちらの　しょうぶに　しますか？$"
 
 @ Unused, translated in Emerald
-CableClub_Text_ReturnsToPreviousStep:: @ 81BCB73
+gText_CableClub_ReturnsToPreviousStep:: @ 81BCB73
 	.string "ひとつ　まえに　もどります$"
 
-CableClub_Text_NeedBerryForBerryCrush:: @ 81BCB81
+gText_CableClub_NeedBerryForBerryCrush:: @ 81BCB81
 	.string "To use the BERRY CRUSH service,\n"
 	.string "you must have at least one BERRY.$"
 
-CableClub_Text_NeedTwoMonsForUnionRoom:: @ 81BCBC3
+gText_CableClub_NeedTwoMonsForUnionRoom:: @ 81BCBC3
 	.string "To enter the UNION ROOM, you must\n"
 	.string "have at least two POKéMON.$"
 
-CableClub_Text_NoEnigmaBerryInUnionRoom:: @ 81BCC00
+gText_CableClub_NoEnigmaBerryInUnionRoom:: @ 81BCC00
 	.string "No POKéMON holding the {STR_VAR_1}\n"
 	.string "BERRY may enter the UNION ROOM.$"
 
-CableClub_Text_UnionRoomAdapterNotConnected:: @ 81BCC3A
+gText_CableClub_UnionRoomAdapterNotConnected:: @ 81BCC3A
 	.string "This is the POKéMON WIRELESS CLUB\n"
 	.string "UNION ROOM.\p"
 	.string "Unfortunately, your Wireless\n"
@@ -1593,7 +1593,7 @@ CableClub_Text_UnionRoomAdapterNotConnected:: @ 81BCC3A
 	.string "Please do come again.$"
 
 @ Unused, translated in Emerald
-CableClub_Text_OhExcuseMe:: @ 81BCCBE
+gText_CableClub_OhExcuseMe:: @ 81BCCBE
 	.string "あ‥‥\n"
 	.string "おきゃくさま！$"
 
@@ -1639,7 +1639,7 @@ Text_WelcomeCanYouWait:: @ 81BCF69
 	.string "Wireless Communication System.\p"
 	.string "Can you wait just a little bit?$"
 
-CableClub_Text_ComeAgain:: @ 81BCFD1
+gText_CableClub_ComeAgain:: @ 81BCFD1
 	.string "All right, come again!$"
 
 Text_AdapterNotConnectedMinigame:: @ 81BCFE8
@@ -1690,7 +1690,7 @@ Text_RetryFromStartPlease:: @ 81BD274
 	.string "もういちど　はじめから\n"
 	.string "やりなおして　みて　くれ$"
 
-CableClub_Text_WelcomeWhichDirectCornerRoom:: @ 81BD28D
+gText_CableClub_WelcomeWhichDirectCornerRoom:: @ 81BD28D
 	.string "Welcome to the POKéMON WIRELESS\n"
 	.string "CLUB DIRECT CORNER.\p"
 	.string "You may interact directly with\n"
@@ -1698,18 +1698,18 @@ CableClub_Text_WelcomeWhichDirectCornerRoom:: @ 81BD28D
 	.string "Which room would you like to\n"
 	.string "enter?$"
 
-CableClub_Text_TradePokemon:: @ 81BD317
+gText_CableClub_TradePokemon:: @ 81BD317
 	.string "Would you like to trade POKéMON?$"
 
-CableClub_Text_PlayWhichBattleMode:: @ 81BD338
+gText_CableClub_PlayWhichBattleMode:: @ 81BD338
 	.string "Which Battle Mode would you like\n"
 	.string "to play?$"
 
-CableClub_Text_UseBerryCrush:: @ 81BD362
+gText_CableClub_UseBerryCrush:: @ 81BD362
 	.string "Would you like to use the\n"
 	.string "BERRY CRUSH System?$"
 
-CableClub_Text_ExplainBattleModes:: @ 81BD390
+gText_CableClub_ExplainBattleModes:: @ 81BD390
 	.string "There are three Battle Modes.\p"
 	.string "SINGLE BATTLE is for two TRAINERS\n"
 	.string "with one or more POKéMON each.\p"
@@ -1724,25 +1724,25 @@ CableClub_Text_ExplainBattleModes:: @ 81BD390
 	.string "Each TRAINER can have one POKéMON\n"
 	.string "in battle at a time.$"
 
-CableClub_Text_ChooseGroupLeaderOfTwo:: @ 81BD51B
+gText_CableClub_ChooseGroupLeaderOfTwo:: @ 81BD51B
 	.string "Please decide which of you two\n"
 	.string "will become the LEADER.\p"
 	.string "The other player must then choose\n"
 	.string "“JOIN GROUP.”$"
 
-CableClub_Text_ChooseGroupLeaderOfFour:: @ 81BD582
+gText_CableClub_ChooseGroupLeaderOfFour:: @ 81BD582
 	.string "Please decide which of you four\n"
 	.string "will become the GROUP LEADER.\p"
 	.string "The other players must then choose\n"
 	.string "“JOIN GROUP.”$"
 
-CableClub_Text_ChooseGroupLeader:: @ 81BD5F1
+gText_CableClub_ChooseGroupLeader:: @ 81BD5F1
 	.string "Please decide which of you will\n"
 	.string "become the GROUP LEADER.\p"
 	.string "The other players must then choose\n"
 	.string "“JOIN GROUP.”$"
 
-CableClub_Text_WelcomeUnionRoomEnter:: @ 81BD65B
+gText_CableClub_WelcomeUnionRoomEnter:: @ 81BD65B
 	.string "Welcome to the POKéMON WIRELESS\n"
 	.string "CLUB UNION ROOM.\p"
 	.string "You may interact directly with\n"
@@ -1750,7 +1750,7 @@ CableClub_Text_WelcomeUnionRoomEnter:: @ 81BD65B
 	.string "whom you may not even know.\p"
 	.string "Would you like to enter the ROOM?$"
 
-CableClub_Text_UnionRoomInfo:: @ 81BD706
+gText_CableClub_UnionRoomInfo:: @ 81BD706
 	.string "The TRAINERS in the UNION ROOM\n"
 	.string "will be those players around you\l"
 	.string "who have also entered the ROOM.\p"
@@ -1764,11 +1764,11 @@ CableClub_Text_UnionRoomInfo:: @ 81BD706
 	.string "trade.\p"
 	.string "Would you like to enter the ROOM?$"
 
-CableClub_Text_EnjoyUnionRoom:: @ 81BD86A
+gText_CableClub_EnjoyUnionRoom:: @ 81BD86A
 	.string "I hope you enjoy your time in\n"
 	.string "the UNION ROOM.$"
 
-CableClub_Text_FirstTimeRightThisWay:: @ 81BD898
+gText_CableClub_FirstTimeRightThisWay:: @ 81BD898
 	.string "Hello!\n"
 	.string "My name is TEALA.\p"
 	.string "This must be your first time\n"
@@ -1779,7 +1779,7 @@ CableClub_Text_FirstTimeRightThisWay:: @ 81BD898
 	.string "floor of our POKéMON CENTER.\p"
 	.string "Right this way, please.$"
 
-CableClub_Text_ExplainWirelessClubFirstTime:: @ 81BD966
+gText_CableClub_ExplainWirelessClubFirstTime:: @ 81BD966
 	.string "On the top floor, there are two\n"
 	.string "rooms.\p"
 	.string "First, the room on the left.\n"
@@ -1801,14 +1801,14 @@ CableClub_Text_ExplainWirelessClubFirstTime:: @ 81BD966
 	.string "I hope you enjoy the Wireless \n"
 	.string "Communication System.$"
 
-CableClub_Text_AskAboutLinking:: @ 81BDB85
+gText_CableClub_AskAboutLinking:: @ 81BDB85
 	.string "Hello, {PLAYER}!\p"
 	.string "It's me, TEALA, the POKéMON\n"
 	.string "CENTER 2F attendant.\p"
 	.string "Is there something you needed to\n"
 	.string "ask me about linking?$"
 
-CableClub_Text_ExplainWirelessClub:: @ 81BDBF8
+gText_CableClub_ExplainWirelessClub:: @ 81BDBF8
 	.string "Let me explain how the POKéMON\n"
 	.string "WIRELESS CLUB works.\p"
 	.string "On this, the top floor, there are\n"
@@ -1837,6 +1837,6 @@ CableClub_Text_ExplainWirelessClub:: @ 81BDBF8
 	.string "I hope you enjoy the Wireless \n"
 	.string "Communication System.$"
 
-CableClub_Text_HopeYouEnjoyWirelessSystem:: @ 81BDEDF
+gText_CableClub_HopeYouEnjoyWirelessSystem:: @ 81BDEDF
 	.string "I hope you enjoy the Wireless\n"
 	.string "Communication System.$"

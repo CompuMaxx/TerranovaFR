@@ -94,8 +94,8 @@ static const struct WindowTemplate sDaycareLevelMenuWindowTemplate =
 
 static const struct ListMenuItem sLevelMenuItems[] =
 {
-    {gExpandedPlaceholder_Empty, 0},
-    {gExpandedPlaceholder_Empty, 1},
+    {gText_ExpandedPlaceholder_Empty, 0},
+    {gText_ExpandedPlaceholder_Empty, 1},
     {gOtherText_Exit, DAYCARE_LEVEL_MENU_EXIT}
 };
 

@@ -701,7 +701,7 @@ extern const u8 gText_HpUp_1000[];
 extern const u8 gText_PpUp_3000[];
 
 // script_menu
-extern const u8 Text_AccessWhichPC[];
+extern const u8 gText_AccessWhichPC[];
 extern const u8 gText_SomeoneSPc[];
 extern const u8 gText_BillSPc[];
 extern const u8 gText_SPc[];
@@ -1032,7 +1032,7 @@ extern const u8 gDaycareText_GetAlongVeryWell[];
 extern const u8 gDaycareText_GetAlong[];
 extern const u8 gDaycareText_DontLikeOther[];
 extern const u8 gDaycareText_PlayOther[];
-extern const u8 gExpandedPlaceholder_Empty[];
+extern const u8 gText_ExpandedPlaceholder_Empty[];
 extern const u8 gText_HatchedFromEgg[];
 extern const u8 gText_NickHatchPrompt[];
 
@@ -2259,7 +2259,7 @@ extern const u8 gText_HpUp_1000Spa[];
 extern const u8 gText_PpUp_3000Spa[];
 
 // script_menu
-extern const u8 Text_AccessWhichPCSpa[];
+extern const u8 gText_AccessWhichPCSpa[];
 extern const u8 gText_SomeoneSPcSpa[];
 extern const u8 gText_BillSPcSpa[];
 extern const u8 gText_SPcSpa[];
@@ -2590,7 +2590,7 @@ extern const u8 gDaycareText_GetAlongVeryWellSpa[];
 extern const u8 gDaycareText_GetAlongSpa[];
 extern const u8 gDaycareText_DontLikeOtherSpa[];
 extern const u8 gDaycareText_PlayOtherSpa[];
-extern const u8 gExpandedPlaceholder_EmptySpa[];
+extern const u8 gText_ExpandedPlaceholder_EmptySpa[];
 extern const u8 gText_HatchedFromEggSpa[];
 extern const u8 gText_NickHatchPromptSpa[];
 
@@ -2963,6 +2963,7 @@ extern const u8 gText_AlphabetUpperLowerSpa[];
 extern const u8 gText_YourNameSpa[];
 extern const u8 gText_BoxNameSpa[];
 extern const u8 gText_PkmnsNicknameSpa[];
+extern const u8 gText_PkmnsNickname2Spa[];
 extern const u8 gText_RivalsNameSpa[];
 
 // pokemon_storage_system

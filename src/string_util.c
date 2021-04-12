@@ -23,19 +23,19 @@ static const s32 sPowersOfTen[] =
     1000000000,
 };
 
-extern u8 gExpandedPlaceholder_Empty[];
-extern u8 gExpandedPlaceholder_Kun[];
-extern u8 gExpandedPlaceholder_Chan[];
-extern u8 gExpandedPlaceholder_Sapphire[];
-extern u8 gExpandedPlaceholder_Ruby[];
-extern u8 gExpandedPlaceholder_Aqua[];
-extern u8 gExpandedPlaceholder_Magma[];
-extern u8 gExpandedPlaceholder_Archie[];
-extern u8 gExpandedPlaceholder_Maxie[];
-extern u8 gExpandedPlaceholder_Kyogre[];
-extern u8 gExpandedPlaceholder_Groudon[];
-extern u8 gExpandedPlaceholder_Red[];
-extern u8 gExpandedPlaceholder_Green[];
+extern u8 gText_ExpandedPlaceholder_Empty[];
+extern u8 gText_ExpandedPlaceholder_Kun[];
+extern u8 gText_ExpandedPlaceholder_Chan[];
+extern u8 gText_ExpandedPlaceholder_Sapphire[];
+extern u8 gText_ExpandedPlaceholder_Ruby[];
+extern u8 gText_ExpandedPlaceholder_Aqua[];
+extern u8 gText_ExpandedPlaceholder_Magma[];
+extern u8 gText_ExpandedPlaceholder_Archie[];
+extern u8 gText_ExpandedPlaceholder_Maxie[];
+extern u8 gText_ExpandedPlaceholder_Kyogre[];
+extern u8 gText_ExpandedPlaceholder_Groudon[];
+extern u8 gText_ExpandedPlaceholder_Red[];
+extern u8 gText_ExpandedPlaceholder_Green[];
 
 u8 *StringCopy10(u8 *dest, const u8 *src)
 {
@@ -382,9 +382,9 @@ static u8 *ExpandPlaceholder_StringVar3(void)
 static u8 *ExpandPlaceholder_KunChan(void)
 {
     if (gSaveBlock2Ptr->playerGender == MALE)
-        return gExpandedPlaceholder_Kun;
+        return gText_ExpandedPlaceholder_Kun;
     else
-        return gExpandedPlaceholder_Chan;
+        return gText_ExpandedPlaceholder_Chan;
 }
 
 static u8 *ExpandPlaceholder_RivalName(void)
@@ -392,9 +392,9 @@ static u8 *ExpandPlaceholder_RivalName(void)
     if (gSaveBlock1Ptr->rivalName[0] == EOS)
     {
         if (gSaveBlock2Ptr->playerGender == MALE)
-            return gExpandedPlaceholder_Green;
+            return gText_ExpandedPlaceholder_Green;
         else
-            return gExpandedPlaceholder_Red;
+            return gText_ExpandedPlaceholder_Red;
     }
     else
     {
@@ -405,63 +405,63 @@ static u8 *ExpandPlaceholder_RivalName(void)
 static u8 *ExpandPlaceholder_Version(void)
 {
 #if defined(FIRERED)
-    return gExpandedPlaceholder_Ruby;
+    return gText_ExpandedPlaceholder_Ruby;
 #elif defined(LEAFGREEN)
-    return gExpandedPlaceholder_Sapphire;
+    return gText_ExpandedPlaceholder_Sapphire;
 #endif
 }
 
 static u8 *ExpandPlaceholder_Magma(void)
 {
 #if defined(FIRERED)
-    return gExpandedPlaceholder_Magma;
+    return gText_ExpandedPlaceholder_Magma;
 #elif defined(LEAFGREEN)
-    return gExpandedPlaceholder_Aqua;
+    return gText_ExpandedPlaceholder_Aqua;
 #endif
 }
 
 static u8 *ExpandPlaceholder_Aqua(void)
 {
 #if defined(FIRERED)
-    return gExpandedPlaceholder_Aqua;
+    return gText_ExpandedPlaceholder_Aqua;
 #elif defined(LEAFGREEN)
-    return gExpandedPlaceholder_Magma;
+    return gText_ExpandedPlaceholder_Magma;
 #endif
 }
 
 static u8 *ExpandPlaceholder_Maxie(void)
 {
 #if defined(FIRERED)
-    return gExpandedPlaceholder_Maxie;
+    return gText_ExpandedPlaceholder_Maxie;
 #elif defined(LEAFGREEN)
-    return gExpandedPlaceholder_Archie;
+    return gText_ExpandedPlaceholder_Archie;
 #endif
 }
 
 static u8 *ExpandPlaceholder_Archie(void)
 {
 #if defined(FIRERED)
-    return gExpandedPlaceholder_Archie;
+    return gText_ExpandedPlaceholder_Archie;
 #elif defined(LEAFGREEN)
-    return gExpandedPlaceholder_Maxie;
+    return gText_ExpandedPlaceholder_Maxie;
 #endif
 }
 
 static u8 *ExpandPlaceholder_Groudon(void)
 {
 #if defined(FIRERED)
-    return gExpandedPlaceholder_Groudon;
+    return gText_ExpandedPlaceholder_Groudon;
 #elif defined(LEAFGREEN)
-    return gExpandedPlaceholder_Kyogre;
+    return gText_ExpandedPlaceholder_Kyogre;
 #endif
 }
 
 static u8 *ExpandPlaceholder_Kyogre(void)
 {
 #if defined(FIRERED)
-    return gExpandedPlaceholder_Kyogre;
+    return gText_ExpandedPlaceholder_Kyogre;
 #elif defined(LEAFGREEN)
-    return gExpandedPlaceholder_Groudon;
+    return gText_ExpandedPlaceholder_Groudon;
 #endif
 }
 
@@ -488,7 +488,7 @@ u8 *GetExpandedPlaceholder(u32 id)
     };
 
     if (id >= NELEMS(funcs))
-        return gExpandedPlaceholder_Empty;
+        return gText_ExpandedPlaceholder_Empty;
     else
         return funcs[id]();
 }

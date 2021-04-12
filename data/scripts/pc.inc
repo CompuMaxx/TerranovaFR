@@ -7,7 +7,7 @@ EventScript_PC:: @ 81A6955
 	setvar VAR_0x8004, 0
 	special AnimatePcTurnOn
 	playse SE_PC_ON
-	msgbox Text_BootedUpPC
+	msgbox gText_BootedUpPC
 	goto EventScript_PCMainMenu
 	end
 
@@ -18,7 +18,7 @@ EventScript_PCDisabled:: @ 81A698E
 	end
 
 EventScript_PCMainMenu:: @ 81A6998
-	message Text_AccessWhichPC
+	message gText_AccessWhichPC
 	waitmessage
 	special CreatePCMenu
 	waitstate
@@ -37,7 +37,7 @@ EventScript_ChoosePCMenu:: @ 81A69A8
 
 EventScript_AccessPlayersPC:: @ 81A69F0
 	playse SE_PC_LOGIN
-	msgbox Text_AccessedPlayersPC
+	msgbox gText_AccessedPlayersPC
 	special PlayerPC
 	waitstate
 	goto EventScript_PCMainMenu
@@ -47,7 +47,7 @@ EventScript_AccessPokemonStorage:: @ 81A6A05
 	playse SE_PC_LOGIN
 	call_if_unset FLAG_SYS_NOT_SOMEONES_PC, EventScript_AccessSomeonesPC
 	call_if_set FLAG_SYS_NOT_SOMEONES_PC, EventScript_AccessBillsPC
-	msgbox Text_OpenedPkmnStorage
+	msgbox gText_OpenedPkmnStorage
 	special ShowPokemonStorageSystemPC
 	waitstate
 	setvar VAR_0x8004, HELPCONTEXT_PC
@@ -56,11 +56,11 @@ EventScript_AccessPokemonStorage:: @ 81A6A05
 	end
 
 EventScript_AccessSomeonesPC:: @ 81A6A34
-	msgbox Text_AccessedSomeonesPC
+	msgbox gText_AccessedSomeonesPC
 	return
 
 EventScript_AccessBillsPC:: @ 81A6A3D
-	msgbox Text_AccessedBillsPC
+	msgbox gText_AccessedBillsPC
 	return
 
 EventScript_TurnOffPC:: @ 81A6A46

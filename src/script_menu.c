@@ -594,22 +594,22 @@ const u8 *const gStdStringPtrs[] = {
 };
 
 static const u8 *const sDescriptionPtrs_CableClub_TradeBattleCancel[] = {
-    CableClub_Text_TradeMonsUsingLinkCable,
-    CableClub_Text_BattleUsingLinkCable,
-    CableClub_Text_CancelSelectedItem
+    gText_CableClub_TradeMonsUsingLinkCable,
+    gText_CableClub_BattleUsingLinkCable,
+    gText_CableClub_CancelSelectedItem
 };
 
 static const u8 *const sDescriptionPtrs_WirelessCenter_TradeBattleCrushCancel[] = {
-    CableClub_Text_YouMayTradeHere,
-    CableClub_Text_YouMayBattleHere,
-    CableClub_Text_CanMakeBerryPowder,
-    CableClub_Text_CancelSelectedItem
+    gText_CableClub_YouMayTradeHere,
+    gText_CableClub_YouMayBattleHere,
+    gText_CableClub_CanMakeBerryPowder,
+    gText_CableClub_CancelSelectedItem
 };
 
 static const u8 *const sDescriptionPtrs_WirelessCenter_TradeBattleCancel[] = {
-    CableClub_Text_YouMayTradeHere,
-    CableClub_Text_YouMayBattleHere,
-    CableClub_Text_CancelSelectedItem
+    gText_CableClub_YouMayTradeHere,
+    gText_CableClub_YouMayBattleHere,
+    gText_CableClub_CancelSelectedItem
 };
 
 static const union AnimCmd sMuseumFossilAnim0[] = {
@@ -1003,7 +1003,7 @@ static void CreatePCMenuWindow(void)
 void ScriptMenu_DisplayPCStartupPrompt(void)
 {
     sub_80F7768(0, TRUE);
-    AddTextPrinterParameterized2(0, 2, Text_AccessWhichPC, 0, NULL, 2, 1, 3);
+    AddTextPrinterParameterized2(0, 2, gText_AccessWhichPC, 0, NULL, 2, 1, 3);
 }
 
 static void Task_ScriptShowMonPic(u8 taskId)
