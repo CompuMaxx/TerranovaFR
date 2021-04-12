@@ -4,7 +4,7 @@
 #include "text_window_graphics.h"
 #include "quest_log.h"
 
-extern const u16 gUnknown_841F1C8[];
+extern const u16 gDialogFrameTiles[];
 
 void sub_814FFC4(u8 windowId, u8 frameType, u16 destOffset, u8 palIdx);
 
@@ -16,13 +16,13 @@ void sub_814FD04(u8 bgId, u16 destOffset, u8 palIdx)
 
 void sub_814FD38(u8 bgId, u16 destOffset, u8 palIdx)
 {
-    LoadBgTiles(bgId, gUnknown_841F1C8, 0x280, destOffset);
+    LoadBgTiles(bgId, gDialogFrameTiles, 0x280, destOffset);
     LoadPalette(stdpal_get(0), palIdx, 32);
 }
 
 void sub_814FD6C(u8 bgId, u16 destOffset, u8 palIdx)
 {
-    LoadBgTiles(bgId, gUnknown_8470B0C, 0x260, destOffset);
+    LoadBgTiles(bgId, gSingPostFrame, 0x260, destOffset);
     LoadPalette(stdpal_get(1), palIdx, 32);
 }
 
@@ -56,13 +56,13 @@ void sub_814FE6C(u8 windowId, u16 destOffset, u8 palIdx)
 
 void TextWindow_LoadResourcesStdFrame0(u8 windowId, u16 destOffset, u8 palIdx)
 {
-    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gUnknown_841F1C8, 0x280, destOffset);
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gDialogFrameTiles, 0x280, destOffset);
     LoadPalette(stdpal_get(0), palIdx, 32);
 }
 
 void sub_814FEEC(u8 windowId, u16 destOffset, u8 palIdx)
 {
-    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gUnknown_8470B0C, 0x260, destOffset);
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gSingPostFrame, 0x260, destOffset);
     LoadPalette(stdpal_get(1), palIdx, 32);
 }
 

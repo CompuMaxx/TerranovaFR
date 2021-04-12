@@ -6,10 +6,12 @@
 #include "text_window.h"
 #include "constants/songs.h"
 
+#define flip_h 0x400
+
 struct Menu
 {
-    u8 left;
-    u8 top;
+    u8 tilemapLeft;
+    u8 tilemapTop;
     s8 cursorPos;
     s8 minCursorPos;
     s8 maxCursorPos;
@@ -61,32 +63,25 @@ static void DrawDialogFrameWithCustomTile(u8 windowId, bool8 copyToVram, u16 til
 
 static void WindowFunc_DrawDialogFrameWithCustomTileAndPalette(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
 {
-    FillBgTilemapBufferRect(bg, sTileNum,                      tilemapLeft - 2,         tilemapTop - 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 1,                  tilemapLeft - 1,         tilemapTop - 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 2,                  tilemapLeft,             tilemapTop - 1, width, 1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 3,                  tilemapLeft + width,     tilemapTop - 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 4,                  tilemapLeft + width + 1, tilemapTop - 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 5,                  tilemapLeft - 2,         tilemapTop,     1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 6,                  tilemapLeft - 1,         tilemapTop,     1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 8,                  tilemapLeft + width,     tilemapTop,     1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 9,                  tilemapLeft + width + 1, tilemapTop,     1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 10,                 tilemapLeft - 2,         tilemapTop + 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 11,                 tilemapLeft - 1,         tilemapTop + 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 12,                 tilemapLeft + width,     tilemapTop + 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, sTileNum + 13,                 tilemapLeft + width + 1, tilemapTop + 1, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 10), tilemapLeft - 2,         tilemapTop + 2, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 11), tilemapLeft - 1,         tilemapTop + 2, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 12), tilemapLeft + width,     tilemapTop + 2, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 13), tilemapLeft + width + 1, tilemapTop + 2, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 5),  tilemapLeft - 2,         tilemapTop + 3, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 6),  tilemapLeft - 1,         tilemapTop + 3, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 8),  tilemapLeft + width,     tilemapTop + 3, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 9),  tilemapLeft + width + 1, tilemapTop + 3, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum),      tilemapLeft - 2,         tilemapTop + 4, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 1),  tilemapLeft - 1,         tilemapTop + 4, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 2),  tilemapLeft,             tilemapTop + 4, width, 1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 3),  tilemapLeft + width,     tilemapTop + 4, 1,     1, sPaletteNum);
-    FillBgTilemapBufferRect(bg, BG_TILE_V_FLIP(sTileNum + 4),  tilemapLeft + width + 1, tilemapTop + 4, 1,     1, sPaletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum, tilemapLeft - 2, tilemapTop - 1, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 1, tilemapLeft - 1, tilemapTop - 1, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 2, tilemapLeft, tilemapTop - 1, width, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 3, tilemapLeft + width, tilemapTop - 1, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 4, tilemapLeft + width + 1, tilemapTop - 1, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 5, tilemapLeft - 2, tilemapTop, 1, 3, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 6, tilemapLeft - 1, tilemapTop, 1, 3, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 7, tilemapLeft, tilemapTop, 26, 4, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 8, tilemapLeft + width, tilemapTop, 1, 3, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 9, tilemapLeft + width + 1, tilemapTop, 1, 3, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 10, tilemapLeft - 2, tilemapTop + 3, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 11, tilemapLeft - 1, tilemapTop + 3, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 13, tilemapLeft + width, tilemapTop + 3, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 14, tilemapLeft + width + 1, tilemapTop + 3, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 15, tilemapLeft - 2, tilemapTop + 4, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 16, tilemapLeft - 1, tilemapTop + 4, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 17, tilemapLeft, tilemapTop + 4, width, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 16 + flip_h, tilemapLeft + width, tilemapTop + 4, 1, 1, paletteNum);
+	FillBgTilemapBufferRect(bg, sTileNum + 15 + flip_h, tilemapLeft + width + 1, tilemapTop + 4, 1, 1, paletteNum);
 }
 
 void ClearDialogWindowAndFrameToTransparent(u8 windowId, bool8 copyToVram)
@@ -154,7 +149,7 @@ static void WindowFunc_ClearStdWindowAndFrameToTransparent(u8 bg, u8 tilemapLeft
 }
 
 /*
-   The following functions are used for handling top bar window
+   The following functions are used for handling tilemapTop bar window
    in hall of fame screen and story mode screen before oak intro. 
    However, you can still designate a yPos value to place that bar
    as well as the bar width.
@@ -260,12 +255,12 @@ void DestroyTopBarWindow(void)
     }
 }
 
-u8 Menu_InitCursorInternal(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 numChoices, u8 initialCursorPos, bool8 APressMuted)
+u8 Menu_InitCursorInternal(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 cursorHeight, u8 numChoices, u8 initialCursorPos, bool8 APressMuted)
 {
     s32 pos;
 
-    sMenu.left = left;
-    sMenu.top = top;
+    sMenu.tilemapLeft = tilemapLeft;
+    sMenu.tilemapTop = tilemapTop;
     sMenu.minCursorPos = 0;
     sMenu.maxCursorPos = numChoices - 1;
     sMenu.windowId = windowId;
@@ -282,15 +277,15 @@ u8 Menu_InitCursorInternal(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHei
     return sMenu.cursorPos;
 }
 
-u8 Menu_InitCursor(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 numChoices, u8 initialCursorPos)
+u8 Menu_InitCursor(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 cursorHeight, u8 numChoices, u8 initialCursorPos)
 {
-    return Menu_InitCursorInternal(windowId, fontId, left, top, cursorHeight, numChoices, initialCursorPos, 0);
+    return Menu_InitCursorInternal(windowId, fontId, tilemapLeft, tilemapTop, cursorHeight, numChoices, initialCursorPos, 0);
 }
 
 // not used
-static u8 sub_810F818(u8 windowId, u8 fontId, u8 left, u8 top, u8 numChoices, u8 initialCursorPos)
+static u8 sub_810F818(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 numChoices, u8 initialCursorPos)
 {
-    return Menu_InitCursor(windowId, fontId, left, top, GetMenuCursorDimensionByFont(fontId, 1), numChoices, initialCursorPos);
+    return Menu_InitCursor(windowId, fontId, tilemapLeft, tilemapTop, GetMenuCursorDimensionByFont(fontId, 1), numChoices, initialCursorPos);
 }
 
 static void Menu_RedrawCursor(u8 oldPos, u8 newPos)
@@ -299,8 +294,8 @@ static void Menu_RedrawCursor(u8 oldPos, u8 newPos)
 
     width = GetMenuCursorDimensionByFont(sMenu.fontId, 0);
     height = GetMenuCursorDimensionByFont(sMenu.fontId, 1);
-    FillWindowPixelRect(sMenu.windowId, 1, sMenu.left, sMenu.optionHeight * oldPos + sMenu.top, width, height);
-    AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow2, sMenu.left, sMenu.optionHeight * newPos + sMenu.top, 0, 0);
+    FillWindowPixelRect(sMenu.windowId, 1, sMenu.tilemapLeft, sMenu.optionHeight * oldPos + sMenu.tilemapTop, width, height);
+    AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow2, sMenu.tilemapLeft, sMenu.optionHeight * newPos + sMenu.tilemapTop, 0, 0);
 }
 
 u8 Menu_MoveCursor(s8 cursorDelta)
@@ -451,32 +446,32 @@ s8 Menu_ProcessInputNoWrapAround_other(void)
     return MENU_NOTHING_CHOSEN;
 }
 
-void PrintTextArray(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs)
+void PrintTextArray(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 lineHeight, u8 itemCount, const struct MenuAction *strs)
 {
     u8 i;
 
     for (i = 0; i < itemCount; i++)
-        AddTextPrinterParameterized(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL);
+        AddTextPrinterParameterized(windowId, fontId, strs[i].text, tilemapLeft, (lineHeight * i) + tilemapTop, 0xFF, NULL);
     CopyWindowToVram(windowId, COPYWIN_GFX);
 }
 
-void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 letterSpacing, u8 lineSpacing)
+void MultichoiceList_PrintItems(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 letterSpacing, u8 lineSpacing)
 {
     u8 i;
 
     for (i = 0; i < itemCount; i++)
-        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, letterSpacing, lineSpacing);
+        AddTextPrinterParameterized5(windowId, fontId, strs[i].text, tilemapLeft, (lineHeight * i) + tilemapTop, 0xFF, NULL, letterSpacing, lineSpacing);
     CopyWindowToVram(windowId, COPYWIN_GFX);
 }
 
 void UnionRoomAndTradeMenuPrintOptions(u8 windowId, u8 fontId, u8 lineHeight, u8 itemCount, const struct MenuAction *strs)
 {
-    u8 left = GetMenuCursorDimensionByFont(fontId, 0);
+    u8 tilemapLeft = GetMenuCursorDimensionByFont(fontId, 0);
 
-    PrintTextArray(windowId, fontId, left, 0, lineHeight, itemCount, strs);
+    PrintTextArray(windowId, fontId, tilemapLeft, 0, lineHeight, itemCount, strs);
 }
 
-void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 left, u8 top, u8 letterSpacing, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, const u8 *orderArray)
+void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 letterSpacing, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, const u8 *orderArray)
 {
     u8 i;
     struct TextPrinterTemplate printer;
@@ -489,12 +484,12 @@ void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 left, u8 top, u8 l
     printer.unk = GetFontAttribute(fontId, FONTATTR_UNKNOWN);
     printer.letterSpacing = letterSpacing;
     printer.lineSpacing = GetFontAttribute(fontId, FONTATTR_LINE_SPACING);
-    printer.x = left;
-    printer.currentX = left;
+    printer.x = tilemapLeft;
+    printer.currentX = tilemapLeft;
     for (i = 0; i < itemCount; i++)
     {
         printer.currentChar = strs[orderArray[i]].text;
-        printer.y = (lineHeight * i) + top;
+        printer.y = (lineHeight * i) + tilemapTop;
         printer.currentY = printer.y;
         AddTextPrinter(&printer, 0xFF, NULL);
     }
@@ -507,13 +502,13 @@ static void sub_810FDE4(u8 windowId, u8 fontId, u8 lineHeight, u8 itemCount, con
     AddItemMenuActionTextPrinters(windowId, fontId, GetFontAttribute(fontId, FONTATTR_MAX_LETTER_WIDTH), 0, GetFontAttribute(fontId, FONTATTR_LETTER_SPACING), lineHeight, itemCount, strs, orderArray);
 }
 
-struct WindowTemplate SetWindowTemplateFields(u8 bg, u8 left, u8 top, u8 width, u8 height, u8 paletteNum, u16 baseBlock)
+struct WindowTemplate SetWindowTemplateFields(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum, u16 baseBlock)
 {
     struct WindowTemplate template;
 
     template.bg = bg;
-    template.tilemapLeft = left;
-    template.tilemapTop = top;
+    template.tilemapLeft = tilemapLeft;
+    template.tilemapTop = tilemapTop;
     template.width = width;
     template.height = height;
     template.paletteNum = paletteNum;
@@ -522,13 +517,13 @@ struct WindowTemplate SetWindowTemplateFields(u8 bg, u8 left, u8 top, u8 width, 
 }
 
 // not used
-static u16 CreateWindowTemplate(u8 bg, u8 left, u8 top, u8 width, u8 height, u8 paletteNum, u16 baseBlock)
+static u16 CreateWindowTemplate(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum, u16 baseBlock)
 {
-    struct WindowTemplate template = SetWindowTemplateFields(bg, left, top, width, height, paletteNum, baseBlock);
+    struct WindowTemplate template = SetWindowTemplateFields(bg, tilemapLeft, tilemapTop, width, height, paletteNum, baseBlock);
     return AddWindow(&template);
 }
 
-void CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 left, u8 top, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)
+void CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u16 baseTileNum, u8 paletteNum, u8 initialCursorPos)
 {
     struct TextPrinterTemplate textSubPrinter;
 
@@ -537,8 +532,8 @@ void CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 left, u8
     textSubPrinter.currentChar = gUnknown_841623D;
     textSubPrinter.windowId = sYesNoWindowId;
     textSubPrinter.fontId = fontId;
-    textSubPrinter.x = GetMenuCursorDimensionByFont(fontId, 0) + left;
-    textSubPrinter.y = top;
+    textSubPrinter.x = GetMenuCursorDimensionByFont(fontId, 0) + tilemapLeft;
+    textSubPrinter.y = tilemapTop;
     textSubPrinter.currentX = textSubPrinter.x;
     textSubPrinter.currentY = textSubPrinter.y;
     textSubPrinter.fgColor = GetFontAttribute(fontId, FONTATTR_COLOR_FOREGROUND);
@@ -548,7 +543,7 @@ void CreateYesNoMenu(const struct WindowTemplate *window, u8 fontId, u8 left, u8
     textSubPrinter.letterSpacing = GetFontAttribute(fontId, FONTATTR_LETTER_SPACING);
     textSubPrinter.lineSpacing = GetFontAttribute(fontId, FONTATTR_LINE_SPACING);
     AddTextPrinter(&textSubPrinter, 0xFF, NULL);
-    Menu_InitCursor(sYesNoWindowId, fontId, left, top, GetFontAttribute(fontId, FONTATTR_MAX_LETTER_HEIGHT) + textSubPrinter.lineSpacing, 2, initialCursorPos);
+    Menu_InitCursor(sYesNoWindowId, fontId, tilemapLeft, tilemapTop, GetFontAttribute(fontId, FONTATTR_MAX_LETTER_HEIGHT) + textSubPrinter.lineSpacing, 2, initialCursorPos);
 }
 
 // not used
@@ -601,12 +596,12 @@ static void MultichoiceGrid_PrintItemsCustomOrder(u8 windowId, u8 fontId, u8 ite
     CopyWindowToVram(windowId, COPYWIN_GFX);
 }
 
-static u8 MultichoiceGrid_InitCursorInternal(u8 windowId, u8 fontId, u8 left, u8 top, u8 optionWidth, u8 cursorHeight, u8 cols, u8 rows, u8 numChoices, u8 cursorPos)
+static u8 MultichoiceGrid_InitCursorInternal(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 optionWidth, u8 cursorHeight, u8 cols, u8 rows, u8 numChoices, u8 cursorPos)
 {
     s32 pos;
 
-    sMenu.left = left;
-    sMenu.top = top;
+    sMenu.tilemapLeft = tilemapLeft;
+    sMenu.tilemapTop = tilemapTop;
     sMenu.minCursorPos = 0;
     sMenu.maxCursorPos = numChoices - 1;
     sMenu.windowId = windowId;
@@ -624,24 +619,24 @@ static u8 MultichoiceGrid_InitCursorInternal(u8 windowId, u8 fontId, u8 left, u8
     return sMenu.cursorPos;
 }
 
-u8 MultichoiceGrid_InitCursor(u8 windowId, u8 fontId, u8 left, u8 top, u8 optionWidth, u8 cols, u8 rows, u8 cursorPos)
+u8 MultichoiceGrid_InitCursor(u8 windowId, u8 fontId, u8 tilemapLeft, u8 tilemapTop, u8 optionWidth, u8 cols, u8 rows, u8 cursorPos)
 {
     s32 cursorHeight = 16;
     u8 numChoices = cols * rows;
 
-    return MultichoiceGrid_InitCursorInternal(windowId, fontId, left, top, optionWidth, cursorHeight, cols, rows, numChoices, cursorPos);
+    return MultichoiceGrid_InitCursorInternal(windowId, fontId, tilemapLeft, tilemapTop, optionWidth, cursorHeight, cols, rows, numChoices, cursorPos);
 }
 
 static void MultichoiceGrid_RedrawCursor(u8 oldCursorPos, u8 newCursorPos)
 {
     u8 cursorWidth = GetMenuCursorDimensionByFont(sMenu.fontId, 0);
     u8 cursorHeight = GetMenuCursorDimensionByFont(sMenu.fontId, 1);
-    u8 xPos = (oldCursorPos % sMenu.columns) * sMenu.optionWidth + sMenu.left;
-    u8 yPos = (oldCursorPos / sMenu.columns) * sMenu.optionHeight + sMenu.top;
+    u8 xPos = (oldCursorPos % sMenu.columns) * sMenu.optionWidth + sMenu.tilemapLeft;
+    u8 yPos = (oldCursorPos / sMenu.columns) * sMenu.optionHeight + sMenu.tilemapTop;
     
     FillWindowPixelRect(sMenu.windowId, PIXEL_FILL(1), xPos, yPos, cursorWidth, cursorHeight);
-    xPos = (newCursorPos % sMenu.columns) * sMenu.optionWidth + sMenu.left;
-    yPos = (newCursorPos / sMenu.columns) * sMenu.optionHeight + sMenu.top;
+    xPos = (newCursorPos % sMenu.columns) * sMenu.optionWidth + sMenu.tilemapLeft;
+    yPos = (newCursorPos / sMenu.columns) * sMenu.optionHeight + sMenu.tilemapTop;
     AddTextPrinterParameterized(sMenu.windowId, sMenu.fontId, gText_SelectorArrow2, xPos, yPos, 0, 0);
 }
 

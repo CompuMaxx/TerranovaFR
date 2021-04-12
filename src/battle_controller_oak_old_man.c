@@ -19,6 +19,8 @@
 #include "constants/songs.h"
 #include "constants/items.h"
 
+#define flip_h 0x400
+
 static void OakOldManHandleGetMonData(void);
 static void OakOldManHandleGetRawMonData(void);
 static void OakOldManHandleSetMonData(void);
@@ -2238,35 +2240,25 @@ void BtlCtrl_OakOldMan_SetState2Flag(u8 mask)
 
 void BtlCtrl_DrawVoiceoverMessageFrame(void)
 {
-    u32 width = 0x1A;
-    u32 pal = 7;
-
-    FillBgTilemapBufferRect(0, 0x30,                 0,    0xE,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x31,                 1,    0xE,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x32,                 2,    0xE,  width, 1, pal);
-    FillBgTilemapBufferRect(0, 0x33,                 0x1C, 0xE,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x34,                 0x1D, 0xE,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x35,                 0,    0xF,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x36,                 1,    0xF,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x38,                 0x1C, 0xF,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x39,                 0x1D, 0xF,  1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x3A,                 0,    0x10, 1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x3B,                 1,    0x10, 1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x3C,                 0x1C, 0x10, 1,     1, pal);
-    FillBgTilemapBufferRect(0, 0x3D,                 0x1D, 0x10, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x3A), 0,    0x11, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x3B), 1,    0x11, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x3C), 0x1C, 0x11, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x3D), 0x1D, 0x11, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x35), 0,    0x12, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x36), 1,    0x12, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x38), 0x1C, 0x12, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x39), 0x1D, 0x12, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x30), 0,    0x13, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x31), 1,    0x13, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x32), 2,    0x13, width, 1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x33), 0x1C, 0x13, 1,     1, pal);
-    FillBgTilemapBufferRect(0, BG_TILE_V_FLIP(0x34), 0x1D, 0x13, 1,     1, pal);
+	FillBgTilemapBufferRect(0, 0x30, 	0, 	 14, 	1, 		1, 	7);
+    FillBgTilemapBufferRect(0, 0x31, 	1, 	 14, 	1, 		1,	7);
+	FillBgTilemapBufferRect(0, 0x32, 	2, 	 14,   26, 		1, 	7);
+    FillBgTilemapBufferRect(0, 0x33, 0x1C, 	 14, 	1, 		1, 	7);
+    FillBgTilemapBufferRect(0, 0x34, 0x1D, 	 14, 	1, 		1, 	7);
+	FillBgTilemapBufferRect(0, 0x35, 	0, 	 15, 	1, 		3, 	7);
+    FillBgTilemapBufferRect(0, 0x36, 	1, 	 15, 	1, 		3, 	7);
+    FillBgTilemapBufferRect(0, 0x37, 	2, 	 15,   26, 		4, 	7);
+    FillBgTilemapBufferRect(0, 0x38, 0x1C, 	 15, 	1, 		3, 	7);
+    FillBgTilemapBufferRect(0, 0x39, 0x1D, 	 15, 	1, 		3, 	7);
+    FillBgTilemapBufferRect(0, 0x3A, 	0,   18, 	1, 		1, 	7);
+    FillBgTilemapBufferRect(0, 0x3B, 	1,   18, 	1, 		1, 	7);
+    FillBgTilemapBufferRect(0, 0x3D, 0x1C,   18, 	1, 		1, 	7);
+    FillBgTilemapBufferRect(0, 0x3E, 0x1D,   18, 	1, 		1, 	7);
+	FillBgTilemapBufferRect(0, 0x3F,    0,   19, 	1, 		1, 	7);
+	FillBgTilemapBufferRect(0, 0x40,    1,   19, 	1, 		1, 	7);
+	FillBgTilemapBufferRect(0, 0x41,    2,   19,   26, 		1, 	7);
+	FillBgTilemapBufferRect(0, 0x40 + flip_h, 0x1C, 19, 	1, 		1, 	7);
+	FillBgTilemapBufferRect(0, 0x3F + flip_h, 0x1D, 19, 	1, 		1, 	7); 
 }
 
 void BtlCtrl_RemoveVoiceoverMessageFrame(void)
