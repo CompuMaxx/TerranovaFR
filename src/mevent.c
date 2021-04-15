@@ -263,7 +263,7 @@ static void Task_EReaderComm(u8 taskId)
     switch (data->state)
     {
         case 0:
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gJPText_ReceiveMysteryGiftWithEReader))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gText_JP_ReceiveMysteryGiftWithEReader))
                 data->state = 1;
             break;
         case 1:
@@ -285,9 +285,9 @@ static void Task_EReaderComm(u8 taskId)
                 data->state = 13;
             break;
         case 4:
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gJPText_SelectConnectFromEReaderMenu))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gText_JP_SelectConnectFromEReaderMenu))
             {
-                AddTextPrinterToWindow1(gJPText_SelectConnectWithGBA);
+                AddTextPrinterToWindow1(gText_JP_SelectConnectWithGBA);
                 ResetDelayTimer(&data->stateAdvanceDelay);
                 data->state = 5;
             }
@@ -334,11 +334,11 @@ static void Task_EReaderComm(u8 taskId)
             }
             break;
         case 7:
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gJPText_LinkIsIncorrect))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gText_JP_LinkIsIncorrect))
                 data->state = 4;
             break;
         case 8:
-            AddTextPrinterToWindow1(gJPText_Connecting);
+            AddTextPrinterToWindow1(gText_JP_Connecting);
             SendUnknownSerialData_Init(&sMEventSendToEReaderManager, gUnknownSerialData_End - gUnknownSerialData_Start, gUnknownSerialData_Start);
             data->state = 9;
             break;
@@ -356,7 +356,7 @@ static void Task_EReaderComm(u8 taskId)
             {
                 // OK
                 ResetDelayTimer(&data->stateAdvanceDelay);
-                AddTextPrinterToWindow1(gJPText_PleaseWaitAMoment);
+                AddTextPrinterToWindow1(gText_JP_PleaseWaitAMoment);
                 data->state = 11;
             }
             else
@@ -369,7 +369,7 @@ static void Task_EReaderComm(u8 taskId)
             break;
         case 12:
             ResetTTDataBuffer();
-            AddTextPrinterToWindow1(gJPText_AllowEReaderToLoadCard);
+            AddTextPrinterToWindow1(gText_JP_AllowEReaderToLoadCard);
             data->state = 13;
             break;
         case 13:
@@ -380,7 +380,7 @@ static void Task_EReaderComm(u8 taskId)
                     break;
                 case 2:
                     // Done
-                    AddTextPrinterToWindow1(gJPText_Connecting);
+                    AddTextPrinterToWindow1(gText_JP_Connecting);
                     data->state = 14;
                     break;
                 case 1:
@@ -431,7 +431,7 @@ static void Task_EReaderComm(u8 taskId)
         case 17:
             if (CEReaderTool_SaveTrainerTower((struct EReaderTrainerTowerSet *)gDecompressionBuffer))
             {
-                AddTextPrinterToWindow1(gJPText_ConnectionComplete);
+                AddTextPrinterToWindow1(gText_JP_ConnectionComplete);
                 ResetDelayTimer(&data->stateAdvanceDelay);
                 data->state = 18;
             }
@@ -441,7 +441,7 @@ static void Task_EReaderComm(u8 taskId)
         case 18:
             if (AdvanceDelayTimerCheckTimeout(&data->stateAdvanceDelay, 120))
             {
-                AddTextPrinterToWindow1(gJPText_NewTrainerHasComeToSevii);
+                AddTextPrinterToWindow1(gText_JP_NewTrainerHasComeToSevii);
                 PlayFanfare(MUS_OBTAIN_ITEM);
                 data->state = 19;
             }
@@ -451,19 +451,19 @@ static void Task_EReaderComm(u8 taskId)
                 data->state = 26;
             break;
         case 23:
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gJPText_CardReadingHasBeenHalted))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gText_JP_CardReadingHasBeenHalted))
                 data->state = 26;
             break;
         case 20:
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gJPText_ConnectionErrorCheckLink))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gText_JP_ConnectionErrorCheckLink))
                 data->state = 0;
             break;
         case 21:
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gJPText_ConnectionErrorTryAgain))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gText_JP_ConnectionErrorTryAgain))
                 data->state = 0;
             break;
         case 22:
-            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gJPText_WriteErrorUnableToSaveData))
+            if (MG_PrintTextOnWindow1AndWaitButton(&data->textOrReceiveState, gText_JP_WriteErrorUnableToSaveData))
                 data->state = 0;
             break;
         case 26:

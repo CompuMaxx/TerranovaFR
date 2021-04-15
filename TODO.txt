@@ -16,7 +16,7 @@
 - Expandir íconos de Objetos llevados por los Pokémon(LISTO)
 	- Items, Mail, Pokeballs & Berries 
 	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
-- Naming Screen GEN V(LISTO)
++ Naming Screen GEN V(LISTO)
 	- Agregados Caracteres Latinos 
 + TextBox GEN IV(LISTO)
 - Party Menu GEN V(LISTO)

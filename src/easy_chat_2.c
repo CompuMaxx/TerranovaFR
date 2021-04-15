@@ -312,98 +312,98 @@ static const struct EasyChatScreenTemplate sEasyChatScreenTemplates[] = {
         .numColumns = 2,
         .numRows = 2,
         .frameId = 0,
-        .titleText =  gUnknown_8418A2B,
-        .instructionsText1 = gUnknown_84186D1,
-        .instructionsText2 = gUnknown_84186EF,
-        .confirmText1 = gUnknown_841880E,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418A2B,
+        .instructionsText1 = gText_84186D1,
+        .instructionsText2 = gText_84186EF,
+        .confirmText1 = gText_841880E,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_BATTLE_START,
         .numColumns = 2,
         .numRows = 3,
         .frameId = 1,
-        .titleText =  gUnknown_8418A33,
-        .instructionsText1 = gUnknown_8418706,
-        .instructionsText2 = gUnknown_8418725,
-        .confirmText1 = gUnknown_841881B,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418A33,
+        .instructionsText1 = gText_8418706,
+        .instructionsText2 = gText_8418725,
+        .confirmText1 = gText_841881B,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_BATTLE_WON,
         .numColumns = 2,
         .numRows = 3,
         .frameId = 1,
-        .titleText =  gUnknown_8418A4A,
-        .instructionsText1 = gUnknown_8418706,
-        .instructionsText2 = gUnknown_8418725,
-        .confirmText1 = gUnknown_841883E,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418A4A,
+        .instructionsText1 = gText_8418706,
+        .instructionsText2 = gText_8418725,
+        .confirmText1 = gText_841883E,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_BATTLE_LOST,
         .numColumns = 2,
         .numRows = 3,
         .frameId = 1,
-        .titleText =  gUnknown_8418A61,
-        .instructionsText1 = gUnknown_8418706,
-        .instructionsText2 = gUnknown_8418725,
-        .confirmText1 = gUnknown_841885F,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418A61,
+        .instructionsText1 = gText_8418706,
+        .instructionsText2 = gText_8418725,
+        .confirmText1 = gText_841885F,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_MAIL,
         .numColumns = 2,
         .numRows = 5,
         .frameId = 2,
         .titleText =  NULL,
-        .instructionsText1 = gUnknown_8418780,
-        .instructionsText2 = gUnknown_841879E,
-        .confirmText1 = gUnknown_841888C,
-        .confirmText2 = gUnknown_8418902
+        .instructionsText1 = gText_8418780,
+        .instructionsText2 = gText_841879E,
+        .confirmText1 = gText_841888C,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_MAIL_NO_CONFIRM,
         .numColumns = 2,
         .numRows = 2,
         .frameId = 0,
-        .instructionsText1 = gUnknown_8418780,
-        .instructionsText2 = gUnknown_841879E,
+        .instructionsText1 = gText_8418780,
+        .instructionsText2 = gText_841879E,
     }, {
         .type = EASY_CHAT_TYPE_BARD_SONG,
         .numColumns = 2,
         .numRows = 3,
         .frameId = 1,
-        .titleText =  gUnknown_8418A77,
-        .instructionsText1 = gUnknown_84187B2,
-        .instructionsText2 = gUnknown_84187D1,
-        .confirmText1 = gUnknown_84188AC,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418A77,
+        .instructionsText1 = gText_84187B2,
+        .instructionsText2 = gText_84187D1,
+        .confirmText1 = gText_84188AC,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_INTERVIEW,
         .numColumns = 2,
         .numRows = 3,
         .frameId = 1,
-        .titleText =  gUnknown_8418AA1,
-        .instructionsText1 = gUnknown_8418745,
-        .instructionsText2 = gUnknown_8418763,
-        .confirmText1 = gUnknown_8418881,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418AA1,
+        .instructionsText1 = gText_8418745,
+        .instructionsText2 = gText_8418763,
+        .confirmText1 = gText_8418881,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_TRENDY_PHRASE,
         .numColumns = 2,
         .numRows = 1,
         .frameId = 3,
-        .titleText =  gUnknown_8418A87,
-        .instructionsText1 = gUnknown_84188B9,
-        .instructionsText2 = gUnknown_84188D6,
-        .confirmText1 = gUnknown_84188F0,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418A87,
+        .instructionsText1 = gText_84188B9,
+        .instructionsText2 = gText_84188D6,
+        .confirmText1 = gText_84188F0,
+        .confirmText2 = gText_8418902
     }, {
         .type = EASY_CHAT_TYPE_QUESTIONNAIRE,
         .numColumns = 2,
         .numRows = 2,
         .frameId = 0,
-        .titleText =  gUnknown_8418AB2,
-        .instructionsText1 = gUnknown_84186D1,
-        .instructionsText2 = gUnknown_84187EE,
-        .confirmText1 = gUnknown_8418881,
-        .confirmText2 = gUnknown_8418902
+        .titleText =  gText_8418AB2,
+        .instructionsText1 = gText_84186D1,
+        .instructionsText2 = gText_84187EE,
+        .confirmText1 = gText_8418881,
+        .confirmText2 = gText_8418902
     }
 };
 
@@ -1235,11 +1235,11 @@ void GetEasyChatConfirmCancelText(const u8 **str1, const u8 **str2)
     switch (sEasyChatScreen->type)
     {
     case EASY_CHAT_TYPE_MAIL:
-        *str1 = gUnknown_84189EE;
+        *str1 = gText_84189EE;
         *str2 = NULL;
         break;
     default:
-        *str1 = gUnknown_84189E0;
+        *str1 = gText_84189E0;
         *str2 = NULL;
         break;
     }
@@ -1248,8 +1248,8 @@ void GetEasyChatConfirmCancelText(const u8 **str1, const u8 **str2)
 
 void GetEasyChatConfirmDeletionText(const u8 **str1, const u8 **str2)
 {
-    *str1 = gUnknown_8418937;
-    *str2 = gUnknown_8418956;
+    *str1 = gText_8418937;
+    *str2 = gText_8418956;
 }
 
 void GetECSelectGroupCursorCoords(u8 *Xp, u8 *Yp)

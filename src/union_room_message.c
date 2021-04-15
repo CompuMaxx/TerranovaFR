@@ -11,35 +11,35 @@ ALIGNED(4) const u8 gUnref_845721C[] = _("ともだちからの れんらくを\
 ALIGNED(4) const u8 gUnknown_8457234[] = _("{STR_VAR_1}! Awaiting\ncommunication from another player.");
 ALIGNED(4) const u8 gUnknown_8457264[] = _("{STR_VAR_1}! Awaiting link!\nPress START when everyone's ready.");
 
-ALIGNED(4) const u8 gJPText_SingleBattle[] = _("シングルバトルを かいさいする");
-ALIGNED(4) const u8 gJPText_DoubleBattle[] = _("ダブルバトルを かいさいする");
-ALIGNED(4) const u8 gJPText_MultiBattle[] = _("マルチバトルを かいさいする");
-ALIGNED(4) const u8 gJPText_TradePokemon[] = _("ポケモンこうかんを かいさいする");
-ALIGNED(4) const u8 gJPText_Chat[] = _("チャットを かいさいする");
-ALIGNED(4) const u8 gJPText_DistWonderCard[] = _("ふしぎなカードをくばる");
-ALIGNED(4) const u8 gJPText_DistWonderNews[] = _("ふしぎなニュースをくばる");
+ALIGNED(4) const u8 gText_JP_SingleBattle[] = _("シングルバトルを かいさいする");
+ALIGNED(4) const u8 gText_JP_DoubleBattle[] = _("ダブルバトルを かいさいする");
+ALIGNED(4) const u8 gText_JP_MultiBattle[] = _("マルチバトルを かいさいする");
+ALIGNED(4) const u8 gText_JP_TradePokemon[] = _("ポケモンこうかんを かいさいする");
+ALIGNED(4) const u8 gText_JP_Chat[] = _("チャットを かいさいする");
+ALIGNED(4) const u8 gText_JP_DistWonderCard[] = _("ふしぎなカードをくばる");
+ALIGNED(4) const u8 gText_JP_DistWonderNews[] = _("ふしぎなニュースをくばる");
 ALIGNED(4) const u8 unref_text_union_room_1[] = _("ふしぎなできごとを かいさいする");
-ALIGNED(4) const u8 gJPText_HoldPokemonJump[] = _("なわとびを かいさいする");
-ALIGNED(4) const u8 gJPText_HoldBerryCrush[] = _("きのみマッシャーを かいさいする");
-ALIGNED(4) const u8 gJPText_HoldBerryPicking[] = _("きのみどりを かいさいする");
-ALIGNED(4) const u8 gJPText_HoldSpinTrade[] = _("ぐるぐるこうかんを かいさいする");
-ALIGNED(4) const u8 gJPText_HoldSpinShop[] = _("ぐるぐるショップを かいさいする");
+ALIGNED(4) const u8 gText_JP_HoldPokemonJump[] = _("なわとびを かいさいする");
+ALIGNED(4) const u8 gText_JP_HoldBerryCrush[] = _("きのみマッシャーを かいさいする");
+ALIGNED(4) const u8 gText_JP_HoldBerryPicking[] = _("きのみどりを かいさいする");
+ALIGNED(4) const u8 gText_JP_HoldSpinTrade[] = _("ぐるぐるこうかんを かいさいする");
+ALIGNED(4) const u8 gText_JP_HoldSpinShop[] = _("ぐるぐるショップを かいさいする");
 
 const u8 *const unref_text_ptrs_union_room_0[] = {
-    gJPText_SingleBattle,
-    gJPText_DoubleBattle,
-    gJPText_MultiBattle,
-    gJPText_TradePokemon,
-    gJPText_Chat,
-    gJPText_DistWonderCard,
-    gJPText_DistWonderNews,
-    gJPText_DistWonderCard,
-    gJPText_HoldPokemonJump,
-    gJPText_HoldBerryCrush,
-    gJPText_HoldBerryPicking,
-    gJPText_HoldBerryPicking,
-    gJPText_HoldSpinTrade,
-    gJPText_HoldSpinShop
+    gText_JP_SingleBattle,
+    gText_JP_DoubleBattle,
+    gText_JP_MultiBattle,
+    gText_JP_TradePokemon,
+    gText_JP_Chat,
+    gText_JP_DistWonderCard,
+    gText_JP_DistWonderNews,
+    gText_JP_DistWonderCard,
+    gText_JP_HoldPokemonJump,
+    gText_JP_HoldBerryCrush,
+    gText_JP_HoldBerryPicking,
+    gText_JP_HoldBerryPicking,
+    gText_JP_HoldSpinTrade,
+    gText_JP_HoldSpinShop
 };
 
 const u8 gText_1PlayerNeeded[] = _("1 player\nneeded.");

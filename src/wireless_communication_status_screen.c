@@ -102,10 +102,10 @@ static const struct WindowTemplate sWindowTemplates[] = {
 };
 
 static const u8 *const gUnknown_846FA9C[] = {
-    gUnknown_841E2B4,
-    gUnknown_841E2BF,
-    gUnknown_841E2C9,
-    gUnknown_841E2D4
+    gText_841E2B4,
+    gText_841E2BF,
+    gText_841E2C9,
+    gText_841E2D4
 };
 
 static const u8 *const sHeaderTextPtrs[] = {

@@ -49,6 +49,7 @@ extern const struct SpriteTemplate gUnknownDebugSprite;
 extern const struct OamData gOamData_BattlerOpponent;
 extern const struct OamData gOamData_BattlerPlayer;
 extern const u8 gTypeNames[][TYPE_NAME_LENGTH + 1];
+extern const u8 gTypeNamesSpa[][TYPE_NAME_LENGTH + 1];
 extern const u8 gStatusConditionString_PoisonJpn[8];
 extern const u8 gStatusConditionString_SleepJpn[8];
 extern const u8 gStatusConditionString_ParalysisJpn[8];
@@ -60,7 +61,9 @@ extern const u8 *const gStatusConditionStringsTable[7][2];
 extern const u8 gTypeEffectiveness[336];
 extern const struct TrainerMoney gTrainerMoneyTable[];
 extern const u8 *const gAbilityDescriptionPointers[ABILITIES_COUNT];
+extern const u8 *const gAbilityDescriptionSpaPointers[ABILITIES_COUNT];
 extern const u8 gAbilityNames[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1];
+extern const u8 gAbilityNamesSpa[ABILITIES_COUNT][ABILITY_NAME_LENGTH + 1];
 
 void CB2_InitBattle(void);
 void BattleMainCB2(void);

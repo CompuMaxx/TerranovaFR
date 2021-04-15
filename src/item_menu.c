@@ -201,18 +201,18 @@ static const u16 sBagListBgTiles[][18] = {
 };
 
 static const struct MenuAction sItemMenuContextActions[] = {
-    [ITEMMENUACTION_USE] = {gOtherText_Use, {.void_u8 = Task_ItemMenuAction_Use}},
-    [ITEMMENUACTION_TOSS] = {gOtherText_Toss, {.void_u8 = Task_ItemMenuAction_Toss}},
-    [ITEMMENUACTION_REGISTER] = {gOtherText_Register, {.void_u8 = Task_ItemMenuAction_ToggleSelect}},
-    [ITEMMENUACTION_GIVE] = {gOtherText_Give, {.void_u8 = Task_ItemMenuAction_Give}},
-    [ITEMMENUACTION_CANCEL] = {gFameCheckerText_Cancel, {.void_u8 = Task_ItemMenuAction_Cancel}},
-    [ITEMMENUACTION_BATTLE_USE] = {gOtherText_Use, {.void_u8 = Task_ItemMenuAction_BattleUse}},
-    [ITEMMENUACTION_CHECK] = {gOtherText_Check, {.void_u8 = Task_ItemMenuAction_Use}},
-    [ITEMMENUACTION_OPEN] = {gOtherText_Open, {.void_u8 = Task_ItemMenuAction_Use}},
-    [ITEMMENUACTION_OPEN_BERRIES] = {gOtherText_Open, {.void_u8 = Task_ItemMenuAction_BattleUse}},
-    [ITEMMENUACTION_WALK] = {gOtherText_Walk, {.void_u8 = Task_ItemMenuAction_Use}},
-    [ITEMMENUACTION_DESELECT] = {gOtherText_Deselect, {.void_u8 = Task_ItemMenuAction_ToggleSelect}},
-    [ITEMMENUACTION_DUMMY] = {gString_Dummy, {.void_u8 = NULL}}
+    [ITEMMENUACTION_USE] = {gText_Use, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_TOSS] = {gText_Toss, {.void_u8 = Task_ItemMenuAction_Toss}},
+    [ITEMMENUACTION_REGISTER] = {gText_Register, {.void_u8 = Task_ItemMenuAction_ToggleSelect}},
+    [ITEMMENUACTION_GIVE] = {gText_Give, {.void_u8 = Task_ItemMenuAction_Give}},
+    [ITEMMENUACTION_CANCEL] = {gText_FameChecker_Cancel, {.void_u8 = Task_ItemMenuAction_Cancel}},
+    [ITEMMENUACTION_BATTLE_USE] = {gText_Use, {.void_u8 = Task_ItemMenuAction_BattleUse}},
+    [ITEMMENUACTION_CHECK] = {gText_Check, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_OPEN] = {gText_Open, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_OPEN_BERRIES] = {gText_Open, {.void_u8 = Task_ItemMenuAction_BattleUse}},
+    [ITEMMENUACTION_WALK] = {gText_Walk, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_DESELECT] = {gText_Deselect, {.void_u8 = Task_ItemMenuAction_ToggleSelect}},
+    [ITEMMENUACTION_DUMMY] = {gText_StringDummy, {.void_u8 = NULL}}
 };
 
 static const u8 sContextMenuItems_Field[][4] = {
@@ -647,7 +647,7 @@ static void Bag_BuildListMenuTemplate(u8 pocket)
         sListMenuItems[i].index = i;
     }
     StringCopy(sListMenuItemStrings[i], sListItemTextColor_RegularItem);
-    StringAppend(sListMenuItemStrings[i], gFameCheckerText_Cancel);
+    StringAppend(sListMenuItemStrings[i], gText_FameChecker_Cancel);
     sListMenuItems[i].label = sListMenuItemStrings[i];
     sListMenuItems[i].index = i;
     gMultiuseListMenuTemplate.items = sListMenuItems;
@@ -1228,7 +1228,7 @@ static void BeginMovingItemInPocket(u8 taskId, s16 itemIndex)
     data[1] = itemIndex;
     sBagMenuDisplay->itemOriginalLocation = itemIndex;
     StringCopy(gStringVar1, ItemId_GetName(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])));
-    StringExpandPlaceholders(gStringVar4, gOtherText_WhereShouldTheStrVar1BePlaced);
+    StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlaced);
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     BagPrintTextOnWindow(1, 2, gStringVar4, 0, 3, 2, 0, 0, 0);
     ItemMenuIcons_MoveInsertIndicatorBar(0, ListMenuGetYCoordForPrintingArrowCursor(data[0]));

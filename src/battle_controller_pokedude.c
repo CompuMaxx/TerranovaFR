@@ -2288,40 +2288,40 @@ static const struct PokedudeTextScriptHeader *const sPokedudeTextScripts[] =
 
 static const u8 *const sPokedudeTexts_Battle[] =
 {
-    Pokedude_Text_SpeedierBattlerGoesFirst,
-    Pokedude_Text_MyRattataFasterThanPidgey,
-    Pokedude_Text_BattlersTakeTurnsAttacking,
-    Pokedude_Text_MyRattataWonGetsEXP,
+    gText_Pokedude_SpeedierBattlerGoesFirst,
+    gText_Pokedude_MyRattataFasterThanPidgey,
+    gText_Pokedude_BattlersTakeTurnsAttacking,
+    gText_Pokedude_MyRattataWonGetsEXP,
 };
 
 static const u8 *const sPokedudeTexts_Status[] =
 {
-    Pokedude_Text_UhOhRattataPoisoned,
-    Pokedude_Text_UhOhRattataPoisoned,
-    Pokedude_Text_HealStatusRightAway,
-    Pokedude_Text_UsingItemTakesTurn,
-    Pokedude_Text_YayWeManagedToWin,
+    gText_Pokedude_UhOhRattataPoisoned,
+    gText_Pokedude_UhOhRattataPoisoned,
+    gText_Pokedude_HealStatusRightAway,
+    gText_Pokedude_UsingItemTakesTurn,
+    gText_Pokedude_YayWeManagedToWin,
 };
 
 static const u8 *const sPokedudeTexts_TypeMatchup[] =
 {
-    Pokedude_Text_WaterNotVeryEffectiveAgainstGrass,
-    Pokedude_Text_GrassEffectiveAgainstWater,
-    Pokedude_Text_LetsTryShiftingMons,
-    Pokedude_Text_ShiftingUsesTurn,
-    Pokedude_Text_ButterfreeDoubleResistsGrass,
-    Pokedude_Text_ButterfreeGoodAgainstOddish,
-    Pokedude_Text_YeahWeWon,
+    gText_Pokedude_WaterNotVeryEffectiveAgainstGrass,
+    gText_Pokedude_GrassEffectiveAgainstWater,
+    gText_Pokedude_LetsTryShiftingMons,
+    gText_Pokedude_ShiftingUsesTurn,
+    gText_Pokedude_ButterfreeDoubleResistsGrass,
+    gText_Pokedude_ButterfreeGoodAgainstOddish,
+    gText_Pokedude_YeahWeWon,
 };
 
 static const u8 *const sPokedudeTexts_Catching[] =
 {
-    Pokedude_Text_WeakenMonBeforeCatching,
-    Pokedude_Text_WeakenMonBeforeCatching,
-    Pokedude_Text_BestIfTargetStatused,
-    Pokedude_Text_CantDoubleUpOnStatus,
-    Pokedude_Text_LetMeThrowBall,
-    Pokedude_Text_PickBestKindOfBall,
+    gText_Pokedude_WeakenMonBeforeCatching,
+    gText_Pokedude_WeakenMonBeforeCatching,
+    gText_Pokedude_BestIfTargetStatused,
+    gText_Pokedude_CantDoubleUpOnStatus,
+    gText_Pokedude_LetMeThrowBall,
+    gText_Pokedude_PickBestKindOfBall,
 };
 
 static const struct PokedudeBattlePartyInfo sParties_Battle[] =

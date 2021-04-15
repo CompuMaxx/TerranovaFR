@@ -430,26 +430,26 @@ enum TradeUIText
 };
 
 static const u8 *const sTradeUITextPtrs[] = {
-    gTradeText_Cancel,
-    gTradeText_ChooseAPokemon,
-    gTradeText_Summary,
-    gTradeText_Trade,
-    gTradeText_CancelTrade,
-    gTradeText_PressBButtonToExit
+    gText_Trade_Cancel,
+    gText_Trade_ChooseAPokemon,
+    gText_Trade_Summary,
+    gText_Trade_Trade,
+    gText_Trade_CancelTrade,
+    gText_Trade_PressBButtonToExit
 };
 
 static const struct MenuAction sMenuAction_SummaryTrade[] = {
-    {gUnknown_841E10A, { .void_u8 = TradeMenuAction_Summary }},
-    {gUnknown_841E112, { .void_u8 = TradeMenuAction_Trade }}
+    {gText_841E10A, { .void_u8 = TradeMenuAction_Summary }},
+    {gText_841E112, { .void_u8 = TradeMenuAction_Trade }}
 };
 
 static const u8 *const sTradeErrorOrStatusMessagePtrs[] = {
-    gUnknown_841E118, // Communication standby
-    gUnknown_841E145, // The trade has been canceled.
-    gUnknown_841E16B, // That's your only POKéMON for battle
-    gUnknown_8417094, // That's your only POKéMON for battle
-    gUnknown_841E199, // Waiting for your friend to finish
-    gUnknown_841E1C5, // Your friend wants to trade POKéMON
+    gText_841E118, // Communication standby
+    gText_841E145, // The trade has been canceled.
+    gText_841E16B, // That's your only POKéMON for battle
+    gText_8417094, // That's your only POKéMON for battle
+    gText_841E199, // Waiting for your friend to finish
+    gText_841E1C5, // Your friend wants to trade POKéMON
     gText_PkmnCantBeTradedNow, // That POKéMON can't be traded now
     gText_EggCantBeTradedNow, // An EGG can't be traded now
     gText_OtherTrainersPkmnCantBeTraded  // The other TRAINER's POKéMON can't be traded now
@@ -662,7 +662,7 @@ static const u8 gUnknown_8261FCC[][13] = {
     _("はいけいセット")
 };
 
-static const u8 gJPText_Shedinja[] = _("ヌケニン");
+static const u8 gText_JP_Shedinja[] = _("ヌケニン");
 static const u8 gUnknown_8262039[] = _("こうかんせいりつ     ");
 static const u8 gUnknown_8262047[] = _("だめだたらしいよ     ");
 
@@ -1447,7 +1447,7 @@ static bool8 shedinja_maker_maybe(void)
                 {
                     GetMonData(mon, MON_DATA_NICKNAME, name);
 
-                    if (!StringCompareWithoutExtCtrlCodes(name, gJPText_Shedinja))
+                    if (!StringCompareWithoutExtCtrlCodes(name, gText_JP_Shedinja))
                     {
                         SetMonData(mon, MON_DATA_NICKNAME, gSpeciesNames[SPECIES_SHEDINJA]);
                     }

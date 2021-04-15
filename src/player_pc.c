@@ -94,7 +94,7 @@ static const u8 gUnknown_8402203[] = { 0, 1, 2 };
 static const struct MenuAction sMenuActions_ItemPc[] = {
     {gText_WithdrawItem2, Task_PlayerPcWithdrawItem},
     {gText_DepositItem2, Task_PlayerPcDepositItem},
-    {gFameCheckerText_Cancel, Task_PlayerPcCancel}
+    {gText_FameChecker_Cancel, Task_PlayerPcCancel}
 };
 
 static const struct ItemSlot gText_NewGame_PCItems[] = {
@@ -103,10 +103,10 @@ static const struct ItemSlot gText_NewGame_PCItems[] = {
 };
 
 static const struct MenuAction sMenuActions_MailSubmenu[] = {
-    {gOtherText_Read, Task_PlayerPcReadMail},
-    {gOtherText_MoveToBag, Task_PlayerPcMoveMailToBag},
-    {gOtherText_Give2, Task_PlayerPcGiveMailToMon},
-    {gOtherText_Exit, Task_PlayerPcExitMailSubmenu}
+    {gText_Read, Task_PlayerPcReadMail},
+    {gText_MoveToBag, Task_PlayerPcMoveMailToBag},
+    {gText_Give2, Task_PlayerPcGiveMailToMon},
+    {gText_Exit, Task_PlayerPcExitMailSubmenu}
 };
 
 static const struct WindowTemplate sWindowTemplate_TopMenu_3Items = {

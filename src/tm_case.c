@@ -164,9 +164,9 @@ static void (*const sSelectTMActionTasks[])(u8 taskId) = {
 };
 
 static const struct MenuAction sMenuActions_UseGiveExit[] = {
-    {gOtherText_Use,  TMHMContextMenuAction_Use },
-    {gOtherText_Give, TMHMContextMenuAction_Give},
-    {gOtherText_Exit, TMHMContextMenuAction_Exit},
+    {gText_Use,  TMHMContextMenuAction_Use },
+    {gText_Give, TMHMContextMenuAction_Give},
+    {gText_Exit, TMHMContextMenuAction_Exit},
 };
 
 static const u8 sMenuActionIndices_Field[] = {0, 1, 2};
@@ -520,13 +520,13 @@ static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)
     if (itemId >= ITEM_HM01)
     {
         StringAppend(gStringVar4, sText_ClearTo18);
-        StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+        StringAppend(gStringVar4, gText_UnkF9_08_Clear_01);
         ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_HM01 + 1, STR_CONV_MODE_LEADING_ZEROS, 1);
         StringAppend(gStringVar4, gStringVar1);
     }
     else
     {
-        StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+        StringAppend(gStringVar4, gText_UnkF9_08_Clear_01);
         ConvertIntToDecimalStringN(gStringVar1, itemId - ITEM_TM01 + 1, STR_CONV_MODE_LEADING_ZEROS, 2);
         StringAppend(gStringVar4, gStringVar1);
     }
@@ -1227,7 +1227,7 @@ static void Task_TMCaseDude_Playback(u8 taskId)
         break;
     case 8:
         FillBG2RowWithPalette_2timesNplus1(1);
-        TMCase_PrintMessageWithFollowupTask(taskId, 4, gPokedudeText_TMTypes, 0);
+        TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_TMTypes, 0);
         gTasks[taskId].func = Task_TMCaseDude_Playback;
         data[8]++;
         break;
@@ -1249,7 +1249,7 @@ static void Task_TMCaseDude_Playback(u8 taskId)
         break;
     case 18:
         FillBG2RowWithPalette_2timesNplus1(1);
-        TMCase_PrintMessageWithFollowupTask(taskId, 4, gPokedudeText_ReadTMDescription, NULL);
+        TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_ReadTMDescription, NULL);
         gTasks[taskId].func = Task_TMCaseDude_Playback; // this function
         data[8]++;
         break;

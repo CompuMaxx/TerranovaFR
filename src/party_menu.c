@@ -1255,7 +1255,7 @@ static void HandleChooseMonCancel(u8 taskId, s8 *slotPtr)
 static void DisplayCancelChooseMonYesNo(u8 taskId)
 {
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
-    StringExpandPlaceholders(gStringVar4, gUnknown_84176CF);
+    StringExpandPlaceholders(gStringVar4, gText_84176CF);
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     gTasks[taskId].func = Task_CancelChooseMonYesNo;
 }
@@ -1669,7 +1669,7 @@ static void BufferBagFullCantTakeItemMessage(u16 itemId)
     switch (ItemId_GetPocket(itemId))
     {
     default:
-        string = gStartMenuText_Bag;
+        string = gText_StartMenu_Bag;
         break;
     case POCKET_TM_CASE:
         string = ItemId_GetName(ITEM_TM_CASE);
@@ -2159,7 +2159,7 @@ static void CreateCancelConfirmWindows(bool8 chooseHalf)
         {
             confirmWindowId = AddWindow(&sConfirmButtonWindowTemplate);
             FillWindowPixelBuffer(confirmWindowId, PIXEL_FILL(0));
-            AddTextPrinterParameterized4(confirmWindowId, 0, (48 - GetStringWidth(0, gMenuText_Confirm, 0)) / 2u, 1, 0, 0, sFontColorTable[0], -1, gMenuText_Confirm);
+            AddTextPrinterParameterized4(confirmWindowId, 0, (48 - GetStringWidth(0, gText_Menu_Confirm, 0)) / 2u, 1, 0, 0, sFontColorTable[0], -1, gText_Menu_Confirm);
             PutWindowTilemap(confirmWindowId);
             CopyWindowToVram(confirmWindowId, COPYWIN_GFX);
             cancelWindowId = AddWindow(&sMultiCancelButtonWindowTemplate);
@@ -2174,13 +2174,13 @@ static void CreateCancelConfirmWindows(bool8 chooseHalf)
         // Branches are functionally identical. Second branch is never reached, Spin Trade wasnt fully implemented
         if (gPartyMenu.menuType != PARTY_MENU_TYPE_SPIN_TRADE)
         {
-            offset += (48 - GetStringWidth(0, gFameCheckerText_Cancel, 0)) / 2;
-            AddTextPrinterParameterized3(cancelWindowId, 0, offset, 1, sFontColorTable[0], -1, gFameCheckerText_Cancel);
+            offset += (48 - GetStringWidth(0, gText_FameChecker_Cancel, 0)) / 2;
+            AddTextPrinterParameterized3(cancelWindowId, 0, offset, 1, sFontColorTable[0], -1, gText_FameChecker_Cancel);
         }
         else
         {
-            offset += (48 - GetStringWidth(0, gOtherText_Exit, 0)) / 2;
-            AddTextPrinterParameterized3(cancelWindowId, 0, offset, 1, sFontColorTable[0], -1, gOtherText_Exit);
+            offset += (48 - GetStringWidth(0, gText_Exit, 0)) / 2;
+            AddTextPrinterParameterized3(cancelWindowId, 0, offset, 1, sFontColorTable[0], -1, gText_Exit);
         }
         PutWindowTilemap(cancelWindowId);
         CopyWindowToVram(cancelWindowId, COPYWIN_GFX);
@@ -3788,12 +3788,12 @@ static void CursorCB_Enter(u8 taskId)
     if (gPartyMenu.unk_8_6 == 2)
     {
         maxBattlers = 2;
-        str = gUnknown_8416B3E;
+        str = gText_8416B3E;
     }
     else
     {
         maxBattlers = 3;
-        str = gUnknown_8416B16;
+        str = gText_8416B16;
     }
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);

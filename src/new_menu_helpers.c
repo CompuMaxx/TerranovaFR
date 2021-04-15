@@ -19,7 +19,7 @@ static EWRAM_DATA u16 sTempTileDataBufferCursor = {0};
 static EWRAM_DATA void *sTempTileDataBuffers[0x20] = {NULL};
 static EWRAM_DATA u8 sStartMenuWindowId = {0};
 
-static const u16 gUnknown_841EF48[] = INCBIN_U16("graphics/unknown/unk_841EF48.4bpp");
+static const u16 gText_841EF48[] = INCBIN_U16("graphics/unknown/unk_841EF48.4bpp");
 
 const u16 gDialogFrameTiles[] = INCBIN_U16("graphics/text_window/dialog_frame.4bpp");
 const u16 gTMCaseMainWindowPalette[] = INCBIN_U16("graphics/tm_case/unk_841F408.gbapal");

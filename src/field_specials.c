@@ -1265,7 +1265,7 @@ static const u8 *const sListMenuLabels[][12] = {
         gText_MarshBadge,
         gText_VolcanoBadge,
         gText_EarthBadge,
-        gOtherText_Exit,
+        gText_Exit,
     }, 
     [LISTMENU_SILPHCO_FLOORS] = 
     {
@@ -1280,14 +1280,14 @@ static const u8 *const sListMenuLabels[][12] = {
         gText_3F,
         gText_2F,
         gText_1F,
-        gOtherText_Exit,
+        gText_Exit,
     }, 
     [LISTMENU_ROCKET_HIDEOUT_FLOORS] = // Unncessary, MULTICHOICE_ROCKET_HIDEOUT_ELEVATOR is used instead
     {
         gText_B1F,
         gText_B2F,
         gText_B4F,
-        gOtherText_Exit,
+        gText_Exit,
     }, 
     [LISTMENU_DEPT_STORE_FLOORS] = // Unncessary, MULTICHOICE_DEPT_STORE_ELEVATOR is used instead
     {
@@ -1296,14 +1296,14 @@ static const u8 *const sListMenuLabels[][12] = {
         gText_3F,
         gText_2F,
         gText_1F,
-        gOtherText_Exit,
+        gText_Exit,
     }, 
     [LISTMENU_WIRELESS_LECTURE_HEADERS] = // Unnecessary, MULTICHOICE_LINKED_DIRECT_UNION is used instead
     {
         gText_LinkedGamePlay,
         gText_DirectCorner,
         gText_UnionRoom,
-        gOtherText_Quit,
+        gText_Quit,
     }, 
     [LISTMENU_BERRY_POWDER] = 
     {
@@ -1318,13 +1318,13 @@ static const u8 *const sListMenuLabels[][12] = {
         gText_Zinc_1000,
         gText_HpUp_1000,
         gText_PpUp_3000,
-        gOtherText_Exit,
+        gText_Exit,
     }, 
     [LISTMENU_TRAINER_TOWER_FLOORS] = // Unnecessary, MULTICHOICE_ROOFTOP_B1F is used instead
     {
         gText_Rooftop,
         gText_B1F,
-        gOtherText_Exit,
+        gText_Exit,
     }
 };
 

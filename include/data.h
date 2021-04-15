@@ -16,12 +16,14 @@ struct MonCoords
 
 extern const u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
 extern const u8 gMoveNames[][13];
+extern const u8 gMoveNamesSpa[][13];
 extern const u16 gUnknown_8251CB8[];
 extern const u16 gUnknown_8251FEE[];
 extern const u16 gUnknown_8252324[];
 extern const u16 gUnknown_82539D4[];
 
 extern const u8 gTrainerClassNames[][13];
+extern const u8 gTrainerClassNamesSpa[][13];
 
 extern const struct MonCoords gMonFrontPicCoords[];
 extern const struct CompressedSpriteSheet gMonFrontPicTable[];

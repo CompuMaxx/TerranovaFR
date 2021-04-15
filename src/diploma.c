@@ -256,19 +256,19 @@ static void DiplomaPrintText(void)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gSaveBlock2Ptr->playerName);
     if (HasAllMons())
     {
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gUnknown_841B68F);
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B68F);
     }
     else
     {
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gUnknown_841B698);
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B698);
     }
     FillWindowPixelBuffer(0, 0);
-    DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gUnknown_841B60E);
+    DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B60E);
     width = GetStringWidth(2, arr, -1);
     AddTextPrinterParameterized3(0, 2, 0x78 - (width / 2), 4, gUnknown_8415A04, -1, arr);
-    DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gUnknown_841B619);
+    DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B619);
     width = GetStringWidth(2, arr, -1);
     AddTextPrinterParameterized3(0, 0x2, 0x78 - (width / 2), 0x1E, gUnknown_8415A04, -1, arr);
-    AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, gUnknown_8415A04, 0, gUnknown_841B684);
+    AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, gUnknown_8415A04, 0, gText_841B684);
     PutWindowTilemap(0);
 }

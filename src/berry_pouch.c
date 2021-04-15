@@ -176,11 +176,11 @@ static const struct YesNoFuncTable sYesNoFuncs_Sell = {
 };
 
 static const struct MenuAction sContextMenuActions[] = {
-    {gOtherText_Use,  Task_BerryPouch_Use},
-    {gOtherText_Toss, Task_BerryPouch_Toss},
-    {gOtherText_Give, Task_BerryPouch_Give},
-    {gOtherText_Exit, Task_BerryPouch_Exit},
-    {gString_Dummy,   NULL}
+    {gText_Use,  Task_BerryPouch_Use},
+    {gText_Toss, Task_BerryPouch_Toss},
+    {gText_Give, Task_BerryPouch_Give},
+    {gText_Exit, Task_BerryPouch_Exit},
+    {gText_StringDummy,   NULL}
 };
 
 static const u8 sOptions_UseGiveTossExit[] = {
@@ -685,7 +685,7 @@ static void SetUpListMenuTemplate(void)
 static void GetBerryNameAndIndexForMenu(u8 * dest, u16 itemId)
 {
     StringCopy(gStringVar4, gText_FontSize0);
-    StringAppend(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+    StringAppend(gStringVar4, gText_UnkF9_08_Clear_01);
     ConvertIntToDecimalStringN(gStringVar1, itemId - FIRST_BERRY_INDEX + 1, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringAppend(gStringVar4, gStringVar1);
     CopyItemName(itemId, gStringVar1);

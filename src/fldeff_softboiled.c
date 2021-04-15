@@ -10,7 +10,7 @@ static void sub_80E583C(u8 taskId);
 static void sub_80E58A0(u8 taskId);
 static void sub_80E5934(u8 taskId);
 
-extern const u8 gUnknown_84169F8[];
+extern const u8 gText_84169F8[];
 extern const u8 gText_PkmnHPRestoredByVar2[];
 
 bool8 SetUpFieldMove_SoftBoiled(void)
@@ -103,7 +103,7 @@ static void sub_80E5900(u8 taskId)
 static void sub_80E5934(u8 taskId)
 {
     PlaySE(SE_SELECT);
-    DisplayPartyMenuMessage(gUnknown_84169F8, 0);
+    DisplayPartyMenuMessage(gText_84169F8, 0);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = sub_80E5900;
 }

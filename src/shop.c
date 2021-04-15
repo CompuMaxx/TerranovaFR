@@ -533,7 +533,7 @@ bool8 BuyMenuBuildListMenuTemplate(void)
     {
         PokeMartWriteNameAndIdAt(&sShopMenuListMenu[i], gShopData.itemList[i], sShopMenuItemStrings[i]);
     }
-    StringCopy(sShopMenuItemStrings[i], gFameCheckerText_Cancel);
+    StringCopy(sShopMenuItemStrings[i], gText_FameChecker_Cancel);
     sShopMenuListMenu[i].label = sShopMenuItemStrings[i];    
     sShopMenuListMenu[i].index = -2;
     gMultiuseListMenuTemplate.items = sShopMenuListMenu;
@@ -629,7 +629,7 @@ static void LoadTmHmNameInMart(s32 item)
     if (item != INDEX_CANCEL)
     {
         ConvertIntToDecimalStringN(gStringVar1, item - ITEM_DEVON_SCOPE, 2, 2);
-        StringCopy(gStringVar4, gOtherText_UnkF9_08_Clear_01);
+        StringCopy(gStringVar4, gText_UnkF9_08_Clear_01);
         StringAppend(gStringVar4, gStringVar1);
         BuyMenuPrint(6, 0, gStringVar4, 0, 0, 0, 0, TEXT_SPEED_FF, 1);
         StringCopy(gStringVar4, gMoveNames[ItemIdToBattleMoveId(item)]);

@@ -166,32 +166,32 @@ static const struct WindowTemplate sWindowTemplates[] =
 static const struct ListMenuItem sListMenuItems[] = 
 {
     {
-        .label = gTeachyTvString_TeachBattle,
+        .label = gText_TeachyTv_TeachBattle,
         .index = TTVSCR_BATTLE
     },
     {
-        .label = gTeachyTvString_StatusProblems,
+        .label = gText_TeachyTv_StatusProblems,
         .index = TTVSCR_STATUS
     },
     {
-        .label = gTeachyTvString_TypeMatchups,
+        .label = gText_TeachyTv_TypeMatchups,
         .index = TTVSCR_MATCHUPS
     },
     {
-        .label = gTeachyTvString_CatchPkmn,
+        .label = gText_TeachyTv_CatchPkmn,
         .index = TTVSCR_CATCHING
     },
     {
-        .label = gTeachyTvString_AboutTMs,
+        .label = gText_TeachyTv_AboutTMs,
         .index = TTVSCR_TMS
     },
     {
-        .label = gTeachyTvString_RegisterItem,
+        .label = gText_TeachyTv_RegisterItem,
         .index = TTVSCR_REGISTER
     },
 
     {
-        .label = gTeachyTvString_Cancel,
+        .label = gText_TeachyTv_Cancel,
         .index = -2
     },
 };
@@ -199,23 +199,23 @@ static const struct ListMenuItem sListMenuItems[] =
 static const struct ListMenuItem sListMenuItems_NoTMCase[] = 
 {
     {
-        .label = gTeachyTvString_TeachBattle,
+        .label = gText_TeachyTv_TeachBattle,
         .index = TTVSCR_BATTLE
     },
     {
-        .label = gTeachyTvString_StatusProblems,
+        .label = gText_TeachyTv_StatusProblems,
         .index = TTVSCR_STATUS
     },
     {
-        .label = gTeachyTvString_TypeMatchups,
+        .label = gText_TeachyTv_TypeMatchups,
         .index = TTVSCR_MATCHUPS
     },
     {
-        .label = gTeachyTvString_CatchPkmn,
+        .label = gText_TeachyTv_CatchPkmn,
         .index = TTVSCR_CATCHING
     },
     {
-        .label = gTeachyTvString_Cancel,
+        .label = gText_TeachyTv_Cancel,
         .index = -2
     },
 };
@@ -787,7 +787,7 @@ static void TTVcmd_NpcMoveAndSetupTextPrinter(u8 taskId)
         if (spriteAddr->pos2.x == 0x78)
         {
             StartSpriteAnim(&gSprites[data[1]], 0);
-            TeachyTvInitTextPrinter(gTeachyTvText_PokedudeSaysHello);
+            TeachyTvInitTextPrinter(gText_TeachyTv_PokedudeSaysHello);
             data[2] = 0;
             ++data[3];
         }
@@ -837,12 +837,12 @@ static void TTVcmd_TextPrinterSwitchStringByOptionChosen(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     static const u8 *const texts[] = {
-        gTeachyTvText_BattleScript1,
-        gTeachyTvText_StatusScript1,
-        gTeachyTvText_MatchupsScript1,
-        gTeachyTvText_CatchingScript1,
-        gTeachyTvText_TMsScript1,
-        gTeachyTvText_RegisterScript1,
+        gText_TeachyTv_BattleScript1,
+        gText_TeachyTv_StatusScript1,
+        gText_TeachyTv_MatchupsScript1,
+        gText_TeachyTv_CatchingScript1,
+        gText_TeachyTv_TMsScript1,
+        gText_TeachyTv_RegisterScript1,
     };
     TeachyTvInitTextPrinter(texts[sStaticResources.whichScript]);
     ++data[3];
@@ -853,12 +853,12 @@ static void TTVcmd_TextPrinterSwitchStringByOptionChosen2(u8 taskId)
     s16 *data = gTasks[taskId].data;
     static const u8 *const texts[] =
     {
-        gTeachyTvText_BattleScript2,
-        gTeachyTvText_StatusScript2,
-        gTeachyTvText_MatchupsScript2,
-        gTeachyTvText_CatchingScript2,
-        gTeachyTvText_TMsScript2,
-        gTeachyTvText_RegisterScript2,
+        gText_TeachyTv_BattleScript2,
+        gText_TeachyTv_StatusScript2,
+        gText_TeachyTv_MatchupsScript2,
+        gText_TeachyTv_CatchingScript2,
+        gText_TeachyTv_TMsScript2,
+        gText_TeachyTv_RegisterScript2,
     };
     TeachyTvInitTextPrinter(texts[sStaticResources.whichScript]);
     ++data[3];

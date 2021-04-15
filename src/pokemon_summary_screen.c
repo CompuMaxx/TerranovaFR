@@ -627,20 +627,20 @@ static const u32 sUnknown_8463C80[] = INCBIN_U32( "graphics/interface/pokesummar
 #include "data/text/nature_names.h"
 
 static const u8 * const sUnknown_8463EC4[] = {
-    gUnknown_8419B44,
-    gUnknown_8419B7B,
-    gUnknown_8419BAE,
-    gUnknown_8419BDB
+    gText_8419B44,
+    gText_8419B7B,
+    gText_8419BAE,
+    gText_8419BDB
 };
 
 static const u8 * const sUnknown_8463ED4[] = {
-    gUnknown_8419A3D,
-    gUnknown_8419B18,
-    gUnknown_8419A6E,
-    gUnknown_8419B18,
-    gUnknown_8419AA2,
-    gUnknown_8419ADE,
-    gUnknown_8419B18
+    gText_8419A3D,
+    gText_8419B18,
+    gText_8419A6E,
+    gText_8419B18,
+    gText_8419AA2,
+    gText_8419ADE,
+    gText_8419B18
 };
 
 static const u8 sUnknown_8463EF0[][3] = {
@@ -1341,11 +1341,11 @@ static void sub_8134E84(u8 taskId)
         sub_8135AA4();
         break;
     case 3:
-        sub_8136DA4(gUnknown_8419C39);
+        sub_8136DA4(gText_8419C39);
         if (!(gMain.inBattle || gReceivedRemoteLinkPlayers))
-            sub_8136DF0(gUnknown_8419C92);
+            sub_8136DF0(gText_8419C92);
         else
-            sub_8136DF0(gUnknown_8419CA2);
+            sub_8136DF0(gText_8419CA2);
 
         break;
     case 4:
@@ -1389,7 +1389,7 @@ static void sub_8134E84(u8 taskId)
         break;
     case 9:
         sub_8138A38();
-        sub_8136E50(gUnknown_8419C45);
+        sub_8136E50(gText_8419C45);
         break;
     case 10:
         sub_81356EC();
@@ -1456,8 +1456,8 @@ static void sub_81351A0(u8 taskId)
         CopyBgTilemapBufferToVram(0);
         break;
     case 4:
-        sub_8136DA4(gUnknown_8419C39);
-        sub_8136DF0(gUnknown_8419C82);
+        sub_8136DA4(gText_8419C39);
+        sub_8136DF0(gText_8419C82);
         break;
     case 5:
         CopyWindowToVram(sMonSummaryScreen->unk3000[0], 2);
@@ -1478,7 +1478,7 @@ static void sub_81351A0(u8 taskId)
         if (sub_81357A0(sMonSummaryScreen->unk3224) == 0)
             return;
 
-        sub_8136E50(gUnknown_8419C45);
+        sub_8136E50(gText_8419C45);
         break;
     case 9:
         CopyWindowToVram(sMonSummaryScreen->unk3000[6], 2);
@@ -2067,7 +2067,7 @@ static void sub_81360D4(void)
 
     dexNum = SpeciesToPokedexNum(GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES));
     if (dexNum == 0xffff)
-        StringCopy(sMonSummaryScreen->summary.unk3064, gUnknown_8416202);
+        StringCopy(sMonSummaryScreen->summary.unk3064, gText_8416202);
     else
         ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk3064, dexNum, STR_CONV_MODE_LEADING_ZEROS, 3);
 
@@ -2099,11 +2099,11 @@ static void sub_81360D4(void)
     else if (gender == MON_MALE)
         StringCopy(sMonSummaryScreen->summary.unk3084, gText_MaleSymbol);
     else
-        StringCopy(sMonSummaryScreen->summary.unk3084, gString_Dummy);
+        StringCopy(sMonSummaryScreen->summary.unk3084, gText_StringDummy);
 
     if (dexNum == SPECIES_NIDORAN_M || dexNum == SPECIES_NIDORAN_F)
         if (StringCompare(sMonSummaryScreen->summary.unk3034, gSpeciesNames[dexNum]) == 0)
-            StringCopy(sMonSummaryScreen->summary.unk3084, gString_Dummy);
+            StringCopy(sMonSummaryScreen->summary.unk3084, gText_StringDummy);
 
     GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_OT_NAME, tempStr);
     StringCopyN_Multibyte(sMonSummaryScreen->summary.unk3040, tempStr, OT_NAME_LENGTH);
@@ -2120,7 +2120,7 @@ static void sub_81360D4(void)
     heldItem = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HELD_ITEM);
 
     if (heldItem == ITEM_NONE)
-        StringCopy(sMonSummaryScreen->summary.unk3074, gUnknown_84161EF);
+        StringCopy(sMonSummaryScreen->summary.unk3074, gText_84161EF);
     else
         CopyItemName(heldItem, sMonSummaryScreen->summary.unk3074);
 }
@@ -2239,8 +2239,8 @@ static void sub_81367E8(u8 i)
 
     if (sMonSummaryScreen->unk325A[i] == 0)
     {
-        StringCopy(sMonSummaryScreen->summary.unk3128[i], gUnknown_841620E);
-        StringCopy(sMonSummaryScreen->summary.unk30B8[i], gUnknown_8416210);
+        StringCopy(sMonSummaryScreen->summary.unk3128[i], gText_841620E);
+        StringCopy(sMonSummaryScreen->summary.unk30B8[i], gText_8416210);
         StringCopy(sMonSummaryScreen->summary.unk316C[i], gText_ThreeHyphens);
         StringCopy(sMonSummaryScreen->summary.unk3188[i], gText_ThreeHyphens);
         sUnknown_203B144->unk12[i] = 0xff;
@@ -2504,7 +2504,7 @@ static void sub_8137270(void)
         else
             AddTextPrinterParameterized3(sMonSummaryScreen->unk3000[3], 2,
                                          3, MACRO_8137270(4),
-                                         sUnknown_8463EF0[0], TEXT_SPEED_FF, gFameCheckerText_Cancel);
+                                         sUnknown_8463EF0[0], TEXT_SPEED_FF, gText_FameChecker_Cancel);
     }
 }
 
@@ -2547,7 +2547,7 @@ static void sub_81372E4(u8 i)
             v0 = 1;
     }
 
-    AddTextPrinterParameterized3(sMonSummaryScreen->unk3000[3], 2, 36, MACRO_81372E4(i), sUnknown_8463EF0[v0], TEXT_SPEED_FF, gUnknown_8416238);
+    AddTextPrinterParameterized3(sMonSummaryScreen->unk3000[3], 2, 36, MACRO_81372E4(i), sUnknown_8463EF0[v0], TEXT_SPEED_FF, gText_8416238);
     AddTextPrinterParameterized3(sMonSummaryScreen->unk3000[3], 2, 46 + sUnknown_203B144->unk12[i], MACRO_81372E4(i), sUnknown_8463EF0[v0], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk30B8[i]);
 
     if (sMonSummaryScreen->unk325A[i] != MOVE_NONE)
@@ -2614,9 +2614,9 @@ static void sub_8137578(void)
     else
     {
         if (sMonSummaryScreen->isEnemyParty == TRUE || sub_8138B4C() == TRUE)
-            StringCopy(mapNameStr, gUnknown_8419C13);
+            StringCopy(mapNameStr, gText_8419C13);
         else
-            StringCopy(mapNameStr, gUnknown_8419C0B);
+            StringCopy(mapNameStr, gText_8419C0B);
     }
 
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, mapNameStr);
@@ -2626,16 +2626,16 @@ static void sub_8137578(void)
         if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_EVENT_LEGAL) == 1)
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_841996D);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_841996D);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_841992F);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_841992F);
         }
         else
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84198D5);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84198D5);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84198B4);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84198B4);
         }
     }
     else
@@ -2643,16 +2643,16 @@ static void sub_8137578(void)
         if (metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84197ED);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84197ED);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84197B8);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84197B8);
         }
         else
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_8419841);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_8419841);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_8419822);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_8419822);
         }
     }
 
@@ -2693,16 +2693,16 @@ static void sub_8137724(void)
         if (metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84197ED);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84197ED);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84197B8);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84197B8);
         }
         else
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_841979D);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_841979D);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_8419782);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_8419782);
         }
 
         AddTextPrinterParameterized4(sMonSummaryScreen->unk3000[4], 2, 0, 3, 0, 0, sUnknown_8463FA4[0], TEXT_SPEED_FF, natureMetOrHatchedAtLevelStr);
@@ -2712,7 +2712,7 @@ static void sub_8137724(void)
     if (sub_813B838(metLocation) == TRUE)
         GetMapNameGeneric_(mapNameStr, metLocation);
     else
-        StringCopy(mapNameStr, gUnknown_8419C0B);
+        StringCopy(mapNameStr, gText_8419C0B);
 
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, mapNameStr);
 
@@ -2721,16 +2721,16 @@ static void sub_8137724(void)
         if (GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_EVENT_LEGAL) == 1)
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84199F4);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84199F4);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84199AB);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84199AB);
         }
         else
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_841988A);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_841988A);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_8419860);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_8419860);
         }
     }
     else
@@ -2738,16 +2738,16 @@ static void sub_8137724(void)
         if (metLocation == METLOC_FATEFUL_ENCOUNTER)
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84197ED);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84197ED);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_84197B8);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_84197B8);
         }
         else
         {
             if (sub_813B7E0(nature))
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_841988A);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_841988A);
             else
-                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gUnknown_8419860);
+                DynamicPlaceholderTextUtil_ExpandPlaceholders(natureMetOrHatchedAtLevelStr, gText_8419860);
         }
     }
 
@@ -2820,12 +2820,12 @@ static void sub_8137A90(void)
     AddTextPrinterParameterized3(sMonSummaryScreen->unk3000[4], 2,
                                  26, 7,
                                  sUnknown_8463FA4[0], TEXT_SPEED_FF,
-                                 gUnknown_8419C4D);
+                                 gText_8419C4D);
 
     AddTextPrinterParameterized3(sMonSummaryScreen->unk3000[4], 2,
                                  26, 20,
                                  sUnknown_8463FA4[0], TEXT_SPEED_FF,
-                                 gUnknown_8419C59);
+                                 gText_8419C59);
 }
 
 static void sub_8137AF8(void)
@@ -2907,36 +2907,36 @@ static void sub_8137D28(u8 curPageIndex)
     switch (curPageIndex)
     {
     case PSS_PAGE_INFO:
-        sub_8136DA4(gUnknown_8419C1D);
+        sub_8136DA4(gText_8419C1D);
         if (!sMonSummaryScreen->isEgg)
-            sub_8136DF0(gUnknown_8419C62);
+            sub_8136DF0(gText_8419C62);
         else
-            sub_8136DF0(gUnknown_8419C72);
+            sub_8136DF0(gText_8419C72);
 
-        sub_8136E50(gUnknown_8419C45);
+        sub_8136E50(gText_8419C45);
         break;
     case PSS_PAGE_SKILLS:
-        sub_8136DA4(gUnknown_8419C2A);
-        sub_8136DF0(gUnknown_8419C7B);
-        sub_8136E50(gUnknown_8419C45);
+        sub_8136DA4(gText_8419C2A);
+        sub_8136DF0(gText_8419C7B);
+        sub_8136E50(gText_8419C45);
         break;
     case PSS_PAGE_MOVES:
-        sub_8136DA4(gUnknown_8419C39);
-        sub_8136DF0(gUnknown_8419C82);
-        sub_8136E50(gUnknown_8419C45);
+        sub_8136DA4(gText_8419C39);
+        sub_8136DF0(gText_8419C82);
+        sub_8136E50(gText_8419C45);
         break;
     case PSS_PAGE_MOVES_INFO:
-        sub_8136DA4(gUnknown_8419C39);
+        sub_8136DA4(gText_8419C39);
         if (!gMain.inBattle)
-            sub_8136DF0(gUnknown_8419C92);
+            sub_8136DF0(gText_8419C92);
         else
-            sub_8136DF0(gUnknown_8419CA2);
-        sub_8136E50(gUnknown_8419C45);
+            sub_8136DF0(gText_8419CA2);
+        sub_8136E50(gText_8419C45);
         break;
     case PSS_PAGE_MOVE_DELETER:
-        sub_8136DA4(gUnknown_8419C39);
-        sub_8136DF0(gUnknown_8419CA9);
-        sub_8136E50(gUnknown_8419C45);
+        sub_8136DA4(gText_8419C39);
+        sub_8136DF0(gText_8419CA9);
+        sub_8136E50(gText_8419C45);
         break;
     default:
         break;
@@ -3872,7 +3872,7 @@ static void sub_81393D4(u8 taskId)
                                      7, 42,
                                      0, 0,
                                      sUnknown_8463FA4[0], TEXT_SPEED_FF,
-                                     gUnknown_8419CB9);
+                                     gText_8419CB9);
         CopyWindowToVram(sMonSummaryScreen->unk3000[4], 2);
         CopyBgTilemapBufferToVram(0);
         CopyBgTilemapBufferToVram(3);

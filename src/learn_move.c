@@ -515,7 +515,10 @@ static void MoveRelearnerStateMachine(void)
         case 0:
             if (GiveMoveToMon(&gPlayerParty[sMoveRelearner->selectedPartyMember], sMoveRelearner->learnableMoves[sMoveRelearner->selectedIndex]) != 0xFFFF)
             {
-                StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonLearnedMove);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonLearnedMove);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonLearnedMoveSpa);
                 gSpecialVar_0x8004 = TRUE;
                 sMoveRelearner->state = 31;
             }
@@ -548,7 +551,10 @@ static void MoveRelearnerStateMachine(void)
         }
         break;
     case MENU_STATE_PRINT_TRYING_TO_LEARN_PROMPT:
-        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonIsTryingToLearnMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonIsTryingToLearnMove);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonIsTryingToLearnMoveSpa);
         sMoveRelearner->state++;
         break;
     case MENU_STATE_WAIT_FOR_TRYING_TO_LEARN:
@@ -559,7 +565,10 @@ static void MoveRelearnerStateMachine(void)
         switch (YesNoMenuProcessInput())
         {
         case 0:
-            StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_WhichMoveShouldBeForgotten);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_WhichMoveShouldBeForgotten);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_WhichMoveShouldBeForgottenSpa);
             sMoveRelearner->state = 19;
             break;
         case 1:
@@ -569,7 +578,10 @@ static void MoveRelearnerStateMachine(void)
         }
         break;
     case MENU_STATE_PRINT_STOP_TEACHING:
-        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_StopLearningMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_StopLearningMove);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_StopLearningMoveSpa);
         sMoveRelearner->state++;
         break;
     case MENU_STATE_WAIT_FOR_STOP_TEACHING:
@@ -643,18 +655,32 @@ static void MoveRelearnerStateMachine(void)
             else
             {
                 move = GetMonData(&gPlayerParty[sMoveRelearner->selectedPartyMember], MON_DATA_MOVE1 + sMoveRelearner->selectedMoveSlot);
-                StringCopy(gStringVar3, gMoveNames[move]);
-                RemoveMonPPBonus(&gPlayerParty[sMoveRelearner->selectedPartyMember], sMoveRelearner->selectedMoveSlot);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringCopy(gStringVar3, gMoveNames[move]);
+                else if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringCopy(gStringVar3, gMoveNamesSpa[move]);
+				RemoveMonPPBonus(&gPlayerParty[sMoveRelearner->selectedPartyMember], sMoveRelearner->selectedMoveSlot);
                 SetMonMoveSlot(&gPlayerParty[sMoveRelearner->selectedPartyMember], sMoveRelearner->learnableMoves[sMoveRelearner->selectedIndex], sMoveRelearner->selectedMoveSlot);
-                StringCopy(gStringVar2, gMoveNames[sMoveRelearner->learnableMoves[sMoveRelearner->selectedIndex]]);
-                StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_1_2_and_Poof);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				{
+					StringCopy(gStringVar2, gMoveNames[sMoveRelearner->learnableMoves[sMoveRelearner->selectedIndex]]);
+					StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_1_2_and_Poof);
+				}
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				{
+					StringCopy(gStringVar2, gMoveNamesSpa[sMoveRelearner->learnableMoves[sMoveRelearner->selectedIndex]]);
+					StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_1_2_and_PoofSpa);
+				}
                 sMoveRelearner->state = 30;
                 gSpecialVar_0x8004 = TRUE;
             }
         }
         break;
     case MENU_STATE_DOUBLE_FANFARE_FORGOT_MOVE:
-        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonForgotOldMoveAndMonLearnedNewMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonForgotOldMoveAndMonLearnedNewMove);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_MonForgotOldMoveAndMonLearnedNewMoveSpa);
         sMoveRelearner->state = 31;
         PlayFanfare(MUS_LEVEL_UP);
         break;
@@ -687,7 +713,10 @@ static void PrintTeachWhichMoveToStrVar1(bool8 onInit)
 {
     if (!onInit)
     {
-        StringExpandPlaceholders(gStringVar4, gText_TeachWhichMoveToMon);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_TeachWhichMoveToMon);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_TeachWhichMoveToMonSpa);
         PrintTextOnWindow(7, gStringVar4, 0, 2, 0, 2);
         PutWindowTilemap(7);
         CopyWindowToVram(7, COPYWIN_BOTH);
@@ -755,17 +784,26 @@ static void MoveRelearnerInitListMenuBuffersEtc(void)
     sMoveRelearner->numLearnableMoves = GetMoveRelearnerMoves(&gPlayerParty[sMoveRelearner->selectedPartyMember], sMoveRelearner->learnableMoves);
     count = GetMoveRelearnerMoves(&gPlayerParty[sMoveRelearner->selectedPartyMember], sMoveRelearner->learnableMoves);
     for (i = 0; i < sMoveRelearner->numLearnableMoves; i++)
-        StringCopy(sMoveRelearner->listMenuStrbufs[i], gMoveNames[sMoveRelearner->learnableMoves[i]]);
+		if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(sMoveRelearner->listMenuStrbufs[i], gMoveNames[sMoveRelearner->learnableMoves[i]]);
+		else if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(sMoveRelearner->listMenuStrbufs[i], gMoveNamesSpa[sMoveRelearner->learnableMoves[i]]);
     GetMonData(&gPlayerParty[sMoveRelearner->selectedPartyMember], MON_DATA_NICKNAME, nickname);
     StringCopy10(gStringVar1, nickname);
-    StringCopy(sMoveRelearner->listMenuStrbufs[sMoveRelearner->numLearnableMoves], gFameCheckerText_Cancel);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(sMoveRelearner->listMenuStrbufs[sMoveRelearner->numLearnableMoves], gText_FameChecker_Cancel);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(sMoveRelearner->listMenuStrbufs[sMoveRelearner->numLearnableMoves], gText_FameChecker_CancelSpa);
     sMoveRelearner->numLearnableMoves++;
     for (i = 0; i < count; i++)
     {
         sMoveRelearner->listMenuItems[i].label = sMoveRelearner->listMenuStrbufs[i];
         sMoveRelearner->listMenuItems[i].index = i;
     }
-    sMoveRelearner->listMenuItems[i].label = gFameCheckerText_Cancel;
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		sMoveRelearner->listMenuItems[i].label = gText_FameChecker_Cancel;
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		sMoveRelearner->listMenuItems[i].label = gText_FameChecker_CancelSpa;
     sMoveRelearner->listMenuItems[i].index = 0xFE;
     gMultiuseListMenuTemplate = sMoveRelearnerListMenuTemplate;
     gMultiuseListMenuTemplate.items = sMoveRelearner->listMenuItems;
@@ -782,11 +820,17 @@ static void MoveRelearnerMenuHandleInput(void)
         {
             sMoveRelearner->state = 8;
             StringCopy(gStringVar2, sMoveRelearner->listMenuStrbufs[sMoveRelearner->selectedIndex]);
-            StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_TeachMoveQues);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_TeachMoveQues);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_TeachMoveQuesSpa);
         }
         else
         {
-            StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMove);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMove);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMoveSpa);
             sMoveRelearner->state = 12;
         }
     }
@@ -794,7 +838,10 @@ static void MoveRelearnerMenuHandleInput(void)
     {
         PlaySE(SE_SELECT);
         sMoveRelearner->state = 12;
-        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMove);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMoveSpa);
     }
     if (sMoveRelearner->numLearnableMoves > 6)
     {

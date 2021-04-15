@@ -116,8 +116,8 @@ static const struct BgTemplate sBgTemplates[2] = {
 
 static const struct MenuAction sItemPcSubmenuOptions[] = {
     {gText_Withdraw,          {.void_u8 = Task_ItemPcWithdraw}},
-    {gOtherText_Give,         {.void_u8 = Task_ItemPcGive}},
-    {gFameCheckerText_Cancel, {.void_u8 = Task_ItemPcCancel}}
+    {gText_Give,         {.void_u8 = Task_ItemPcGive}},
+    {gText_FameChecker_Cancel, {.void_u8 = Task_ItemPcCancel}}
 };
 
 static const u8 sTextColors[][3] = {
@@ -485,7 +485,7 @@ static void ItemPc_BuildListMenuTemplate(void)
         sListMenuItems[i].label = ItemId_GetName(gSaveBlock1Ptr->pcItems[i].itemId);
         sListMenuItems[i].index = i;
     }
-    sListMenuItems[i].label = gFameCheckerText_Cancel;
+    sListMenuItems[i].label = gText_FameChecker_Cancel;
     sListMenuItems[i].index = -2;
 
     gMultiuseListMenuTemplate.items = sListMenuItems;
@@ -771,7 +771,7 @@ static void ItemPc_MoveItemModeInit(u8 taskId, s16 pos)
     data[1] = pos;
     sStateDataPtr->moveModeOrigPos = pos;
     StringCopy(gStringVar1, ItemId_GetName(ItemPc_GetItemIdBySlotId(data[1])));
-    StringExpandPlaceholders(gStringVar4, gOtherText_WhereShouldTheStrVar1BePlaced);
+    StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlaced);
     FillWindowPixelBuffer(1, 0x00);
     ItemPc_AddTextPrinterParameterized(1, 2, gStringVar4, 0, 3, 2, 3, 0, 0);
     ItemMenuIcons_MoveInsertIndicatorBar(-32, ListMenuGetYCoordForPrintingArrowCursor(data[0]));

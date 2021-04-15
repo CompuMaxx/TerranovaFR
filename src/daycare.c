@@ -96,7 +96,7 @@ static const struct ListMenuItem sLevelMenuItems[] =
 {
     {gText_ExpandedPlaceholder_Empty, 0},
     {gText_ExpandedPlaceholder_Empty, 1},
-    {gOtherText_Exit, DAYCARE_LEVEL_MENU_EXIT}
+    {gText_Exit, DAYCARE_LEVEL_MENU_EXIT}
 };
 
 static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
@@ -123,10 +123,10 @@ static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
 
 static const u8 *const sCompatibilityMessages[] =
 {
-    gDaycareText_GetAlongVeryWell,
-    gDaycareText_GetAlong,
-    gDaycareText_DontLikeOther,
-    gDaycareText_PlayOther
+    gText_Daycare_GetAlongVeryWell,
+    gText_Daycare_GetAlong,
+    gText_Daycare_DontLikeOther,
+    gText_Daycare_PlayOther
 };
 
 static const u8 sNewLineText[] = _("\n");
@@ -1411,7 +1411,7 @@ static void GetDaycareLevelMenuText(struct DayCare *daycare, u8 *dest)
     StringAppend(dest, sNewLineText);
     StringAppend(dest, monNames[1]);
     StringAppend(dest, sNewLineText);
-    StringAppend(dest, gOtherText_Exit);
+    StringAppend(dest, gText_Exit);
 }
 
 static void GetDaycareLevelMenuLevelText(struct DayCare *daycare, u8 *dest)

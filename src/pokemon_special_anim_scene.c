@@ -92,9 +92,9 @@ static const struct WindowTemplate sWindowTemplates[] = {
 };
 
 static const u8 *const s1_2_and_Poof_textPtrs[] = {
-    gUnknown_841B2ED, // 1,
-    gUnknown_841B2F1, // 2, and ‥ ‥ ‥
-    gUnknown_841B2FF, // Poof!
+    gText_841B2ED, // 1,
+    gText_841B2F1, // 2, and ‥ ‥ ‥
+    gText_841B2FF, // Poof!
 };
 
 static const u16 sUnref_84599A4[] = {
@@ -394,30 +394,30 @@ void PSA_PrintMessage(u8 messageId)
     {
     case 0: // Item was used on Mon
         str = StringCopy(scene->textBuf, ItemId_GetName(itemId));
-        str = StringCopy(str, gUnknown_841B285);
+        str = StringCopy(str, gText_841B285);
         GetMonData(pokemon, MON_DATA_NICKNAME, str);
-        StringAppend(scene->textBuf, gUnknown_841B293);
+        StringAppend(scene->textBuf, gText_841B293);
         break;
     case 1: // Mon's level was elevated to level
         level = GetMonData(pokemon, MON_DATA_LEVEL);
         GetMonData(pokemon, MON_DATA_NICKNAME, scene->textBuf);
-        str = StringAppend(scene->textBuf, gUnknown_841B295);
+        str = StringAppend(scene->textBuf, gText_841B295);
         if (level < MAX_LEVEL)
             level++;
         str = ConvertIntToDecimalStringN(str, level, STR_CONV_MODE_LEFT_ALIGN, level < MAX_LEVEL ? 2 : 3);
-        StringAppend(str, gUnknown_841B2A7);
+        StringAppend(str, gText_841B2A7);
         break;
     case 9: // Mon learned move
         DynamicPlaceholderTextUtil_Reset();
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, PSA_GetMonNickname());
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, PSA_GetNameOfMoveToTeach());
-        DynamicPlaceholderTextUtil_ExpandPlaceholders(scene->textBuf, gUnknown_841B32E);
+        DynamicPlaceholderTextUtil_ExpandPlaceholders(scene->textBuf, gText_841B32E);
         break;
     case 4: //  poof!
-        strWidth += GetStringWidth(2, gUnknown_841B2F1, -1);
+        strWidth += GetStringWidth(2, gText_841B2F1, -1);
         // fallthrough
     case 3: // 2 and...
-        strWidth += GetStringWidth(2, gUnknown_841B2ED, -1);
+        strWidth += GetStringWidth(2, gText_841B2ED, -1);
         // fallthrough
     case 2: // 1
         StringCopy(scene->textBuf, s1_2_and_Poof_textPtrs[messageId - 2]);
@@ -427,16 +427,16 @@ void PSA_PrintMessage(u8 messageId)
         DynamicPlaceholderTextUtil_Reset();
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, PSA_GetMonNickname());
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, PSA_GetNameOfMoveForgotten());
-        DynamicPlaceholderTextUtil_ExpandPlaceholders(scene->textBuf, gUnknown_841B306);
+        DynamicPlaceholderTextUtil_ExpandPlaceholders(scene->textBuf, gText_841B306);
         break;
     case 6: // And...
-        StringCopy(scene->textBuf, gUnknown_841B315);
+        StringCopy(scene->textBuf, gText_841B315);
         break;
     case 7: // Machine set!
-        StringCopy(scene->textBuf, gUnknown_841B31B);
+        StringCopy(scene->textBuf, gText_841B31B);
         break;
     case 8: // Huh?
-        StringCopy(scene->textBuf, gUnknown_841B329);
+        StringCopy(scene->textBuf, gText_841B329);
         break;
     default:
         return;
@@ -1477,12 +1477,12 @@ static void SpriteCB_LevelUpVertical(struct Sprite * sprite)
 // ========================================================
 
 static const u8 *const sLevelUpWindowStatNames[] = {
-    gUnknown_841B2A9,
-    gUnknown_841B2B7,
-    gUnknown_841B2BE,
-    gUnknown_841B2CC,
-    gUnknown_841B2D4,
-    gUnknown_841B2C6
+    gText_841B2A9,
+    gText_841B2B7,
+    gText_841B2BE,
+    gText_841B2CC,
+    gText_841B2D4,
+    gText_841B2C6
 };
 
 void DrawLevelUpWindowPg1(u16 windowId, u16 *beforeStats, u16 *afterStats, u8 bgColor, u8 fgColor, u8 shadowColor)
@@ -1509,7 +1509,7 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *beforeStats, u16 *afterStats, u8 bg
     for (i = 0; i < 6; i++)
     {
         AddTextPrinterParameterized3(windowId, 2, 0, i * 15, textColor, TEXT_SPEED_FF, sLevelUpWindowStatNames[i]);
-        StringCopy(textbuf, diffStats[i] >= 0 ? gUnknown_841B2DC : gUnknown_841B2E5);
+        StringCopy(textbuf, diffStats[i] >= 0 ? gText_841B2DC : gText_841B2E5);
         AddTextPrinterParameterized3(windowId, 2, 56, i * 15, textColor, TEXT_SPEED_FF, textbuf);
         textbuf[0] = CHAR_SPACE;
         x = abs(diffStats[i]) < 10 ? 12 : 6;

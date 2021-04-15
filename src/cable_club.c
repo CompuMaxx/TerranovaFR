@@ -57,10 +57,10 @@ static const struct WindowTemplate gUnknown_83C6AB0 = {
 };
 
 static const u8 *const sStarsMessagePtrs[] = {
-    gUnknown_841DF8B,
-    gUnknown_841DF92,
-    gUnknown_841DF99,
-    gUnknown_841DFA0
+    gText_841DF8B,
+    gText_841DF92,
+    gText_841DF99,
+    gText_841DFA0
 };
 
 static void CreateLinkupTask(u8 lower, u8 higher)
@@ -78,7 +78,7 @@ static void PrintNewCountOnLinkPlayerCountDisplayWindow(u16 windowId, s32 num)
 {
     ConvertIntToDecimalStringN(gStringVar1, num, STR_CONV_MODE_LEFT_ALIGN, 1);
     SetStdWindowBorderStyle(windowId, FALSE);
-    StringExpandPlaceholders(gStringVar4, gUnknown_841DF82);
+    StringExpandPlaceholders(gStringVar4, gText_841DF82);
     AddTextPrinterParameterized(windowId, 2, gStringVar4, 0, 0, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(windowId, COPYWIN_BOTH);
 }

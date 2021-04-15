@@ -201,7 +201,7 @@ const struct ListMenuItem sListMenuItems_CardsOrNews[] = {
 const struct ListMenuItem sListMenuItems_WirelessOrFriend[] = {
     { gText_WirelessCommunication,  0 },
     { gText_Friend2,                1 },
-    { gFameCheckerText_Cancel,               -2 }
+    { gText_FameChecker_Cancel,               -2 }
 };
 
 const struct ListMenuTemplate sListMenuTemplate_ThreeOptions = {
@@ -229,24 +229,24 @@ const struct ListMenuItem sListMenuItems_ReceiveSendToss[] = {
     { gText_Receive,  0 },
     { gText_Send,     1 },
     { gText_Toss,     2 },
-    { gFameCheckerText_Cancel, -2 }
+    { gText_FameChecker_Cancel, -2 }
 };
 
 const struct ListMenuItem sListMenuItems_ReceiveToss[] = {
     { gText_Receive,  0 },
     { gText_Toss,     2 },
-    { gFameCheckerText_Cancel, -2 }
+    { gText_FameChecker_Cancel, -2 }
 };
 
 const struct ListMenuItem sListMenuItems_ReceiveSend[] = {
     { gText_Receive,  0 },
     { gText_Send,     1 },
-    { gFameCheckerText_Cancel, -2 }
+    { gText_FameChecker_Cancel, -2 }
 };
 
 const struct ListMenuItem sListMenuItems_Receive[] = {
     { gText_Receive,  0 },
-    { gFameCheckerText_Cancel, -2 }
+    { gText_FameChecker_Cancel, -2 }
 };
 
 const struct ListMenuTemplate sListMenu_ReceiveSendToss = {
@@ -475,8 +475,8 @@ void PrintMysteryGiftOrEReaderTopMenu(bool8 mg_or_ereader, bool32 usePickOkCance
     }
     else
     {
-        AddTextPrinterParameterized4(0, 2, 2, 2, 0, 0, sMG_Ereader_TextColor_1, 0, gJPText_MysteryGift);
-        AddTextPrinterParameterized4(0, 0, 0x78, 2, 0, 0, sMG_Ereader_TextColor_1, 0, gJPText_DecideStop);
+        AddTextPrinterParameterized4(0, 2, 2, 2, 0, 0, sMG_Ereader_TextColor_1, 0, gText_JP_MysteryGift);
+        AddTextPrinterParameterized4(0, 0, 0x78, 2, 0, 0, sMG_Ereader_TextColor_1, 0, gText_JP_DecideStop);
     }
     CopyWindowToVram(0, COPYWIN_GFX);
     PutWindowTilemap(0);

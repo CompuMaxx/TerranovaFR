@@ -439,7 +439,7 @@ static void SafariHandleChooseAction(void)
 
     gBattlerControllerFuncs[gActiveBattler] = HandleChooseActionAfterDma3;
     BattlePutTextOnWindow(gText_EmptyString3, 0);
-    BattlePutTextOnWindow(gUnknown_83FE747, 2);
+    BattlePutTextOnWindow(gText_83FE747, 2);
     for (i = 0; i < 4; ++i)
         ActionSelectionDestroyCursorAt(i);
     ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);

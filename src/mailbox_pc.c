@@ -99,7 +99,7 @@ u8 MailboxPC_InitListMenu(struct PlayerPCItemPageStruct * playerPcStruct)
         sListMenuItems[i].label = sString_Dummy;
         sListMenuItems[i].index = i;
     }
-    sListMenuItems[i].label = gFameCheckerText_Cancel;
+    sListMenuItems[i].label = gText_FameChecker_Cancel;
     sListMenuItems[i].index = -2;
 
     gMultiuseListMenuTemplate.items = sListMenuItems;

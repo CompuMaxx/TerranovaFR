@@ -156,10 +156,10 @@ static const u16 sTrainerIdxs[] = {
 };
 
 static const u8 *const sNonTrainerNamePointers[] = {
-    gFameCheckerOakName,
-    gFameCheckerDaisyName,
-    gFameCheckerBillName,
-    gFameCheckerMrFujiName
+    gText_FameChecker_OakName,
+    gText_FameChecker_DaisyName,
+    gText_FameChecker_BillName,
+    gText_FameChecker_MrFujiName
 };
 
 static const u8 sFameCheckerTrainerPicIdxs[] = {
@@ -619,7 +619,7 @@ static bool8 TryExitPickMode(u8 taskId)
 
 static void MessageBoxPrintEmptyText(void)
 {
-    AddTextPrinterParameterized2(2, 2, gFameCheckerText_ClearTextbox, 0, NULL, 2, 1, 3);
+    AddTextPrinterParameterized2(2, 2, gText_FameChecker_ClearTextbox, 0, NULL, 2, 1, 3);
 }
 
 static void Task_EnterPickMode(u8 taskId)
@@ -871,12 +871,12 @@ static u8 AdjustGiovanniIndexIfBeatenInGym(u8 a0)
 static void PrintUIHelp(u8 state)
 {
     s32 width;
-    const u8 * src = gFameCheckerText_MainScreenUI;
+    const u8 * src = gText_FameChecker_MainScreenUI;
     if (state != 0)
     {
-        src = gFameCheckerText_FlavorTextUI;
+        src = gText_FameChecker_FlavorTextUI;
         if (state == 1)
-            src = gFameCheckerText_PickScreenUI;
+            src = gText_FameChecker_PickScreenUI;
     }
     width = GetStringWidth(0, src, 0);
     FillWindowPixelRect(FCWINDOWID_UIHELP, 0x00, 0, 0, 0xc0, 0x10);
@@ -1310,7 +1310,7 @@ static void Task_SwitchToPickMode(u8 taskId)
 static void PrintCancelDescription(void)
 {
     FillWindowPixelRect(FCWINDOWID_MSGBOX, 0x11, 0, 0, 0xd0, 0x20);
-    AddTextPrinterParameterized2(FCWINDOWID_MSGBOX, 2, gFameCheckerText_FameCheckerWillBeClosed, 0, NULL, 2, 1, 3);
+    AddTextPrinterParameterized2(FCWINDOWID_MSGBOX, 2, gText_FameChecker_FameCheckerWillBeClosed, 0, NULL, 2, 1, 3);
     FC_PutWindowTilemapAndCopyWindowToVramMode3(FCWINDOWID_MSGBOX);
 }
 
@@ -1360,7 +1360,7 @@ static u8 FC_PopulateListMenu(void)
             nitems++;
         }
     }
-    sListMenuItems[nitems].label = gFameCheckerText_Cancel;
+    sListMenuItems[nitems].label = gText_FameChecker_Cancel;
     sListMenuItems[nitems].index = nitems;
     sFameCheckerData->unlockedPersons[nitems] = 0xFF;
     nitems++;

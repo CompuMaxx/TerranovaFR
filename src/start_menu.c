@@ -113,15 +113,15 @@ static void CloseSaveStatsWindow(void);
 static void CloseStartMenu(void);
 
 static const struct MenuAction sStartMenuActionTable[] = {
-    { gStartMenuText_Pokedex, {.u8_void = StartMenuPokedexCallback} },
-    { gStartMenuText_Pokemon, {.u8_void = StartMenuPokemonCallback} },
-    { gStartMenuText_Bag, {.u8_void = StartMenuBagCallback} },
-    { gStartMenuText_Player, {.u8_void = StartMenuPlayerCallback} },
-    { gStartMenuText_Save, {.u8_void = StartMenuSaveCallback} },
-    { gStartMenuText_Option, {.u8_void = StartMenuOptionCallback} },
-    { gStartMenuText_Exit, {.u8_void = StartMenuExitCallback} },
-    { gStartMenuText_Retire, {.u8_void = StartMenuSafariZoneRetireCallback} },
-    { gStartMenuText_Player, {.u8_void = StartMenuLinkPlayerCallback} }
+    { gText_StartMenu_Pokedex, {.u8_void = StartMenuPokedexCallback} },
+    { gText_StartMenu_Pokemon, {.u8_void = StartMenuPokemonCallback} },
+    { gText_StartMenu_Bag, {.u8_void = StartMenuBagCallback} },
+    { gText_StartMenu_Player, {.u8_void = StartMenuPlayerCallback} },
+    { gText_StartMenu_Save, {.u8_void = StartMenuSaveCallback} },
+    { gText_StartMenu_Option, {.u8_void = StartMenuOptionCallback} },
+    { gText_StartMenu_Exit, {.u8_void = StartMenuExitCallback} },
+    { gText_StartMenu_Retire, {.u8_void = StartMenuSafariZoneRetireCallback} },
+    { gText_StartMenu_Player, {.u8_void = StartMenuLinkPlayerCallback} }
 };
 
 static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
@@ -135,15 +135,15 @@ static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
 };
 
 static const u8 *const sStartMenuDescPointers[] = {
-    gStartMenuDesc_Pokedex,
-    gStartMenuDesc_Pokemon,
-    gStartMenuDesc_Bag,
-    gStartMenuDesc_Player,
-    gStartMenuDesc_Save,
-    gStartMenuDesc_Option,
-    gStartMenuDesc_Exit,
-    gStartMenuDesc_Retire,
-    gStartMenuDesc_Player
+    gText_StartMenuDesc_Pokedex,
+    gText_StartMenuDesc_Pokemon,
+    gText_StartMenuDesc_Bag,
+    gText_StartMenuDesc_Player,
+    gText_StartMenuDesc_Save,
+    gText_StartMenuDesc_Option,
+    gText_StartMenuDesc_Exit,
+    gText_StartMenuDesc_Retire,
+    gText_StartMenuDesc_Player
 };
 
 static const struct BgTemplate sBGTemplates_AfterLinkSaveMessage[] = {
@@ -252,7 +252,7 @@ static void DrawSafariZoneStatsWindow(void)
     ConvertIntToDecimalStringN(gStringVar1, gSafariZoneStepCounter, STR_CONV_MODE_RIGHT_ALIGN, 3);
     ConvertIntToDecimalStringN(gStringVar2, 600, STR_CONV_MODE_RIGHT_ALIGN, 3);
     ConvertIntToDecimalStringN(gStringVar3, gNumSafariBalls, STR_CONV_MODE_RIGHT_ALIGN, 2);
-    StringExpandPlaceholders(gStringVar4, gUnknown_84162A9);
+    StringExpandPlaceholders(gStringVar4, gText_84162A9);
     AddTextPrinterParameterized(sSafariZoneStatsWindowId,2, gStringVar4, 4, 3, 0xFF, NULL);
     CopyWindowToVram(sSafariZoneStatsWindowId, COPYWIN_GFX);
 }
@@ -963,21 +963,21 @@ static void PrintSaveStats(void)
     x = (u32)(112 - GetStringWidth(2, gStringVar4, -1)) / 2;
     AddTextPrinterParameterized3(sSaveStatsWindowId, 2, x, 0, sTextColor_LocationHeader, -1, gStringVar4);
     x = (u32)(112 - GetStringWidth(2, gStringVar4, -1)) / 2;
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 14, sTextColor_StatName, -1, gSaveStatName_Player);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 14, sTextColor_StatName, -1, gText_SaveStatName_Player);
     SaveStatToString(SAVE_STAT_NAME, gStringVar4, 2);
     Menu_PrintFormatIntlPlayerName(sSaveStatsWindowId, gStringVar4, 60, 14);
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gSaveStatName_Badges);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gText_SaveStatName_Badges);
     SaveStatToString(SAVE_STAT_BADGES, gStringVar4, 2);
     AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 28, sTextColor_StatValue, -1, gStringVar4);
     y = 42;
     if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
     {
-        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 42, sTextColor_StatName, -1, gSaveStatName_Pokedex);
+        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 42, sTextColor_StatName, -1, gText_SaveStatName_Pokedex);
         SaveStatToString(SAVE_STAT_POKEDEX, gStringVar4, 2);
         AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 42, sTextColor_StatValue, -1, gStringVar4);
         y = 56;
     }
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gSaveStatName_Time);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gText_SaveStatName_Time);
     SaveStatToString(SAVE_STAT_TIME, gStringVar4, 2);
     AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, -1, gStringVar4);
     CopyWindowToVram(sSaveStatsWindowId, COPYWIN_GFX);

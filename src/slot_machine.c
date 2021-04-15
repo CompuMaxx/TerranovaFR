@@ -1988,11 +1988,11 @@ static bool8 SlotsTask_GraphicsInit(u8 * state, struct SlotMachineSetupTaskData 
         FillWindowPixelBuffer(1, 0xFF);
         PutWindowTilemap(1);
 
-        x = 236 - GetStringWidth(0, gString_SlotMachineControls, 0);
+        x = 236 - GetStringWidth(0, gText_SlotMachineControls, 0);
         textColor[0] = TEXT_DYNAMIC_COLOR_6;
         textColor[1] = TEXT_COLOR_WHITE;
         textColor[2] = TEXT_COLOR_DARK_GRAY;
-        AddTextPrinterParameterized3(1, 0, x, 0, textColor, 0, gString_SlotMachineControls);
+        AddTextPrinterParameterized3(1, 0, x, 0, textColor, 0, gText_SlotMachineControls);
         CopyBgTilemapBufferToVram(0);
 
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | 0x20 | DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
@@ -2118,7 +2118,7 @@ static bool8 SlotsTask_MessageOutOfCoins(u8 * state, struct SlotMachineSetupTask
     switch (*state)
     {
     case 0:
-        Slot_PrintOnWindow0(gString_OutOfCoins);
+        Slot_PrintOnWindow0(gText_OutOfCoins);
         CopyWindowToVram(0, COPYWIN_BOTH);
         (*state)++;
         break;
@@ -2135,7 +2135,7 @@ static bool8 SlotsTask_AskQuitPlaying(u8 * state, struct SlotMachineSetupTaskDat
     switch (*state)
     {
     case 0:
-        Slot_PrintOnWindow0(gString_QuitPlaying);
+        Slot_PrintOnWindow0(gText_QuitPlaying);
         Slot_CreateYesNoMenu(0);
         CopyWindowToVram(0, COPYWIN_BOTH);
         (*state)++;

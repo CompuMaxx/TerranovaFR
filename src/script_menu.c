@@ -93,7 +93,7 @@ static const struct MenuAction sScriptMultiChoiceMenu_TrainerSchoolWhiteboard[] 
     { gText_Par },
     { gText_Brn },
     { gText_Frz },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_YesNoInfo[] = {
@@ -107,7 +107,7 @@ static const struct MenuAction sScriptMultiChoiceMenu_SingleDoubleMultiInfoExit[
     { gText_DoubleBattle },
     { gText_MultiBattle },
     { gText_Info },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_YesNoInfo2[] = {
@@ -119,47 +119,47 @@ static const struct MenuAction sScriptMultiChoiceMenu_YesNoInfo2[] = {
 static const struct MenuAction sScriptMultiChoiceMenu_ChallengeInfoExit[] = {
     { gText_MakeAChallenge },
     { gText_Info_2 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_RooftopB1F[] = {
     { gText_Rooftop },
     { gText_B1F },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Helix[] = {
     { gText_HelixFossil },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Dome[] = {
     { gText_DomeFossil },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Amber[] = {
     { gText_OldAmber },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_HelixAmber[] = {
     { gText_HelixFossil },
     { gText_OldAmber },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_DomeAmber[] = {
     { gText_DomeFossil },
     { gText_OldAmber },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_CeladonVendingMachine[] = {
     { gText_FreshWater_200 },
     { gText_SodaPop_300 },
     { gText_Lemonade_350 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_GameCornerTMPrizes[] = {
@@ -183,7 +183,7 @@ static const struct MenuAction sScriptMultiChoiceMenu_GameCornerBattleItemPrizes
 static const struct MenuAction sScriptMultiChoiceMenu_GameCornerCoinPurchaseCounter[] = {
     { gText_50Coins_1000 },
     { gText_500Coins_10000 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Excellent_NotSoBad[] = {
@@ -202,91 +202,91 @@ static const struct MenuAction sScriptMultiChoiceMenu_DeptStoreElevator[] = {
     { gText_3F_2 },
     { gText_2F_2 },
     { gText_1F_2 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_ThirstyGirlFreshWater[] = {
     { gText_FreshWater },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_ThirstyGirlSodaPop[] = {
     { gText_SodaPop },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_ThirstyGirlFreshWaterSodaPop[] = {
     { gText_FreshWater },
     { gText_SodaPop },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_ThirstyGirlLemonade[] = {
     { gText_Lemonade },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_ThirstyGirlFreshWaterLemonade[] = {
     { gText_FreshWater },
     { gText_Lemonade },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_ThirstyGirlSodaPopLemonade[] = {
     { gText_SodaPop },
     { gText_Lemonade },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_ThirstyGirlFreshWaterSodaPopLemonade[] = {
     { gText_FreshWater },
     { gText_SodaPop },
     { gText_Lemonade },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_0[] = {
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_1[] = {
     { gText_RedShard },
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_2[] = {
     { gText_YellowShard },
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_3[] = {
     { gText_RedShard },
     { gText_YellowShard },
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_4[] = {
     { gText_BlueShard },
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_5[] = {
     { gText_RedShard },
     { gText_BlueShard },
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_6[] = {
     { gText_YellowShard },
     { gText_BlueShard },
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_7[] = {
@@ -294,7 +294,7 @@ static const struct MenuAction sScriptMultiChoiceMenu_Unref_Shards_7[] = {
     { gText_YellowShard },
     { gText_BlueShard },
     { gText_GreenShard },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Eeveelutions[] = {
@@ -330,70 +330,70 @@ static const struct MenuAction sScriptMultiChoiceMenu_GameCornerPokemonPrizes[] 
 static const struct MenuAction sScriptMultiChoiceMenu_TradeCenter_Colosseum[] = {
     { gText_TradeCenter },
     { gText_Colosseum },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Link_Wireless[] = {
     { gText_GameLinkCable },
     { gText_Wireless },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_RocketHideoutElevator[] = {
     { gText_B1F },
     { gText_B2F },
     { gText_B4F },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_LinkedDirectUnion[] = {
     { gText_LinkedGamePlay },
     { gText_DirectCorner },
     { gText_UnionRoom },
-    { gOtherText_Quit }
+    { gText_Quit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Island23[] = {
     { gText_TwoIsland },
     { gText_ThreeIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Island13[] = {
     { gText_OneIsland },
     { gText_ThreeIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Island12[] = {
     { gText_OneIsland },
     { gText_TwoIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_TradeColosseumCrush[] = {
     { gText_TradeCenter },
     { gText_Colosseum_2 },
     { gText_BerryCrush },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_48[] = {
     { gText_Dummy_8417E66 },
     { gText_Dummy_8417E67 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_TradeColosseum_2[] = {
     { gText_TradeCenter },
     { gText_Colosseum_2 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_PokejumpDodrio[] = {
     { gText_PokemonJump },
     { gText_DodrioBerryPicking },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Mushrooms[] = {
@@ -406,90 +406,90 @@ static const struct MenuAction sScriptMultiChoiceMenu_TradeColosseumBlankCrush[]
     { gText_Colosseum_2 },
     { gText_Dummy_8417E71 },
     { gText_BerryCrush },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_TradeColosseumBlank[] = {
     { gText_TradeCenter },
     { gText_Colosseum_2 },
     { gText_Dummy_8417E71 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_SeviiNavel[] = {
     { gText_SeviiIslands },
     { gText_NavelRock },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_SeviiBirth[] = {
     { gText_SeviiIslands },
     { gText_BirthIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_SeviiNavelBirth[] = {
     { gText_SeviiIslands },
     { gText_NavelRock },
     { gText_BirthIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Seagallop123[] = {
     { gText_OneIsland },
     { gText_TwoIsland },
     { gText_ThreeIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_SeagallopV23[] = {
     { gText_Vermilion },
     { gText_TwoIsland },
     { gText_ThreeIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_SeagallopV13[] = {
     { gText_Vermilion },
     { gText_OneIsland },
     { gText_ThreeIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_SeagallopV12[] = {
     { gText_Vermilion },
     { gText_OneIsland },
     { gText_TwoIsland },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_SeagallopVermilion[] = {
     { gText_Vermilion },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_62[] = {
     { gText_Dummy_8417F68 },
     { gText_Dummy_8417F67 },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_JoinOrLead[] = {
     { gText_JoinGroup },
     { gText_BecomeLeader },
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_TrainerTowerMode[] = {
-    { gOtherText_Single },
-    { gOtherText_Double },
-    { gOtherText_Knockout },
-    { gOtherText_Mixed },
-    { gOtherText_Exit }
+    { gText_Single },
+    { gText_Double },
+    { gText_Knockout },
+    { gText_Mixed },
+    { gText_Exit }
 };
 
 static const struct MenuAction sScriptMultiChoiceMenu_Exit[] = {
-    { gOtherText_Exit }
+    { gText_Exit }
 };
 
 const struct MultichoiceListStruct gScriptMultiChoiceMenus[] = {
@@ -1237,7 +1237,7 @@ void DrawSeagallopDestinationMenu(void)
         }
         AddTextPrinterParameterized(windowId, 2, gText_Other, cursorWidth, i * 16 + 2, 0xFF, NULL);
         i++;
-        AddTextPrinterParameterized(windowId, 2, gOtherText_Exit, cursorWidth, i * 16 + 2, 0xFF, NULL);
+        AddTextPrinterParameterized(windowId, 2, gText_Exit, cursorWidth, i * 16 + 2, 0xFF, NULL);
         Menu_InitCursor(windowId, 2, 0, 2, 16, nitems, 0);
         CreateMCMenuInputHandlerTask(FALSE, nitems, windowId, 0xFF);
         ScheduleBgCopyTilemapToVram(0);
