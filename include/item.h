@@ -8,11 +8,13 @@ typedef void (*ItemUseFunc)(u8);
 struct Item
 {
     u8 name[ITEM_NAME_LENGTH];
+    u8 nameSpa[ITEM_NAME_LENGTH];
     u16 itemId;
     u16 price;
     u8 holdEffect;
     u8 holdEffectParam;
     const u8 *description;
+    const u8 *descriptionSpa;
     u8 importance;
     u8 exitsBagOnUse;
     u8 pocket;

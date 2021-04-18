@@ -1,128 +1,128 @@
 gText_NewName:: @ 81C574F
-    .string "NEW NAME$"
+    .string "New Name$"
 
 gText_NameChoice_Green:: @ 81C5758
-    .string "GREEN$"
+    .string "Green$"
 
 gText_NameChoice_Red:: @ 81C575E
-    .string "RED$"
+    .string "Red$"
 
 gText_NameChoice_Leaf:: @ 81C5762
-    .string "LEAF$"
+    .string "Leaf$"
 
 gText_NameChoice_Fire:: @ 81C5767
-    .string "FIRE$"
+    .string "Fire$"
 
 gText_NameChoice_Gary:: @ 81C576C
-    .string "GARY$"
+    .string "Gary$"
 
 gText_NameChoice_Kaz:: @ 81C5771
-    .string "KAZ$"
+    .string "Kaz$"
 
 gText_NameChoice_Toru:: @ 81C5775
-    .string "TORU$"
+    .string "Toru$"
 
 gText_NameChoice_Ash:: @ 81C577A
-    .string "ASH$"
+    .string "Ash$"
 
 gText_NameChoice_Kene:: @ 81C577E
-    .string "KENE$"
+    .string "Kene$"
 
 gText_NameChoice_Geki:: @ 81C5783
-    .string "GEKI$"
+    .string "Geki$"
 
 gText_NameChoice_Jak:: @ 81C5788
-    .string "JAK$"
+    .string "Jak$"
 
 gText_NameChoice_Janne:: @ 81C578C
-    .string "JANNE$"
+    .string "Janne$"
 
 gText_NameChoice_Jonn:: @ 81C5792
-    .string "JONN$"
+    .string "Jonn$"
 
 gText_NameChoice_Kamon:: @ 81C5797
-    .string "KAMON$"
+    .string "Kamon$"
 
 gText_NameChoice_Karl:: @ 81C579D
-    .string "KARL$"
+    .string "Karl$"
 
 gText_NameChoice_Taylor:: @ 81C57A2
-    .string "TAYLOR$"
+    .string "Taylor$"
 
 gText_NameChoice_Oscar:: @ 81C57A9
-    .string "OSCAR$"
+    .string "Oscar$"
 
 gText_NameChoice_Hiro:: @ 81C57AF
-    .string "HIRO$"
+    .string "Hiro$"
 
 gText_NameChoice_Max:: @ 81C57B4
-    .string "MAX$"
+    .string "Max$"
 
 gText_NameChoice_Jon:: @ 81C57B8
-    .string "JON$"
+    .string "Jon$"
 
 gText_NameChoice_Ralph:: @ 81C57BC
-    .string "RALPH$"
+    .string "Ralph$"
 
 gText_NameChoice_Kay:: @ 81C57C2
-    .string "KAY$"
+    .string "Kay$"
 
 gText_NameChoice_Tosh:: @ 81C57C6
-    .string "TOSH$"
+    .string "Tosh$"
 
 gText_NameChoice_Roak:: @ 81C57CB
-    .string "ROAK$"
+    .string "Roak$"
 
 gText_NameChoice_Omi:: @ 81C57D0
-    .string "OMI$"
+    .string "Omi$"
 
 gText_NameChoice_Jodi:: @ 81C57D4
-    .string "JODI$"
+    .string "Jodi$"
 
 gText_NameChoice_Amanda:: @ 81C57D9
-    .string "AMANDA$"
+    .string "Amanda$"
 
 gText_NameChoice_Hillary:: @ 81C57E0
-    .string "HILLARY$"
+    .string "Hillary$"
 
 gText_NameChoice_Makey:: @ 81C57E8
-    .string "MAKEY$"
+    .string "Makey$"
 
 gText_NameChoice_Michi:: @ 81C57EE
-    .string "MICHI$"
+    .string "Michi$"
 
 gText_NameChoice_Paula:: @ 81C57F4
-    .string "PAULA$"
+    .string "Paula$"
 
 gText_NameChoice_June:: @ 81C57FA
-    .string "JUNE$"
+    .string "June$"
 
 gText_NameChoice_Cassie:: @ 81C57FF
-    .string "CASSIE$"
+    .string "Cassie$"
 
 gText_NameChoice_Rey:: @ 81C5806
-    .string "REY$"
+    .string "Rey$"
 
 gText_NameChoice_Seda:: @ 81C580A
-    .string "SEDA$"
+    .string "Seda$"
 
 gText_NameChoice_Kiko:: @ 81C580F
-    .string "KIKO$"
+    .string "Kiko$"
 
 gText_NameChoice_Mina:: @ 81C5814
-    .string "MINA$"
+    .string "Mina$"
 
 gText_NameChoice_Norie:: @ 81C5819
-    .string "NORIE$"
+    .string "Norie$"
 
 gText_NameChoice_Sai:: @ 81C581F
-    .string "SAI$"
+    .string "Sai$"
 
 gText_NameChoice_Momo:: @ 81C5823
-    .string "MOMO$"
+    .string "Momo$"
 
 gText_NameChoice_Suzi:: @ 81C5828
-    .string "SUZI$"
+    .string "Suzi$"
 
 gText_NewGame_HelpDocs1:: @ 81C582D
     .string "The various buttons will be explained in\n"
