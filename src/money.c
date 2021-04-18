@@ -5,7 +5,7 @@
 #include "text_window.h"
 #include "strings.h"
 
-#define MAX_MONEY 999999
+#define MAX_MONEY 99999999
 
 EWRAM_DATA static u8 sMoneyBoxWindowId = 0;
 
@@ -107,7 +107,10 @@ void PrintMoneyAmount(u8 windowId, u8 x, u8 y, int amount, u8 speed)
 void PrintMoneyAmountInMoneyBoxWithBorder(u8 windowId, u16 tileStart, u8 pallete, int amount)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, tileStart, pallete);
-    AddTextPrinterParameterized(windowId, 2, gText_TrainerCardMoney, 0, 0, 0xFF, 0);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized(windowId, 2, gText_TrainerCardMoney, 0, 0, 0xFF, 0);
+    else
+		AddTextPrinterParameterized(windowId, 2, gText_TrainerCardMoneySpa, 0, 0, 0xFF, 0);
     PrintMoneyAmountInMoneyBox(windowId, amount, 0);
 }
 

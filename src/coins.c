@@ -52,14 +52,20 @@ bool8 RemoveCoins(u16 toSub)
 void PrintCoinsString_Parameterized(u8 windowId, u32 coinAmount, u8 x, u8 y, u8 speed)
 {
     ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 4);
-    StringExpandPlaceholders(gStringVar4, gText_Coins);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_Coins);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_CoinsSpa);
     AddTextPrinterParameterized(windowId, 0, gStringVar4, x, y, speed, NULL);
 }
 
 void sub_80D0674(u8 windowId, u16 tileStart, u8 palette, u32 coinAmount)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, tileStart, palette);
-    AddTextPrinterParameterized(windowId, 2, gText_Coins_2, 0, 0, 0xFF, 0);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized(windowId, 2, gText_Coins_2, 0, 0, 0xFF, 0);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized(windowId, 2, gText_Coins_2Spa, 0, 0, 0xFF, 0);
     PrintCoinsString_Parameterized(windowId, coinAmount, 0x10, 0xC, 0);
 }
 
@@ -69,7 +75,10 @@ void PrintCoinsString(u32 coinAmount)
     int width;
 
     ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 4);
-    StringExpandPlaceholders(gStringVar4, gText_Coins);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_Coins);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_CoinsSpa);
     width = GetStringWidth(0, gStringVar4, 0);
     windowId = sCoinsWindowId;
     AddTextPrinterParameterized(windowId, 0, gStringVar4, 64 - width, 0xC, 0, NULL);
@@ -85,7 +94,10 @@ void ShowCoinsWindow(u32 coinAmount, u8 x, u8 y)
     PutWindowTilemap(sCoinsWindowId);
     TextWindow_SetStdFrame0_WithPal(sCoinsWindowId, 0x21D, 0xD0);
     DrawStdFrameWithCustomTileAndPalette(sCoinsWindowId, FALSE, 0x21D, 0xD);
-    AddTextPrinterParameterized(sCoinsWindowId, 2, gText_Coins_2, 0, 0, 0xFF, 0);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized(sCoinsWindowId, 2, gText_Coins_2, 0, 0, 0xFF, 0);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized(sCoinsWindowId, 2, gText_Coins_2Spa, 0, 0, 0xFF, 0);
     PrintCoinsString(coinAmount);
 }
 

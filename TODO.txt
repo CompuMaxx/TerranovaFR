@@ -99,8 +99,8 @@
 + División Físico, Especial y Estado(LISTO)
 - Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)(LISTO)
 - Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)(LISTO)
-- Incrementar límite de dinero a 99.999.999(LISTO)
-- Incrementar límite de fichas a 50.000(LISTO)
++ Incrementar límite de dinero a 99.999.999(LISTO)
++ Incrementar límite de fichas a 50.000(LISTO)
 - Extender el número de Direct Sound Tracks de 5 a 12(LISTO)
 + Sistema de Auto-run (LISTO)
 	- Habilitar la activación y desactivación a través del botón R (FALTA)
@@ -147,7 +147,7 @@
 - berry_powder.c
 - cable_club.c
 - clear_save_data_screen.c
-- coin.c
++ coin.c
 - credits.c(falta)
 - daycare.c
 - diploma.c
@@ -176,7 +176,7 @@
 - map_name_popup.c
 + main_menu.c
 - menu.c
-- money.c
++ money.c
 - mystery_event_msg.c(falta)
 - mystery_event_script.c(falta)
 - mystery_gift_menu.c(falta)
