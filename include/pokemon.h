@@ -241,9 +241,14 @@ struct BattleMove
     u8 target;
     s8 priority;
     u8 flags;
+    u8 category;
 };
 
 extern const struct BattleMove gBattleMoves[];
+
+#define PHYSICAL 0x0
+#define SPECIAL  0x1
+#define STATUS   0x2
 
 #define FLAG_MAKES_CONTACT          0x1
 #define FLAG_PROTECT_AFFECTED       0x2

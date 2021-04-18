@@ -95,7 +95,7 @@
 - Remover Hagamos Memoria(LISTO)
 - Remover Incremento de Estadísticas provisto por las Medallas(LISTO)
 - Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
-- División Físico, Especial y Estado(LISTO)
++ División Físico, Especial y Estado(LISTO)
 - Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)(LISTO)
 - Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)(LISTO)
 - Incrementar límite de dinero a 99.999.999(LISTO)

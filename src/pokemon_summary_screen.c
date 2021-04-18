@@ -2865,7 +2865,7 @@ static void PSS_ShowAttackInfo(void)
         if (sMonSummaryScreen->mode != PSS_MODE_SELECT_MOVE && sUnknown_203B16D == 4)
             return;
 		//Add Category Icon
-	//	BlitMoveInfoIcon(sMonSummaryScreen->window[4], gBattleMoves[sMonSummaryScreen->currentMove[sUnknown_203B16D]].category + 47, 85, 0);
+		BlitMoveInfoIcon(sMonSummaryScreen->window[4], gBattleMoves[sMonSummaryScreen->currentMove[sUnknown_203B16D]].category + 47, 85, 0);
 		//Add Power
         AddTextPrinterParameterized3(sMonSummaryScreen->window[4], 2, 91, 18, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.power[sUnknown_203B16D]);
 		//Add Accuracy
