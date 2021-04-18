@@ -1873,6 +1873,7 @@ extern const u8 gText_ShareHpSpa[];
 extern const u8 gText_ReturnToAHealingSpotSpa[];
 extern const u8 gText_Summary5Spa[];
 extern const u8 gText_Switch2Spa[];
+extern const u8 gText_SSCancelSpa[];
 extern const u8 gText_ItemSpa[];
 extern const u8 gText_TakeSpa[];
 extern const u8 gText_MailSpa[];

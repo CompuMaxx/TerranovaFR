@@ -60,6 +60,7 @@
 #include "constants/battle.h"
 #include "constants/easy_chat.h"
 #include "constants/field_effects.h"
+#include "constants/flags.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
 #include "constants/maps.h"
@@ -67,6 +68,7 @@
 #include "constants/pokemon.h"
 #include "constants/quest_log.h"
 #include "constants/songs.h"
+#include "constants/species.h"
 
 #define PARTY_PAL_SELECTED     (1 << 0)
 #define PARTY_PAL_FAINTED      (1 << 1)
@@ -160,10 +162,8 @@ static bool8 AllocPartyMenuBg(void);
 static bool8 AllocPartyMenuBgGfx(void);
 static void InitPartyMenuWindows(u8 layout);
 static void InitPartyMenuBoxes(u8 layout);
-static void LoadPartyMenuPokeballGfx(void);
 static void LoadPartyMenuAilmentGfx(void);
 static bool8 RenderPartyMenuBoxes(void);
-static void CreateCancelConfirmPokeballSprites(void);
 static void CreateCancelConfirmWindows(bool8 chooseHalf);
 static void Task_ExitPartyMenu(u8 taskId);
 static void FreePartyPointers(void);
@@ -194,16 +194,11 @@ static void DisplayPartyPokemonMaxHP(u16 maxhp, struct PartyMenuBox *menuBox);
 static void DisplayPartyPokemonHPBar(u16 hp, u16 maxhp, struct PartyMenuBox *menuBox);
 static void CreatePartyMonIconSpriteParameterized(u16 species, u32 pid, struct PartyMenuBox *menuBox, u8 priority, bool32 handleDeoxys);
 static void CreatePartyMonHeldItemSpriteParameterized(u16 species, u16 item, struct PartyMenuBox *menuBox);
-static void CreatePartyMonPokeballSpriteParameterized(u16 species, struct PartyMenuBox *menuBox);
 static void CreatePartyMonStatusSpriteParameterized(u16 species, u8 status, struct PartyMenuBox *menuBox);
 static void CreatePartyMonIconSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox, u32 slot);
 static void CreatePartyMonHeldItemSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox);
-static void CreatePartyMonPokeballSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox);
 static void CreatePartyMonStatusSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox);
-static void CreateCancelConfirmPokeballSprites(void);
 static void DrawCancelConfirmButtons(void);
-static u8 CreatePokeballButtonSprite(u8 x, u8 y);
-static u8 CreateSmallPokeballButtonSprite(u8 x, u8 y);
 static u8 GetPartyBoxPaletteFlags(u8 slot, u8 animNum);
 static void AnimateSelectedPartyIcon(u8 spriteId, u8 animNum);
 static void PartyMenuStartSpriteAnim(u8 spriteId, u8 animNum);
@@ -253,6 +248,8 @@ static void SpriteCB_BouncePartyMonIcon(struct Sprite *sprite);
 static void SpriteCB_HeldItem(struct Sprite *sprite);
 static void UpdatePartyMonHeldItemSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox);
 static void ShowOrHideHeldItemSprite(u16 item, struct PartyMenuBox *menuBox);
+static bool8 ItemIsBall(u16 item);
+static bool8 ItemIsBerry(u16 item);
 static void CreateHeldItemSpriteForTrade(u8 spriteId, bool8 isMail);
 static void SetPartyMonAilmentGfx(struct Pokemon *mon, struct PartyMenuBox *menuBox);
 static void UpdatePartyMonAilmentGfx(u8 status, struct PartyMenuBox *menuBox);
@@ -353,23 +350,23 @@ static void SlideMultiPartyMenuBoxSpritesOneStep(u8 taskId);
 static void Task_MultiPartnerPartySlideIn(u8 taskId);
 static bool8 CB2_FadeFromPartyMenu(void);
 static void Task_PartyMenuWaitForFade(u8 taskId);
-static void Task_FirstBattleEnterParty_DarkenScreen(u8 taskId);
-static void Task_FirstBattleEnterParty_WaitDarken(u8 taskId);
-static void Task_FirstBattleEnterParty_CreatePrinter(u8 taskId);
-static void Task_FirstBattleEnterParty_RunPrinterMsg1(u8 taskId);
-static void Task_FirstBattleEnterParty_LightenFirstMonIcon(u8 taskId);
-static void Task_FirstBattleEnterParty_WaitLightenFirstMonIcon(u8 taskId);
-static void Task_FirstBattleEnterParty_StartPrintMsg2(u8 taskId);
-static void Task_FirstBattleEnterParty_RunPrinterMsg2(u8 taskId);
-static void Task_FirstBattleEnterParty_FadeNormal(u8 taskId);
-static void Task_FirstBattleEnterParty_WaitFadeNormal(u8 taskId);
-static void Task_PartyMenu_PokedudeStep(u8 taskId);
-static void Task_PartyMenuFromBag_PokedudeStep(u8 taskId);
-static bool8 PartyMenuPokedudeIsCancelled(u8 taskId);
-static void PartyMenuHandlePokedudeCancel(void);
-static void PartyMenu_Oak_PrintText(u8 windowId, const u8 *str);
-static u8 FirstBattleEnterParty_CreateWindowAndMsg1Printer(void);
-static void FirstBattleEnterParty_DestroyVoiceoverWindow(u8 windowId);
+static void sub_8120C6C(u8 taskId);
+static void sub_8120CA8(u8 taskId);
+static void sub_8120CD8(u8 taskId);
+static void sub_8120D08(u8 taskId);
+static void sub_8120D40(u8 taskId);
+static void sub_8120D7C(u8 taskId);
+static void sub_8120DAC(u8 taskId);
+static void sub_8120DE0(u8 taskId);
+static void sub_8120E1C(u8 taskId);
+static void sub_8120E58(u8 taskId);
+static void sub_8120EE0(u8 taskId);
+static void sub_8120FF0(u8 taskId);
+static bool8 sub_8120F78(u8 taskId);
+static void sub_8120FB0(void);
+static void sub_8122084(u8 windowId, const u8 *str);
+static u8 sub_81220D4(void);
+static void sub_8122110(u8 windowId);
 static void SetSwitchedPartyOrderQuestLogEvent(void);
 static void SetUsedFieldMoveQuestLogEvent(struct Pokemon *mon, u8 fieldMove);
 static void sub_8124DE0(void);
@@ -531,7 +528,6 @@ static bool8 ShowPartyMenu(void)
         ++gMain.state;
         break;
     case 12:
-        LoadPartyMenuPokeballGfx();
         ++gMain.state;
         break;
     case 13:
@@ -557,7 +553,6 @@ static bool8 ShowPartyMenu(void)
         }
         break;
     case 17:
-        CreateCancelConfirmPokeballSprites();
         ++gMain.state;
         break;
     case 18:
@@ -628,7 +623,8 @@ static bool8 AllocPartyMenuBg(void)
     SetBgTilemapBuffer(1, sPartyBgTilemapBuffer);
     ScheduleBgCopyTilemapToVram(1);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
-    SetGpuReg(REG_OFFSET_BLDCNT, 0);
+	SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG0 | BLDCNT_TGT2_BG1);
+	SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(23, 8));
     ShowBg(0);
     ShowBg(1);
     ShowBg(2);
@@ -693,6 +689,8 @@ static void PartyPaletteBufferCopy(u8 offset)
 
 static void FreePartyPointers(void)
 {
+    SetGpuReg(REG_OFFSET_BLDCNT, 0);
+    SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16, 0));
     if (sPartyMenuInternal)
         Free(sPartyMenuInternal);
     if (sPartyBgTilemapBuffer)
@@ -715,12 +713,6 @@ static void InitPartyMenuBoxes(u8 layout)
         sPartyMenuBoxes[i].spriteCoords = sPartyMenuSpriteCoords[layout][i];
         sPartyMenuBoxes[i].windowId = i;
     }
-    // The first party mon goes in the left column
-    sPartyMenuBoxes[0].infoRects = &sPartyBoxInfoRects[PARTY_BOX_LEFT_COLUMN];
-    if (layout == PARTY_LAYOUT_MULTI_SHOWCASE)
-        sPartyMenuBoxes[3].infoRects = &sPartyBoxInfoRects[PARTY_BOX_LEFT_COLUMN];
-    else if (layout != PARTY_LAYOUT_SINGLE)
-        sPartyMenuBoxes[1].infoRects = &sPartyBoxInfoRects[PARTY_BOX_LEFT_COLUMN];
 }
 
 static void RenderPartyMenuBox(u8 slot)
@@ -855,7 +847,7 @@ static bool8 DisplayPartyPokemonDataForMoveTutorOrEvolutionItem(u8 slot)
             DisplayPartyPokemonDataToTeachMove(slot, item, 0);
             break;
         case 2: // Evolution stone
-            if (!GetMonData(currentPokemon, MON_DATA_IS_EGG) && GetEvolutionTargetSpecies(currentPokemon, EVO_MODE_ITEM_CHECK, item) != SPECIES_NONE)
+            if (!GetMonData(currentPokemon, MON_DATA_IS_EGG) && GetEvolutionTargetSpecies(currentPokemon, 3, item) != SPECIES_NONE)
                 return FALSE;
             DisplayPartyPokemonDescriptionData(slot, PARTYBOX_DESC_NO_USE);
             break;
@@ -933,7 +925,6 @@ static void CreatePartyMonSprites(u8 slot)
         {
             CreatePartyMonIconSpriteParameterized(gMultiPartnerParty[actualSlot].species, gMultiPartnerParty[actualSlot].personality, &sPartyMenuBoxes[slot], 0, FALSE);
             CreatePartyMonHeldItemSpriteParameterized(gMultiPartnerParty[actualSlot].species, gMultiPartnerParty[actualSlot].heldItem, &sPartyMenuBoxes[slot]);
-            CreatePartyMonPokeballSpriteParameterized(gMultiPartnerParty[actualSlot].species, &sPartyMenuBoxes[slot]);
             if (gMultiPartnerParty[actualSlot].hp == 0)
                 status = AILMENT_FNT;
             else
@@ -945,7 +936,6 @@ static void CreatePartyMonSprites(u8 slot)
     {
         CreatePartyMonIconSprite(&gPlayerParty[slot], &sPartyMenuBoxes[slot], slot);
         CreatePartyMonHeldItemSprite(&gPlayerParty[slot], &sPartyMenuBoxes[slot]);
-        CreatePartyMonPokeballSprite(&gPlayerParty[slot], &sPartyMenuBoxes[slot]);
         CreatePartyMonStatusSprite(&gPlayerParty[slot], &sPartyMenuBoxes[slot]);
     }
 }
@@ -959,29 +949,6 @@ static bool8 CreatePartyMonSpritesLoop(void)
         return FALSE;
 }
 
-static void CreateCancelConfirmPokeballSprites(void)
-{
-    if (gPartyMenu.menuType == PARTY_MENU_TYPE_MULTI_SHOWCASE)
-    {
-        // The showcase has no Cancel/Confirm buttons
-        FillBgTilemapBufferRect(1, 14, 23, 17, 7, 2, 1);
-    }
-    else
-    {
-        if (sPartyMenuInternal->chooseHalf)
-        {
-            sPartyMenuInternal->spriteIdConfirmPokeball = CreateSmallPokeballButtonSprite(0xBF, 0x88);
-            DrawCancelConfirmButtons();
-            sPartyMenuInternal->spriteIdCancelPokeball = CreateSmallPokeballButtonSprite(0xBF, 0x98);
-        }
-        else
-        {
-            sPartyMenuInternal->spriteIdCancelPokeball = CreatePokeballButtonSprite(198, 148);
-        }
-        AnimatePartySlot(gPartyMenu.slotId, 1);
-    }
-}
-
 void AnimatePartySlot(u8 slot, u8 animNum)
 {
     u8 spriteId;
@@ -993,7 +960,6 @@ void AnimatePartySlot(u8 slot, u8 animNum)
         {
             LoadPartyBoxPalette(&sPartyMenuBoxes[slot], GetPartyBoxPaletteFlags(slot, animNum));
             AnimateSelectedPartyIcon(sPartyMenuBoxes[slot].monSpriteId, animNum);
-            PartyMenuStartSpriteAnim(sPartyMenuBoxes[slot].pokeballSpriteId, animNum);
         }
         return;
     case PARTY_SIZE: // Confirm
@@ -1001,7 +967,6 @@ void AnimatePartySlot(u8 slot, u8 animNum)
             SetBgTilemapPalette(1, 23, 16, 7, 2, 1);
         else
             SetBgTilemapPalette(1, 23, 16, 7, 2, 2);
-        spriteId = sPartyMenuInternal->spriteIdConfirmPokeball;
         break;
     case PARTY_SIZE + 1: // Cancel
         // The position of the Cancel button changes if Confirm is present
@@ -1020,7 +985,6 @@ void AnimatePartySlot(u8 slot, u8 animNum)
         {
             SetBgTilemapPalette(1, 23, 18, 7, 2, 2);
         }
-        spriteId = sPartyMenuInternal->spriteIdCancelPokeball;
         break;
     }
     PartyMenuStartSpriteAnim(spriteId, animNum);
@@ -1251,11 +1215,14 @@ static void HandleChooseMonCancel(u8 taskId, s8 *slotPtr)
         break;
     }
 }
-
+//TRADUCIR
 static void DisplayCancelChooseMonYesNo(u8 taskId)
 {
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
-    StringExpandPlaceholders(gStringVar4, gText_84176CF);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_84176CF);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_84176CFSpa);
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     gTasks[taskId].func = Task_CancelChooseMonYesNo;
 }
@@ -1339,10 +1306,11 @@ static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir)
     s8 newSlotId = *slotPtr;
     u8 layout = gPartyMenu.layout;
 
-    if (layout == PARTY_LAYOUT_SINGLE)
+    if (layout >= PARTY_LAYOUT_MULTI)
         UpdatePartySelectionSingleLayout(slotPtr, movementDir);
     else
-        UpdatePartySelectionDoubleLayout(slotPtr, movementDir);
+        UpdatePartySelectionSingleLayout(slotPtr, movementDir);
+//        UpdatePartySelectionDoubleLayout(slotPtr, movementDir);
     if (*slotPtr != newSlotId)
     {
         PlaySE(SE_SELECT);
@@ -1353,7 +1321,113 @@ static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir)
 
 static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
 {
-    // PARTY_SIZE + 1 is Cancel, PARTY_SIZE is Confirm
+    asm_unified("\n\
+		push	{r4,lr}\n\
+		movs	r4, r0\n\
+		lsls	r1, r1,	#0x18\n\
+		asrs	r1, r1,	#0x18\n\
+		movs	r0, #1\n\
+		negs	r0, r0\n\
+		cmp		r1, r0\n\
+		beq		_8120016\n\
+		cmp		r1, r0\n\
+		bgt		_812000c\n\
+		subs	r0, #1\n\
+		cmp		r1, r0\n\
+		beq		_8120028\n\
+		b		_812009a\n\
+	_812000c:\n\
+		cmp		r1, #1\n\
+		beq		_8120052\n\
+		cmp		r1, #2\n\
+		beq		_812006a\n\
+		b		_812009a\n\
+	_8120016:\n\
+		ldrb		r1, [r4]\n\
+		cmp		r1, #1\n\
+		bls		_8120092\n\
+		cmp		r1, #6\n\
+		beq		_812004a\n\
+		cmp		r1, #7\n\
+		beq		_812003a\n\
+		subs	r0, r1,	#2\n\
+		b		_8120098\n\
+	_8120028:\n\
+		ldrb	r1, [r4]\n\
+		cmp		r1, #0\n\
+		beq		_8120092\n\
+		cmp		r1, #6\n\
+		beq		_812004a\n\
+		cmp		r1, #7\n\
+		beq		_812003a\n\
+		subs	r0, r1,	#1\n\
+		b		_8120098\n\
+	_812003a:\n\
+		ldr		r0, _81200a0\n\
+		ldr		r0, [r0]\n\
+		ldrb	r0, [r0,#8]\n\
+		lsls	r0, r0,	#0x1f\n\
+		cmp		r0, #0\n\
+		beq		_812004a\n\
+		movs	r0, #6\n\
+		b		_8120098\n\
+	_812004a:\n\
+		ldr		r0, _81200a4\n\
+		ldrb	r0, [r0]\n\
+		subs	r0, #1\n\
+		b		_8120098\n\
+	_8120052:\n\
+		ldrb	r1, [r4]\n\
+		cmp		r1, #7\n\
+		beq		_8120096\n\
+		cmp		r1, #6\n\
+		beq		_8120092\n\
+		ldr		r0, _81200a4\n\
+		ldrb	r0, [r0]\n\
+		subs	r0, #2\n\
+		cmp		r1, r0\n\
+		bge		_8120082\n\
+		adds	r0, r1,	#2\n\
+		b		_8120098\n\
+	_812006a:\n\
+		ldrb	r1, [r4]\n\
+		cmp		r1, #7\n\
+		beq		_8120096\n\
+		cmp		r1, #6\n\
+		beq		_8120092\n\
+		ldr		r0, _81200a4\n\
+		ldrb	r0, [r0]\n\
+		subs	r0, #1\n\
+		cmp		r1, r0\n\
+		beq		_8120082\n\
+		adds	r0, r1,	#1\n\
+		b		_8120098\n\
+	_8120082:\n\
+		ldr		r0, _81200a0\n\
+		ldr		r0, [r0]\n\
+		ldrb	r0, [r0,#8]\n\
+		lsls	r0, r0,	#0x1f\n\
+		cmp		r0, #0\n\
+		beq		_8120092\n\
+		movs	r0, #6\n\
+		b		_8120098\n\
+	_8120092:\n\
+		movs	r0, #7\n\
+		b		_8120098\n\
+	_8120096:\n\
+		movs	r0, #0\n\
+	_8120098:\n\
+		strb	r0, [r4]\n\
+	_812009a:\n\
+		pop		{r4}\n\
+		pop		{r0}\n\
+		bx		r0\n\
+		.align 2, 0\n\
+	_81200a0: .4byte sPartyMenuInternal\n\
+	_81200a4: .4byte gPlayerPartyCount\n\
+    ");
+
+/*    // PARTY_SIZE + 1 is Cancel, PARTY_SIZE is Confirm
     switch (movementDir)
     {
     case MENU_DIR_UP:
@@ -1413,19 +1487,19 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
             *slotPtr = 0;
         }
         break;
-    }
+    }*/
 }
 
 static void UpdatePartySelectionDoubleLayout(s8 *slotPtr, s8 movementDir)
 {
-    // PARTY_SIZE + 1 is Cancel, PARTY_SIZE is Confirm
+ /*   // PARTY_SIZE + 1 is Cancel, PARTY_SIZE is Confirm
     // newSlot is used temporarily as a movement direction during its later assignment
     s8 newSlot = movementDir;
 
     switch (movementDir)
     {
-    case MENU_DIR_UP:
-        if (*slotPtr == 0)
+    case MENU_DIR_UP: //LISTO
+        if (*slotPtr == 0 || *slotPtr == 1)
         {
             *slotPtr = PARTY_SIZE + 1;
             break;
@@ -1442,13 +1516,42 @@ static void UpdatePartySelectionDoubleLayout(s8 *slotPtr, s8 movementDir)
                 *slotPtr = PARTY_SIZE;
                 break;
             }
-            --*slotPtr;
+            *slotPtr = gPlayerPartyCount - 1;
+			break;
         }
-        newSlot = GetNewSlotDoubleLayout(*slotPtr, newSlot);
-        if (newSlot != -1)
-            *slotPtr = newSlot;
+		else
+			*slotPtr = *slotPtr - 2;
         break;
     case MENU_DIR_DOWN:
+        if (*slotPtr == PARTY_SIZE + 1)
+        {
+            if (sPartyMenuInternal->chooseHalf)
+            {
+                *slotPtr = PARTY_SIZE;
+                break;
+            }
+            *slotPtr = 0;
+			break;
+        }
+        else if (*slotPtr == PARTY_SIZE)
+        {
+            *slotPtr = PARTY_SIZE + 1;
+            break;
+        }
+        else if (*slotPtr == gPlayerPartyCount - 1 || *slotPtr == gPlayerPartyCount - 2)
+        {
+            if (sPartyMenuInternal->chooseHalf)
+			{
+                *slotPtr = PARTY_SIZE;
+				break;
+			}
+			*slotPtr == PARTY_SIZE + 1;
+			break;
+        }
+		else
+			*slotPtr = *slotPtr + 2;
+        break;
+    case MENU_DIR_RIGHT: //LISTO
         if (*slotPtr == PARTY_SIZE)
         {
             *slotPtr = PARTY_SIZE + 1;
@@ -1457,61 +1560,21 @@ static void UpdatePartySelectionDoubleLayout(s8 *slotPtr, s8 movementDir)
         {
             *slotPtr = 0;
         }
-        else
+        else if (*slotPtr == gPlayerPartyCount - 1)
         {
-            newSlot = GetNewSlotDoubleLayout(*slotPtr, MENU_DIR_DOWN);
-            if (newSlot == -1)
-            {
-                if (sPartyMenuInternal->chooseHalf)
-                    *slotPtr = PARTY_SIZE;
-                else
-                    *slotPtr = PARTY_SIZE + 1;
-            }
-            else
-            {
-                *slotPtr = newSlot;
-            }
+			if (sPartyMenuInternal->chooseHalf)
+				*slotPtr = PARTY_SIZE;
+			else
+				*slotPtr = PARTY_SIZE + 1;
+			break;
         }
+		else
+			++*slotPtr;
         break;
-    case MENU_DIR_RIGHT:
-        if (*slotPtr == 0)
-        {
-            if (sPartyMenuInternal->lastSelectedSlot == 3)
-            {
-                if (GetMonData(&gPlayerParty[3], MON_DATA_SPECIES) != SPECIES_NONE)
-                    *slotPtr = 3;
-            }
-            else if (GetMonData(&gPlayerParty[2], MON_DATA_SPECIES) != SPECIES_NONE)
-            {
-                *slotPtr = 2;
-            }
-        }
-        else if (*slotPtr == 1)
-        {
-            if (sPartyMenuInternal->lastSelectedSlot == 5)
-            {
-                if (GetMonData(&gPlayerParty[5], MON_DATA_SPECIES) != SPECIES_NONE)
-                    *slotPtr = 5;
-            }
-            else if (GetMonData(&gPlayerParty[4], MON_DATA_SPECIES) != SPECIES_NONE)
-            {
-                *slotPtr = 4;
-            }
-        }
+	case MENU_DIR_LEFT:
+        
         break;
-    case MENU_DIR_LEFT:
-        if (*slotPtr == 2 || *slotPtr == 3)
-        {
-            sPartyMenuInternal->lastSelectedSlot = *slotPtr;
-            *slotPtr = 0;
-        }
-        else if (*slotPtr == 4 || *slotPtr == 5)
-        {
-            sPartyMenuInternal->lastSelectedSlot = *slotPtr;
-            *slotPtr = 1;
-        }
-        break;
-    }
+    } */
 }
 
 static s8 GetNewSlotDoubleLayout(s8 slotId, s8 movementDir)
@@ -1590,7 +1653,7 @@ static void Task_ReturnToChooseMonAfterText(u8 taskId)
         }
     }
 }
-
+//TRADUCIR
 static void DisplayGaveHeldItemMessage(struct Pokemon *mon, u16 item, bool8 keepOpen, bool8 fromBagMenu)
 {
     if (!fromBagMenu) // Used Give option from party menu
@@ -1601,36 +1664,48 @@ static void DisplayGaveHeldItemMessage(struct Pokemon *mon, u16 item, bool8 keep
         ItemUse_SetQuestLogEvent(QL_EVENT_GAVE_HELD_ITEM_BAG, mon, item, 0xFFFF);
     GetMonNickname(mon, gStringVar1);
     CopyItemName(item, gStringVar2);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnWasGivenItem);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnWasGivenItem);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnWasGivenItemSpa);
     DisplayPartyMenuMessage(gStringVar4, keepOpen);
     ScheduleBgCopyTilemapToVram(2);
 }
-
+//TRADUCIR
 static void DisplayTookHeldItemMessage(struct Pokemon *mon, u16 item, bool8 keepOpen)
 {
     ItemUse_SetQuestLogEvent(QL_EVENT_TOOK_HELD_ITEM, mon, item, 0xFFFF);
     GetMonNickname(mon, gStringVar1);
     CopyItemName(item, gStringVar2);
-    StringExpandPlaceholders(gStringVar4, gText_ReceivedItemFromPkmn);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ReceivedItemFromPkmn);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_ReceivedItemFromPkmnSpa);
     DisplayPartyMenuMessage(gStringVar4, keepOpen);
     ScheduleBgCopyTilemapToVram(2);
 }
-
+//TRADUCIR
 static void DisplayAlreadyHoldingItemSwitchMessage(struct Pokemon *mon, u16 item, bool8 keepOpen)
 {
     GetMonNickname(mon, gStringVar1);
     CopyItemName(item, gStringVar2);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyHoldingItemSwitch);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyHoldingItemSwitch);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyHoldingItemSwitchSpa);
     DisplayPartyMenuMessage(gStringVar4, keepOpen);
     ScheduleBgCopyTilemapToVram(2);
 }
-
+//TRADUCIR
 static void DisplaySwitchedHeldItemMessage(u16 item, u16 item2, bool8 keepOpen)
 {
     SetSwappedHeldItemQuestLogEvent(&gPlayerParty[gPartyMenu.slotId], item2, item);
     CopyItemName(item, gStringVar1);
     CopyItemName(item2, gStringVar2);
-    StringExpandPlaceholders(gStringVar4, gText_SwitchedPkmnItem);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_SwitchedPkmnItem);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_SwitchedPkmnItemSpa);
     DisplayPartyMenuMessage(gStringVar4, keepOpen);
     ScheduleBgCopyTilemapToVram(2);
 }
@@ -1661,7 +1736,7 @@ static u8 TryTakeMonItem(struct Pokemon *mon)
     SetMonData(mon, MON_DATA_HELD_ITEM, &item);
     return 2;
 }
-
+//TRADUCIR
 static void BufferBagFullCantTakeItemMessage(u16 itemId)
 {
     const u8 *string;
@@ -1669,7 +1744,10 @@ static void BufferBagFullCantTakeItemMessage(u16 itemId)
     switch (ItemId_GetPocket(itemId))
     {
     default:
-        string = gText_StartMenu_Bag;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			string = gText_StartMenu_Bag;
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			string = gText_StartMenu_BagSpa;
         break;
     case POCKET_TM_CASE:
         string = ItemId_GetName(ITEM_TM_CASE);
@@ -1679,7 +1757,10 @@ static void BufferBagFullCantTakeItemMessage(u16 itemId)
         break;
     }
     StringCopy(gStringVar1, string);
-    StringExpandPlaceholders(gStringVar4, gText_BagFullCouldNotRemoveItem);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_BagFullCouldNotRemoveItem);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_BagFullCouldNotRemoveItemSpa);
 }
 
 #define tHP           data[0]
@@ -1831,7 +1912,7 @@ static bool8 IsMonAllowedInMinigame(u8 slot)
         return FALSE;
     return TRUE;
 }
-
+//TRADUCIR
 static void TryEnterMonForMinigame(u8 taskId, u8 slot)
 {
     if (IsMonAllowedInMinigame(slot) == TRUE)
@@ -1843,15 +1924,21 @@ static void TryEnterMonForMinigame(u8 taskId, u8 slot)
     else
     {
         PlaySE(SE_FAILURE);
-        DisplayPartyMenuMessage(gText_PkmnCantParticipate, FALSE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_PkmnCantParticipate, FALSE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_PkmnCantParticipateSpa, FALSE);
         ScheduleBgCopyTilemapToVram(2);
         gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
     }
 }
-
+//TRADUCIR
 static void CancelParticipationPrompt(u8 taskId)
 {
-    DisplayPartyMenuMessage(gText_CancelParticipation, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayPartyMenuMessage(gText_CancelParticipation, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayPartyMenuMessage(gText_CancelParticipationSpa, TRUE);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_CancelParticipationYesNo;
 }
@@ -1955,110 +2042,116 @@ static bool8 CanLearnTutorMove(u16 species, u8 tutor)
     }
 }
 
-// Tutorial battle messages
-
-static void Task_FirstBattleEnterParty_WaitFadeIn(u8 taskId)
+static void sub_8120C3C(u8 taskId)
 {
     if (!gPaletteFade.active)
-        gTasks[taskId].func = Task_FirstBattleEnterParty_DarkenScreen;
+        gTasks[taskId].func = sub_8120C6C;
 }
 
-static void Task_FirstBattleEnterParty_DarkenScreen(u8 taskId)
+static void sub_8120C6C(u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFF1FFF, 4, 0, 6, RGB_BLACK);
-    gTasks[taskId].func = Task_FirstBattleEnterParty_WaitDarken;
+    gTasks[taskId].func = sub_8120CA8;
 }
 
-static void Task_FirstBattleEnterParty_WaitDarken(u8 taskId)
+static void sub_8120CA8(u8 taskId)
 {
     if (!gPaletteFade.active)
-        gTasks[taskId].func = Task_FirstBattleEnterParty_CreatePrinter;
+        gTasks[taskId].func = sub_8120CD8;
 }
 
-static void Task_FirstBattleEnterParty_CreatePrinter(u8 taskId)
+static void sub_8120CD8(u8 taskId)
 {
-    gTasks[taskId].data[0] = FirstBattleEnterParty_CreateWindowAndMsg1Printer();
-    gTasks[taskId].func = Task_FirstBattleEnterParty_RunPrinterMsg1;
+    gTasks[taskId].data[0] = sub_81220D4();
+    gTasks[taskId].func = sub_8120D08;
 }
 
-static void Task_FirstBattleEnterParty_RunPrinterMsg1(u8 taskId)
+static void sub_8120D08(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     if (RunTextPrinters_CheckActive((u8)data[0]) != TRUE)
-        gTasks[taskId].func = Task_FirstBattleEnterParty_LightenFirstMonIcon;
+        gTasks[taskId].func = sub_8120D40;
 }
 
-static void Task_FirstBattleEnterParty_LightenFirstMonIcon(u8 taskId)
+static void sub_8120D40(u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFF0008, 4, 6, 0, RGB_BLACK);
-    gTasks[taskId].func = Task_FirstBattleEnterParty_WaitLightenFirstMonIcon;
+    gTasks[taskId].func = sub_8120D7C;
 }
 
-static void Task_FirstBattleEnterParty_WaitLightenFirstMonIcon(u8 taskId)
+static void sub_8120D7C(u8 taskId)
 {
     if (!gPaletteFade.active)
-        gTasks[taskId].func = Task_FirstBattleEnterParty_StartPrintMsg2;
+        gTasks[taskId].func = sub_8120DAC;
 }
-
-static void Task_FirstBattleEnterParty_StartPrintMsg2(u8 taskId)
+//TRADUCIR
+static void sub_8120DAC(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    PartyMenu_Oak_PrintText(data[0], gText_OakThisIsListOfPokemon);
-    gTasks[taskId].func = Task_FirstBattleEnterParty_RunPrinterMsg2;
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		sub_8122084(data[0], gText_OakThisIsListOfPokemon);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		sub_8122084(data[0], gText_OakThisIsListOfPokemonSpa);
+    gTasks[taskId].func = sub_8120DE0;
 }
 
-static void Task_FirstBattleEnterParty_RunPrinterMsg2(u8 taskId)
+static void sub_8120DE0(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     if (RunTextPrinters_CheckActive((u8)data[0]) != TRUE)
     {
-        FirstBattleEnterParty_DestroyVoiceoverWindow((u8)data[0]);
-        gTasks[taskId].func = Task_FirstBattleEnterParty_FadeNormal;
+        sub_8122110((u8)data[0]);
+        gTasks[taskId].func = sub_8120E1C;
     }
 }
 
-static void Task_FirstBattleEnterParty_FadeNormal(u8 taskId)
+static void sub_8120E1C(u8 taskId)
 {
     BeginNormalPaletteFade(0x0000FFF7, 4, 6, 0, RGB_BLACK);
-    gTasks[taskId].func = Task_FirstBattleEnterParty_WaitFadeNormal;
+    gTasks[taskId].func = sub_8120E58;
 }
-
-static void Task_FirstBattleEnterParty_WaitFadeNormal(u8 taskId)
+//TRADUCIR
+static void sub_8120E58(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         TextWindow_SetUserSelectedFrame(0, 0x4F, 0xD0);
         TextWindow_SetStdFrame0_WithPal(0, 0x58, 0xF0);
         if (gPartyMenu.action == PARTY_ACTION_USE_ITEM)
-            DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON + 27);
         else
-            DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON + 27);
         gTasks[taskId].func = Task_HandleChooseMonInput;
     }
 }
 
-// Pokedude switches Pokemon
-static void Task_PartyMenu_Pokedude(u8 taskId)
+static void sub_8120EBC(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     data[0] = 0;
-    gTasks[taskId].func = Task_PartyMenu_PokedudeStep;
+    gTasks[taskId].func = sub_8120EE0;
 }
 
-static void Task_PartyMenu_PokedudeStep(u8 taskId)
+static void sub_8120EE0(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (!gPaletteFade.active && PartyMenuPokedudeIsCancelled(taskId) != TRUE)
+    if (!gPaletteFade.active && sub_8120F78(taskId) != TRUE)
     {
         switch (data[0])
         {
         case 80:
-            UpdateCurrentPartySelection(&gPartyMenu.slotId, MENU_DIR_RIGHT);
+            UpdateCurrentPartySelection(&gPartyMenu.slotId, 2);
             break;
         case 160:
             PlaySE(SE_SELECT);
@@ -2066,25 +2159,25 @@ static void Task_PartyMenu_PokedudeStep(u8 taskId)
             break;
         case 240:
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[2]);
-            sCursorOptions[sPartyMenuInternal->actions[0]].func(taskId);
+			sCursorOptions[sPartyMenuInternal->actions[0]].func(taskId);
             break;
         }
         ++data[0];
     }
 }
 
-static bool8 PartyMenuPokedudeIsCancelled(u8 taskId)
+static bool8 sub_8120F78(u8 taskId)
 {
     if (JOY_NEW(B_BUTTON))
     {
-        sPartyMenuInternal->exitCallback = PartyMenuHandlePokedudeCancel;
+        sPartyMenuInternal->exitCallback = sub_8120FB0;
         Task_ClosePartyMenu(taskId);
         return TRUE;
     }
     return FALSE;
 }
 
-static void PartyMenuHandlePokedudeCancel(void)
+static void sub_8120FB0(void)
 {
     FreeRestoreBattleData();
     LoadPlayerParty();
@@ -2092,20 +2185,19 @@ static void PartyMenuHandlePokedudeCancel(void)
     SetMainCallback2(CB2_ReturnToTeachyTV);
 }
 
-// Pokedude uses item on his own Pokemon
-static void Task_PartyMenuFromBag_Pokedude(u8 taskId)
+static void sub_8120FCC(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     data[0] = 0;
-    gTasks[taskId].func = Task_PartyMenuFromBag_PokedudeStep;
+    gTasks[taskId].func = sub_8120FF0;
 }
 
-static void Task_PartyMenuFromBag_PokedudeStep(u8 taskId)
+static void sub_8120FF0(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (!gPaletteFade.active && PartyMenuPokedudeIsCancelled(taskId) != TRUE)
+    if (!gPaletteFade.active && sub_8120F78(taskId) != TRUE)
     {
         if (data[0] != 80)
         {
@@ -2146,7 +2238,7 @@ static void InitPartyMenuWindows(u8 layout)
     LoadPalette(stdpal_get(2), 0xC0, 0x20);
     LoadPalette(stdpal_get(0), 0xE0, 0x20);
 }
-
+//TRADUCIR
 static void CreateCancelConfirmWindows(bool8 chooseHalf)
 {
     u8 confirmWindowId;
@@ -2159,7 +2251,10 @@ static void CreateCancelConfirmWindows(bool8 chooseHalf)
         {
             confirmWindowId = AddWindow(&sConfirmButtonWindowTemplate);
             FillWindowPixelBuffer(confirmWindowId, PIXEL_FILL(0));
-            AddTextPrinterParameterized4(confirmWindowId, 0, (48 - GetStringWidth(0, gText_Menu_Confirm, 0)) / 2u, 1, 0, 0, sFontColorTable[0], -1, gText_Menu_Confirm);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized4(confirmWindowId, 0, (48 - GetStringWidth(0, gText_Menu_Confirm, 0)) / 2, 0, 0, 0, sFontColorTable[0], -1, gText_Menu_Confirm);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized4(confirmWindowId, 0, (48 - GetStringWidth(0, gText_Menu_ConfirmSpa, 0)) / 2, 0, 0, 0, sFontColorTable[0], -1, gText_Menu_ConfirmSpa);
             PutWindowTilemap(confirmWindowId);
             CopyWindowToVram(confirmWindowId, COPYWIN_GFX);
             cancelWindowId = AddWindow(&sMultiCancelButtonWindowTemplate);
@@ -2174,13 +2269,29 @@ static void CreateCancelConfirmWindows(bool8 chooseHalf)
         // Branches are functionally identical. Second branch is never reached, Spin Trade wasnt fully implemented
         if (gPartyMenu.menuType != PARTY_MENU_TYPE_SPIN_TRADE)
         {
-            offset += (48 - GetStringWidth(0, gText_FameChecker_Cancel, 0)) / 2;
-            AddTextPrinterParameterized3(cancelWindowId, 0, offset, 1, sFontColorTable[0], -1, gText_FameChecker_Cancel);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			{
+				offset += (48 - GetStringWidth(0, gText_FameChecker_Cancel, 0)) / 2;
+				AddTextPrinterParameterized3(cancelWindowId, 0, offset, 0, sFontColorTable[0], -1, gText_FameChecker_Cancel);
+			}
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			{
+				offset += (48 - GetStringWidth(0, gText_FameChecker_CancelSpa, 0)) / 2;
+				AddTextPrinterParameterized3(cancelWindowId, 0, offset, 0, sFontColorTable[0], -1, gText_FameChecker_CancelSpa);
+			}
         }
         else
         {
-            offset += (48 - GetStringWidth(0, gText_Exit, 0)) / 2;
-            AddTextPrinterParameterized3(cancelWindowId, 0, offset, 1, sFontColorTable[0], -1, gText_Exit);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			{
+				offset += (48 - GetStringWidth(0, gText_FameChecker_Cancel, 0)) / 2;
+				AddTextPrinterParameterized3(cancelWindowId, 0, offset, 0, sFontColorTable[0], -1, gText_FameChecker_Cancel);
+			}
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			{
+				offset += (48 - GetStringWidth(0, gText_FameChecker_CancelSpa, 0)) / 2;
+				AddTextPrinterParameterized3(cancelWindowId, 0, offset, 0, sFontColorTable[0], -1, gText_FameChecker_CancelSpa);
+			}
         }
         PutWindowTilemap(cancelWindowId);
         CopyWindowToVram(cancelWindowId, COPYWIN_GFX);
@@ -2216,8 +2327,13 @@ static void BlitBitmapToPartyWindow_LeftColumn(u8 windowId, u8 x, u8 y, u8 width
         height = 7;
     }
     if (!isEgg)
-        BlitBitmapToPartyWindow(windowId, sMainSlotTileNums, 10, x, y, width, height);
-    else
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BlitBitmapToPartyWindow(windowId, sMainSlotTileNums, 10, x, y, width, height);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BlitBitmapToPartyWindow(windowId, sMainSlotTileNumsSpa, 10, x, y, width, height);
+    }
+	else
         BlitBitmapToPartyWindow(windowId, sMainSlotTileNums_Egg, 10, x, y, width, height);
 }
 
@@ -2225,18 +2341,23 @@ static void BlitBitmapToPartyWindow_RightColumn(u8 windowId, u8 x, u8 y, u8 widt
 {
     if (width == 0 && height == 0)
     {
-        width = 18;
-        height = 3;
+        width = 14;
+        height = 5;
     }
     if (!isEgg)
-        BlitBitmapToPartyWindow(windowId, sOtherSlotsTileNums, 18, x, y, width, height);
-    else
-        BlitBitmapToPartyWindow(windowId, sOtherSlotsTileNums_Egg, 18, x, y, width, height);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BlitBitmapToPartyWindow(windowId, sMainSlotTileNums, 14, x, y, width, height);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BlitBitmapToPartyWindow(windowId, sMainSlotTileNumsSpa, 14, x, y, width, height);
+    }
+	else
+        BlitBitmapToPartyWindow(windowId, sMainSlotTileNums_Egg, 14, x, y, width, height);
 }
 
 static void DrawEmptySlot(u8 windowId)
 {
-    BlitBitmapToPartyWindow(windowId, sEmptySlotTileNums, 18, 0, 0, 18, 3);
+    BlitBitmapToPartyWindow(windowId, sEmptySlotTileNums, 14, 0, 0, 14, 5);
 }
 
 #define LOAD_PARTY_BOX_PAL(paletteIds, paletteOffsets)                                    \
@@ -2339,7 +2460,12 @@ static void DisplayPartyPokemonNickname(struct Pokemon *mon, struct PartyMenuBox
 
 static void DisplayPartyPokemonLevelCheck(struct Pokemon *mon, struct PartyMenuBox *menuBox, u8 c)
 {
-    if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE)
+	if (c != 0)
+		menuBox->infoRects->blitFunc(menuBox->windowId, menuBox->infoRects->dimensions[4] >> 3, (menuBox->infoRects->dimensions[5] >> 3) + 1, menuBox->infoRects->dimensions[6] >> 3, menuBox->infoRects->dimensions[7] >> 3, FALSE);
+	if (c != 2)
+		DisplayPartyPokemonLevel(GetMonData(mon, MON_DATA_LEVEL), menuBox);
+	
+/*	if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE)
     {
         u8 ailment = GetMonAilment(mon);
 
@@ -2350,13 +2476,16 @@ static void DisplayPartyPokemonLevelCheck(struct Pokemon *mon, struct PartyMenuB
             if (c != 2)
                 DisplayPartyPokemonLevel(GetMonData(mon, MON_DATA_LEVEL), menuBox);
         }
-    }
+    } */
 }
 
 static void DisplayPartyPokemonLevel(u8 level, struct PartyMenuBox *menuBox)
 {
     ConvertIntToDecimalStringN(gStringVar2, level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringCopy(gStringVar1, gText_Lv);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(gStringVar1, gText_Lv);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(gStringVar1, gText_LvSpa);
     StringAppend(gStringVar1, gStringVar2);
     DisplayPartyPokemonBarDetail(menuBox->windowId, gStringVar1, 0, &menuBox->infoRects->dimensions[4]);
 }
@@ -2477,7 +2606,12 @@ static void DisplayPartyPokemonDescriptionText(u8 stringId, struct PartyMenuBox 
     if (c != 0)
         menuBox->infoRects->blitFunc(menuBox->windowId, menuBox->infoRects->descTextLeft >> 3, menuBox->infoRects->descTextTop >> 3, menuBox->infoRects->descTextWidth >> 3, menuBox->infoRects->descTextHeight >> 3, TRUE);
     if (c != 2)
-        AddTextPrinterParameterized3(menuBox->windowId, 1, menuBox->infoRects->descTextLeft, menuBox->infoRects->descTextTop, sFontColorTable[0], 0, sDescriptionStringTable[stringId]);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(menuBox->windowId, 1, menuBox->infoRects->descTextLeft, menuBox->infoRects->descTextTop, sFontColorTable[0], 0, sDescriptionStringTable[stringId]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(menuBox->windowId, 1, menuBox->infoRects->descTextLeft, menuBox->infoRects->descTextTop, sFontColorTable[0], 0, sDescriptionStringTable[stringId + 10]);
+	}
 }
 
 static void PartyMenuRemoveWindow(u8 *ptr)
@@ -2490,7 +2624,7 @@ static void PartyMenuRemoveWindow(u8 *ptr)
         ScheduleBgCopyTilemapToVram(2);
     }
 }
-
+//TRADUCIR
 void DisplayPartyMenuStdMessage(u32 stringId)
 {
     u8 *windowPtr = &sPartyMenuInternal->windowId[1];
@@ -2528,7 +2662,10 @@ void DisplayPartyMenuStdMessage(u32 stringId)
                 stringId = PARTY_MSG_CHOOSE_MON_OR_CANCEL;
         }
         DrawStdFrameWithCustomTileAndPalette(*windowPtr, FALSE, 0x58, 0xF);
-        StringExpandPlaceholders(gStringVar4, sActionStringTable[stringId]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, sActionStringTable[stringId]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, sActionStringTable[stringId + 27]);
         AddTextPrinterParameterized(*windowPtr, 2, gStringVar4, 0, 2, 0, 0);
         ScheduleBgCopyTilemapToVram(2);
     }
@@ -2583,8 +2720,11 @@ static u8 DisplaySelectionWindow(u8 windowType)
     for (i = 0; i < sPartyMenuInternal->numActions; ++i)
     {
         u8 fontColorsId = (sPartyMenuInternal->actions[i] >= MENU_FIELD_MOVES) ? 4 : 3;
-        
-        AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[sPartyMenuInternal->actions[i]].text);
+
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[sPartyMenuInternal->actions[i]].text);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[30 + sPartyMenuInternal->actions[i]].text);
     }
     Menu_InitCursorInternal(sPartyMenuInternal->windowId[0], 2, 0, 2, 16, sPartyMenuInternal->numActions, 0, 1);
     ScheduleBgCopyTilemapToVram(2);
@@ -2616,31 +2756,34 @@ static void RemoveLevelUpStatsWindow(void)
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
 }
 
-static void PartyMenu_Oak_PrintText(u8 windowId, const u8 *str)
+static void sub_8122084(u8 windowId, const u8 *str)
 {
     StringExpandPlaceholders(gStringVar4, str);
     gTextFlags.canABSpeedUpPrint = TRUE;
-    AddTextPrinterParameterized2(windowId, 4, gStringVar4, GetTextSpeedSetting(), NULL, 2, 1, 3);
+    AddTextPrinterParameterized2(windowId, 4, gStringVar4, GetTextSpeedSetting(), 0, 2, 1, 3);
 }
-
-static bool8 FirstBattleEnterParty_CreateWindowAndMsg1Printer(void)
+//TRADUCIR
+static bool8 sub_81220D4(void)
 {
-    u8 windowId = AddWindow(&sWindowTemplate_FirstBattleOakVoiceover);
+    u8 windowId = AddWindow(&sTutorialOakWindowTemplate);
 
     TextWindow_LoadResourcesStdFrame0(windowId, 0x4F, 0xE0);
     DrawDialogFrameWithCustomTileAndPalette(windowId, 1, 0x4F, 0xE);
-    PartyMenu_Oak_PrintText(windowId, gText_OakImportantToGetToKnowPokemonThroughly);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		sub_8122084(windowId, gText_OakImportantToGetToKnowPokemonThroughly);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		sub_8122084(windowId, gText_OakImportantToGetToKnowPokemonThroughlySpa);
     return windowId;
 }
 
-static void FirstBattleEnterParty_DestroyVoiceoverWindow(u8 windowId)
+static void sub_8122110(u8 windowId)
 {
     ClearWindowTilemap(windowId);
     ClearDialogWindowAndFrameToTransparent(windowId, FALSE);
     RemoveWindow(windowId);
     ScheduleBgCopyTilemapToVram(2);
 }
-
+//TRADUCIR
 static void sub_8122138(u8 action)
 {
     u8 attr;
@@ -2659,10 +2802,13 @@ static void sub_8122138(u8 action)
     else
     {
         if (ptr->windowId[2] == 0xFF)
-            ptr->windowId[2] = AddWindow(&gUnknown_845A178);
+            ptr->windowId[2] = AddWindow(&sHMDescriptionWindowTemplate);
         sub_8112F18(ptr->windowId[2]);
         attr = GetFontAttribute(2, FONTATTR_LETTER_SPACING);
-        AddTextPrinterParameterized4(ptr->windowId[2], 2, 3, 6, attr, 0, sFontColorTable[5], 0, sHMDescriptionTable[action - MENU_FIELD_MOVES]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized4(ptr->windowId[2], 2, 3, 6, attr, 0, sFontColorTable[5], 0, sHMDescriptionTable[action - MENU_FIELD_MOVES]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized4(ptr->windowId[2], 2, 3, 6, attr, 0, sFontColorTable[5], 0, sHMDescriptionTable[action - MENU_FIELD_MOVES + 12]);
         PutWindowTilemap(ptr->windowId[2]);
         ScheduleBgCopyTilemapToVram(2);
     }
@@ -2794,7 +2940,11 @@ static void ShowOrHideHeldItemSprite(u16 item, struct PartyMenuBox *menuBox)
     {
         if (ItemIsMail(item))
             StartSpriteAnim(&gSprites[menuBox->itemSpriteId], 1);
-        else
+        else if (ItemIsBall(item))
+            StartSpriteAnim(&gSprites[menuBox->itemSpriteId], 2);
+		else if (ItemIsBerry(item))
+            StartSpriteAnim(&gSprites[menuBox->itemSpriteId], 3);
+        else if (!ItemIsMail(item) && !ItemIsBall(item) && !ItemIsBerry(item))
             StartSpriteAnim(&gSprites[menuBox->itemSpriteId], 0);
         gSprites[menuBox->itemSpriteId].invisible = FALSE;
     }
@@ -2861,73 +3011,16 @@ static void SpriteCB_HeldItem(struct Sprite *sprite)
     }
 }
 
-static void CreatePartyMonPokeballSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox)
-{
-    if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE)
-        menuBox->pokeballSpriteId = CreateSprite(&sSpriteTemplate_MenuPokeball, menuBox->spriteCoords[6], menuBox->spriteCoords[7], 8);
-}
-
-static void CreatePartyMonPokeballSpriteParameterized(u16 species, struct PartyMenuBox *menuBox)
-{
-    if (species != SPECIES_NONE)
-    {
-        menuBox->pokeballSpriteId = CreateSprite(&sSpriteTemplate_MenuPokeball, menuBox->spriteCoords[6], menuBox->spriteCoords[7], 8);
-        gSprites[menuBox->pokeballSpriteId].oam.priority = 0;
-    }
-}
-
-// For Cancel when Confirm isnt present
-static u8 CreatePokeballButtonSprite(u8 x, u8 y)
-{
-    u8 spriteId = CreateSprite(&sSpriteTemplate_MenuPokeball, x, y, 8);
-
-    gSprites[spriteId].oam.priority = 2;
-    return spriteId;
-}
-
-// For Confirm and Cancel when both are present
-static u8 CreateSmallPokeballButtonSprite(u8 x, u8 y)
-{
-    return CreateSprite(&sSpriteTemplate_MenuPokeballSmall, x, y, 8);
-}
-
 static void PartyMenuStartSpriteAnim(u8 spriteId, u8 animNum)
 {
     StartSpriteAnim(&gSprites[spriteId], animNum);
-}
-
-// Unused. Might explain the large blank section in gPartyMenuPokeballSmall_Gfx
-// At the very least this is how the unused anim cmds for sSpriteAnimTable_MenuPokeballSmall were meant to be accessed
-void SpriteCB_BounceConfirmCancelButton(u8 spriteId, u8 spriteId2, u8 animNum)
-{
-    if (animNum == 0)
-    {
-        StartSpriteAnim(&gSprites[spriteId], 2);
-        StartSpriteAnim(&gSprites[spriteId2], 4);
-        gSprites[spriteId].pos2.y = 0;
-        gSprites[spriteId2].pos2.y = 0;
-    }
-    else
-    {
-        StartSpriteAnim(&gSprites[spriteId], 3);
-        StartSpriteAnim(&gSprites[spriteId2], 5);
-        gSprites[spriteId].pos2.y = -4;
-        gSprites[spriteId2].pos2.y = 4;
-    }
-}
-
-static void LoadPartyMenuPokeballGfx(void)
-{
-    LoadCompressedSpriteSheet(&sSpriteSheet_MenuPokeball);
-    LoadCompressedSpriteSheet(&sSpriteSheet_MenuPokeballSmall);
-    LoadCompressedSpritePalette(&sSpritePalette_MenuPokeball);
 }
 
 static void CreatePartyMonStatusSprite(struct Pokemon *mon, struct PartyMenuBox *menuBox)
 {
     if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE)
     {
-        menuBox->statusSpriteId = CreateSprite(&sSpriteTemplate_StatusIcons, menuBox->spriteCoords[4], menuBox->spriteCoords[5], 0);
+        menuBox->statusSpriteId = CreateSprite(&sSpriteTemplate_StatusIcons, menuBox->spriteCoords[4] + 24, menuBox->spriteCoords[5] - 1, 0);
         SetPartyMonAilmentGfx(mon, menuBox);
     }
 }
@@ -2936,7 +3029,7 @@ static void CreatePartyMonStatusSpriteParameterized(u16 species, u8 status, stru
 {
     if (species != SPECIES_NONE)
     {
-        menuBox->statusSpriteId = CreateSprite(&sSpriteTemplate_StatusIcons, menuBox->spriteCoords[4], menuBox->spriteCoords[5], 0);
+        menuBox->statusSpriteId = CreateSprite(&sSpriteTemplate_StatusIcons, menuBox->spriteCoords[4] + 24, menuBox->spriteCoords[5] - 1, 0);
         UpdatePartyMonAilmentGfx(status, menuBox);
         gSprites[menuBox->statusSpriteId].oam.priority = 0;
     }
@@ -2956,7 +3049,10 @@ static void UpdatePartyMonAilmentGfx(u8 status, struct PartyMenuBox *menuBox)
         gSprites[menuBox->statusSpriteId].invisible = TRUE;
         break;
     default:
-        StartSpriteAnim(&gSprites[menuBox->statusSpriteId], status - 1);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StartSpriteAnim(&gSprites[menuBox->statusSpriteId], status - 1);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StartSpriteAnim(&gSprites[menuBox->statusSpriteId], status - 1 + 8);
         gSprites[menuBox->statusSpriteId].invisible = FALSE;
         break;
     }
@@ -3104,11 +3200,11 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
         case MENU_B_PRESSED:
             PlaySE(SE_SELECT);
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[2]);
-            sCursorOptions[sPartyMenuInternal->actions[sPartyMenuInternal->numActions - 1]].func(taskId);
+			sCursorOptions[sPartyMenuInternal->actions[sPartyMenuInternal->numActions - 1]].func(taskId);
             break;
         default:
             PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[2]);
-            sCursorOptions[sPartyMenuInternal->actions[input]].func(taskId);
+			sCursorOptions[sPartyMenuInternal->actions[input]].func(taskId);
             break;
         }
     }
@@ -3159,10 +3255,199 @@ static void CursorCB_Switch(u8 taskId)
 #define tSlot2Offset   data[9]
 #define tSlot1SlideDir data[10]
 #define tSlot2SlideDir data[11]
-
+//CORREGIR
 static void SwitchSelectedMons(u8 taskId)
 {
-    s16 *data = gTasks[taskId].data;
+    asm_unified("\n\
+		push	{r4-r7,lr}\n\
+		sub		sp, sp,	#0xc\n\
+		lsls	r0, r0,	#0x18\n\
+		lsrs	r7, r0,	#0x18\n\
+		lsls	r0, r7,	#2\n\
+		adds	r0, r0,	r7\n\
+		lsls	r0, r0,	#3\n\
+		ldr		r1, _8122e84\n\
+		adds	r6, r0,	r1\n\
+		ldr		r4, _8122e88\n\
+		movs	r1, #0xa\n\
+		ldrsb	r1, [r4,r1]\n\
+		movs	r0, #9\n\
+		ldrsb	r0, [r4,r0]\n\
+		cmp		r1, r0\n\
+		bne		_8122e8c\n\
+		movs	r0, r7\n\
+		bl		FinishTwoMonAction\n\
+		b		_8122fe2\n\
+	_8122e84:	.4byte 0x3005098\n\
+	_8122e88:	.4byte gPartyMenu\n\
+	_8122e8c:\n\
+		bl		SetSwitchedPartyOrderQuestLogEvent\n\
+		add		r2, sp,	#0x8\n\
+		movs	r0, #9\n\
+		ldrsb	r0, [r4,r0]\n\
+		ldr		r1, _8122f50\n\
+		ldr		r1, [r1]\n\
+		lsls	r0, r0,	#4\n\
+		adds	r0, r0,	r1\n\
+		ldrb	r0, [r0,#8]\n\
+		movs	r4, #0\n\
+		strb	r0, [r2]\n\
+		movs	r0, r2\n\
+		ldrb	r0, [r0]\n\
+		movs	r1, #1\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6]\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0]\n\
+		movs	r1, #2\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6,#2]\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0]\n\
+		movs	r1, #3\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6,#4]\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0]\n\
+		movs	r1, #4\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6,#6]\n\
+		strh	r4, [r6,#0x10]\n\
+		movs	r1, #4\n\
+		ldrsh	r0, [r6,r1]\n\
+		movs	r0, #1\n\
+		ands	r2, r0\n\
+		cmp		r2, #1\n\
+		beq		_8122eec\n\
+		negs	r0, r0\n\
+		b		_8122eee\n\
+		.2byte 0\n\
+		.4byte 0\n\
+	_8122eec:\n\
+		movs	r0, #1\n\
+	_8122eee:\n\
+		strh	r0, [r6,#0x14]\n\
+		add		r2, sp,	#0x8\n\
+		ldr		r0, _8122f4c\n\
+		ldrb	r0, [r0,#0xa]\n\
+		lsls	r0, r0,	#0x18\n\
+		asrs	r0, r0,	#0x18\n\
+		ldr		r1, _8122f50\n\
+		ldr		r1, [r1]\n\
+		lsls	r0, r0,	#4\n\
+		adds	r0, r0,	r1\n\
+		ldrb	r0, [r0,#8]\n\
+		movs	r4, #0\n\
+		strb	r0, [r2,#1]\n\
+		movs	r0, r2\n\
+		ldrb	r0, [r0,#1]\n\
+		movs	r1, #1\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6,#8]\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0,#1]\n\
+		movs	r1, #2\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6,#0xa]\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0,#1]\n\
+		movs	r1, #3\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6,#0xc]\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0,#1]\n\
+		movs	r1, #4\n\
+		bl		GetWindowAttribute\n\
+		strh	r0, [r6,#0xe]\n\
+		strh	r4, [r6,#0x12]\n\
+		movs	r1, #0xc\n\
+		ldrsh	r0, [r6,r1]\n\
+		movs	r0, #1\n\
+		ands	r2, r0\n\
+		cmp		r2, #1\n\
+		beq		_8122f54\n\
+		negs	r0, r0\n\
+		b		_8122f56\n\
+		.align 4, 0\n\
+	_8122f4c:	.4byte gPartyMenu\n\
+	_8122f50:	.4byte sPartyMenuBoxes\n\
+	_8122f54:\n\
+		movs	r0, #1\n\
+	_8122f56:\n\
+		strh	r0, [r6,#0x16]\n\
+		ldr		r4, _8122fec\n\
+		movs	r0, #4\n\
+		ldrsh	r1, [r6,r0]\n\
+		movs	r2, #6\n\
+		ldrsh	r0, [r6,r2]\n\
+		lsls	r0, r0,	#1\n\
+		muls	r0, r1\n\
+		bl		Alloc\n\
+		str		r0, [r4]\n\
+		ldr		r5, _8122ff0\n\
+		movs	r0, #0xc\n\
+		ldrsh	r1, [r6,r0]\n\
+		movs	r2, #0xe\n\
+		ldrsh	r0, [r6,r2]\n\
+		lsls	r0, r0,	#1\n\
+		muls	r0, r1\n\
+		bl		Alloc\n\
+		str		r0, [r5]\n\
+		ldr		r1, [r4]\n\
+		ldrb	r2, [r6]\n\
+		ldrb	r3, [r6,#2]\n\
+		ldrb	r0, [r6,#4]\n\
+		str		r0, [sp,#0]\n\
+		ldrb	r0, [r6,#6]\n\
+		str		r0, [sp,#0x4]\n\
+		movs	r0, #0\n\
+		bl		CopyToBufferFromBgTilemap\n\
+		ldr		r1, [r5]\n\
+		ldrb	r2, [r6,#8]\n\
+		ldrb	r3, [r6,#0xa]\n\
+		ldrb	r0, [r6,#0xc]\n\
+		str		r0, [sp,#0]\n\
+		ldrb	r0, [r6,#0xe]\n\
+		str		r0, [sp,#0x4]\n\
+		movs	r0, #0\n\
+		bl		CopyToBufferFromBgTilemap\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0]\n\
+		bl		ClearWindowTilemap\n\
+		add		r0, sp,	#0x8\n\
+		ldrb	r0, [r0,#1]\n\
+		bl		ClearWindowTilemap\n\
+		ldr		r4, _8122ff4\n\
+		movs	r0, #9\n\
+		strb	r0, [r4,#0xb]\n\
+		ldrb	r0, [r4,#0x9]\n\
+		movs	r1, #1\n\
+		bl		AnimatePartySlot\n\
+		ldrb	r0, [r4,#0xa]\n\
+		movs	r1, #1\n\
+		bl		AnimatePartySlot\n\
+		movs	r0, r7\n\
+		bl		SlidePartyMenuBoxOneStep\n\
+		ldr		r1, _8122ff8\n\
+		lsls	r0, r7,	#2\n\
+		adds	r0, r0,	r7\n\
+		lsls	r0, r0,	#3\n\
+		adds	r0, r0,	r1\n\
+		ldr		r1, _8122ffc\n\
+		str		r1, [r0]\n\
+	_8122fe2:\n\
+		add		sp, sp,	#0xc\n\
+		pop		{r4-r7}\n\
+		pop		{r0}\n\
+		bx		r0\n\
+		.align 4, 0\n\
+	_8122fec:	.4byte sSlot1TilemapBuffer\n\
+	_8122ff0:	.4byte sSlot2TilemapBuffer\n\
+	_8122ff4:	.4byte gPartyMenu\n\
+	_8122ff8:	.4byte 0x3005090\n\
+	_8122ffc:	.4byte Task_SlideSelectedSlotsOffscreen+1\n\
+	");
+/*    s16 *data = gTasks[taskId].data;
     u8 windowIds[2];
 
     if (gPartyMenu.slotId2 == gPartyMenu.slotId)
@@ -3179,22 +3464,22 @@ static void SwitchSelectedMons(u8 taskId)
         tSlot1Width = GetWindowAttribute(windowIds[0], WINDOW_WIDTH);
         tSlot1Height = GetWindowAttribute(windowIds[0], WINDOW_HEIGHT);
         tSlot1Offset = 0;
-        if (tSlot1Width == 10)
-            tSlot1SlideDir = -1;
-        else
+        if (tSlot1Width == 1)
             tSlot1SlideDir = 1;
+        else
+            tSlot1SlideDir = -1;
         windowIds[1] = sPartyMenuBoxes[gPartyMenu.slotId2].windowId;
         tSlot2Left = GetWindowAttribute(windowIds[1], WINDOW_TILEMAP_LEFT);
         tSlot2Top = GetWindowAttribute(windowIds[1], WINDOW_TILEMAP_TOP);
         tSlot2Width = GetWindowAttribute(windowIds[1], WINDOW_WIDTH);
         tSlot2Height = GetWindowAttribute(windowIds[1], WINDOW_HEIGHT);
         tSlot2Offset = 0;
-        if (tSlot2Width == 10)
-            tSlot2SlideDir = -1;
-        else
+        if (tSlot2Width == 1)
             tSlot2SlideDir = 1;
-        sSlot1TilemapBuffer = Alloc(tSlot1Width * (tSlot1Height << 1));
-        sSlot2TilemapBuffer = Alloc(tSlot2Width * (tSlot2Height << 1));
+        else
+            tSlot2SlideDir = -1;
+        sSlot1TilemapBuffer = Alloc(2 * tSlot1Height * tSlot1Width);
+        sSlot2TilemapBuffer = Alloc(2 * tSlot2Height * tSlot2Width);
         CopyToBufferFromBgTilemap(0, sSlot1TilemapBuffer, tSlot1Left, tSlot1Top, tSlot1Width, tSlot1Height);
         CopyToBufferFromBgTilemap(0, sSlot2TilemapBuffer, tSlot2Left, tSlot2Top, tSlot2Width, tSlot2Height);
         ClearWindowTilemap(windowIds[0]);
@@ -3204,7 +3489,7 @@ static void SwitchSelectedMons(u8 taskId)
         AnimatePartySlot(gPartyMenu.slotId2, 1);
         SlidePartyMenuBoxOneStep(taskId);
         gTasks[taskId].func = Task_SlideSelectedSlotsOffscreen;
-    }
+    } */
 }
 
 // returns FALSE if the slot has slid fully offscreen / back onscreen
@@ -3247,7 +3532,6 @@ static void MoveAndBufferPartySlot(const void *rectSrc, s16 x, s16 y, s16 width,
 
 static void MovePartyMenuBoxSprites(struct PartyMenuBox *menuBox, s16 offset)
 {
-    gSprites[menuBox->pokeballSpriteId].pos2.x += offset * 8;
     gSprites[menuBox->itemSpriteId].pos2.x += offset * 8;
     gSprites[menuBox->monSpriteId].pos2.x += offset * 8;
     gSprites[menuBox->statusSpriteId].pos2.x += offset * 8;
@@ -3273,10 +3557,136 @@ static void SlidePartyMenuBoxOneStep(u8 taskId)
         MoveAndBufferPartySlot(sSlot2TilemapBuffer, tSlot2Left + tSlot2Offset, tSlot2Top, tSlot2Width, tSlot2Height, tSlot2SlideDir);
     ScheduleBgCopyTilemapToVram(0);
 }
-
+//CORREGIR
 static void Task_SlideSelectedSlotsOffscreen(u8 taskId)
 {
-    s16 *data = gTasks[taskId].data;
+    asm_unified("\n\
+		push	{r4-r7,lr}\n\
+		mov		r7, r8\n\
+		push	{r7}\n\
+		sub		sp, sp,	#0xc\n\
+		movs	r4, r0\n\
+		lsls	r4, r4,	#0x18\n\
+		lsrs	r4, r4,	#0x18\n\
+		lsls	r0, r4,	#2\n\
+		adds	r0, r0,	r4\n\
+		lsls	r7, r0,	#3\n\
+		ldr		r0, _8123370\n\
+		mov		r8, r0\n\
+		adds	r6, r7,	r0\n\
+		movs	r0, r4\n\
+		bl		SlidePartyMenuBoxOneStep\n\
+		movs	r0, r4\n\
+		bl		SlidePartyMenuBoxSpritesOneStep\n\
+		ldrh	r1, [r6,#0x14]\n\
+		ldrh	r2, [r6,#0x10]\n\
+		adds	r1, r1,	r2\n\
+		strh	r1, [r6,#0x10]\n\
+		ldrh	r0, [r6,#0x16]\n\
+		ldrh	r3, [r6,#0x12]\n\
+		adds	r0, r0,	r3\n\
+		strh	r0, [r6,#0x12]\n\
+		add		r2, sp,	#0x8\n\
+		ldrh	r0, [r6]\n\
+		adds	r0, r0,	r1\n\
+		strh	r0, [r2]\n\
+		movs	r1, r2\n\
+		ldrh	r0, [r6,#0x12]\n\
+		ldrh	r3, [r6,#8]\n\
+		adds	r2, r0,	r3\n\
+		ldrh	r0, [r6,#0x18]\n\
+		adds	r0, #1\n\
+		strh	r0, [r6,#0x18]\n\
+		cmp		r0, #0x12\n\
+		bls		_8123362\n\
+		movs	r0, #0\n\
+		strh	r0, [r6,#0x18]\n\
+		movs	r0, r0\n\
+		movs	r0, r0\n\
+		movs	r1, #0x14\n\
+		ldrsh	r0, [r6,r1]\n\
+		negs	r0, r0\n\
+		strh	r0, [r6,#0x14]\n\
+		movs	r2, #0x16\n\
+		ldrsh	r0, [r6,r2]\n\
+		negs	r0, r0\n\
+		strh	r0, [r6,#0x16]\n\
+		bl		SwitchPartyMon\n\
+		ldr		r4, _8123374\n\
+		ldrb	r0, [r4,#9]\n\
+		bl		DisplayPartyPokemonData\n\
+		ldrb	r0, [r4,#0xa]\n\
+		bl		DisplayPartyPokemonData\n\
+		movs	r0, #9\n\
+		ldrsb	r0, [r4,r0]\n\
+		ldr		r5, _8123378\n\
+		ldr		r1, [r5]\n\
+		lsls	r0, r0,	#4\n\
+		adds	r0, r0,	r1\n\
+		ldrb	r0, [r0,#8]\n\
+		bl		PutWindowTilemap\n\
+		movs	r0, #0xa\n\
+		ldrsb	r0, [r4,r0]\n\
+		ldr		r1, [r5]\n\
+		lsls	r0, r0,	#4\n\
+		adds	r0, r0,	r1\n\
+		ldrb	r0, [r0,#8]\n\
+		bl		PutWindowTilemap\n\
+		ldr		r0, _812337c\n\
+		ldr		r1, [r0]\n\
+		ldrb	r2, [r6]\n\
+		ldrb	r3, [r6,#2]\n\
+		ldrb	r0, [r6,#4]\n\
+		str		r0, [sp,#0]\n\
+		ldrb	r0, [r6,#6]\n\
+		str		r0, [sp,#0x4]\n\
+		movs	r0, #0\n\
+		bl		CopyToBufferFromBgTilemap\n\
+		ldr		r0, _8123380\n\
+		ldr		r1, [r0]\n\
+		ldrb	r2, [r6,#8]\n\
+		ldrb	r3, [r6,#0xa]\n\
+		ldrb	r0, [r6,#0xc]\n\
+		str		r0, [sp,#0]\n\
+		ldrb	r0, [r6,#0xe]\n\
+		str		r0, [sp,#0x4]\n\
+		movs	r0, #0\n\
+		bl		CopyToBufferFromBgTilemap\n\
+		movs	r0, #9\n\
+		ldrsb	r0, [r4,r0]\n\
+		ldr		r1, [r5]\n\
+		lsls	r0, r0,	#4\n\
+		adds	r0, r0,	r1\n\
+		ldrb	r0, [r0,#8]\n\
+		bl		ClearWindowTilemap\n\
+		movs	r0, #0xa\n\
+		ldrsb	r0, [r4,r0]\n\
+		ldr		r1, [r5]\n\
+		lsls	r0, r0,	#4\n\
+		adds	r0, r0,	r1\n\
+		ldrb	r0, [r0,#8]\n\
+		bl		ClearWindowTilemap\n\
+		mov		r0, r8\n\
+		subs	r0, #8\n\
+		adds	r0, r7,	r0\n\
+		ldr		r1, _8123384\n\
+		str		r1, [r0]\n\
+	_8123362:\n\
+		add		sp, sp,	#0xc\n\
+		pop		{r3}\n\
+		mov		r8, r3\n\
+		pop		{r4-r7}\n\
+		pop		{r0}\n\
+		bx		r0\n\
+		.align 0x4, 0\n\
+	_8123370:	.4byte 0x3005098\n\
+	_8123374:	.4byte gPartyMenu\n\
+	_8123378:	.4byte sPartyMenuBoxes\n\
+	_812337c:	.4byte sSlot1TilemapBuffer\n\
+	_8123380:	.4byte sSlot2TilemapBuffer\n\
+	_8123384:	.4byte Task_SlideSelectedSlotsOnscreen+1\n\
+	");
+/*    s16 *data = gTasks[taskId].data;
     u16 slidingSlotPositions[2];
 
     SlidePartyMenuBoxOneStep(taskId);
@@ -3300,7 +3710,7 @@ static void Task_SlideSelectedSlotsOffscreen(u8 taskId)
         ClearWindowTilemap(sPartyMenuBoxes[gPartyMenu.slotId].windowId);
         ClearWindowTilemap(sPartyMenuBoxes[gPartyMenu.slotId2].windowId);
         gTasks[taskId].func = Task_SlideSelectedSlotsOnscreen;
-    }
+    }*/
 }
 
 static void Task_SlideSelectedSlotsOnscreen(u8 taskId)
@@ -3317,8 +3727,8 @@ static void Task_SlideSelectedSlotsOnscreen(u8 taskId)
         PutWindowTilemap(sPartyMenuBoxes[gPartyMenu.slotId2].windowId);
         ScheduleBgCopyTilemapToVram(0);
         // BUG: memory leak
-        // Free(sSlot1TilemapBuffer);
-        // Free(sSlot2TilemapBuffer);
+         Free(sSlot1TilemapBuffer);
+         Free(sSlot2TilemapBuffer);
         FinishTwoMonAction(taskId);
     }
     // Continue sliding
@@ -3369,7 +3779,6 @@ static void SwitchPartyMon(void)
     *mon1 = *mon2;
     *mon2 = *monBuffer;
     Free(monBuffer);
-    SwitchMenuBoxSprites(&menuBoxes[0]->pokeballSpriteId, &menuBoxes[1]->pokeballSpriteId);
     SwitchMenuBoxSprites(&menuBoxes[0]->itemSpriteId, &menuBoxes[1]->itemSpriteId);
     SwitchMenuBoxSprites(&menuBoxes[0]->monSpriteId, &menuBoxes[1]->monSpriteId);
     SwitchMenuBoxSprites(&menuBoxes[0]->statusSpriteId, &menuBoxes[1]->statusSpriteId);
@@ -3506,7 +3915,7 @@ static void Task_SwitchItemsYesNo(u8 taskId)
         gTasks[taskId].func = Task_HandleSwitchItemsYesNoInput;
     }
 }
-
+//TRADUCIR
 static void Task_HandleSwitchItemsYesNoInput(u8 taskId)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose())
@@ -3607,7 +4016,7 @@ static void Task_UpdateHeldItemSprite(u8 taskId)
         Task_ReturnToChooseMonAfterText(taskId);
     }
 }
-
+//TRADUCIR
 static void CursorCB_TakeItem(u8 taskId)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -3620,7 +4029,10 @@ static void CursorCB_TakeItem(u8 taskId)
     {
     case 0: // Not holding item
         GetMonNickname(mon, gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnNotHolding);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnNotHolding);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnNotHoldingSpa);
         DisplayPartyMenuMessage(gStringVar4, TRUE);
         break;
     case 1: // No room to take item
@@ -3664,13 +4076,16 @@ static void CB2_ReturnToPartyMenuFromReadingMail(void)
     gPaletteFade.bufferTransferDisabled = TRUE;
     InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_DO_WHAT_WITH_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
 }
-
+//TRADUCIR
 static void CursorCB_TakeMail(u8 taskId)
 {
     PlaySE(SE_SELECT);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
-    DisplayPartyMenuMessage(gText_SendMailToPC, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayPartyMenuMessage(gText_SendMailToPC, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayPartyMenuMessage(gText_SendMailToPCSpa, TRUE);
     gTasks[taskId].func = Task_SendMailToPCYesNo;
 }
 
@@ -3682,7 +4097,7 @@ static void Task_SendMailToPCYesNo(u8 taskId)
         gTasks[taskId].func = Task_HandleSendMailToPCYesNoInput;
     }
 }
-
+//TRADUCIR
 static void Task_HandleSendMailToPCYesNoInput(u8 taskId)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose())
@@ -3690,12 +4105,18 @@ static void Task_HandleSendMailToPCYesNoInput(u8 taskId)
     case 0: // Yes, send to PC
         if (TakeMailFromMon2(&gPlayerParty[gPartyMenu.slotId]) != 0xFF)
         {
-            DisplayPartyMenuMessage(gText_MailSentToPC, FALSE);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuMessage(gText_MailSentToPC, FALSE);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuMessage(gText_MailSentToPCSpa, FALSE);
             gTasks[taskId].func = Task_UpdateHeldItemSprite;
         }
         else
         {
-            DisplayPartyMenuMessage(gText_PCMailboxFull, FALSE);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuMessage(gText_PCMailboxFull, FALSE);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuMessage(gText_PCMailboxFullSpa, FALSE);
             gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
         }
         break;
@@ -3703,7 +4124,10 @@ static void Task_HandleSendMailToPCYesNoInput(u8 taskId)
         PlaySE(SE_SELECT);
         // fallthrough
     case 1:
-        DisplayPartyMenuMessage(gText_MailMessageWillBeLost, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_MailMessageWillBeLost, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_MailMessageWillBeLostSpa, TRUE);
         gTasks[taskId].func = Task_LoseMailMessageYesNo;
         break;
     }
@@ -3717,7 +4141,7 @@ static void Task_LoseMailMessageYesNo(u8 taskId)
         gTasks[taskId].func = Task_HandleLoseMailMessageYesNoInput;
     }
 }
-
+//TRADUCIR
 static void Task_HandleLoseMailMessageYesNoInput(u8 taskId)
 {
     u16 item;
@@ -3729,7 +4153,10 @@ static void Task_HandleLoseMailMessageYesNoInput(u8 taskId)
         if (AddBagItem(item, 1) == TRUE)
         {
             TakeMailFromMon(&gPlayerParty[gPartyMenu.slotId]);
-            DisplayPartyMenuMessage(gText_MailTakenFromPkmn, FALSE);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuMessage(gText_MailTakenFromPkmn, FALSE);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuMessage(gText_MailTakenFromPkmnSpa, FALSE);
             gTasks[taskId].func = Task_UpdateHeldItemSprite;
         }
         else
@@ -3761,7 +4188,7 @@ static void CursorCB_Cancel2(u8 taskId)
     gTasks[taskId].data[0] = 0xFF;
     gTasks[taskId].func = Task_HandleSelectionMenuInput;
 }
-
+//TRADUCIR
 static void CursorCB_SendMon(u8 taskId)
 {
     PlaySE(SE_SELECT);
@@ -3778,7 +4205,7 @@ static void CursorCB_SendMon(u8 taskId)
         gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
     }
 }
-
+//TRADUCIR
 static void CursorCB_Enter(u8 taskId)
 {
     u8 maxBattlers;
@@ -3788,12 +4215,18 @@ static void CursorCB_Enter(u8 taskId)
     if (gPartyMenu.unk_8_6 == 2)
     {
         maxBattlers = 2;
-        str = gText_8416B3E;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			str = gText_8416B3E;
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			str = gText_8416B3ESpa;
     }
     else
     {
         maxBattlers = 3;
-        str = gText_8416B16;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			str = gText_8416B16;
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			str = gText_8416B16Spa;
     }
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
@@ -3803,10 +4236,16 @@ static void CursorCB_Enter(u8 taskId)
         {
             PlaySE(SE_SELECT);
             gSelectedOrderFromParty[i] = gPartyMenu.slotId + 1;
-            DisplayPartyPokemonDescriptionText(i + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyPokemonDescriptionText(i + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyPokemonDescriptionText(i + 10 + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
             if (i == (maxBattlers - 1))
                 MoveCursorToConfirm();
-            DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON + 27);
             gTasks[taskId].func = Task_HandleChooseMonInput;
             return;
         }
@@ -3867,19 +4306,26 @@ static void CursorCB_Store(u8 taskId)
 }
 
 // Register mon for the Trading Board in Union Room
+//TRADUCIR
 static void CursorCB_Register(u8 taskId)
 {
     u16 species2 = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES2);
     u16 species = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES);
-    u8 isEventLegal = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_EVENT_LEGAL);
+    u8 obedience = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_EVENT_LEGAL);
 
-    switch (CanRegisterMonForTradingBoard(*(struct GFtgtGnameSub *)GetHostRFUtgtGname(), species2, species, isEventLegal))
+    switch (CanRegisterMonForTradingBoard(*(struct GFtgtGnameSub *)GetHostRFUtgtGname(), species2, species, obedience))
     {
     case CANT_REGISTER_MON:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnCantBeTradedNow);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCantBeTradedNow);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCantBeTradedNowSpa);
         break;
     case CANT_REGISTER_EGG:
-        StringExpandPlaceholders(gStringVar4, gText_EggCantBeTradedNow);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_EggCantBeTradedNow);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_EggCantBeTradedNowSpa);
         break;
     default:
         PlaySE(SE_SELECT);
@@ -3893,17 +4339,20 @@ static void CursorCB_Register(u8 taskId)
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
 }
-
+//TRADUCIR
 static void CursorCB_Trade1(u8 taskId)
 {
     u16 species2 = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES2);
     u16 species = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES);
-    u8 isEventLegal = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_EVENT_LEGAL);
-    u32 stringId = GetUnionRoomTradeMessageId(*(struct GFtgtGnameSub *)GetHostRFUtgtGname(), gPartnerTgtGnameSub, species2, gUnionRoomOfferedSpecies, gUnionRoomRequestedMonType, species, isEventLegal);
+    u8 obedience = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_EVENT_LEGAL);
+    u32 stringId = GetUnionRoomTradeMessageId(*(struct GFtgtGnameSub *)GetHostRFUtgtGname(), gPartnerTgtGnameSub, species2, gUnionRoomOfferedSpecies, gUnionRoomRequestedMonType, species, obedience);
 
     if (stringId != UR_TRADE_MSG_NONE)
     {
-        StringExpandPlaceholders(gStringVar4, sUnionRoomTradeMessages[stringId - 1]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, sUnionRoomTradeMessages[stringId - 1]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, sUnionRoomTradeMessages[stringId - 1 + 9]);
         PlaySE(SE_FAILURE);
         PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
         PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
@@ -3923,7 +4372,7 @@ static void CursorCB_Trade1(u8 taskId)
 static void CursorCB_Trade2(u8 taskId)
 {
 }
-
+//TRADUCIR
 static void CursorCB_FieldMove(u8 taskId)
 {
     u8 fieldMove = sPartyMenuInternal->actions[Menu_GetCursorPos()] - MENU_FIELD_MOVES;
@@ -3937,9 +4386,15 @@ static void CursorCB_FieldMove(u8 taskId)
     if (MenuHelpers_LinkSomething() == TRUE || InUnionRoom() == TRUE)
     {
         if (fieldMove == FIELD_MOVE_MILK_DRINK || fieldMove == FIELD_MOVE_SOFT_BOILED)
-            DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE + 27);
         else
-            DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuStdMessage(12 + sFieldMoveCursorCallbacks[fieldMove].msgId);
         gTasks[taskId].func = Task_CancelAfterAorBPress;
     }
     else
@@ -3947,7 +4402,10 @@ static void CursorCB_FieldMove(u8 taskId)
         // All field moves before WATERFALL are HMs.
         if (fieldMove <= FIELD_MOVE_WATERFALL && FlagGet(FLAG_BADGE01_GET + fieldMove) != TRUE)
         {
-            DisplayPartyMenuMessage(gText_CantUseUntilNewBadge, TRUE);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuMessage(gText_CantUseUntilNewBadge, TRUE);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuMessage(gText_CantUseUntilNewBadgeSpa, TRUE);
             gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
         }
         else if (sFieldMoveCursorCallbacks[fieldMove].fieldMoveFunc() == TRUE)
@@ -3961,14 +4419,20 @@ static void CursorCB_FieldMove(u8 taskId)
             case FIELD_MOVE_TELEPORT:
                 mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->lastHealLocation.mapGroup, gSaveBlock1Ptr->lastHealLocation.mapNum);
                 GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
-                StringExpandPlaceholders(gStringVar4, gText_ReturnToHealingSpot);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(gStringVar4, gText_ReturnToHealingSpot);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(gStringVar4, gText_ReturnToHealingSpotSpa);
                 DisplayFieldMoveExitAreaMessage(taskId);
                 sPartyMenuInternal->data[0] = fieldMove;
                 break;
             case FIELD_MOVE_DIG:
                 mapHeader = Overworld_GetMapHeaderByGroupAndId(gSaveBlock1Ptr->escapeWarp.mapGroup, gSaveBlock1Ptr->escapeWarp.mapNum);
                 GetMapNameGeneric(gStringVar1, mapHeader->regionMapSectionId);
-                StringExpandPlaceholders(gStringVar4, gText_EscapeFromHereAndReturnTo);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(gStringVar4, gText_EscapeFromHereAndReturnTo);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(gStringVar4, gText_EscapeFromHereAndReturnToSpa);
                 DisplayFieldMoveExitAreaMessage(taskId);
                 sPartyMenuInternal->data[0] = fieldMove;
                 break;
@@ -3995,14 +4459,16 @@ static void CursorCB_FieldMove(u8 taskId)
                 DisplayCantUseFlashMessage();
                 break;
             default:
-                DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					DisplayPartyMenuStdMessage(12 + sFieldMoveCursorCallbacks[fieldMove].msgId);
                 break;
             }
             gTasks[taskId].func = Task_CancelAfterAorBPress;
         }
     }
 }
-
 static void DisplayFieldMoveExitAreaMessage(u8 taskId)
 {
     DisplayPartyMenuMessage(gStringVar4, TRUE);
@@ -4311,13 +4777,10 @@ static void sub_8124DE0(void)
 
 static void sub_8124E48(void)
 {
-    if (ItemId_GetPocket(gSpecialVar_ItemId) == POCKET_TM_CASE
-     && PSA_IsCancelDisabled() == TRUE)
+    if (ItemId_GetPocket(gSpecialVar_ItemId) == POCKET_TM_CASE && PSA_IsCancelDisabled() == TRUE)
     {
         GiveMoveToMon(&gPlayerParty[gPartyMenu.slotId], ItemIdToBattleMoveId(gSpecialVar_ItemId));
-        AdjustFriendship(&gPlayerParty[gPartyMenu.slotId], FRIENDSHIP_EVENT_LEARN_TMHM);
-        if (gSpecialVar_ItemId <= ITEM_TM50)
-            RemoveBagItem(gSpecialVar_ItemId, 1);
+        AdjustFriendship(&gPlayerParty[gPartyMenu.slotId], 4);
         SetMainCallback2(gPartyMenu.exitCallback);
     }
     else
@@ -4336,10 +4799,8 @@ static void sub_8124EFC(void)
         
         RemoveMonPPBonus(mon, moveIdx);
         SetMonMoveSlot(mon, ItemIdToBattleMoveId(gSpecialVar_ItemId), moveIdx);
-        AdjustFriendship(mon, FRIENDSHIP_EVENT_LEARN_TMHM);
+        AdjustFriendship(mon, 4);
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, move);
-        if (gSpecialVar_ItemId <= ITEM_TM50)
-            RemoveBagItem(gSpecialVar_ItemId, 1);
         SetMainCallback2(gPartyMenu.exitCallback);
     }
     else
@@ -4371,68 +4832,149 @@ static bool8 IsHPRecoveryItem(u16 item)
     else
         return FALSE;
 }
-
+//TRADUCIR
 static void GetMedicineItemEffectMessage(u16 item)
 {
     switch (GetItemEffectType(item))
     {
     case ITEM_EFFECT_CURE_POISON:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnCuredOfPoison);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCuredOfPoison);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCuredOfPoisonSpa);
         break;
     case ITEM_EFFECT_CURE_SLEEP:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnWokeUp2);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnWokeUp2);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnWokeUp2Spa);
         break;
     case ITEM_EFFECT_CURE_BURN:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBurnHealed);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBurnHealed);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBurnHealedSpa);
         break;
     case ITEM_EFFECT_CURE_FREEZE:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnThawedOut);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnThawedOut);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnThawedOutSpa);
         break;
     case ITEM_EFFECT_CURE_PARALYSIS:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnCuredOfParalysis);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCuredOfParalysis);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCuredOfParalysisSpa);
         break;
     case ITEM_EFFECT_CURE_CONFUSION:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnSnappedOutOfConfusion);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnSnappedOutOfConfusion);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnSnappedOutOfConfusionSpa);
         break;
     case ITEM_EFFECT_CURE_INFATUATION:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnGotOverInfatuation);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnGotOverInfatuation);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnGotOverInfatuationSpa);
         break;
     case ITEM_EFFECT_CURE_ALL_STATUS:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBecameHealthy);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBecameHealthy);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBecameHealthySpa);
         break;
     case ITEM_EFFECT_HP_EV:
-        StringCopy(gStringVar2, gText_HP3);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gText_HP3);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gText_HP3Spa);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreasedSpa);
+		}
         break;
     case ITEM_EFFECT_ATK_EV:
-        StringCopy(gStringVar2, gText_Attack3);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gText_Attack3);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gText_Attack3Spa);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreasedSpa);
+		}
         break;
     case ITEM_EFFECT_DEF_EV:
-        StringCopy(gStringVar2, gText_Defense3);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gText_Defense3);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gText_Defense3Spa);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreasedSpa);
+		}
         break;
     case ITEM_EFFECT_SPEED_EV:
-        StringCopy(gStringVar2, gText_Speed2);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gText_Speed2);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gText_Speed2Spa);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreasedSpa);
+		}
         break;
     case ITEM_EFFECT_SPATK_EV:
-        StringCopy(gStringVar2, gText_SpAtk3);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gText_SpAtk3);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gText_SpAtk3Spa);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreasedSpa);
+		}
         break;
     case ITEM_EFFECT_SPDEF_EV:
-        StringCopy(gStringVar2, gText_SpDef3);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gText_SpDef3);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreased);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gText_SpDef3Spa);
+			StringExpandPlaceholders(gStringVar4, gText_PkmnBaseVar2StatIncreasedSpa);
+		}
         break;
     case ITEM_EFFECT_PP_UP:
     case ITEM_EFFECT_PP_MAX:
-        StringExpandPlaceholders(gStringVar4, gText_MovesPPIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_MovesPPIncreased);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_MovesPPIncreasedSpa);
         break;
     case ITEM_EFFECT_HEAL_PP:
-        StringExpandPlaceholders(gStringVar4, gText_PPWasRestored);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PPWasRestored);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PPWasRestoredSpa);
         break;
     default:
-        StringExpandPlaceholders(gStringVar4, gText_WontHaveEffect);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_WontHaveEffect);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_WontHaveEffectSpa);
         break;
     }
 }
@@ -4458,7 +5000,7 @@ static bool8 ExecuteTableBasedItemEffect_(u8 partyMonIndex, u16 item, u8 monMove
     else
         return ExecuteTableBasedItemEffect(&gPlayerParty[partyMonIndex], item, partyMonIndex, monMoveIndex);
 }
-
+//TRADUCIR
 void ItemUseCB_Medicine(u8 taskId, TaskFunc func)
 {
     u16 hp;
@@ -4484,7 +5026,10 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc func)
     if (canHeal)
     {
         gPartyMenuUseExitCallback = FALSE;
-        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_WontHaveEffectSpa, TRUE);
         ScheduleBgCopyTilemapToVram(2);
         gTasks[taskId].func = func;
     }
@@ -4495,7 +5040,7 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc func)
         gItemUseCB = ItemUseCB_MedicineStep;
     }
 }
-
+//TRADUCIR
 void ItemUseCB_MedicineStep(u8 taskId, TaskFunc func)
 {
     u16 hp = 0;
@@ -4517,7 +5062,10 @@ void ItemUseCB_MedicineStep(u8 taskId, TaskFunc func)
         WONT_HAVE_EFFECT:
             gPartyMenuUseExitCallback = FALSE;
             PlaySE(SE_SELECT);
-            DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayPartyMenuMessage(gText_WontHaveEffectSpa, TRUE);
             ScheduleBgCopyTilemapToVram(2);
             gTasks[taskId].func = func;
             return;
@@ -4558,11 +5106,14 @@ void ItemUseCB_MedicineStep(u8 taskId, TaskFunc func)
         gTasks[taskId].func = func;
     }
 }
-
+//TRADUCIR
 static void Task_DisplayHPRestoredMessage(u8 taskId)
 {
     GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnHPRestoredByVar2);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnHPRestoredByVar2);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnHPRestoredByVar2Spa);
     DisplayPartyMenuMessage(gStringVar4, FALSE);
     ScheduleBgCopyTilemapToVram(2);
     HandleBattleLowHpMusicChange();
@@ -4590,13 +5141,10 @@ static void ShowMoveSelectWindow(u8 slot)
     for (i = 0; i < MAX_MON_MOVES; ++i)
     {
         move = GetMonData(&gPlayerParty[slot], MON_DATA_MOVE1 + i);
-        AddTextPrinterParameterized(windowId,
-                                    fontId,
-                                    gMoveNames[move],
-                                    GetFontAttribute(fontId, FONTATTR_MAX_LETTER_WIDTH) + GetFontAttribute(fontId, FONTATTR_LETTER_SPACING),
-                                    (i * 16) + 2,
-                                    TEXT_SPEED_FF,
-                                    NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized(windowId, fontId, gMoveNames[move], GetFontAttribute(fontId, FONTATTR_MAX_LETTER_WIDTH) + GetFontAttribute(fontId, FONTATTR_LETTER_SPACING), (i * 16) + 2, TEXT_SPEED_FF, NULL);
+		if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized(windowId, fontId, gMoveNamesSpa[move], GetFontAttribute(fontId, FONTATTR_MAX_LETTER_WIDTH) + GetFontAttribute(fontId, FONTATTR_LETTER_SPACING), (i * 16) + 2, TEXT_SPEED_FF, NULL);			
         if (move != MOVE_NONE)
             ++moveCount;
     }
@@ -4666,7 +5214,7 @@ static void ReturnToUseOnWhichMon(u8 taskId)
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON);
 }
-
+//TRADUCIR
 static void sub_812580C(u8 taskId)
 {
     bool8 noEffect = PokemonItemUseNoEffect(&gPlayerParty[gPartyMenu.slotId],
@@ -4677,7 +5225,10 @@ static void sub_812580C(u8 taskId)
     if (noEffect)
     {
         gPartyMenuUseExitCallback = FALSE;
-        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_WontHaveEffectSpa, TRUE);
         ScheduleBgCopyTilemapToVram(2);
         gTasks[taskId].func = Task_ClosePartyMenuAfterText;
     }
@@ -4687,7 +5238,7 @@ static void sub_812580C(u8 taskId)
         gItemUseCB = sub_8125898;
     }
 }
-
+//TRADUCIR
 static void sub_8125898(u8 taskId, UNUSED TaskFunc func)
 {
     u16 move;
@@ -4699,13 +5250,16 @@ static void sub_8125898(u8 taskId, UNUSED TaskFunc func)
     PlaySE(SE_USE_ITEM);
     RemoveBagItem(gSpecialVar_ItemId, 1);
     move = GetMonData(mon, gPartyMenu.data1 + MON_DATA_MOVE1);
-    StringCopy(gStringVar1, gMoveNames[move]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(gStringVar1, gMoveNames[move]);
+	if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(gStringVar1, gMoveNamesSpa[move]);
     GetMedicineItemEffectMessage(gSpecialVar_ItemId);
     DisplayPartyMenuMessage(gStringVar4, 1);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_ClosePartyMenuAfterText;
 }
-
+//TRADUCIR
 static void TryUsePPItem(u8 taskId)
 {
     u16 move = MOVE_NONE;
@@ -4718,7 +5272,10 @@ static void TryUsePPItem(u8 taskId)
     {
         gPartyMenuUseExitCallback = FALSE;
         PlaySE(SE_SELECT);
-        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_WontHaveEffectSpa, TRUE);
         ScheduleBgCopyTilemapToVram(2);
         gTasks[taskId].func = Task_ClosePartyMenuAfterText;
     }
@@ -4730,7 +5287,10 @@ static void TryUsePPItem(u8 taskId)
         PlaySE(SE_USE_ITEM);
         RemoveBagItem(item, 1);
         move = GetMonData(mon, MON_DATA_MOVE1 + *moveSlot);
-        StringCopy(gStringVar1, gMoveNames[move]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(gStringVar1, gMoveNames[move]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(gStringVar1, gMoveNamesSpa[move]);
         GetMedicineItemEffectMessage(item);
         DisplayPartyMenuMessage(gStringVar4, TRUE);
         ScheduleBgCopyTilemapToVram(2);
@@ -4787,7 +5347,7 @@ static void DisplayLearnMoveMessageAndClose(u8 taskId, const u8 *str)
     DisplayLearnMoveMessage(str);
     gTasks[taskId].func = Task_ClosePartyMenuAfterText;
 }
-
+//TRADUCIR
 void ItemUseCB_TMHM(u8 taskId, UNUSED TaskFunc func)
 {
     struct Pokemon *mon;
@@ -4800,15 +5360,24 @@ void ItemUseCB_TMHM(u8 taskId, UNUSED TaskFunc func)
     item = gSpecialVar_ItemId;
     GetMonNickname(mon, gStringVar1);
     move[0] = ItemIdToBattleMoveId(item);
-    StringCopy(gStringVar2, gMoveNames[move[0]]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(gStringVar2, gMoveNames[move[0]]);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(gStringVar2, gMoveNamesSpa[move[0]]);
     move[1] = 0;
     switch (CanMonLearnTMTutor(mon, item, 0))
     {
     case CANNOT_LEARN_MOVE:
-        DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMove);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMoveSpa);
         return;
     case ALREADY_KNOWS_MOVE:
-        DisplayLearnMoveMessageAndClose(taskId, gText_PkmnAlreadyKnows);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayLearnMoveMessageAndClose(taskId, gText_PkmnAlreadyKnows);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayLearnMoveMessageAndClose(taskId, gText_PkmnAlreadyKnowsSpa);
         return;
     }
     if (GiveMoveToMon(mon, move[0]) != MON_HAS_MAX_MOVES)
@@ -4819,7 +5388,10 @@ void ItemUseCB_TMHM(u8 taskId, UNUSED TaskFunc func)
     }
     else
     {
-        DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMove);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMoveSpa);
         gTasks[taskId].func = Task_ReplaceMoveYesNo;
     }
 }
@@ -4828,7 +5400,7 @@ static void ItemUseCB_LearnedMove(u8 taskId, UNUSED TaskFunc func)
 {
     Task_LearnedMove(taskId);
 }
-
+//TRADUCIR
 static void Task_LearnedMove(u8 taskId)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -4837,13 +5409,21 @@ static void Task_LearnedMove(u8 taskId)
 
     if (move[1] == 0)
     {
-        AdjustFriendship(mon, FRIENDSHIP_EVENT_LEARN_TMHM);
-        if (item < ITEM_HM01_CUT)
-            RemoveBagItem(item, 1);
+        AdjustFriendship(mon, 4);
+  // 	if (item < ITEM_HM01_CUT)
+  //    	RemoveBagItem(item, 1);
     }
     GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gMoveNames[move[0]]);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		StringCopy(gStringVar2, gMoveNames[move[0]]);
+		StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		StringCopy(gStringVar2, gMoveNamesSpa[move[0]]);
+		StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3Spa);
+	}
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_DoLearnedMoveFanfareAfterText;
@@ -4881,13 +5461,16 @@ static void Task_ReplaceMoveYesNo(u8 taskId)
         gTasks[taskId].func = Task_HandleReplaceMoveYesNoInput;
     }
 }
-
+//TRADUCIR
 static void Task_HandleReplaceMoveYesNoInput(u8 taskId)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0:
-        DisplayPartyMenuMessage(gText_WhichMoveToForget, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_WhichMoveToForget, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_WhichMoveToForgetSpa, TRUE);
         gTasks[taskId].func = Task_ShowSummaryScreenToForgetMove;
         break;
     case MENU_B_PRESSED:
@@ -4956,7 +5539,10 @@ static void sub_8125F5C(u8 taskId)
 
     ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, move);
     GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gMoveNames[move]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(gStringVar2, gMoveNames[move]);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(gStringVar2, gMoveNamesSpa[move]);
     RemoveMonPPBonus(mon, moveIdx);
     SetMonMoveSlot(mon, gPartyMenu.data1, moveIdx);
     Task_LearnedMove(taskId);
@@ -4968,8 +5554,17 @@ static void DisplayPartyMenuForgotMoveMessage(u8 taskId)
     u16 move = GetMonData(mon, MON_DATA_MOVE1 + GetMoveSlotToReplace());
 
     GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gMoveNames[move]);
-    DisplayLearnMoveMessage(gText_12PoofForgotMove);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		StringCopy(gStringVar2, gMoveNames[move]);
+		DisplayLearnMoveMessage(gText_12PoofForgotMove);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		StringCopy(gStringVar2, gMoveNamesSpa[move]);
+		DisplayLearnMoveMessage(gText_12PoofForgotMove);
+	}
+    
     gTasks[taskId].func = Task_PartyMenuReplaceMove;
 }
 
@@ -4987,11 +5582,19 @@ static void Task_PartyMenuReplaceMove(u8 taskId)
         Task_LearnedMove(taskId);
     }
 }
-
+//TRADUCIR
 static void StopLearningMovePrompt(u8 taskId)
 {
-    StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
-    StringExpandPlaceholders(gStringVar4, gText_StopLearningMove2);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
+		StringExpandPlaceholders(gStringVar4, gText_StopLearningMove2);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		StringCopy(gStringVar2, gMoveNamesSpa[gPartyMenu.data1]);
+		StringExpandPlaceholders(gStringVar4, gText_StopLearningMove2Spa);
+	}
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_StopLearningMoveYesNo;
@@ -5005,7 +5608,7 @@ static void Task_StopLearningMoveYesNo(u8 taskId)
         gTasks[taskId].func = Task_HandleStopLearningMoveYesNoInput;
     }
 }
-
+//TRADUCIR
 static void Task_HandleStopLearningMoveYesNoInput(u8 taskId)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -5014,8 +5617,16 @@ static void Task_HandleStopLearningMoveYesNoInput(u8 taskId)
     {
     case 0:
         GetMonNickname(mon, gStringVar1);
-        StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
-        StringExpandPlaceholders(gStringVar4, gText_MoveNotLearned);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
+			StringExpandPlaceholders(gStringVar4, gText_MoveNotLearned);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gMoveNamesSpa[gPartyMenu.data1]);
+			StringExpandPlaceholders(gStringVar4, gText_MoveNotLearned);
+		}
         DisplayPartyMenuMessage(gStringVar4, TRUE);
         if (gPartyMenu.learnMoveState == 1)
         {
@@ -5033,8 +5644,16 @@ static void Task_HandleStopLearningMoveYesNoInput(u8 taskId)
         // fallthrough
     case 1:
         GetMonNickname(mon, gStringVar1);
-        StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
-        DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
+			DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMove);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(gStringVar2, gMoveNamesSpa[gPartyMenu.data1]);
+			DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMove);
+		}
         gTasks[taskId].func = Task_ReplaceMoveYesNo;
         break;
     }
@@ -5045,7 +5664,7 @@ static void Task_TryLearningNextMoveAfterText(u8 taskId)
     if (IsPartyMenuTextPrinterActive() != TRUE)
         Task_TryLearningNextMove(taskId);
 }
-
+//TRADUCIR
 void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -5060,7 +5679,10 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
     if (noEffect)
     {
         gPartyMenuUseExitCallback = FALSE;
-        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_WontHaveEffectSpa, TRUE);
         ScheduleBgCopyTilemapToVram(2);
         gTasks[taskId].func = func;
     }
@@ -5070,7 +5692,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
         gItemUseCB = ItemUseCB_RareCandyStep;
     }
 }
-
+//TRADUCIR
 static void ItemUseCB_RareCandyStep(u8 taskId, UNUSED TaskFunc func)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -5089,7 +5711,10 @@ static void ItemUseCB_RareCandyStep(u8 taskId, UNUSED TaskFunc func)
     GetMonNickname(mon, gStringVar1);
     level = GetMonData(mon, MON_DATA_LEVEL);
     ConvertIntToDecimalStringN(gStringVar2, level, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2Spa);
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
@@ -5197,7 +5822,7 @@ static void Task_TryLearningNextMove(u8 taskId)
 static void PartyMenuTryEvolution(u8 taskId)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
-    u16 targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, 0);
+    u16 targetSpecies = GetEvolutionTargetSpecies(mon, 0, 0);
 
     if (targetSpecies != SPECIES_NONE)
     {
@@ -5211,23 +5836,39 @@ static void PartyMenuTryEvolution(u8 taskId)
         gTasks[taskId].func = Task_ClosePartyMenuAfterText;
     }
 }
-
+//TRADUCIR
 static void DisplayMonNeedsToReplaceMove(u8 taskId)
 {
     GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
-    StringCopy(gStringVar2, gMoveNames[gMoveToLearn]);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnNeedsToReplaceMove);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		StringCopy(gStringVar2, gMoveNames[gMoveToLearn]);
+		StringExpandPlaceholders(gStringVar4, gText_PkmnNeedsToReplaceMove);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		StringCopy(gStringVar2, gMoveNamesSpa[gMoveToLearn]);
+		StringExpandPlaceholders(gStringVar4, gText_PkmnNeedsToReplaceMoveSpa);
+	}
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);
     gPartyMenu.data1 = gMoveToLearn;
     gTasks[taskId].func = Task_ReplaceMoveYesNo;
 }
-
+//TRADUCIR
 static void DisplayMonLearnedMove(u8 taskId, u16 move)
 {
     GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
-    StringCopy(gStringVar2, gMoveNames[move]);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		StringCopy(gStringVar2, gMoveNames[move]);
+		StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		StringCopy(gStringVar2, gMoveNamesSpa[move]);
+		StringExpandPlaceholders(gStringVar4, gText_PkmnLearnedMove3Spa);
+	}
     DisplayPartyMenuMessage(gStringVar4, TRUE);
     ScheduleBgCopyTilemapToVram(2);
     gPartyMenu.data1 = move;
@@ -5275,7 +5916,7 @@ static void UseSacredAsh(u8 taskId)
     sPartyMenuInternal->tUsedOnSlot = TRUE;
     sPartyMenuInternal->tHadEffect = TRUE;
 }
-
+//TRADUCIR
 static void Task_SacredAshLoop(u8 taskId)
 {
     if (IsPartyMenuTextPrinterActive() != TRUE)
@@ -5290,7 +5931,10 @@ static void Task_SacredAshLoop(u8 taskId)
             if (sPartyMenuInternal->tHadEffect == FALSE)
             {
                 gPartyMenuUseExitCallback = FALSE;
-                DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					DisplayPartyMenuMessage(gText_WontHaveEffectSpa, TRUE);
                 ScheduleBgCopyTilemapToVram(2);
             }
             else
@@ -5309,11 +5953,14 @@ static void Task_SacredAshLoop(u8 taskId)
         }
     }
 }
-
+//TRADUCIR
 static void Task_SacredAshDisplayHPRestored(u8 taskId)
 {
     GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_PkmnHPRestoredByVar2);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnHPRestoredByVar2);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_PkmnHPRestoredByVar2Spa);
     DisplayPartyMenuMessage(gStringVar4, FALSE);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_SacredAshLoop;
@@ -5322,7 +5969,7 @@ static void Task_SacredAshDisplayHPRestored(u8 taskId)
 #undef tUsedOnSlot
 #undef tHadEffect
 #undef tLastSlotUsed
-
+//TRADUCIR
 void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc func)
 {
     bool8 noEffect;
@@ -5332,7 +5979,10 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc func)
     if (noEffect)
     {
         gPartyMenuUseExitCallback = FALSE;
-        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_WontHaveEffectSpa, TRUE);
         ScheduleBgCopyTilemapToVram(2);
         gTasks[taskId].func = func;
     }
@@ -5353,7 +6003,7 @@ static void sub_8126BD4(void)
 static bool8 MonCanEvolve(void)
 {
     if (!IsNationalPokedexEnabled()
-     && GetEvolutionTargetSpecies(&gPlayerParty[gPartyMenu.slotId], EVO_MODE_ITEM_USE, gSpecialVar_ItemId) > KANTO_DEX_COUNT)
+     && GetEvolutionTargetSpecies(&gPlayerParty[gPartyMenu.slotId], 2, gSpecialVar_ItemId) > KANTO_DEX_COUNT)
         return FALSE;
     else
         return TRUE;
@@ -5422,7 +6072,7 @@ u8 GetItemEffectType(u16 item)
     else
         return ITEM_EFFECT_NONE;
 }
-
+//TRADUCIR
 static void TryTutorSelectedMon(u8 taskId)
 {
     struct Pokemon *mon;
@@ -5434,15 +6084,24 @@ static void TryTutorSelectedMon(u8 taskId)
         move = &gPartyMenu.data1;
         GetMonNickname(mon, gStringVar1);
         gPartyMenu.data1 = GetTutorMove(gSpecialVar_0x8005);
-        StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(gStringVar2, gMoveNames[gPartyMenu.data1]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(gStringVar2, gMoveNamesSpa[gPartyMenu.data1]);
         move[1] = 2;
         switch (CanMonLearnTMTutor(mon, 0, gSpecialVar_0x8005))
         {
         case CANNOT_LEARN_MOVE:
-            DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMove);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMove);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayLearnMoveMessageAndClose(taskId, gText_PkmnCantLearnMoveSpa);
             return;
         case ALREADY_KNOWS_MOVE:
-            DisplayLearnMoveMessageAndClose(taskId, gText_PkmnAlreadyKnows);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayLearnMoveMessageAndClose(taskId, gText_PkmnAlreadyKnows);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayLearnMoveMessageAndClose(taskId, gText_PkmnAlreadyKnowsSpa);
             return;
         default:
             if (GiveMoveToMon(mon, gPartyMenu.data1) != MON_HAS_MAX_MOVES)
@@ -5452,7 +6111,10 @@ static void TryTutorSelectedMon(u8 taskId)
             }
             break;
         }
-        DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMove);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMove);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayLearnMoveMessage(gText_PkmnNeedsToReplaceMoveSpa);
         gTasks[taskId].func = Task_ReplaceMoveYesNo;
     }
 }
@@ -5591,7 +6253,7 @@ static void Task_SwitchItemsFromBagYesNo(u8 taskId)
         gTasks[taskId].func = Task_HandleSwitchItemsFromBagYesNoInput;
     }
 }
-
+//TRADUCIR
 static void Task_HandleSwitchItemsFromBagYesNoInput(u8 taskId)
 {
     u16 item;
@@ -5628,10 +6290,13 @@ static void Task_HandleSwitchItemsFromBagYesNoInput(u8 taskId)
         break;
     }
 }
-
+//TRADUCIR
 static void DisplayItemMustBeRemovedFirstMessage(u8 taskId)
 {
-    DisplayPartyMenuMessage(gText_RemoveMailBeforeItem, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayPartyMenuMessage(gText_RemoveMailBeforeItem, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayPartyMenuMessage(gText_RemoveMailBeforeItemSpa, TRUE);
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_UpdateHeldItemSpriteAndClosePartyMenu;
 }
@@ -5658,7 +6323,7 @@ void ChooseMonToGiveMailFromMailbox(void)
 {
     InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_GIVE_MAILBOX_MAIL, FALSE, PARTY_MSG_GIVE_TO_WHICH_MON, Task_HandleChooseMonInput, Mailbox_ReturnToMailListAfterDeposit);
 }
-
+//TRADUCIR
 static void TryGiveMailToSelectedMon(u8 taskId)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -5668,13 +6333,19 @@ static void TryGiveMailToSelectedMon(u8 taskId)
     mail = &gSaveBlock1Ptr->mail[gPlayerPcMenuManager.itemsAbove + 6 + gPlayerPcMenuManager.cursorPos];
     if (GetMonData(mon, MON_DATA_HELD_ITEM) != ITEM_NONE)
     {
-        DisplayPartyMenuMessage(gText_PkmnHoldingItemCantHoldMail, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_PkmnHoldingItemCantHoldMail, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_PkmnHoldingItemCantHoldMailSpa, TRUE);
     }
     else
     {
         GiveMailToMon2(mon, mail);
         ClearMailStruct(mail);
-        DisplayPartyMenuMessage(gText_MailTransferredFromMailbox, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayPartyMenuMessage(gText_MailTransferredFromMailbox, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayPartyMenuMessage(gText_MailTransferredFromMailboxSpa, TRUE);
     }
     ScheduleBgCopyTilemapToVram(2);
     gTasks[taskId].func = Task_UpdateHeldItemSpriteAndClosePartyMenu;
@@ -5862,16 +6533,16 @@ static u8 GetPartyLayoutFromBattleType(void)
 
 void OpenPartyMenuInTutorialBattle(u8 partyAction)
 {
-    if (!BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
+    if (!BtlCtrl_OakOldMan_TestState2Flag(8) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
     {
         InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
                       GetPartyLayoutFromBattleType(),
                       partyAction,
                       FALSE,
                       PARTY_MSG_NONE,
-                      Task_FirstBattleEnterParty_WaitFadeIn,
+                      sub_8120C3C,
                       SetCB2ToReshowScreenAfterMenu);
-        BtlCtrl_OakOldMan_SetState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU);
+        BtlCtrl_OakOldMan_SetState2Flag(8);
     }
     else
     {
@@ -5889,30 +6560,30 @@ void OpenPartyMenuInTutorialBattle(u8 partyAction)
 
 void Pokedude_OpenPartyMenuInBattle(void)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_MON, Task_PartyMenu_Pokedude, SetCB2ToReshowScreenAfterMenu);
+    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_MON, sub_8120EBC, SetCB2ToReshowScreenAfterMenu);
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }
 
 void Pokedude_ChooseMonForInBattleItem(void)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_REUSABLE_ITEM, FALSE, PARTY_MSG_USE_ON_WHICH_MON, Task_PartyMenuFromBag_Pokedude, CB2_BagMenuFromBattle);
+    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_REUSABLE_ITEM, FALSE, PARTY_MSG_USE_ON_WHICH_MON, sub_8120FCC, CB2_BagMenuFromBattle);
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }
 
 void EnterPartyFromItemMenuInBattle(void)
 {
-    if (!BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
+    if (!BtlCtrl_OakOldMan_TestState2Flag(8) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
     {
         InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
                       GetPartyLayoutFromBattleType(),
                       PARTY_ACTION_USE_ITEM,
                       FALSE,
                       PARTY_MSG_NONE,
-                      Task_FirstBattleEnterParty_WaitFadeIn,
+                      sub_8120C3C,
                       CB2_BagMenuFromBattle);
-        BtlCtrl_OakOldMan_SetState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU);
+        BtlCtrl_OakOldMan_SetState2Flag(8);
     }
     else
     {
@@ -5943,7 +6614,7 @@ static u8 GetPartyMenuActionsTypeInBattle(struct Pokemon *mon)
     else
         return ACTIONS_SHIFT;
 }
-
+//TRADUCIR
 static bool8 TrySwitchInPokemon(void)
 {
     u8 slot = GetCursorSelectionMonId();
@@ -5954,13 +6625,19 @@ static bool8 TrySwitchInPokemon(void)
     if (IsMultiBattle() == TRUE && (slot == 1 || slot == 4 || slot == 5))
     {
         StringCopy(gStringVar1, GetTrainerPartnerName());
-        StringExpandPlaceholders(gStringVar4, gText_CantSwitchWithAlly);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_CantSwitchWithAlly);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_CantSwitchWithAllySpa);
         return FALSE;
     }
     if (GetMonData(&gPlayerParty[slot], MON_DATA_HP) == 0)
     {
         GetMonNickname(&gPlayerParty[slot], gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnHasNoEnergy);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnHasNoEnergy);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnHasNoEnergySpa);
         return FALSE;
     }
     for (i = 0; i < gBattlersCount; ++i)
@@ -5968,19 +6645,28 @@ static bool8 TrySwitchInPokemon(void)
         if (GetBattlerSide(i) == B_SIDE_PLAYER && GetPartyIdFromBattleSlot(slot) == gBattlerPartyIndexes[i])
         {
             GetMonNickname(&gPlayerParty[slot], gStringVar1);
-            StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyInBattle);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyInBattle);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadyInBattleSpa);
             return FALSE;
         }
     }
     if (GetMonData(&gPlayerParty[slot], MON_DATA_IS_EGG))
     {
-        StringExpandPlaceholders(gStringVar4, gText_EggCantBattle);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_EggCantBattle);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_EggCantBattleSpa);
         return FALSE;
     }
     if (GetPartyIdFromBattleSlot(slot) == gBattleStruct->playerPartyIdx)
     {
         GetMonNickname(&gPlayerParty[slot], gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadySelected);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadySelected);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnAlreadySelectedSpa);
         return FALSE;
     }
     if (gPartyMenu.action == PARTY_ACTION_ABILITY_PREVENTS)
@@ -5993,7 +6679,10 @@ static bool8 TrySwitchInPokemon(void)
         u8 currBattler = gBattlerInMenuId;
 
         GetMonNickname(&gPlayerParty[GetPartyIdFromBattlePartyId(gBattlerPartyIndexes[currBattler])], gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_PkmnCantSwitchOut);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCantSwitchOut);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnCantSwitchOutSpa);
         return FALSE;
     }
     gSelectedMonPartyId = GetPartyIdFromBattleSlot(slot);
@@ -6334,7 +7023,6 @@ static void SlideMultiPartyMenuBoxSpritesOneStep(u8 taskId)
         {
             MoveMultiPartyMenuBoxSprite(sPartyMenuBoxes[i].monSpriteId, tXPos - 8);
             MoveMultiPartyMenuBoxSprite(sPartyMenuBoxes[i].itemSpriteId, tXPos - 8);
-            MoveMultiPartyMenuBoxSprite(sPartyMenuBoxes[i].pokeballSpriteId, tXPos - 8);
             MoveMultiPartyMenuBoxSprite(sPartyMenuBoxes[i].statusSpriteId, tXPos - 8);
         }
     }
@@ -6371,3 +7059,18 @@ static void Task_PartyMenuWaitForFade(u8 taskId)
         EnableBothScriptContexts();
     }
 }
+
+static bool8 ItemIsBall(u16 item)
+{
+    if (item <= ITEM_PREMIER_BALL || item == ITEM_SMOKE_BALL)
+        return TRUE;
+    return FALSE;
+}
+
+static bool8 ItemIsBerry(u16 item)
+{
+    if (item >= FIRST_BERRY_INDEX && item <= LAST_BERRY_INDEX)
+        return TRUE;
+    return FALSE;
+}
+

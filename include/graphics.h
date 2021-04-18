@@ -5002,4 +5002,11 @@ extern const u32 gMapSummaryScreenMoves[];
 extern const u32 gMapSummaryScreenPokemonInfo[];
 extern const u32 gMapSummaryScreenPokemonSkills[];
 
+//Party Menu
+extern const u32 gPartyMenuBg_Gfx[];
+extern const u32 gPartyMenuBg_Pal[];
+extern const u32 gPartyMenuBg_Tilemap[];
+extern const u32 gPartyMenuStatusGfx_Icons[];
+extern const u32 gPartyMenuStatusPal_Icons[];
+
 #endif //GUARD_GRAPHICS_H

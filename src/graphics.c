@@ -1097,17 +1097,6 @@ const u32 gBattleAnimSpritePal_Slash2[] = INCBIN_U32("graphics/battle_anims/spri
 const u32 gBattleAnimSpriteGfx_WhiteShadow[] = INCBIN_U32("graphics/battle_anims/sprites/white_shadow.4bpp.lz");
 const u32 gBattleAnimSpritePal_WhiteShadow[] = INCBIN_U32("graphics/battle_anims/sprites/white_shadow.gbapal.lz");
 
-const u32 gPartyMenuBg_Gfx[] = INCBIN_U32("graphics/interface/party_menu_misc.4bpp.lz");
-const u32 gPartyMenuBg_Pal[] = INCBIN_U32("graphics/interface/party_menu_misc.gbapal.lz");
-const u32 gPartyMenuBg_Tilemap[] = INCBIN_U32("graphics/interface/party_menu_misc.bin.lz");
-
-const u32 gPartyMenuPokeball_Gfx[] = INCBIN_U32("graphics/interface/party_menu_pokeball.4bpp.lz");
-const u32 gPartyMenuPokeballSmall_Gfx[] = INCBIN_U32("graphics/interface/party_menu_pokeball_small.4bpp.lz"); //unused
-const u32 gPartyMenuPokeball_Pal[] = INCBIN_U32("graphics/interface/party_menu_pokeball.gbapal.lz");
-
-const u32 gStatusGfx_Icons[] = INCBIN_U32("graphics/interface/status_icons.4bpp.lz");
-const u32 gStatusPal_Icons[] = INCBIN_U32("graphics/interface/status_icons.gbapal.lz");
-
 const u32 gUnknown_8E830CC[] = INCBIN_U32("graphics/item_menu/bag_tiles.4bpp.lz");
 
 const u32 gUnknown_8E832C0[] = INCBIN_U32("graphics/item_menu/bag_tilemap1.bin.lz"); // bag menu
@@ -1489,4 +1478,11 @@ const u32 gMapSummaryScreenMovesInfo[] = INCBIN_U32("graphics/summary_screen/bg_
 const u32 gMapSummaryScreenMoves[] = INCBIN_U32("graphics/summary_screen/bg_moves.bin.lz");
 const u32 gMapSummaryScreenPokemonInfo[] = INCBIN_U32("graphics/summary_screen/bg_pokemon_info.bin.lz");
 const u32 gMapSummaryScreenPokemonSkills[] = INCBIN_U32("graphics/summary_screen/bg_pokemon_skills.bin.lz");
+
+//Party Menu
+const u32 gPartyMenuBg_Gfx[] = INCBIN_U32("graphics/party_menu/tiles.4bpp.lz");
+const u32 gPartyMenuBg_Pal[] = INCBIN_U32("graphics/party_menu/palette.gbapal.lz");
+const u32 gPartyMenuBg_Tilemap[] = INCBIN_U32("graphics/party_menu/tilemap.bin.lz");
+const u32 gPartyMenuStatusGfx_Icons[] = INCBIN_U32("graphics/party_menu/status_icons.4bpp.lz");
+const u32 gPartyMenuStatusPal_Icons[] = INCBIN_U32("graphics/party_menu/status_icons.gbapal.lz");
 

@@ -13,15 +13,16 @@
 	- Bag Pokéballs	13 -> 25  (máx en GEN V)
 	- Bag TM-HM		58 -> 107 (99 TM + 8 HM)
 	- Bag Berries	43 -> 67  (máx en GEN V)
-- Expandir íconos de Objetos llevados por los Pokémon(LISTO)
-	- Items, Mail, Pokeballs & Berries 
-	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
 + Naming Screen GEN V(LISTO)
 	- Agregados Caracteres Latinos 
+	- Auto cambio de página luego que la primera letra sea mayúscula
 + TextBox GEN IV(LISTO)
-- Party Menu GEN V(LISTO)
++ Party Menu GEN V(LISTO)
 	- Función MOTE (FALTA)
 	- Funcion Swap Items (FALTA)
+	- Expandir íconos de Objetos llevados por los Pokémon
+	- Items, Mail, Pokeballs & Berries 
+	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
 - Diferencia de Género de Pokémon(LISTO)
 - Mejora de Pokémart(LISTO)
 	- Se puede comprar hasta 999 objetos a la vez
@@ -92,7 +93,7 @@
 - Decap. Tipos de Ataques(LISTO)
 - Decap. Textos de Mensajes de Batalla(LISTO)
 - Decap. Textos Generales strings.c(LISTO)
-- Remover Hagamos Memoria(LISTO)
++ Remover Hagamos Memoria(LISTO)
 - Remover Incremento de Estadísticas provisto por las Medallas(LISTO)
 - Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
 + División Físico, Especial y Estado(LISTO)
@@ -102,7 +103,6 @@
 - Incrementar límite de fichas a 50.000(LISTO)
 - Extender el número de Direct Sound Tracks de 5 a 12(LISTO)
 - Sistema de Auto-run (LISTO)
-- Auto cambio de página en la Naming Screen luego que la primera letra sea mayúscula(LISTO)
 - Evitar que los PKMN huyan en el Safari(LISTO)
 - Remover Sistema de Ayuda
 - Remover opciones de Movimiento de Campo de Menú Pokémon
