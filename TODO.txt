@@ -82,7 +82,7 @@
 	Addons
 ==============================================
 + Game Speed Up(LISTO)
-- Correr en interiores de Edificios(LISTO)
++ Correr en interiores de Edificios(LISTO)
 + Decap. Ataques(LISTO)
 + Decap. Clases Entrenador(LISTO)
 + Decap. Especies Pokemon(LISTO)
