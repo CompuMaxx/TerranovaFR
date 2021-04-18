@@ -81,7 +81,7 @@
 ==============================================
 	Addons
 ==============================================
-- Game Speed Up(LISTO)
++ Game Speed Up(LISTO)
 - Correr en interiores de Edificios(LISTO)
 + Decap. Ataques(LISTO)
 + Decap. Clases Entrenador(LISTO)
@@ -102,7 +102,8 @@
 - Incrementar límite de dinero a 99.999.999(LISTO)
 - Incrementar límite de fichas a 50.000(LISTO)
 - Extender el número de Direct Sound Tracks de 5 a 12(LISTO)
-- Sistema de Auto-run (LISTO)
++ Sistema de Auto-run (LISTO)
+	- Habilitar la activación y desactivación a través del botón R (FALTA)
 - Evitar que los PKMN huyan en el Safari(LISTO)
 - Remover Sistema de Ayuda
 - Remover opciones de Movimiento de Campo de Menú Pokémon
@@ -119,7 +120,7 @@
 - Fix Rugido Pokémon Errantes(LISTO)
 - Fix IVs de Pokémon Errantes(LISTO)
 - Fix Snow Weather(LISTO)
-- Fix Efectos de Terrenos al desmontar de SURF(LISTO)
++ Fix Efectos de Terrenos al desmontar de SURF(LISTO)
 - Fix Fanfare al obtener Objeto o MT/MO(LISTO)
 - Fix Protección/Detección/Aguante(LISTO)
 - Fix Player Facing(LISTO)
@@ -136,7 +137,7 @@
 - battle_controller_safari.c
 - battle_interface.c
 - battle_main.c
-- battle_message.c(posibles fallos...)
++ battle_message.c(posibles fallos...)
 - battle_records.c
 - battle_script_commands.c
 - battle_setup.c
@@ -157,7 +158,7 @@
 - easy_chat_3.c
 - evolution_scene.c
 - fame_checker.c(falta)
-- field_player_avatar.c
++ field_player_avatar.c
 - field_poison.c
 - field_screen_effect.c
 - field_specials.c (aun falta...)
@@ -173,7 +174,7 @@
 - mail.c
 - mailbox_pc.c
 - map_name_popup.c
-- main_menu.c
++ main_menu.c
 - menu.c
 - money.c
 - mystery_event_msg.c(falta)
@@ -181,15 +182,15 @@
 - mystery_gift_menu.c(falta)
 - naming_screen.c
 - oak_speech.c(falta)
-- option_menu.c
-- party_menu.c
++ option_menu.c
++ party_menu.c
 - player_pc.c
 - pokedex_screen.c(traducir al implementar la nueva Dex)
 - pokemon_storage_system_2.c
 - pokemon_storage_system_3.c
 - pokemon_storage_system_5.c
 - pokemon_storage_system_6.c
-- pokemon_summary_screen.c
++ pokemon_summary_screen.c
 - prof_pc.c(falta)
 - quest_log.c(falta, posiblemente innecesario)
 - quest_log_events.c(falta, posiblemente innecesario)

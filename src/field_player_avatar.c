@@ -23,7 +23,9 @@
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
 #include "constants/songs.h"
+#include "constants/flags.h"
 #include "constants/metatile_behaviors.h"
+#include "constants/species.h"
 #include "constants/moves.h"
 
 static EWRAM_DATA struct ObjectEvent * sPlayerObjectPtr = NULL;
@@ -267,7 +269,6 @@ static bool8 TryDoMetatileBehaviorForcedMovement(void)
     }
     else
     {
-        // Calls ForcedMovement_None but with extra steps
         for (i = 0; sForcedMovementFuncs[i].check != NULL; i++)
             ;
         return sForcedMovementFuncs[i].apply();
@@ -509,8 +510,7 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         return;
     }
 
-    if ((heldKeys & B_BUTTON) && FlagGet(FLAG_SYS_B_DASH)
-        && !IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior))
+    if ((heldKeys & B_BUTTON || gSaveBlock2Ptr->optionsAutorun == TRUE) && FlagGet(FLAG_SYS_B_DASH) && !IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior))
     {
         if (PlayerIsMovingOnRockStairs(direction))
             PlayerRunSlow(direction);
@@ -1232,12 +1232,14 @@ void SetPlayerAvatarStateMask(u8 flags)
 }
 
 static const u8 sPlayerAvatarGfxToStateFlag[][3][GENDER_COUNT] = {
-    [MALE] = {
+    [MALE] = 
+	{
         {OBJ_EVENT_GFX_RED_NORMAL, PLAYER_AVATAR_FLAG_ON_FOOT},
         {OBJ_EVENT_GFX_RED_BIKE,   PLAYER_AVATAR_FLAG_MACH_BIKE},
         {OBJ_EVENT_GFX_RED_SURF,   PLAYER_AVATAR_FLAG_SURFING},
     },
-    [FEMALE] = {
+    [FEMALE] = 
+	{
         {OBJ_EVENT_GFX_GREEN_NORMAL, PLAYER_AVATAR_FLAG_ON_FOOT},
         {OBJ_EVENT_GFX_GREEN_BIKE,   PLAYER_AVATAR_FLAG_MACH_BIKE},
         {OBJ_EVENT_GFX_GREEN_SURF,   PLAYER_AVATAR_FLAG_SURFING},
@@ -1629,6 +1631,7 @@ static void Task_WaitStopSurfing(u8 taskId)
         ScriptContext2_Disable();
         UnfreezeObjectEvents();
         DestroySprite(&gSprites[playerObjEvent->fieldEffectSpriteId]);
+        playerObjEvent->triggerGroundEffectsOnMove = TRUE;
         DestroyTask(taskId);
         SetHelpContextForMap();
     }
@@ -1839,7 +1842,10 @@ static bool8 Fishing10(struct Task *task)
 {
     AlignFishingAnimationFrames(&gSprites[gPlayerAvatar.spriteId]);
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    AddTextPrinterParameterized2(0, 2, gText_PokemonOnHook, 1, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized2(0, 2, gText_PokemonOnHook, 1, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized2(0, 2, gText_PokemonOnHookSpa, 1, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
     task->tStep++;
     task->tFrameCounter = 0;
     return FALSE;
@@ -1886,7 +1892,10 @@ static bool8 Fishing12(struct Task *task)
     AlignFishingAnimationFrames(&gSprites[gPlayerAvatar.spriteId]);
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingNoCatchDirectionAnimNum(GetPlayerFacingDirection()));
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    AddTextPrinterParameterized2(0, 2, gText_NotEvenANibble, 1, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized2(0, 2, gText_NotEvenANibble, 1, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized2(0, 2, gText_NotEvenANibbleSpa, 1, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
     task->tStep = FISHING_SHOW_RESULT;
     return TRUE;
 }
@@ -1896,7 +1905,10 @@ static bool8 Fishing13(struct Task *task)
 {
     AlignFishingAnimationFrames(&gSprites[gPlayerAvatar.spriteId]);
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingNoCatchDirectionAnimNum(GetPlayerFacingDirection()));
-    AddTextPrinterParameterized2(0, 2, gText_ItGotAway, 1, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized2(0, 2, gText_ItGotAway, 1, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized2(0, 2, gText_ItGotAwaySpa, 1, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
     task->tStep++;
     return TRUE;
 }

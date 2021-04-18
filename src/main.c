@@ -437,8 +437,8 @@ static void IntrDummy(void)
 static void WaitForVBlank(void)
 {
     gMain.intrCheck &= ~INTR_FLAG_VBLANK;
-
-    while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
+	VBlankIntrWait(); //Game Speed Up
+//    while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
         ;
 }
 
