@@ -671,11 +671,11 @@ static void sub_81543C4(u8 spriteId)
 
 // Gamefreak made a mistake there and goes out of bounds for the data array as it holds 8 elements
 // in turn overwriting sprite's subpriority and subsprites fields.
-#if defined(BUGFIX)
+//#if defined(BUGFIX)
 #define sKeepPosX data[1]
-#else
+/*#else
 #define sKeepPosX data[10]
-#endif // BUGFIX
+#endif // BUGFIX*/
 
 static void sub_81543E8(struct Sprite * sprite)
 {

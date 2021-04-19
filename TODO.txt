@@ -25,7 +25,7 @@
 	- Items, Mail, Pokeballs & Berries 
 	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
 - Diferencia de Género de Pokémon(LISTO)
-- Mejora de Pokémart(LISTO)
++ Mejora de Pokémart(LISTO)
 	- Se puede comprar hasta 999 objetos a la vez
 	- Muestra el máximo que se puede comprar en vez de 999
 	- Si ya no tienes espacio muestra de una vez dicho mensaje
@@ -73,7 +73,7 @@
 	-Falta chequear el resto de los Repelentes una vez agotado el que está en uso
 + Update Niveles de Obediencia GEN VII(LISTO)
 	Incrementa la obediencia en 10 niveles con cada medalla desde el Nv 20 para la primera
-- Update Bonus Premier Balls estilo Let's Go Pikachu and Eevee(LISTO)
++ Update Bonus Premier Balls estilo Let's Go Pikachu and Eevee(LISTO)
 	(1 Premier Ball por cada 10 Balls compradas)
 - Update MT Reusables GEN V(LISTO)
 	(Reusables, Invendibles, Sin Cantidad, Sin poder comprar al ya tenerla)
@@ -117,7 +117,7 @@
 ==============================================
 + Fix No contar los Huevos en el Centro Pokémon(LISTO)
 + Fix Obediencia de MEW & DEOXYS(LISTO)
-- Fix Rugido Pokémon Errantes(LISTO)
++ Fix Rugido Pokémon Errantes(LISTO)
 + Fix IVs de Pokémon Errantes(LISTO)
 + Fix Snow Weather(LISTO)
 + Fix Efectos de Terrenos al desmontar de SURF(LISTO)
@@ -197,7 +197,7 @@
 - region_map.c(falta, editar de acuerdo a la nueva(s) región(es))
 - save_failed_screen.c
 - script_menu.c(falta, editar de acuerdo a la nueva(s) región(es))
-- shop.c
++ shop.c
 - slot_machine.c
 - start_menu.c
 - tm_case.c

@@ -155,6 +155,13 @@ static const struct MenuAction sShopMenuActions_BuySellQuit[] =
     {gText_ShopQuit, {.void_u8 = Task_HandleShopMenuQuit}}
 };
 
+static const struct MenuAction sShopMenuActions_BuySellQuitSpa[] =
+{
+    {gText_ShopBuySpa, {.void_u8 = Task_HandleShopMenuBuy}},
+    {gText_ShopSellSpa, {.void_u8 = Task_HandleShopMenuSell}},
+    {gText_ShopQuitSpa, {.void_u8 = Task_HandleShopMenuQuit}}
+};
+
 static const struct YesNoFuncTable sShopMenuActions_BuyQuit[] =
 {
     BuyMenuTryMakePurchase,
@@ -224,7 +231,10 @@ static u8 CreateShopMenu(u8 a0)
     
     sShopMenuWindowId = AddWindow(&sShopMenuWindowTemplate);
     SetStdWindowBorderStyle(sShopMenuWindowId, 0);
-    PrintTextArray(sShopMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 3, sShopMenuActions_BuySellQuit);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		PrintTextArray(sShopMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 3, sShopMenuActions_BuySellQuit);
+    else
+		PrintTextArray(sShopMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 3, sShopMenuActions_BuySellQuitSpa);
     Menu_InitCursor(sShopMenuWindowId, 2, 0, 2, 16, 3, 0);
     PutWindowTilemap(sShopMenuWindowId);
     CopyWindowToVram(sShopMenuWindowId, COPYWIN_MAP);
@@ -338,7 +348,10 @@ static void Task_ReturnToShopMenu(u8 taskId)
     if (IsWeatherNotFadingIn() != TRUE)
         return;
     
-    DisplayItemMessageOnField(taskId, GetMartUnk16_4(), gText_CanIHelpWithAnythingElse, ShowShopMenuAfterExitingBuyOrSellMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, GetMartUnk16_4(), gText_CanIHelpWithAnythingElse, ShowShopMenuAfterExitingBuyOrSellMenu);
+    else
+		DisplayItemMessageOnField(taskId, GetMartUnk16_4(), gText_CanIHelpWithAnythingElseSpa, ShowShopMenuAfterExitingBuyOrSellMenu);
 }
 
 static void ShowShopMenuAfterExitingBuyOrSellMenu(u8 taskId)
@@ -533,7 +546,10 @@ bool8 BuyMenuBuildListMenuTemplate(void)
     {
         PokeMartWriteNameAndIdAt(&sShopMenuListMenu[i], gShopData.itemList[i], sShopMenuItemStrings[i]);
     }
-    StringCopy(sShopMenuItemStrings[i], gText_FameChecker_Cancel);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(sShopMenuItemStrings[i], gText_FameChecker_Cancel);
+    else
+		StringCopy(sShopMenuItemStrings[i], gText_FameChecker_CancelSpa);
     sShopMenuListMenu[i].label = sShopMenuItemStrings[i];    
     sShopMenuListMenu[i].index = -2;
     gMultiuseListMenuTemplate.items = sShopMenuListMenu;
@@ -585,8 +601,12 @@ static void BuyMenuPrintItemDescriptionAndShowItemIcon(s32 item, bool8 onInit, s
     if (item != INDEX_CANCEL)
         description = ItemId_GetDescription(item);
     else
-        description = gText_QuitShopping;
-    
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			description = gText_QuitShopping;
+		else
+			description = gText_QuitShoppingSpa;
+    }
     FillWindowPixelBuffer(5, PIXEL_FILL(0));
     if (gShopData.martType != 1)
     {
@@ -632,7 +652,10 @@ static void LoadTmHmNameInMart(s32 item)
         StringCopy(gStringVar4, gText_UnkF9_08_Clear_01);
         StringAppend(gStringVar4, gStringVar1);
         BuyMenuPrint(6, 0, gStringVar4, 0, 0, 0, 0, TEXT_SPEED_FF, 1);
-        StringCopy(gStringVar4, gMoveNames[ItemIdToBattleMoveId(item)]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(gStringVar4, gMoveNames[ItemIdToBattleMoveId(item)]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(gStringVar4, gMoveNamesSpa[ItemIdToBattleMoveId(item)]);
         BuyMenuPrint(6, 2, gStringVar4, 0, 0x10, 0, 0, 0, 1);
     }
     else
@@ -890,6 +913,7 @@ static void Task_BuyMenu(u8 taskId)
     if (!gPaletteFade.active)
     {
         s32 itemId = ListMenu_ProcessInput(tListTaskId);
+		u16 quantityInBag = BagGetQuantityByItemId(itemId);
         ListMenuGetScrollAndRow(tListTaskId, &gShopData.scrollOffset, &gShopData.selectedRow);
         switch (itemId)
         {
@@ -909,15 +933,54 @@ static void Task_BuyMenu(u8 taskId)
             gShopData.itemPrice = itemid_get_market_price(itemId);
             if (!IsEnoughMoney(&gSaveBlock1Ptr->money, gShopData.itemPrice))
             {
-                BuyMenuDisplayMessage(taskId, gText_YouDontHaveMoney, BuyMenuReturnToItemList);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					BuyMenuDisplayMessage(taskId, gText_YouDontHaveMoney, BuyMenuReturnToItemList);
+                else
+					BuyMenuDisplayMessage(taskId, gText_YouDontHaveMoneySpa, BuyMenuReturnToItemList);
             }
+			else if (itemId >= ITEM_TM01 && itemId <= ITEM_HM08)
+			{
+				if (quantityInBag != 0)
+				{
+					if (gSaveBlock2Ptr->optionsLanguage == ENG)
+						BuyMenuDisplayMessage(taskId, gText_YouAlreadyHaveThisTM, BuyMenuReturnToItemList);
+					else
+						BuyMenuDisplayMessage(taskId, gText_YouAlreadyHaveThisTMSpa, BuyMenuReturnToItemList);
+				}
+				else
+				{
+					ClearStdWindowAndFrameToTransparent(3, 0);
+					ClearStdWindowAndFrameToTransparent(1, 0);
+					ClearWindowTilemap(3);
+					ClearWindowTilemap(1);
+					PutWindowTilemap(4);
+					CopyItemName(tItemId, gStringVar1);
+					tItemCount = 1;
+					ConvertIntToDecimalStringN(gStringVar2, 1, STR_CONV_MODE_LEFT_ALIGN, 3);
+					ConvertIntToDecimalStringN(gStringVar3, gShopData.itemPrice, STR_CONV_MODE_LEFT_ALIGN, 8);
+					if (gSaveBlock2Ptr->optionsLanguage == ENG)
+						BuyMenuDisplayMessage(taskId, gText_Var1AndYouWantedVar2, CreateBuyMenuConfirmPurchaseWindow);
+					else
+						BuyMenuDisplayMessage(taskId, gText_Var1AndYouWantedVar2Spa, CreateBuyMenuConfirmPurchaseWindow);
+				}
+			}
+			else if (quantityInBag == 999)
+			{
+				if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThis, BuyMenuReturnToItemList);
+				else
+					BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThisSpa, BuyMenuReturnToItemList);
+			}
             else
             {
                 CopyItemName(itemId, gStringVar1);
-                BuyMenuDisplayMessage(taskId, gText_Var1CertainlyHowMany, Task_BuyHowManyDialogueInit);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					BuyMenuDisplayMessage(taskId, gText_Var1CertainlyHowMany, Task_BuyHowManyDialogueInit);
+                else
+					BuyMenuDisplayMessage(taskId, gText_Var1CertainlyHowManySpa, Task_BuyHowManyDialogueInit);
             }
-            break;
-        }
+            break;        
+		}
     }
 }
 
@@ -929,17 +992,22 @@ static void Task_BuyHowManyDialogueInit(u8 taskId)
     
     BuyMenuQuantityBoxThinBorder(1, 0);
     ConvertIntToDecimalStringN(gStringVar1, quantityInBag, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_InBagVar1);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_InBagVar1);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_InBagVar1Spa);
     BuyMenuPrint(1, 2, gStringVar4, 0, 2, 0, 0, 0, 1);
     tItemCount = 1;
     BuyMenuQuantityBoxNormalBorder(3, 0);
     BuyMenuPrintItemQuantityAndPrice(taskId);
     ScheduleBgCopyTilemapToVram(0);
     maxQuantity = GetMoney(&gSaveBlock1Ptr->money) / itemid_get_market_price(tItemId);
-    if (maxQuantity > 99)
-        gShopData.maxQuantity = 99;
+	if (maxQuantity > (999 - quantityInBag))
+        gShopData.maxQuantity = (999 - quantityInBag);
+	else if (maxQuantity > 999)
+        gShopData.maxQuantity = 999;
     else
-        gShopData.maxQuantity = (u8)maxQuantity;
+        gShopData.maxQuantity = maxQuantity;
     
     if (maxQuantity != 1)
         BuyQuantityAddScrollIndicatorArrows();
@@ -970,7 +1038,10 @@ static void Task_BuyHowManyDialogueHandleInput(u8 taskId)
             CopyItemName(tItemId, gStringVar1);
             ConvertIntToDecimalStringN(gStringVar2, tItemCount, STR_CONV_MODE_LEFT_ALIGN, 2);
             ConvertIntToDecimalStringN(gStringVar3, gShopData.itemPrice, STR_CONV_MODE_LEFT_ALIGN, 8);
-            BuyMenuDisplayMessage(taskId, gText_Var1AndYouWantedVar2, CreateBuyMenuConfirmPurchaseWindow);
+			if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				BuyMenuDisplayMessage(taskId, gText_Var1AndYouWantedVar2, CreateBuyMenuConfirmPurchaseWindow);
+			else
+				BuyMenuDisplayMessage(taskId, gText_Var1AndYouWantedVar2Spa, CreateBuyMenuConfirmPurchaseWindow);
         }
         else if (JOY_NEW(B_BUTTON))
         {            
@@ -997,13 +1068,19 @@ static void BuyMenuTryMakePurchase(u8 taskId)
     PutWindowTilemap(4);
     if (AddBagItem(tItemId, tItemCount) == TRUE)
     {
-        BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
+        else
+			BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYouSpa, BuyMenuSubtractMoney);
         DebugFunc_PrintPurchaseDetails(taskId);
         RecordItemPurchase(tItemId, tItemCount, 1);
     }
     else
     {
-        BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThis, BuyMenuReturnToItemList);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThis, BuyMenuReturnToItemList);
+        else
+			BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThisSpa, BuyMenuReturnToItemList);
     }
 }
 
@@ -1018,10 +1095,37 @@ static void BuyMenuSubtractMoney(u8 taskId)
 
 static void Task_ReturnToItemListAfterItemPurchase(u8 taskId)
 {
-    if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+    s16 *data = gTasks[taskId].data;
+	
+    if (gMain.newKeys & (A_BUTTON | B_BUTTON))
     {
         PlaySE(SE_SELECT);
-        BuyMenuReturnToItemList(taskId);
+		if ((ItemId_GetPocket(tItemId) == POCKET_POKE_BALLS) && tItemCount > 9 && AddBagItem(ITEM_PREMIER_BALL, tItemCount / 10) == TRUE)
+        {
+			if (tItemCount > 19)
+			{
+				if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBalls, BuyMenuReturnToItemList);
+				else
+					BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBallsSpa, BuyMenuReturnToItemList);
+			}
+			else
+			{
+				if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBall, BuyMenuReturnToItemList);
+				else
+					BuyMenuDisplayMessage(taskId, gText_ThrowInPremierBallSpa, BuyMenuReturnToItemList);
+			}
+		}
+		else if((ItemId_GetPocket(tItemId) == POCKET_TM_CASE))
+        {
+			RedrawListMenu(tListTaskId);
+            BuyMenuReturnToItemList(taskId);
+        }
+        else
+        {
+            BuyMenuReturnToItemList(taskId);
+        }
     }
 }
 
@@ -1104,11 +1208,11 @@ void RecordItemPurchase(u16 item, u16 quantity, u8 a2)
             history->unk6 = 999;
     }
     
-    if (history->unk0 < 999999)
+    if (history->unk0 < 99999999)
     {
         history->unk0 += (itemid_get_market_price(item) >> (a2 - 1)) * quantity;
-        if (history->unk0 > 999999)
-            history->unk0 = 999999;
+        if (history->unk0 > 99999999)
+            history->unk0 = 99999999;
     }    
 }
 
