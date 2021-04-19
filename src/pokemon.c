@@ -1346,6 +1346,72 @@ static const u16 sHoennToNationalOrder[] = // Assigns Hoenn Dex Pokémon (Using 
     HOENN_TO_NATIONAL(OLD_UNOWN_Z),
 };
 
+static const u16 sSpeciesWithGenderDiferences[] =
+{
+	SPECIES_VENUSAUR,
+	SPECIES_BUTTERFREE,
+	SPECIES_RATTATA,
+	SPECIES_RATICATE,
+	SPECIES_PIKACHU,
+	SPECIES_RAICHU,
+	SPECIES_ZUBAT,
+	SPECIES_GOLBAT,
+	SPECIES_GLOOM,
+	SPECIES_VILEPLUME,
+	SPECIES_KADABRA,
+	SPECIES_ALAKAZAM,
+	SPECIES_DODUO,
+	SPECIES_DODRIO,
+	SPECIES_HYPNO,
+	SPECIES_RHYHORN,
+	SPECIES_RHYDON,
+	SPECIES_GOLDEEN,
+	SPECIES_SEAKING,
+	SPECIES_SCYTHER,
+	SPECIES_MAGIKARP,
+	SPECIES_GYARADOS,
+	SPECIES_MEGANIUM,
+	SPECIES_LEDYBA,
+	SPECIES_LEDIAN,
+	SPECIES_PICHU,
+	SPECIES_XATU,
+	SPECIES_SUDOWOODO,
+	SPECIES_POLITOED,
+	SPECIES_AIPOM,
+	SPECIES_WOOPER,
+	SPECIES_QUAGSIRE,
+	SPECIES_MURKROW,
+	SPECIES_WOBBUFFET,
+	SPECIES_GIRAFARIG,
+	SPECIES_GLIGAR,
+	SPECIES_STEELIX,
+	SPECIES_SCIZOR,
+	SPECIES_HERACROSS,
+	SPECIES_SNEASEL,
+	SPECIES_URSARING,
+	SPECIES_OCTILLERY,
+	SPECIES_HOUNDOOM,
+	SPECIES_DONPHAN,
+	SPECIES_TORCHIC,
+	SPECIES_COMBUSKEN,
+	SPECIES_BLAZIKEN,
+	SPECIES_BEAUTIFLY,
+	SPECIES_DUSTOX,
+	SPECIES_LUDICOLO,
+	SPECIES_NUZLEAF,
+	SPECIES_SHIFTRY,
+	SPECIES_MILOTIC,
+	SPECIES_NUMEL,
+	SPECIES_CAMERUPT,
+	SPECIES_CACTURNE,
+	SPECIES_MEDITITE,
+	SPECIES_MEDICHAM,
+	SPECIES_ROSELIA,
+	SPECIES_GULPIN,
+	SPECIES_SWALOT,
+	SPECIES_RELICANTH,
+};
+
 static const struct SpindaSpot sSpindaSpotGraphics[] =
 {
     {16, 7, INCBIN_U16("graphics/spinda_spots/spot_0.bin")},
@@ -2382,33 +2448,7 @@ s32 CalculateBaseDamage(struct BattlePokemon *attacker, struct BattlePokemon *de
     if (attacker->ability == ABILITY_HUGE_POWER || attacker->ability == ABILITY_PURE_POWER)
         attack *= 2;
 
-    // In FRLG, the Battle Tower and opponent checks are stubbed here.
-    if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | /*BATTLE_TYPE_BATTLE_TOWER |*/ BATTLE_TYPE_EREADER_TRAINER)))
-    {
-        if (FlagGet(FLAG_BADGE01_GET)
-            && GetBattlerSide(battlerIdAtk) == B_SIDE_PLAYER)
-            attack = (110 * attack) / 100;
-    }
-    if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | /*BATTLE_TYPE_BATTLE_TOWER |*/ BATTLE_TYPE_EREADER_TRAINER)))
-    {
-        if (FlagGet(FLAG_BADGE05_GET)
-            && GetBattlerSide(battlerIdDef) == B_SIDE_PLAYER)
-            defense = (110 * defense) / 100;
-    }
-    if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | /*BATTLE_TYPE_BATTLE_TOWER |*/ BATTLE_TYPE_EREADER_TRAINER)))
-    {
-        if (FlagGet(FLAG_BADGE07_GET)
-            && GetBattlerSide(battlerIdAtk) == B_SIDE_PLAYER)
-            spAttack = (110 * spAttack) / 100;
-    }
-    if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | /*BATTLE_TYPE_BATTLE_TOWER |*/ BATTLE_TYPE_EREADER_TRAINER)))
-    {
-        if (FlagGet(FLAG_BADGE07_GET)
-            && GetBattlerSide(battlerIdDef) == B_SIDE_PLAYER)
-            spDefense = (110 * spDefense) / 100;
-    }
-
-    for (i = 0; i < NELEMS(sHoldEffectToType); i++)
+	for (i = 0; i < NELEMS(sHoldEffectToType); i++)
     {
         if (attackerHoldEffect == sHoldEffectToType[i][0]
             && type == sHoldEffectToType[i][1])
@@ -6248,4 +6288,16 @@ void *OakSpeechNidoranFGetBuffer(u8 bufferId)
             bufferId = 0;
         return sOakSpeechNidoranResources->bufferPtrs[bufferId];
     }
+}
+
+bool8 SpecieHaveFemaleFrame(u16 species)
+{
+	u8 i;
+	
+	for (i=0; i <= NELEMS(sSpeciesWithGenderDiferences); i++)
+	{
+		if (sSpeciesWithGenderDiferences[i] == species)
+			return TRUE;
+	}
+	return FALSE;
 }

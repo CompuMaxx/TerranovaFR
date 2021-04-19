@@ -24,7 +24,7 @@
 	- Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
 	- Items, Mail, Pokeballs & Berries 
 	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
-- Diferencia de Género de Pokémon(LISTO)
++ Diferencia de Género de Pokémon(LISTO)
 + Mejora de Pokémart(LISTO)
 	- Se puede comprar hasta 999 objetos a la vez
 	- Muestra el máximo que se puede comprar en vez de 999
@@ -56,7 +56,7 @@
 ==============================================
 	Update Mecanismos a nuevas GENs
 ==============================================
-- Update Poké Balls basadas en Clases de Entrenador GEN VII(LISTO)
++ Update Poké Balls basadas en Clases de Entrenador GEN VII(LISTO)
 - Update Ajustar IVs a 252 como en la GEN VI(LISTO)
 - Update Daño de Quemaduras a la GEN VII(1/16 de los PS Máx)(LISTO)
 - Update Pérdida de Velocidad a la GEN VII(50% de la original)(LISTO)
@@ -95,7 +95,7 @@
 + Decap. Textos de Mensajes de Batalla(LISTO)
 + Decap. Textos Generales strings.c(LISTO)
 + Remover Hagamos Memoria(LISTO)
-- Remover Incremento de Estadísticas provisto por las Medallas(LISTO)
++ Remover Incremento de Estadísticas provisto por las Medallas(LISTO)
 + División Físico, Especial y Estado(LISTO)
 - Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)(LISTO)
 - Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)(LISTO)
@@ -136,11 +136,11 @@
 - battle_controller_pokedude.c
 - battle_controller_safari.c
 - battle_interface.c
-- battle_main.c
++ battle_main.c
 + battle_message.c(posibles fallos...)
 - battle_records.c
 - battle_script_commands.c
-- battle_setup.c
++ battle_setup.c
 - berry_crush_2.c
 - berry_crush_3.c
 - berry_pouch.c

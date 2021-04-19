@@ -42,6 +42,8 @@
 #include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/songs.h"
+#include "constants/species.h"
+#include "constants/trainers.h"
 #include "constants/trainer_classes.h"
 
 static void SpriteCB_UnusedDebugSprite(struct Sprite *sprite);
@@ -165,7 +167,6 @@ EWRAM_DATA u8 gAbsentBattlerFlags = 0;
 EWRAM_DATA u8 gCritMultiplier = 0;
 EWRAM_DATA u8 gMultiHitCounter = 0;
 EWRAM_DATA const u8 *gBattlescriptCurrInstr = NULL;
-EWRAM_DATA u32 gUnusedBattleMainVar = 0;
 EWRAM_DATA u8 gChosenActionByBattler[MAX_BATTLERS_COUNT] = {0};
 EWRAM_DATA const u8 *gSelectionBattleScripts[MAX_BATTLERS_COUNT] = {NULL};
 EWRAM_DATA u16 gLastPrintedMoves[MAX_BATTLERS_COUNT] = {0};
@@ -274,34 +275,116 @@ const struct OamData gOamData_BattlerPlayer =
     .affineParam = 0,
 };
 
-// not used
-static const union AnimCmd gUnknown_824F020[] =
-{
-    ANIMCMD_FRAME(0, 5),
-    ANIMCMD_JUMP(0),
-};
-
-// not used
-static const union AnimCmd *const gUnknown_824F028[] =
-{
-    gUnknown_824F020,
-};
-
-// not used
-static const union AffineAnimCmd gUnknown_824F02C[] =
-{
-    AFFINEANIMCMD_FRAME(-0x10, 0x0, 0, 4),
-    AFFINEANIMCMD_FRAME(0x0, 0x0, 0, 0x3C),
-    AFFINEANIMCMD_JUMP(1),
-};
-
-// not used
-static const union AffineAnimCmd *const gUnknown_824F044[] =
-{
-    gUnknown_824F02C,
-};
-
 static const s8 sPlayerThrowXTranslation[] = { -32, -16, -16, -32, -32, 0, 0, 0 };
+
+const struct TrainerBall gTrainerBallTable[] =
+{
+    { CLASS_LEADER_2, ITEM_MASTER_BALL },
+    { CLASS_ELITE_FOUR_2, ITEM_MASTER_BALL },
+    { CLASS_PKMN_PROF, ITEM_MASTER_BALL },
+    { CLASS_RIVAL, ITEM_ULTRA_BALL },
+    { CLASS_RIVAL_2, ITEM_GREAT_BALL },
+    { CLASS_CHAMPION_2, ITEM_MASTER_BALL },
+    { CLASS_YOUNGSTER_2, ITEM_ULTRA_BALL },
+    { CLASS_BUG_CATCHER_2, ITEM_SAFARI_BALL },
+    { CLASS_HIKER_2, ITEM_GREAT_BALL },
+    { CLASS_BIRD_KEEPER_2, ITEM_NET_BALL },
+    { CLASS_PICNICKER_2, ITEM_DIVE_BALL },
+    { CLASS_SUPER_NERD, ITEM_NET_BALL },
+    { CLASS_FISHERMAN_2, ITEM_GREAT_BALL },
+    { CLASS_TEAM_ROCKET, ITEM_NEST_BALL },
+    { CLASS_LASS_2, ITEM_ULTRA_BALL },
+    { CLASS_BEAUTY_2, ITEM_REPEAT_BALL },
+    { CLASS_BLACK_BELT_2, ITEM_NET_BALL },
+    { CLASS_CUE_BALL, ITEM_NET_BALL },
+    { CLASS_CHANNELER, ITEM_NEST_BALL },
+    { CLASS_ROCKER, ITEM_NET_BALL },
+    { CLASS_GENTLEMAN_2, ITEM_REPEAT_BALL },
+    { CLASS_BURGLAR, ITEM_TIMER_BALL },
+    { CLASS_SWIMMER_MALE_2, ITEM_LUXURY_BALL },
+    { CLASS_ENGINEER, ITEM_PREMIER_BALL },
+    { CLASS_JUGGLER, ITEM_ULTRA_BALL },
+    { CLASS_SAILOR_2, ITEM_NEST_BALL },
+    { CLASS_COOLTRAINER_2, ITEM_GREAT_BALL },
+    { CLASS_POKEMANIAC_2, ITEM_PREMIER_BALL },
+    { CLASS_TAMER, ITEM_ULTRA_BALL },
+    { CLASS_CAMPER_2, ITEM_DIVE_BALL },
+    { CLASS_PSYCHIC_2, ITEM_DIVE_BALL },
+    { CLASS_BIKER, ITEM_DIVE_BALL },
+    { CLASS_GAMER, ITEM_REPEAT_BALL },
+    { CLASS_SCIENTIST, ITEM_PREMIER_BALL },
+    { CLASS_CRUSH_GIRL, ITEM_NET_BALL },
+    { CLASS_TUBER_3, ITEM_LUXURY_BALL },
+    { CLASS_PKMN_BREEDER_2, ITEM_GREAT_BALL },
+    { CLASS_PKMN_RANGER_2, ITEM_GREAT_BALL },
+    { CLASS_AROMA_LADY_2, ITEM_GREAT_BALL },
+    { CLASS_RUIN_MANIAC_2, ITEM_PREMIER_BALL },
+    { CLASS_LADY_2, ITEM_NET_BALL },
+    { CLASS_PAINTER, ITEM_ULTRA_BALL },
+    { CLASS_TWINS_2, ITEM_SAFARI_BALL },
+    { CLASS_YOUNG_COUPLE_2, ITEM_GREAT_BALL },
+    { CLASS_SIS_AND_BRO_2, ITEM_LUXURY_BALL },
+    { CLASS_COOL_COUPLE, ITEM_NET_BALL },
+    { CLASS_CRUSH_KIN, ITEM_NET_BALL },
+    { CLASS_SWIMMER_FEMALE_2, ITEM_LUXURY_BALL },
+    { CLASS_PLAYER, ITEM_LUXURY_BALL },
+    { CLASS_LEADER, ITEM_MASTER_BALL },
+    { CLASS_ELITE_FOUR, ITEM_MASTER_BALL },
+    { CLASS_LASS, ITEM_ULTRA_BALL },
+    { CLASS_YOUNGSTER, ITEM_ULTRA_BALL },
+    { CLASS_PKMN_TRAINER_3, ITEM_DIVE_BALL },
+    { CLASS_HIKER, ITEM_ULTRA_BALL },
+    { CLASS_BEAUTY, ITEM_NEST_BALL },
+    { CLASS_FISHERMAN, ITEM_ULTRA_BALL },
+    { CLASS_LADY, ITEM_NET_BALL },
+    { CLASS_TRIATHLETE, ITEM_ULTRA_BALL },
+    { CLASS_TEAM_AQUA, ITEM_DIVE_BALL },
+    { CLASS_TWINS, ITEM_SAFARI_BALL },
+    { CLASS_SWIMMER_FEMALE, ITEM_REPEAT_BALL },
+    { CLASS_BUG_CATCHER, ITEM_ULTRA_BALL },
+    { CLASS_SCHOOL_KID, ITEM_DIVE_BALL },
+    { CLASS_RICH_BOY, ITEM_NET_BALL },
+    { CLASS_SR_AND_JR, ITEM_ULTRA_BALL },
+    { CLASS_BLACK_BELT, ITEM_NEST_BALL },
+    { CLASS_TUBER, ITEM_LUXURY_BALL },
+    { CLASS_HEX_MANIAC, ITEM_NET_BALL },
+    { CLASS_PKMN_BREEDER, ITEM_ULTRA_BALL },
+    { CLASS_TEAM_MAGMA, ITEM_DIVE_BALL },
+    { CLASS_INTERVIEWER, ITEM_PREMIER_BALL },
+    { CLASS_TUBER_2, ITEM_LUXURY_BALL },
+    { CLASS_YOUNG_COUPLE, ITEM_NEST_BALL },
+    { CLASS_GUITARIST, ITEM_NEST_BALL },
+    { CLASS_GENTLEMAN, ITEM_NEST_BALL },
+    { CLASS_CHAMPION, ITEM_NET_BALL },
+    { CLASS_MAGMA_LEADER, ITEM_NEST_BALL },
+    { CLASS_BATTLE_GIRL, ITEM_NET_BALL },
+    { CLASS_SWIMMER_MALE, ITEM_REPEAT_BALL },
+    { CLASS_POKEFAN, ITEM_NEST_BALL },
+    { CLASS_EXPERT, ITEM_ULTRA_BALL },
+    { CLASS_DRAGON_TAMER, ITEM_PREMIER_BALL },
+    { CLASS_BIRD_KEEPER, ITEM_NEST_BALL },
+    { CLASS_NINJA_BOY, ITEM_SAFARI_BALL },
+    { CLASS_PARASOL_LADY, ITEM_ULTRA_BALL },
+    { CLASS_BUG_MANIAC, ITEM_DIVE_BALL },
+    { CLASS_SAILOR, ITEM_NEST_BALL },
+    { CLASS_COLLECTOR, ITEM_DIVE_BALL },
+    { CLASS_PKMN_RANGER, ITEM_PREMIER_BALL },
+    { CLASS_MAGMA_ADMIN, ITEM_ULTRA_BALL },
+    { CLASS_AROMA_LADY, ITEM_ULTRA_BALL },
+    { CLASS_RUIN_MANIAC, ITEM_DIVE_BALL },
+    { CLASS_COOLTRAINER, ITEM_PREMIER_BALL },
+    { CLASS_POKEMANIAC, ITEM_DIVE_BALL },
+    { CLASS_KINDLER, ITEM_NEST_BALL },
+    { CLASS_CAMPER, ITEM_ULTRA_BALL },
+    { CLASS_PICNICKER, ITEM_ULTRA_BALL },
+    { CLASS_PSYCHIC, ITEM_NET_BALL },
+    { CLASS_SIS_AND_BRO, ITEM_SAFARI_BALL },
+    { CLASS_OLD_COUPLE, ITEM_ULTRA_BALL },
+    { CLASS_AQUA_ADMIN, ITEM_ULTRA_BALL },
+    { CLASS_AQUA_LEADER, ITEM_NEST_BALL },
+    { CLASS_BOSS, ITEM_MASTER_BALL },
+    { 0xFF, ITEM_POKE_BALL },
+};
 
 // format: attacking type, defending type, damage multiplier
 // the multiplier is a (decimal) fixed-point number:
@@ -1544,7 +1627,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum)
     u32 personalityValue;
     u8 fixedIV;
     s32 i, j;
-
+    
     if (trainerNum == TRAINER_SECRET_BASE)
         return 0;
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER
@@ -1614,18 +1697,28 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum)
                 fixedIV = partyData[i].iv * 31 / 255;
                 CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 SetMonData(&party[i], MON_DATA_HELD_ITEM, &partyData[i].heldItem);
-                for (j = 0; j < MAX_MON_MOVES; ++j)
+                for (j = 0; j < MAX_MON_MOVES; j++)
                 {
                     SetMonData(&party[i], MON_DATA_MOVE1 + j, &partyData[i].moves[j]);
                     SetMonData(&party[i], MON_DATA_PP1 + j, &gBattleMoves[partyData[i].moves[j]].pp);
                 }
                 break;
+			}
             }
-            }
-        }
-        gBattleTypeFlags |= gTrainers[trainerNum].doubleBattle;
-    }
-    return gTrainers[trainerNum].partySize;
+			for (j = 0; gTrainerBallTable[j].trainerClass != 0xFF; j++)
+			{
+				if (gTrainerBallTable[j].trainerClass == gTrainers[trainerNum].trainerClass)
+				{
+					SetMonData(&party[i], MON_DATA_POKEBALL, &gTrainerBallTable[j].Ball);
+					break;
+				}
+			}
+         }
+ 
+         gBattleTypeFlags |= gTrainers[trainerNum].doubleBattle;
+     }
+ 
+     return gTrainers[trainerNum].partySize;
 }
 
 // not used
@@ -3361,10 +3454,6 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
         holdEffectParam = ItemId_GetHoldEffectParam(gBattleMons[battler1].item);
     }
     // badge boost
-    if (!(gBattleTypeFlags & BATTLE_TYPE_LINK)
-     && FlagGet(FLAG_BADGE03_GET)
-     && GetBattlerSide(battler1) == B_SIDE_PLAYER)
-        speedBattler1 = (speedBattler1 * 110) / 100;
     if (holdEffect == HOLD_EFFECT_MACHO_BRACE)
         speedBattler1 /= 2;
     if (gBattleMons[battler1].status1 & STATUS1_PARALYSIS)
@@ -3386,10 +3475,6 @@ u8 GetWhoStrikesFirst(u8 battler1, u8 battler2, bool8 ignoreChosenMoves)
         holdEffectParam = ItemId_GetHoldEffectParam(gBattleMons[battler2].item);
     }
     // badge boost
-    if (!(gBattleTypeFlags & BATTLE_TYPE_LINK)
-     && FlagGet(FLAG_BADGE03_GET)
-     && GetBattlerSide(battler2) == B_SIDE_PLAYER)
-        speedBattler2 = (speedBattler2 * 110) / 100;
     if (holdEffect == HOLD_EFFECT_MACHO_BRACE)
         speedBattler2 /= 2;
     if (gBattleMons[battler2].status1 & STATUS1_PARALYSIS)
@@ -3847,11 +3932,7 @@ static void ReturnFromBattleToOverworld(void)
         if (gBattleTypeFlags & BATTLE_TYPE_ROAMER)
         {
             UpdateRoamerHPStatus(&gEnemyParty[0]);
-//#ifdef BUGFIX
             if ((gBattleOutcome == B_OUTCOME_WON) || gBattleOutcome == B_OUTCOME_CAUGHT)
-/*#else
-            if ((gBattleOutcome & B_OUTCOME_WON) || gBattleOutcome == B_OUTCOME_CAUGHT) // Bug: When Roar is used by roamer, gBattleOutcome is B_OUTCOME_PLAYER_TELEPORTED (5).
-#endif*/                                                                                  // & with B_OUTCOME_WON (1) will return TRUE and deactivates the roamer.
                 SetRoamerInactive();
         }
         m4aSongNumStop(SE_LOW_HEALTH);

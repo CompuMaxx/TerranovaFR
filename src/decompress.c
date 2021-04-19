@@ -2,11 +2,13 @@
 #include "gflib.h"
 #include "decompress.h"
 #include "pokemon.h"
+#include "constants/species.h"
 
 extern const struct CompressedSpriteSheet gMonFrontPicTable[];
 extern const struct CompressedSpriteSheet gMonBackPicTable[];
 
 static void DuplicateDeoxysTiles(void *pointer, s32 species);
+static void GetFemaleTiles(void *pointer, u16 species, u32 personality);
 
 void LZDecompressWram(const void *src, void *dest)
 {
@@ -103,12 +105,20 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
 
     DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
+	if (SpecieHaveFemaleFrame(species) == TRUE)
+		GetFemaleTiles(dest, species, personality);
 }
 
 static void DuplicateDeoxysTiles(void *pointer, s32 species)
-{
-    if (species == SPECIES_DEOXYS)
+{	
+	if (species == SPECIES_DEOXYS)
         CpuCopy32(pointer + 0x800, pointer, 0x800);
+}
+
+static void GetFemaleTiles(void *pointer, u16 species, u32 personality)
+{	
+	if (GetGenderFromSpeciesAndPersonality(species, personality) == MON_FEMALE)
+		CpuCopy32(pointer + 0x800, pointer, 0x800);
 }
 
 static void Unused_LZDecompressWramIndirect(const void **src, void *dest)

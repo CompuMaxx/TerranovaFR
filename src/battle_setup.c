@@ -27,10 +27,13 @@
 #include "battle_transition.h"
 #include "battle_controllers.h"
 #include "constants/battle_setup.h"
+#include "constants/flags.h"
 #include "constants/items.h"
 #include "constants/maps.h"
 #include "constants/songs.h"
+#include "constants/species.h"
 #include "constants/pokemon.h"
+#include "constants/trainers.h"
 #include "constants/trainer_classes.h"
 
 enum
@@ -270,7 +273,10 @@ static void DoGhostBattle(void)
     gMain.savedCallback = CB2_EndWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_GHOST;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
-    SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_GhostSpa);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -315,7 +321,10 @@ void StartMarowakBattle(void)
         gBattleTypeFlags = BATTLE_TYPE_GHOST;
     }
     CreateBattleStartTask(GetWildBattleTransition(), 0);
-    SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_GhostSpa);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }

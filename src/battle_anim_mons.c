@@ -390,8 +390,6 @@ static void SetCallbackToStoredInData6(struct Sprite *sprite)
     sprite->callback = (SpriteCallback)callback;
 }
 
-// x = a * sin(theta0 + dtheta * t)
-// y = a * cos(theta0 + dtheta * t)
 void TranslateSpriteInCircleOverDuration(struct Sprite *sprite)
 {
     if (sprite->data[3])
@@ -411,8 +409,6 @@ void TranslateSpriteInCircleOverDuration(struct Sprite *sprite)
     }
 }
 
-// x = (a0 + da * t) * sin(theta0 + dtheta * t)
-// y = (a0 + da * t) * cos(theta0 + dtheta * t)
 void TranslateSpriteInGrowingCircleOverDuration(struct Sprite *sprite)
 {
     if (sprite->data[3])
@@ -434,8 +430,6 @@ void TranslateSpriteInGrowingCircleOverDuration(struct Sprite *sprite)
 }
 
 // not used
-// x = alpl * sin(alpha0 + dalpha * t)
-// y = ampl * cos(beta0 + dbeta * t)
 static void TranslateSpriteInLissajousCurveOverDuration(struct Sprite *sprite)
 {
     if (sprite->data[3])
@@ -460,8 +454,6 @@ static void TranslateSpriteInLissajousCurveOverDuration(struct Sprite *sprite)
     }
 }
 
-// x = a * sin(theta0 + dtheta * t)
-// y = b * cos(theta0 + dtheta * t)
 void TranslateSpriteInEllipseOverDuration(struct Sprite *sprite)
 {
     if (sprite->data[3])

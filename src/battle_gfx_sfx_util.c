@@ -14,6 +14,7 @@
 #include "battle_anim.h"
 #include "battle_interface.h"
 #include "constants/battle_anim.h"
+#include "constants/species.h"
 #include "constants/moves.h"
 #include "constants/songs.h"
 
@@ -297,9 +298,6 @@ bool8 IsBattleSEPlaying(u8 battlerId)
     if (IsSEPlaying())
     {
         ++gBattleSpritesDataPtr->healthBoxesData[battlerId].soundTimer;
-        // UB: Uses gActiveBattler instead of battlerId.
-        // In practice, this is never a problem, as this routine
-        // is only ever passed gActiveBattler.
         if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].soundTimer < 30)
             return TRUE;
         m4aMPlayStop(&gMPlayInfo_SE1);
@@ -338,9 +336,13 @@ void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
     }
     otId = GetMonData(mon, MON_DATA_OT_ID);
     position = GetBattlerPosition(battlerId);
-    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species],
+//NEW LINE
+	HandleLoadSpecialPokePic(&gMonFrontPicTable[species],
+                                gMonSpritesGfxPtr->sprites[position],
+                                species, currentPersonality);
+/*    HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species],
                                               gMonSpritesGfxPtr->sprites[position],
-                                              species, currentPersonality);
+                                              species, currentPersonality);*/
     paletteOffset = 0x100 + battlerId * 16;
     if (gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies == SPECIES_NONE)
         lzPaletteData = GetMonFrontSpritePal(mon);
@@ -842,15 +844,6 @@ void BattleStopLowHpSound(void)
     m4aSongNumStop(SE_LOW_HEALTH);
 }
 
-// not used
-static u8 GetMonHPBarLevel(struct Pokemon *mon)
-{
-    u16 hp = GetMonData(mon, MON_DATA_HP);
-    u16 maxHP = GetMonData(mon, MON_DATA_MAX_HP);
-
-    return GetHPBarLevel(hp, maxHP);
-}
-
 void HandleBattleLowHpMusicChange(void)
 {
     if (gMain.inBattle)
@@ -953,11 +946,8 @@ void HideBattlerShadowSprite(u8 battlerId)
     gSprites[gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId].callback = SpriteCB_SetInvisible;
 }
 
-// Low-level function that sets specific interface tiles' palettes,
-// overwriting any pixel with value 0.
 void BattleInterfaceSetWindowPals(void)
 {
-    // 9 tiles at 0x06000240
     u16 *vramPtr = (u16 *)(BG_VRAM + 0x240);
     s32 i;
     s32 j;
@@ -976,8 +966,6 @@ void BattleInterfaceSetWindowPals(void)
                 *vramPtr |= 0x000F;
         }
     }
-
-    // 18 tiles at 0x06000600
     vramPtr = (u16 *)(BG_VRAM + 0x600);
     for (i = 0; i < 18; ++i)
     {

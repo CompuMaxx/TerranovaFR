@@ -3,6 +3,12 @@
 
 #include "constants/abilities.h"
 
+struct TrainerBall
+{
+    u8 trainerClass;
+    u8 Ball; // make this a u16 if needed
+};
+
 struct TrainerMoney
 {
     u8 classId;
