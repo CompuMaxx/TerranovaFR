@@ -900,8 +900,8 @@ static void BuyMenuPrintItemQuantityAndPrice(u8 taskId)
     s16 *data = gTasks[taskId].data;
     
     FillWindowPixelBuffer(3, PIXEL_FILL(1));
-    PrintMoneyAmount(3, 0x36, 0xA, gShopData.itemPrice, TEXT_SPEED_FF);
-    ConvertIntToDecimalStringN(gStringVar1, tItemCount, STR_CONV_MODE_LEADING_ZEROS, 2);
+    PrintMoneyAmount(3, 0x32, 0xA, gShopData.itemPrice, TEXT_SPEED_FF);
+    ConvertIntToDecimalStringN(gStringVar1, tItemCount, STR_CONV_MODE_LEADING_ZEROS, 3);
     StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
     BuyMenuPrint(3, 0, gStringVar4, 2, 0xA, 0, 0, 0, 1);
 }
@@ -909,7 +909,7 @@ static void BuyMenuPrintItemQuantityAndPrice(u8 taskId)
 static void Task_BuyMenu(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-
+		
     if (!gPaletteFade.active)
     {
         s32 itemId = ListMenu_ProcessInput(tListTaskId);
@@ -979,8 +979,8 @@ static void Task_BuyMenu(u8 taskId)
                 else
 					BuyMenuDisplayMessage(taskId, gText_Var1CertainlyHowManySpa, Task_BuyHowManyDialogueInit);
             }
-            break;        
-		}
+            break;
+        }
     }
 }
 
@@ -1018,8 +1018,8 @@ static void Task_BuyHowManyDialogueInit(u8 taskId)
 static void Task_BuyHowManyDialogueHandleInput(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-
-    if (AdjustQuantityAccordingToDPadInput(&tItemCount, gShopData.maxQuantity) == TRUE)
+	
+	if (AdjustQuantityAccordingToDPadInput(&tItemCount, gShopData.maxQuantity) == TRUE)
     {
         gShopData.itemPrice = itemid_get_market_price(tItemId) * tItemCount;
         BuyMenuPrintItemQuantityAndPrice(taskId);
@@ -1036,7 +1036,7 @@ static void Task_BuyHowManyDialogueHandleInput(u8 taskId)
             ClearWindowTilemap(1);
             PutWindowTilemap(4);
             CopyItemName(tItemId, gStringVar1);
-            ConvertIntToDecimalStringN(gStringVar2, tItemCount, STR_CONV_MODE_LEFT_ALIGN, 2);
+            ConvertIntToDecimalStringN(gStringVar2, tItemCount, STR_CONV_MODE_LEFT_ALIGN, 3);
             ConvertIntToDecimalStringN(gStringVar3, gShopData.itemPrice, STR_CONV_MODE_LEFT_ALIGN, 8);
 			if (gSaveBlock2Ptr->optionsLanguage == ENG)
 				BuyMenuDisplayMessage(taskId, gText_Var1AndYouWantedVar2, CreateBuyMenuConfirmPurchaseWindow);

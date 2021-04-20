@@ -185,6 +185,12 @@ static const u8 *const sPocketNames[] = {
     gText_PokeBalls2
 };
 
+static const u8 *const sPocketNamesSpa[] = {
+    gText_Items2Spa,
+    gText_KeyItems2Spa,
+    gText_PokeBalls2Spa
+};
+
 static const u16 sBagListBgTiles[][18] = {
     INCBIN_U16("graphics/item_menu/bagmap_0.bin"),
     INCBIN_U16("graphics/item_menu/bagmap_1.bin"),
@@ -215,6 +221,21 @@ static const struct MenuAction sItemMenuContextActions[] = {
     [ITEMMENUACTION_DUMMY] = {gText_StringDummy, {.void_u8 = NULL}}
 };
 
+static const struct MenuAction sItemMenuContextActionsSpa[] = {
+    [ITEMMENUACTION_USE] = {gText_UseSpa, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_TOSS] = {gText_TossSpa, {.void_u8 = Task_ItemMenuAction_Toss}},
+    [ITEMMENUACTION_REGISTER] = {gText_AsignarSpa, {.void_u8 = Task_ItemMenuAction_ToggleSelect}},
+    [ITEMMENUACTION_GIVE] = {gText_GiveSpa, {.void_u8 = Task_ItemMenuAction_Give}},
+    [ITEMMENUACTION_CANCEL] = {gText_FameChecker_CancelSpa, {.void_u8 = Task_ItemMenuAction_Cancel}},
+    [ITEMMENUACTION_BATTLE_USE] = {gText_UseSpa, {.void_u8 = Task_ItemMenuAction_BattleUse}},
+    [ITEMMENUACTION_CHECK] = {gText_CheckSpa, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_OPEN] = {gText_OpenSpa, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_OPEN_BERRIES] = {gText_OpenSpa, {.void_u8 = Task_ItemMenuAction_BattleUse}},
+    [ITEMMENUACTION_WALK] = {gText_WalkSpa, {.void_u8 = Task_ItemMenuAction_Use}},
+    [ITEMMENUACTION_DESELECT] = {gText_DeselectSpa, {.void_u8 = Task_ItemMenuAction_ToggleSelect}},
+    [ITEMMENUACTION_DUMMY] = {gText_StringDummySpa, {.void_u8 = NULL}}
+};
+
 static const u8 sContextMenuItems_Field[][4] = {
     {
         ITEMMENUACTION_USE,
@@ -231,7 +252,7 @@ static const u8 sContextMenuItems_Field[][4] = {
         ITEMMENUACTION_TOSS,
         ITEMMENUACTION_CANCEL,
         ITEMMENUACTION_DUMMY
-    }
+    },
 };
 
 static const u8 sContextMenuItems_CheckGiveTossCancel[] = {
@@ -647,7 +668,10 @@ static void Bag_BuildListMenuTemplate(u8 pocket)
         sListMenuItems[i].index = i;
     }
     StringCopy(sListMenuItemStrings[i], sListItemTextColor_RegularItem);
-    StringAppend(sListMenuItemStrings[i], gText_FameChecker_Cancel);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringAppend(sListMenuItemStrings[i], gText_FameChecker_Cancel);
+    else
+		StringAppend(sListMenuItemStrings[i], gText_FameChecker_CancelSpa);
     sListMenuItems[i].label = sListMenuItemStrings[i];
     sListMenuItems[i].index = i;
     gMultiuseListMenuTemplate.items = sListMenuItems;
@@ -747,7 +771,10 @@ static void bag_menu_print_cursor(u8 y, u8 colorIdx)
 static void PrintBagPocketName(void)
 {
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    BagPrintTextOnWin1CenteredColor0(sPocketNames[gBagMenuState.pocket], gBagMenuState.pocket);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		BagPrintTextOnWin1CenteredColor0(sPocketNames[gBagMenuState.pocket], gBagMenuState.pocket);
+    else
+		BagPrintTextOnWin1CenteredColor0(sPocketNamesSpa[gBagMenuState.pocket], gBagMenuState.pocket);
 }
 
 static void PrintItemDescriptionOnMessageWindow(s32 itemIndex)
@@ -756,10 +783,15 @@ static void PrintItemDescriptionOnMessageWindow(s32 itemIndex)
     if (itemIndex != sBagMenuDisplay->nItems[gBagMenuState.pocket])
         description = ItemId_GetDescription(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, itemIndex));
     else
-        description = gText_CloseBag;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			description = gText_CloseBag;
+        else
+			description = gText_CloseBagSpa;
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     BagPrintTextOnWindow(1, 2, description, 0, 3, 2, 0, 0, 0);
 }
+
+
 
 static void CreatePocketScrollArrowPair(void)
 {
@@ -1228,7 +1260,10 @@ static void BeginMovingItemInPocket(u8 taskId, s16 itemIndex)
     data[1] = itemIndex;
     sBagMenuDisplay->itemOriginalLocation = itemIndex;
     StringCopy(gStringVar1, ItemId_GetName(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])));
-    StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlaced);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlaced);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlacedSpa);
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     BagPrintTextOnWindow(1, 2, gStringVar4, 0, 3, 2, 0, 0, 0);
     ItemMenuIcons_MoveInsertIndicatorBar(0, ListMenuGetYCoordForPrintingArrowCursor(data[0]));
@@ -1420,21 +1455,17 @@ static void OpenContextMenu(u8 taskId)
         }
     }
     r6 = ShowBagWindow(10, sContextMenuNumItems - 1);
-    AddItemMenuActionTextPrinters(
-        r6,
-        2,
-        GetMenuCursorDimensionByFont(2, 0),
-        2,
-        GetFontAttribute(2, FONTATTR_LETTER_SPACING),
-        GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2,
-        sContextMenuNumItems,
-        sItemMenuContextActions,
-        sContextMenuItemsPtr
-    );
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddItemMenuActionTextPrinters(r6, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumItems, sItemMenuContextActions, sContextMenuItemsPtr);
+    else
+		AddItemMenuActionTextPrinters(r6, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumItems, sItemMenuContextActionsSpa, sContextMenuItemsPtr);
     Menu_InitCursor(r6, 2, 0, 2, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumItems, 0);
     r4 = ShowBagWindow(6, 0);
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_Var1IsSelectedSpa);
     BagPrintTextOnWindow(r4, 2, gStringVar4, 0, 2, 1, 0, 0, 1);
 }
 
@@ -1497,7 +1528,10 @@ static void Task_ItemMenuAction_Toss(u8 taskId)
     }
     else
     {
-        InitQuantityToTossOrDeposit(data[1], gText_TossOutHowManyStrVar1s);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			InitQuantityToTossOrDeposit(data[1], gText_TossOutHowManyStrVar1s);
+        else
+			InitQuantityToTossOrDeposit(data[1], gText_TossOutHowManyStrVar1sSpa);
         gTasks[taskId].func = Task_SelectQuantityToToss;
     }
 }
@@ -1506,7 +1540,10 @@ static void Task_ConfirmTossItems(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     ConvertIntToDecimalStringN(gStringVar2, data[8], STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_ThrowAwayStrVar2OfThisItemQM);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ThrowAwayStrVar2OfThisItemQM);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_ThrowAwayStrVar2OfThisItemQMSpa);
     BagPrintTextOnWindow(ShowBagWindow(6, 1), 2, gStringVar4, 0, 2, 1, 0, 0, 1);
     BagCreateYesNoMenuBottomRight(taskId, &sYesNoMenu_Toss);
 }
@@ -1558,7 +1595,10 @@ static void Task_TossItem_Yes(u8 taskId)
     HideBagWindow(6);
     CopyItemName(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1]), gStringVar1);
     ConvertIntToDecimalStringN(gStringVar2, data[8], STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_ThrewAwayStrVar2StrVar1s);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ThrewAwayStrVar2StrVar1s);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_ThrewAwayStrVar2StrVar1sSpa);
     BagPrintTextOnWindow(ShowBagWindow(6, 3), 2, gStringVar4, 0, 2, 1, 0, 0, 1);
     gTasks[taskId].func = Task_WaitAB_RedrawAndReturnToBag;
 }
@@ -1610,7 +1650,12 @@ static void Task_ItemMenuAction_Give(u8 taskId)
     PutWindowTilemap(1);
     CopyWindowToVram(0, COPYWIN_MAP);
     if (!CanWriteMailHere(itemId))
-        DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHere, Task_WaitAButtonAndCloseContextMenu);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHere, Task_WaitAButtonAndCloseContextMenu);
+        else
+			DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHere, Task_WaitAButtonAndCloseContextMenu);
+	}
     else if (!itemid_is_unique(itemId))
     {
         if (CalculatePlayerPartyCount() == 0)
@@ -1629,13 +1674,19 @@ static void Task_ItemMenuAction_Give(u8 taskId)
 
 static void Task_PrintThereIsNoPokemon(u8 taskId)
 {
-    DisplayItemMessageInBag(taskId, 2, gText_ThereIsNoPokemon, Task_WaitAButtonAndCloseContextMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageInBag(taskId, 2, gText_ThereIsNoPokemon, Task_WaitAButtonAndCloseContextMenu);
+    else
+		DisplayItemMessageInBag(taskId, 2, gText_ThereIsNoPokemonSpa, Task_WaitAButtonAndCloseContextMenu);
 }
 
 static void Task_PrintItemCantBeHeld(u8 taskId)
 {
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_ItemCantBeHeld);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ItemCantBeHeld);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_ItemCantBeHeldSpa);
     DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_WaitAButtonAndCloseContextMenu);
 }
 
@@ -1705,7 +1756,10 @@ static void Task_ItemContext_FieldGive(u8 taskId)
     u16 itemId = BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1]);
     if (!CanWriteMailHere(itemId))
     {
-        DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHere, Task_WaitAButtonAndCloseContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHere, Task_WaitAButtonAndCloseContextMenu);
+        else
+			DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHereSpa, Task_WaitAButtonAndCloseContextMenu);
     }
     else if (itemId == ITEM_TM_CASE)
     {
@@ -1749,7 +1803,10 @@ static void Task_ItemContext_PcBoxGive(u8 taskId)
     u16 itemId = BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1]);
     if (ItemIsMail(itemId) == TRUE)
     {
-        DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHere, Task_WaitAButtonAndCloseContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHere, Task_WaitAButtonAndCloseContextMenu);
+        else
+			DisplayItemMessageInBag(taskId, 2, gText_CantWriteMailHereSpa, Task_WaitAButtonAndCloseContextMenu);
     }
     else if (itemId == ITEM_TM_CASE)
     {
@@ -1803,7 +1860,10 @@ static void Task_ItemContext_Sell(u8 taskId)
     else if (itemid_get_market_price(gSpecialVar_ItemId) == 0)
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
+        else
+			StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThatSpa);
         DisplayItemMessageInBag(taskId, GetDialogBoxFontId(), gStringVar4, Task_ReturnToBagFromContextMenu);
     }
     else
@@ -1816,10 +1876,13 @@ static void Task_ItemContext_Sell(u8 taskId)
         }
         else
         {
-            if (data[2] > 99)
-                data[2] = 99;
+            if (data[2] > 999)
+                data[2] = 999;
             CopyItemName(gSpecialVar_ItemId, gStringVar1);
-            StringExpandPlaceholders(gStringVar4, gText_HowManyWouldYouLikeToSell);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_HowManyWouldYouLikeToSell);
+            else
+				StringExpandPlaceholders(gStringVar4, gText_HowManyWouldYouLikeToSellSpa);
             DisplayItemMessageInBag(taskId, GetDialogBoxFontId(), gStringVar4, Task_InitSaleQuantitySelectInterface);
         }
     }
@@ -1843,8 +1906,11 @@ static void ReturnToBagMenuFromSubmenu_Sell(void)
 static void Task_PrintSaleConfirmationText(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkay);
+    ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 8);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkay);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkaySpa);
     DisplayItemMessageInBag(taskId, GetDialogBoxFontId(), gStringVar4, Task_ShowSellYesNoMenu);
 }
 
@@ -1870,7 +1936,7 @@ static void Task_InitSaleQuantitySelectInterface(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     u8 r4 = ShowBagWindow(0, 1);
-    ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEADING_ZEROS, 2);
+    ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEADING_ZEROS, 3);
     StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
     BagPrintTextOnWindow(r4, 0, gStringVar4, 4, 10, 1, 0, 0xFF, 1);
     UpdateSalePriceDisplay(itemid_get_market_price(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])) / 2 * data[8]);
@@ -1881,7 +1947,7 @@ static void Task_InitSaleQuantitySelectInterface(u8 taskId)
 
 static void UpdateSalePriceDisplay(s32 amount)
 {
-    PrintMoneyAmount(GetBagWindow(0), 56, 10, amount, 0);
+    PrintMoneyAmount(GetBagWindow(0), 50, 10, amount, 0);
 }
 
 static void Task_SelectQuantityToSell(u8 taskId)
@@ -1889,7 +1955,7 @@ static void Task_SelectQuantityToSell(u8 taskId)
     s16 *data = gTasks[taskId].data;
     if (AdjustQuantityAccordingToDPadInput(&data[8], data[2]) == TRUE)
     {
-        UpdateQuantityToTossOrDeposit(data[8], 2);
+        UpdateQuantityToTossOrDeposit(data[8], 3);
         UpdateSalePriceDisplay(itemid_get_market_price(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])) / 2 * data[8]);
     }
     else if (JOY_NEW(A_BUTTON))
@@ -1923,8 +1989,11 @@ static void Task_SellItem_Yes(u8 taskId)
     PutWindowTilemap(0);
     ScheduleBgCopyTilemapToVram(0);
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
-    ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYen);
+    ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 8);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYen);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYenSpa);
     DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_FinalizeSaleToShop);
 }
 
@@ -1969,7 +2038,10 @@ static void Task_ItemContext_Deposit(u8 taskId)
     }
     else
     {
-        InitQuantityToTossOrDeposit(data[1], gText_DepositHowManyStrVars1);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			InitQuantityToTossOrDeposit(data[1], gText_DepositHowManyStrVars1);
+        else
+			InitQuantityToTossOrDeposit(data[1], gText_DepositHowManyStrVars1Spa);
         gTasks[taskId].func = Task_SelectQuantityToDeposit;
     }
 }
@@ -2012,13 +2084,19 @@ static void Task_TryDoItemDeposit(u8 taskId)
         ItemUse_SetQuestLogEvent(28, 0, gSpecialVar_ItemId, 0xFFFF);
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
         ConvertIntToDecimalStringN(gStringVar2, data[8], STR_CONV_MODE_LEFT_ALIGN, 3);
-        StringExpandPlaceholders(gStringVar4, gText_DepositedStrVar2StrVar1s);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_DepositedStrVar2StrVar1s);
+        else
+			StringExpandPlaceholders(gStringVar4, gText_DepositedStrVar2StrVar1sSpa);
         BagPrintTextOnWindow(ShowBagWindow(6, 3), 2, gStringVar4, 0, 2, 1, 0, 0, 1);
         gTasks[taskId].func = Task_WaitAB_RedrawAndReturnToBag;
     }
     else
     {
-        DisplayItemMessageInBag(taskId, 2, gText_NoRoomToStoreItems, Task_WaitAButtonAndCloseContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageInBag(taskId, 2, gText_NoRoomToStoreItems, Task_WaitAButtonAndCloseContextMenu);
+        else
+			DisplayItemMessageInBag(taskId, 2, gText_NoRoomToStoreItemsSpa, Task_WaitAButtonAndCloseContextMenu);
     }
 }
 

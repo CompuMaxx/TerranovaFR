@@ -51,7 +51,7 @@ bool8 RemoveCoins(u16 toSub)
 
 void PrintCoinsString_Parameterized(u8 windowId, u32 coinAmount, u8 x, u8 y, u8 speed)
 {
-    ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 4);
+    ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 5);
     if (gSaveBlock2Ptr->optionsLanguage == ENG)
 		StringExpandPlaceholders(gStringVar4, gText_Coins);
     if (gSaveBlock2Ptr->optionsLanguage == SPA)
@@ -74,7 +74,7 @@ void PrintCoinsString(u32 coinAmount)
     u8 windowId;
     int width;
 
-    ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 4);
+    ConvertIntToDecimalStringN(gStringVar1, coinAmount, STR_CONV_MODE_RIGHT_ALIGN, 5);
     if (gSaveBlock2Ptr->optionsLanguage == ENG)
 		StringExpandPlaceholders(gStringVar4, gText_Coins);
     if (gSaveBlock2Ptr->optionsLanguage == SPA)

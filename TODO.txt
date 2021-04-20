@@ -165,7 +165,8 @@
 - hall_of_fame.c
 - help_system.c
 - help_system_812B1E0.c(falta)
-- item_menu.c
++ item.c
++ item_menu.c
 - item_pc.c
 - item_use.c
 - itemfinder.c
@@ -180,7 +181,7 @@
 - mystery_event_msg.c(falta)
 - mystery_event_script.c(falta)
 - mystery_gift_menu.c(falta)
-- naming_screen.c
++ naming_screen.c
 - oak_speech.c(falta)
 + option_menu.c
 + party_menu.c

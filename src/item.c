@@ -618,7 +618,10 @@ u16 SanitizeItemId(u16 itemId)
 
 const u8 * ItemId_GetName(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].name;
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		return gItems[SanitizeItemId(itemId)].name;
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		return gItems[SanitizeItemId(itemId)].nameSpa;
 }
 
 u16 itemid_get_number(u16 itemId)
@@ -643,7 +646,10 @@ u8 ItemId_GetHoldEffectParam(u16 itemId)
 
 const u8 * ItemId_GetDescription(u16 itemId)
 {
-    return gItems[SanitizeItemId(itemId)].description;
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		return gItems[SanitizeItemId(itemId)].description;
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		return gItems[SanitizeItemId(itemId)].descriptionSpa;
 }
 
 bool8 itemid_is_unique(u16 itemId)

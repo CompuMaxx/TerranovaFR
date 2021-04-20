@@ -2663,7 +2663,7 @@ extern const u8 gText_SaveFailedScreen_SaveCompletedSpa[];
 extern const u8 gText_DepositItemSpa[];
 
 // item_menu
-extern const u8 gText_RegisterSpa[];
+extern const u8 gText_AsignarSpa[];
 extern const u8 gText_WalkSpa[];
 extern const u8 gText_CheckSpa[];
 extern const u8 gText_OpenSpa[];
