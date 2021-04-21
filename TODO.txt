@@ -57,7 +57,7 @@
 	Update Mecanismos a nuevas GENs
 ==============================================
 + Update Poké Balls basadas en Clases de Entrenador GEN VII(LISTO)
-- Update Ajustar IVs a 252 como en la GEN VI(LISTO)
++ Update Ajustar IVs a 252 como en la GEN VI(LISTO)
 - Update Daño de Quemaduras a la GEN VII(1/16 de los PS Máx)(LISTO)
 - Update Pérdida de Velocidad a la GEN VII(50% de la original)(LISTO)
 - Update Habilidad Piel Tosca a la GEN VII(Pierde 1/8 de los PS Máx)(LISTO)
@@ -68,7 +68,7 @@
 - Update Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
 - Update Incremento de retardo entre frames al correr GEN IV(LISTO)
 - Update Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
-- Update Estadísticas coloreadas por Naturaleza GEN IV(LISTO)
++ Update Estadísticas coloreadas por Naturaleza GEN IV(LISTO)
 - Update Sistema de Repelente GEN IV(LISTO)
 	-Falta chequear el resto de los Repelentes una vez agotado el que está en uso
 + Update Niveles de Obediencia GEN VII(LISTO)
