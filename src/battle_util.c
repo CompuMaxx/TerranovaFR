@@ -771,7 +771,7 @@ u8 DoBattlerEndTurnEffects(void)
             case ENDTURN_BURN:  // burn
                 if ((gBattleMons[gActiveBattler].status1 & STATUS1_BURN) && gBattleMons[gActiveBattler].hp != 0)
                 {
-                    gBattleMoveDamage = gBattleMons[gActiveBattler].maxHP / 8;
+                    gBattleMoveDamage = gBattleMons[gActiveBattler].maxHP / 16;
                     if (gBattleMoveDamage == 0)
                         gBattleMoveDamage = 1;
                     BattleScriptExecute(BattleScript_BurnTurnDmg);
@@ -1907,7 +1907,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 battler, u8 ability, u8 special, u16 moveA
                  && TARGET_TURN_DAMAGED
                  && (gBattleMoves[moveArg].flags & FLAG_MAKES_CONTACT))
                 {
-                    gBattleMoveDamage = gBattleMons[gBattlerAttacker].maxHP / 16;
+                    gBattleMoveDamage = gBattleMons[gBattlerAttacker].maxHP / 8;
                     if (gBattleMoveDamage == 0)
                         gBattleMoveDamage = 1;
                     BattleScriptPushCursor();

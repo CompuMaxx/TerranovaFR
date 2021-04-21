@@ -582,7 +582,7 @@ static const struct StatFractions sAccuracyStageRatios[] =
 };
 
 // The chance is 1/N for each stage.
-static const u16 sCriticalHitChance[] = { 16, 8, 4, 3, 2 };
+static const u16 sCriticalHitChance[] = { 16, 8, 2, 1, 1 };
 
 static const u32 sStatusFlagsForMoveEffects[] =
 {
@@ -748,7 +748,11 @@ static const u16 sProtectSuccessRates[] =
     USHRT_MAX,
     USHRT_MAX / 2, 
     USHRT_MAX / 4, 
-    USHRT_MAX / 8
+    USHRT_MAX / 8,
+    USHRT_MAX / 16,
+    USHRT_MAX / 32,
+    USHRT_MAX / 64,
+    USHRT_MAX / 128,
 };
 
 #define MIMIC_FORBIDDEN_END             0xFFFE
@@ -1215,7 +1219,7 @@ static void atk04_critcalc(void)
      && !(Random() % sCriticalHitChance[critChance])
      && (!(gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE) || BtlCtrl_OakOldMan_TestState2Flag(1))
      && !(gBattleTypeFlags & BATTLE_TYPE_POKEDUDE))
-        gCritMultiplier = 2;
+        gCritMultiplier = gCritMultiplier * 15 / 10;
     else
         gCritMultiplier = 1;
     ++gBattlescriptCurrInstr;
@@ -3107,7 +3111,7 @@ static void atk23_getexp(void)
             calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
-                *exp = calculatedExp / 2 / viaSentIn;
+                *exp = calculatedExp / viaSentIn;
                 if (*exp == 0)
                     *exp = 1;
                 gExpShareExp = calculatedExp / 2 / viaExpShare;
