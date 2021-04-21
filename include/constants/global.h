@@ -24,12 +24,12 @@
 #define GAME_LANGUAGE (LANGUAGE_ENGLISH)
 #endif
 
-#define PC_ITEMS_COUNT      30
-#define BAG_ITEMS_COUNT     42
-#define BAG_KEYITEMS_COUNT  30
-#define BAG_POKEBALLS_COUNT 13
-#define BAG_TMHM_COUNT      58
-#define BAG_BERRIES_COUNT   43
+#define PC_ITEMS_COUNT     120 	//30 -> 120
+#define BAG_ITEMS_COUNT    100 	//42 -> 100
+#define BAG_KEYITEMS_COUNT  50 	//30 -> 50
+#define BAG_POKEBALLS_COUNT 25	//13 -> 25  (24 + Smoke Ball)
+#define BAG_TMHM_COUNT     107	//58 -> 107 (99 MT + 8 MO)
+#define BAG_BERRIES_COUNT   67	//43 -> 67
 #define OBJECT_EVENT_TEMPLATES_COUNT 64
 
 #define QUEST_LOG_SCENE_COUNT 4
