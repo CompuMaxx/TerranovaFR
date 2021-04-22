@@ -1191,6 +1191,7 @@ extern const u8 gText_CableClub_CanMakeBerryPowder[];
 extern const u8 EventScript_PC[];
 
 extern const u8 EventScript_RepelWoreOff[];
+extern const u8 EventScript_PoisonSurvial[];
 
 // battle_message
 extern const u8 gText_MonSentToBoxInSomeonesPC[];

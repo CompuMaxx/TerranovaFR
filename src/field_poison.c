@@ -5,6 +5,7 @@
 #include "field_message_box.h"
 #include "script.h"
 #include "event_data.h"
+#include "event_scripts.h"
 #include "fldeff.h"
 #include "party_menu.h"
 #include "field_poison.h"
@@ -91,29 +92,52 @@ void TryFieldPoisonWhiteOut(void)
 
 s32 DoPoisonFieldEffect(void)
 {
-    int i;
-    u32 hp;
-    
-    struct Pokemon *pokemon = gPlayerParty;
-    u32 numPoisoned = 0;
-    u32 numFainted = 0;
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES) && GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN)
-        {
-            hp = GetMonData(pokemon, MON_DATA_HP);
-            if (hp == 0 || --hp == 0)
-                numFainted++;
-            SetMonData(pokemon, MON_DATA_HP, &hp);
-            numPoisoned++;
-        }
-        pokemon++;
-    }
-    if (numFainted || numPoisoned)
-        FldEffPoison_Start();
-    if (numFainted)
-        return FLDPSN_FNT;
-    if (numPoisoned)
-        return FLDPSN_PSN;
-    return FLDPSN_NONE;
+	int i;
+	u32 hp;
+	u8 ability;
+	
+	struct Pokemon* pokemon = gPlayerParty;
+	u32 numPoisoned = 0;
+	u32 numFainted = 0;
+	u32 numSurvived = 0;
+
+	for (i = 0; i < PARTY_SIZE; i++)
+	{
+		ability = GetMonAbility(pokemon);
+		if (GetMonData(pokemon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
+		&& GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN/*
+		&& ability != ABILITY_POISONHEAL && ability != ABILITY_MAGICGUARD*/)
+		{
+			hp = pokemon->hp;
+
+				if (hp == 1 || --hp == 1)
+				{
+					pokemon->hp = hp;
+					pokemon->status = STATUS1_NONE;
+					++numSurvived;
+					ScriptContext1_SetupScript(EventScript_PoisonSurvial);
+					GetMonData(pokemon, MON_DATA_NICKNAME, gStringVar1);
+					return;
+				}
+			pokemon->hp = hp;
+			numPoisoned++;
+		}
+	}
+	if (numSurvived != 0)
+	{
+		return FLDPSN_NONE;
+	}
+	if (numFainted != 0 || numPoisoned != 0)
+	{
+		FldEffPoison_Start();
+	}
+	if (numFainted != 0)
+	{
+		return FLDPSN_FNT;
+	}
+	if (numPoisoned != 0)
+	{
+		return FLDPSN_PSN;
+	}
+	return FLDPSN_NONE;
 }

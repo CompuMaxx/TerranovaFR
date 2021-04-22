@@ -1668,7 +1668,10 @@ bool8 ScrCmd_buffermovename(struct ScriptContext * ctx)
     u8 stringVarIndex = ScriptReadByte(ctx);
     u16 moveId = VarGet(ScriptReadHalfword(ctx));
 
-    StringCopy(sScriptStringVars[stringVarIndex], gMoveNames[moveId]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(sScriptStringVars[stringVarIndex], gMoveNames[moveId]);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(sScriptStringVars[stringVarIndex], gMoveNamesSpa[moveId]);
     return FALSE;
 }
 
@@ -2257,3 +2260,10 @@ bool8 ScrCmd_setmonmetlocation(struct ScriptContext * ctx)
         SetMonData(&gPlayerParty[partyIndex], MON_DATA_MET_LOCATION, &location);
     return FALSE;
 }
+
+bool8 ScrCmd_checklanguage(struct ScriptContext * ctx)
+{
+    gSpecialVar_Result = gSaveBlock2Ptr->optionsLanguage;
+    return FALSE;
+}
+

@@ -99,6 +99,13 @@ static const struct ListMenuItem sLevelMenuItems[] =
     {gText_Exit, DAYCARE_LEVEL_MENU_EXIT}
 };
 
+static const struct ListMenuItem sLevelMenuItemsSpa[] =
+{
+    {gText_ExpandedPlaceholder_EmptySpa, 0},
+    {gText_ExpandedPlaceholder_EmptySpa, 1},
+    {gText_ExitSpa, DAYCARE_LEVEL_MENU_EXIT},
+};
+
 static const struct ListMenuTemplate sDaycareListMenuLevelTemplate =
 {
     .items = sLevelMenuItems,
@@ -126,7 +133,11 @@ static const u8 *const sCompatibilityMessages[] =
     gText_Daycare_GetAlongVeryWell,
     gText_Daycare_GetAlong,
     gText_Daycare_DontLikeOther,
-    gText_Daycare_PlayOther
+    gText_Daycare_PlayOther,
+    gText_Daycare_GetAlongVeryWellSpa,
+    gText_Daycare_GetAlongSpa,
+    gText_Daycare_DontLikeOtherSpa,
+    gText_Daycare_PlayOtherSpa,
 };
 
 static const u8 sNewLineText[] = _("\n");
@@ -1349,7 +1360,10 @@ void SetDaycareCompatibilityString(void)
     if (relationshipScore == PARENTS_MAX_COMPATIBILITY)
         whichString = 0;
 
-    StringCopy(gStringVar4, sCompatibilityMessages[whichString]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(gStringVar4, sCompatibilityMessages[whichString]);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(gStringVar4, sCompatibilityMessages[whichString + 4]);
 }
 
 bool8 NameHasGenderSymbol(const u8 *name, u8 genderRatio)
@@ -1469,11 +1483,10 @@ static void DaycarePrintMonLvl(struct DayCare *daycare, u8 windowId, u32 daycare
     u8 lvlText[12];
     u8 intText[8];
 
-#if REVISION == 0
-    strcpy((char *)lvlText, (const char *)gText_Lv);
-#else
-    StringCopy(lvlText, gText_Lv);
-#endif
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(lvlText, gText_Lv);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(lvlText, gText_LvSpa);
     level = GetLevelAfterDaycareSteps(&daycare->mons[daycareSlotId].mon, daycare->mons[daycareSlotId].steps);
     ConvertIntToDecimalStringN(intText, level, STR_CONV_MODE_LEFT_ALIGN, 3);
     StringAppend(lvlText, intText);
@@ -1537,6 +1550,8 @@ void ShowDaycareLevelMenu(void)
     DrawStdWindowFrame(windowId, FALSE);
 
     menuTemplate = sDaycareListMenuLevelTemplate;
+	if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		menuTemplate.items = sLevelMenuItemsSpa;
     menuTemplate.windowId = windowId;
     listMenuTaskId = ListMenuInit(&menuTemplate, 0, 0);
 
@@ -1930,7 +1945,10 @@ static void CB2_EggHatch_1(void)
         break;
     case 5:
         DayCare_GetMonNickname(&gPlayerParty[sEggHatchData->eggPartyID], gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_HatchedFromEgg);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_HatchedFromEgg);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_HatchedFromEggSpa);
         EggHatchPrintMessage(sEggHatchData->windowId, gStringVar4, 0, 3, 0xFF);
         PlayFanfare(MUS_EVOLVED);
         sEggHatchData->CB2_state++;
@@ -1947,7 +1965,10 @@ static void CB2_EggHatch_1(void)
         break;
     case 8:
         DayCare_GetMonNickname(&gPlayerParty[sEggHatchData->eggPartyID], gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_NickHatchPrompt);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_NickHatchPrompt);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_NickHatchPromptSpa);
         EggHatchPrintMessage(sEggHatchData->windowId, gStringVar4, 0, 2, 1);
         sEggHatchData->CB2_state++;
         break;

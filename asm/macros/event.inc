@@ -1439,11 +1439,24 @@
 	.4byte \pointer
 	.endm
 
+	@ Writes the name of the item at index item to the specified buffer. If the specified index is larger than 
+	@ the number of items in the game (0x176), the name of item 0 ("????????") is buffered instead.
+	.macro bufferitemname out:req, item:req
+	.byte 0x80
+	.byte \out
+	.2byte \item
+	.endm
+
 	.macro bufferitemnameplural out:req, item:req, quantity:req
 	.byte 0xd4
 	.byte \out
 	.2byte \item
 	.2byte \quantity
+	.endm
+
+	@ Checks the game's language. If english, then ENG (0) is stored in VAR_RESULT. If spanish, then SPA (1) is stored in VAR_RESULT.
+	.macro checklanguage
+	.byte 0xd5
 	.endm
 
 

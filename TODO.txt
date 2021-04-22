@@ -64,12 +64,12 @@
 + Update Sistema de Repartir Experiencia a la GEN VII(100% a los participantes y 50% al resto)(LISTO)
 + Update Probabilidad de Golpe Crítico a la GEN VI(16.25%, 12.5%, 50% y 100%)(LISTO)
 + Update Multiplicador de Golpe Crítico a la GEN VI(150% de daño)(LISTO)
-- Update Huevos nacen en nivel 1 GEN IV(LISTO)
-- Update Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
++ Update Huevos nacen en nivel 1 GEN IV(LISTO)
++ Update Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
 - Update Incremento de retardo entre frames al correr GEN IV(LISTO)
 - Update Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
 + Update Estadísticas coloreadas por Naturaleza GEN IV(LISTO)
-- Update Sistema de Repelente GEN IV(LISTO)
++ Update Sistema de Repelente GEN IV(LISTO)
 	-Falta chequear el resto de los Repelentes una vez agotado el que está en uso
 + Update Niveles de Obediencia GEN VII(LISTO)
 	Incrementa la obediencia en 10 niveles con cada medalla desde el Nv 20 para la primera
@@ -107,6 +107,7 @@
 + Evitar que los PKMN huyan en el Safari(LISTO)
 - Remover Sistema de Ayuda
 - Remover opciones de Movimiento de Campo de Menú Pokémon
++ Espacio Extra en Save (LISTO)
 - DynamicOverwoldPalette(en desarrollo...)
 	Falta corregir error con Fame Checker
 	Falta corregir error con Fosil Pic
@@ -149,7 +150,7 @@
 - clear_save_data_screen.c
 + coin.c
 - credits.c(falta)
-- daycare.c
++ daycare.c
 - diploma.c
 - dodrio_berry_picking.c
 - dodrio_berry_picking_2.c(falta)
@@ -159,7 +160,7 @@
 - evolution_scene.c
 - fame_checker.c(falta)
 + field_player_avatar.c
-- field_poison.c
++ field_poison.c
 - field_screen_effect.c
 - field_specials.c (aun falta...)
 - hall_of_fame.c
