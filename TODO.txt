@@ -75,7 +75,7 @@
 	Incrementa la obediencia en 10 niveles con cada medalla desde el Nv 20 para la primera
 + Update Bonus Premier Balls estilo Let's Go Pikachu and Eevee(LISTO)
 	(1 Premier Ball por cada 10 Balls compradas)
-- Update MT Reusables GEN V(LISTO)
++ Update MT Reusables GEN V(LISTO)
 	(Reusables, Invendibles, Sin Cantidad, Sin poder comprar al ya tenerla)
 
 ==============================================
@@ -124,8 +124,8 @@
 + Fix Efectos de Terrenos al desmontar de SURF(LISTO)
 + Fix Fanfare al obtener Objeto o MT/MO(LISTO)
 + Fix Protección/Detección/Aguante(LISTO)
-- Fix Player Facing(LISTO)
-- Fix Especies de Pokémon en la Pokédex
++ Fix Player Facing(LISTO)
++ Fix Especies de Pokémon en la Pokédex
 
 ==============================================
 	Sistema Bilingüe
@@ -202,7 +202,7 @@
 + shop.c
 - slot_machine.c
 - start_menu.c
-- tm_case.c
++ tm_case.c
 - trade.c
 - trade_scene.c
 - trainer_card.c

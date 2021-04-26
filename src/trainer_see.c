@@ -358,7 +358,7 @@ static bool8 TrainerSeeFunc_PrepareToEngage(u8 taskId, struct Task * task, struc
 
     CancelPlayerForcedMovement();
     // Uncomment to have player turn to face their opponent
-    // ObjectEventSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetFaceDirectionMovementAction(GetOppositeDirection(trainerObj->facingDirection)));
+	ObjectEventSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetFaceDirectionMovementAction(GetOppositeDirection(trainerObj->facingDirection)));
     task->tFuncId++;
     return FALSE;
 }
