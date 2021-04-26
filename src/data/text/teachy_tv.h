@@ -357,7 +357,7 @@ const u8 gText_TeachyTv_TMsScript1Spa[] = _(
 	"las que tenéis.\p"
 	"Si queréis, podréis verlas también\n"
 	"en detalle.");
-const u8 gPokedudeText_TMTypesSpa[] = _(
+const u8 gText_Pokedude_TMTypesSpa[] = _(
 	"POKéLOTODO: NORMAL, AGUA,\n"
 	"PLANTA...\l"
 	"Las MT también son de cierto tipo.\p"
@@ -369,7 +369,7 @@ const u8 gPokedudeText_TMTypesSpa[] = _(
 	"Y RECURRENTE pueden aprenderlo\n"
 	"casi todos los de tipo PLANTA.\p"
 	"¡Mirad bien las descripciones!");
-const u8 gPokedudeText_ReadTMDescriptionSpa[] = _(
+const u8 gText_Pokedude_ReadTMDescriptionSpa[] = _(
 	"¡No miréis sólo el tipo! ¡Las\n"
 	"descripciones son fundamentales!\p"
 	"Siempre se dan pistas sobre los\n"

@@ -64,7 +64,7 @@ struct TrainerEncounterMusicPairs
 
 static EWRAM_DATA struct UnkStruct_203F458 * sTrainerTowerState = NULL;
 static EWRAM_DATA struct TrainerTowerOpponent * sTrainerTowerOpponent = NULL;
-static EWRAM_DATA u8 sUnused_203F460 = 0;
+//static EWRAM_DATA u8 sUnused_203F460 = 0;
 
 static void SetUpTrainerTowerDataStruct(void);
 static void FreeTrainerTowerDataStruct(void);

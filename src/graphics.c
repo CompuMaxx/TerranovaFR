@@ -1197,6 +1197,7 @@ const u32 gUnknown_8E990D8[] = INCBIN_U32("graphics/interface/naming_screen_8E99
 const u32 gUnknown_8E990F8[] = INCBIN_U32("graphics/interface/naming_screen_8E990F8.4bpp");
 
 const u8 gUnknown_8E99118[] = INCBIN_U8("graphics/tm_case/unk_8E99118.4bpp");
+const u8 gUnknown_8E99118Spa[] = INCBIN_U8("graphics/tm_case/unk_8E99118_spa.4bpp");
 
 const u16 gKantoTrainerCard_Pal[] = INCBIN_U16("graphics/trainer_card/0star.gbapal");
 const u32 gKantoTrainerCard_Gfx[] = INCBIN_U32("graphics/trainer_card/card.4bpp.lz");

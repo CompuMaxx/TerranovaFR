@@ -2875,6 +2875,7 @@ extern const u32 gTMCase_TMSpriteGfx[];
 extern const u32 gUnknown_8E84F20[];
 extern const u32 gUnknown_8E85068[];
 extern const u8 gUnknown_8E99118[];
+extern const u8 gUnknown_8E99118Spa[];
 extern const u16 gTMCaseMainWindowPalette[];
 
 // egg_hatch

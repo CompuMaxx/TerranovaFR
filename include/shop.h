@@ -6,7 +6,7 @@
 
 #define INDEX_CANCEL -2
 
-extern EWRAM_DATA struct ItemSlot gUnknown_02039F80[3];
+//extern EWRAM_DATA struct ItemSlot gUnknown_02039F80[3];
 
 void CreatePokemartMenu(const u16 *itemsForSale);
 void CreateDecorationShop1Menu(const u16 *);
