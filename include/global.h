@@ -819,7 +819,7 @@ struct SaveBlock1
 //	/*0x348C*/ u8 filler_348C[400];
     /*0x361C*/ struct RamScript ramScript;
 //	/*0x3A08*/ u8 filler3A08[16];
-    /*0x3A18*/ u8 seen2[DEX_FLAGS_NO];
+//	/*0x3A18*/ u8 seen2[DEX_FLAGS_NO];
     /*0x3A4C*/ u8 rivalName[PLAYER_NAME_LENGTH + 1];
     /*0x3A54*/ struct FameCheckerSaveData fameChecker[NUM_FAMECHECKER_PERSONS];
 //	/*0x3A94*/ u8 filler3A94[0x40];

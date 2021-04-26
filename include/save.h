@@ -74,7 +74,7 @@ extern u32 gDamagedSaveSectors;
 extern u32 gSaveCounter;
 extern struct SaveSection *gFastSaveSection; // the pointer is in fast IWRAM but may sometimes point to the slower EWRAM.
 extern u16 gUnknown_3005398;
-extern u16 gSaveUnusedVar;
+//extern u16 gSaveUnusedVar;
 extern u16 gSaveFileStatus;
 extern void (*gGameContinueCallback)(void);
 extern struct SaveBlockChunk gRamSaveSectionLocations[0xE];

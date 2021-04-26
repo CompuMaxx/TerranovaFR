@@ -169,6 +169,12 @@ static const struct MenuAction sMenuActions_UseGiveExit[] = {
     {gText_Exit, TMHMContextMenuAction_Exit},
 };
 
+static const struct MenuAction sMenuActions_UseGiveExitSpa[] = {
+    {gText_UseSpa,  TMHMContextMenuAction_Use },
+    {gText_GiveSpa, TMHMContextMenuAction_Give},
+    {gText_ExitSpa, TMHMContextMenuAction_Exit},
+};
+
 static const u8 sMenuActionIndices_Field[] = {0, 1, 2};
 static const u8 sMenuActionIndices_UnionRoom[] = {1, 2};
 static const struct YesNoFuncTable sYesNoFuncTable = {Task_PrintSaleConfirmedText, Task_SaleOfTMsCanceled};
@@ -182,7 +188,7 @@ static const u8 sTextColors[][3] = {
     {0, 1, 2},
     {0, 2, 3},
     {0, 3, 6},
-    {0, 14, 10}
+    {0, 14, 15}
 };
 
 static const struct WindowTemplate sWindowTemplates[] = {
@@ -492,7 +498,10 @@ static void InitTMCaseListMenuItems(void)
         sListMenuItemsBuffer[i].label = sListMenuStringsBuffer[i];
         sListMenuItemsBuffer[i].index = i;
     }
-    sListMenuItemsBuffer[i].label = gText_Close;
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		sListMenuItemsBuffer[i].label = gText_Close;
+    else
+		sListMenuItemsBuffer[i].label = gText_CloseSpa;
     sListMenuItemsBuffer[i].index = -2;
     gMultiuseListMenuTemplate.items = sListMenuItemsBuffer;
     gMultiuseListMenuTemplate.totalItems = sTMCaseDynamicResources->numTMs + 1;
@@ -532,7 +541,10 @@ static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)
     }
     StringAppend(gStringVar4, sText_SingleSpace);
     StringAppend(gStringVar4, gText_FontSize2);
-    StringAppend(gStringVar4, gMoveNames[ItemIdToBattleMoveId(itemId)]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringAppend(gStringVar4, gMoveNames[ItemIdToBattleMoveId(itemId)]);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringAppend(gStringVar4, gMoveNamesSpa[ItemIdToBattleMoveId(itemId)]);
     StringCopy(dest, gStringVar4);
 }
 
@@ -558,15 +570,9 @@ static void TMCase_ItemPrintFunc(u8 windowId, s32 itemId, u8 y)
 {
     if (itemId != -2)
     {
-        if (!itemid_is_unique(BagGetItemIdByPocketPosition(POCKET_TM_CASE, itemId)))
+        if (BagGetItemIdByPocketPosition(POCKET_TM_CASE, itemId) > LAST_TM_INDEX)
         {
-            ConvertIntToDecimalStringN(gStringVar1, BagGetQuantityByPocketPosition(POCKET_TM_CASE, itemId), STR_CONV_MODE_RIGHT_ALIGN, 3);
-            StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
-            AddTextPrinterParameterized_ColorByIndex(windowId, 0, gStringVar4, 0x7E, y, 0, 0, 0xFF, 1);
-        }
-        else
-        {
-            PlaceHMTileInWindow(windowId, 8, y);
+			PlaceHMTileInWindow(windowId, 8, y);
         }
     }
 }
@@ -580,7 +586,10 @@ static void TMCase_MoveCursor_UpdatePrintedDescription(s32 itemIndex)
     }
     else
     {
-        str = gText_TMCaseWillBePutAway;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			str = gText_TMCaseWillBePutAway;
+        else
+			str = gText_TMCaseWillBePutAwaySpa;
     }
     FillWindowPixelBuffer(1, 0);
     AddTextPrinterParameterized_ColorByIndex(1, 2, str, 2, 3, 1, 0, 0, 0);
@@ -773,7 +782,8 @@ static void Subtask_ReturnToTMCaseMain(u8 taskId)
 
 static void Task_SelectTMAction_FromFieldBag(u8 taskId)
 {
-    u8 * strbuf;
+    u8 * strbuf; 
+	u8 * strbuf2;
     TMCase_SetWindowBorder2(2);
     if (!MenuHelpers_LinkSomething() && InUnionRoom() != TRUE)
     {
@@ -787,18 +797,38 @@ static void Task_SelectTMAction_FromFieldBag(u8 taskId)
         sTMCaseDynamicResources->menuActionIndices = sMenuActionIndices_UnionRoom;
         sTMCaseDynamicResources->numMenuActions = NELEMS(sMenuActionIndices_UnionRoom);
     }
-    AddItemMenuActionTextPrinters(sTMCaseDynamicResources->contextMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 0, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, sMenuActions_UseGiveExit, sTMCaseDynamicResources->menuActionIndices);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddItemMenuActionTextPrinters(sTMCaseDynamicResources->contextMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 0, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, sMenuActions_UseGiveExit, sTMCaseDynamicResources->menuActionIndices);
+    else
+		AddItemMenuActionTextPrinters(sTMCaseDynamicResources->contextMenuWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 0, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, sMenuActions_UseGiveExitSpa, sTMCaseDynamicResources->menuActionIndices);
     Menu_InitCursor(sTMCaseDynamicResources->contextMenuWindowId, 2, 0, 2, GetFontAttribute(2, 1) + 2, sTMCaseDynamicResources->numMenuActions, 0);
     strbuf = Alloc(256);
+    strbuf2 = Alloc(256);
     GetTMNumberAndMoveString(strbuf, gSpecialVar_ItemId);
-    StringAppend(strbuf, gText_Var1IsSelected + 2); // +2 skips over the stringvar
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringAppend(strbuf, gText_Var1IsSelected + 2); // +2 skips over the stringvar
+    else
+	{
+		StringCopy(strbuf, gText_IsSelectedSpa);
+		GetTMNumberAndMoveString(strbuf2, gSpecialVar_ItemId);
+		StringAppend(strbuf, strbuf2);
+		StringAppend(strbuf, gText_DecimalPointSpa);
+	}
     AddTextPrinterParameterized_ColorByIndex(2, 2, strbuf, 0, 2, 1, 0, 0, 1);
     Free(strbuf);
-    if (itemid_is_unique(gSpecialVar_ItemId))
-    {
-        PlaceHMTileInWindow(2, 0, 2);
-        CopyWindowToVram(2, COPYWIN_GFX);
-    }
+    Free(strbuf2);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		if (gSpecialVar_ItemId > LAST_TM_INDEX)
+		{
+			PlaceHMTileInWindow(2, 0, 2);
+			CopyWindowToVram(2, COPYWIN_GFX);
+		}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		if (gSpecialVar_ItemId > LAST_TM_INDEX)
+		{
+			PlaceHMTileInWindow(2, 0, 17);
+			CopyWindowToVram(2, COPYWIN_GFX);
+		}
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
     gTasks[taskId].func = Task_TMContextMenu_HandleInput;
@@ -879,13 +909,19 @@ static void TMHMContextMenuAction_Give(u8 taskId)
 
 static void PrintError_ThereIsNoPokemon(u8 taskId)
 {
-    TMCase_PrintMessageWithFollowupTask(taskId, 2, gText_ThereIsNoPokemon, Task_WaitButtonAfterErrorPrint);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		TMCase_PrintMessageWithFollowupTask(taskId, 2, gText_ThereIsNoPokemon, Task_WaitButtonAfterErrorPrint);
+    else
+		TMCase_PrintMessageWithFollowupTask(taskId, 2, gText_ThereIsNoPokemonSpa, Task_WaitButtonAfterErrorPrint);
 }
 
 static void PrintError_ItemCantBeHeld(u8 taskId)
 {
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_ItemCantBeHeld);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ItemCantBeHeld);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_ItemCantBeHeldSpa);
     TMCase_PrintMessageWithFollowupTask(taskId, 2, gStringVar4, Task_WaitButtonAfterErrorPrint);
 }
 
@@ -964,31 +1000,12 @@ static void Task_SelectTMAction_Type3(u8 taskId)
 
 static void Task_SelectTMAction_FromSellMenu(u8 taskId)
 {
-    s16 * data = gTasks[taskId].data;
-
-    if (itemid_get_market_price(gSpecialVar_ItemId) == 0)
-    {
-        CopyItemName(gSpecialVar_ItemId, gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
-        TMCase_PrintMessageWithFollowupTask(taskId, GetDialogBoxFontId(), gStringVar4, Subtask_CloseContextMenuAndReturnToMain);
-    }
-    else
-    {
-        data[8] = 1;
-        if (data[2] == 1)
-        {
-            HandlePrintMoneyOnHand();
-            Task_AskConfirmSaleWithAmount(taskId);
-        }
-        else
-        {
-            if (data[2] > 99)
-                data[2] = 99;
-            CopyItemName(gSpecialVar_ItemId, gStringVar1);
-            StringExpandPlaceholders(gStringVar4, gText_HowManyWouldYouLikeToSell);
-            TMCase_PrintMessageWithFollowupTask(taskId, GetDialogBoxFontId(), gStringVar4, Task_InitQuantitySelectUI);
-        }
-    }
+	CopyItemName(gSpecialVar_ItemId, gStringVar1);
+	if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
+	else
+		StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThatSpa);
+	TMCase_PrintMessageWithFollowupTask(taskId, GetDialogBoxFontId(), gStringVar4, Subtask_CloseContextMenuAndReturnToMain);
 }
 
 static void Task_AskConfirmSaleWithAmount(u8 taskId)
@@ -996,7 +1013,10 @@ static void Task_AskConfirmSaleWithAmount(u8 taskId)
     s16 * data = gTasks[taskId].data;
 
     ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(POCKET_TM_CASE, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkay);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkay);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkaySpa);
     TMCase_PrintMessageWithFollowupTask(taskId, GetDialogBoxFontId(), gStringVar4, Task_PlaceYesNoBox);
 }
 
@@ -1089,7 +1109,10 @@ static void Task_PrintSaleConfirmedText(u8 taskId)
     ScheduleBgCopyTilemapToVram(0);
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
     ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(POCKET_TM_CASE, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYen);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYen);
+    else
+		StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYenSpa);
     TMCase_PrintMessageWithFollowupTask(taskId, 2, gStringVar4, Task_DoSaleOfTMs);
 }
 
@@ -1227,7 +1250,10 @@ static void Task_TMCaseDude_Playback(u8 taskId)
         break;
     case 8:
         FillBG2RowWithPalette_2timesNplus1(1);
-        TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_TMTypes, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_TMTypes, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_TMTypesSpa, 0);
         gTasks[taskId].func = Task_TMCaseDude_Playback;
         data[8]++;
         break;
@@ -1249,7 +1275,10 @@ static void Task_TMCaseDude_Playback(u8 taskId)
         break;
     case 18:
         FillBG2RowWithPalette_2timesNplus1(1);
-        TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_ReadTMDescription, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_ReadTMDescription, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			TMCase_PrintMessageWithFollowupTask(taskId, 4, gText_Pokedude_ReadTMDescriptionSpa, NULL);
         gTasks[taskId].func = Task_TMCaseDude_Playback; // this function
         data[8]++;
         break;
@@ -1331,16 +1360,36 @@ static void TMCase_PrintMessageWithFollowupTask(u8 taskId, u8 windowId, const u8
 
 static void PrintStringTMCaseOnWindow3(void)
 {
-    u32 distance = 72 - GetStringWidth(1, gText_TMCase, 0);
-    AddTextPrinterParameterized3(3, 1, distance / 2, 1, sTextColors[0], 0, gText_TMCase);
+    u32 distance;
+	
+	if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		distance = 72 - GetStringWidth(1, gText_TMCase, 0);
+		AddTextPrinterParameterized3(3, 1, distance / 2, 1, sTextColors[0], 0, gText_TMCase);
+	}
+	else
+	{
+		distance = 72 - GetStringWidth(1, gText_TMCaseSpa, 0);
+		AddTextPrinterParameterized3(3, 1, distance / 2, 1, sTextColors[0], 0, gText_TMCaseSpa);
+	}
 }
 
 static void DrawMoveInfoUIMarkers(void)
 {
-    BlitMoveInfoIcon(4, 19, 0, 0);
-    BlitMoveInfoIcon(4, 20, 0, 12);
-    BlitMoveInfoIcon(4, 21, 0, 24);
-    BlitMoveInfoIcon(4, 22, 0, 36);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		BlitMoveInfoIcon(4, 19, 0, 0);
+		BlitMoveInfoIcon(4, 20, 0, 12);
+		BlitMoveInfoIcon(4, 21, 0, 24);
+		BlitMoveInfoIcon(4, 22, 0, 36);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		BlitMoveInfoIcon(4, 19 + 23, 0, 0);
+		BlitMoveInfoIcon(4, 20 + 23, 0, 12);
+		BlitMoveInfoIcon(4, 21 + 23, 0, 24);
+		BlitMoveInfoIcon(4, 22 + 23, 0, 36);
+	}
     CopyWindowToVram(4, COPYWIN_GFX);
 }
 
@@ -1362,7 +1411,10 @@ static void TMCase_MoveCursor_UpdatePrintedTMInfo(u16 itemId)
     else
     {
         move = ItemIdToBattleMoveId(itemId);
-        BlitMoveInfoIcon(5, gBattleMoves[move].type + 1, 0, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BlitMoveInfoIcon(5, gBattleMoves[move].type + 1, 0, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BlitMoveInfoIcon(5, gBattleMoves[move].type + 1 + 23, 0, 0);
         if (gBattleMoves[move].power < 2)
             str = gText_ThreeHyphens;
         else
@@ -1387,7 +1439,10 @@ static void TMCase_MoveCursor_UpdatePrintedTMInfo(u16 itemId)
 
 static void PlaceHMTileInWindow(u8 windowId, u8 x, u8 y)
 {
-    BlitBitmapToWindow(windowId, gUnknown_8E99118, x, y, 16, 12);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		BlitBitmapToWindow(windowId, gUnknown_8E99118, x, y, 16, 12);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		BlitBitmapToWindow(windowId, gUnknown_8E99118Spa, x, y, 16, 12);
 }
 
 static void HandlePrintMoneyOnHand(void)

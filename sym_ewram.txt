@@ -15,7 +15,6 @@
 	.include "src/string_util.o"
 	.align 2
 	.include "src/link.o"
-	.space 8
 	.align 2
 	.include "src/battle_controllers.o"
 	.align 2

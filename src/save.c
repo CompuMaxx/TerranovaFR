@@ -73,14 +73,14 @@ u32 gDamagedSaveSectors;
 u32 gSaveCounter;
 struct SaveSection *gFastSaveSection; // the pointer is in fast IWRAM but may sometimes point to the slower EWRAM.
 u16 gUnknown_3005398;
-u16 gSaveUnusedVar;
+//u16 gSaveUnusedVar;
 u16 gSaveFileStatus;
 void (*gGameContinueCallback)(void);
 struct SaveBlockChunk gRamSaveSectionLocations[0xE];
 u16 gSaveSucceeded;
 
 EWRAM_DATA struct SaveSection gSaveDataBuffer = {0};
-EWRAM_DATA u32 gSaveUnusedVar2 = 0;
+//EWRAM_DATA u32 gSaveUnusedVar2 = 0;
 
 void ClearSaveData(void)
 {

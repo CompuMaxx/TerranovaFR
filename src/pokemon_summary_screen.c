@@ -175,8 +175,8 @@ struct PokemonSummaryScreenData
 
         u8 genderSymbol[3];
         u8 level[7];
-        u8 unk3090[9];
-        u8 unk309C[5][5];
+        u8 PSS_HP[9];
+        u8 PSS_STATS_VALUE[5][5];
 
         u8 unk30B8[5][11];
         u8 unk30F0[5][11];
@@ -184,8 +184,8 @@ struct PokemonSummaryScreenData
         u8 power[5][5];
         u8 unk3188[5][5];
 
-        u8 unk31A4[9];
-        u8 unk31B0[9];
+        u8 PSS_EXP[9];
+        u8 expToNextLevel[9];
 
         u8 abilityName[13];
         u8 abilityDescription[52];
@@ -244,8 +244,6 @@ struct PokemonSummaryScreenData
     struct Sprite * markingSprite;
 
     u8 unk3300[2]; /* 0x3300 */
-    u8 unk3304[3]; /* 0x3304 */
-    u8 unused[200]; /* 0x3304 */
 };
 
 struct Struct203B144
@@ -1933,63 +1931,63 @@ static void PSS_GetStatsPokemon(void)
     u32 expToNextLevel;
 
     hp = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_HP);
-    ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk3090, hp, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringAppend(sMonSummaryScreen->summary.unk3090, gText_Slash);
+    ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_HP, hp, STR_CONV_MODE_LEFT_ALIGN, 3);
+    StringAppend(sMonSummaryScreen->summary.PSS_HP, gText_Slash);
 
     hp = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_MAX_HP);
     ConvertIntToDecimalStringN(tempStr, hp, STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringAppend(sMonSummaryScreen->summary.unk3090, tempStr);
+    StringAppend(sMonSummaryScreen->summary.PSS_HP, tempStr);
 
-    sUnknown_203B144->unk02 = MACRO_8136350_0(sMonSummaryScreen->summary.unk3090);
+    sUnknown_203B144->unk02 = MACRO_8136350_0(sMonSummaryScreen->summary.PSS_HP);
 
     if (sMonSummaryScreen->savedCallback == CB2_ReturnToTradeMenuFromSummary && sMonSummaryScreen->isEnemyParty == TRUE)
     {
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ATK2);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_ATK], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->tileTag = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_ATK]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_ATK], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->tileTag = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_ATK]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_DEF2);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_DEF], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->palTag = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_DEF]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_DEF], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->palTag = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_DEF]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPATK2);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPA], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->unk08 = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPA]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPA], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->unk08 = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPA]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPDEF2);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPD], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->unk0A = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPD]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPD], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->unk0A = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPD]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPEED2);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPE], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->unk0C = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPE]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPE], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->unk0C = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPE]);
     }
     else
     {
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ATK);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_ATK], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->tileTag = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_ATK]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_ATK], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->tileTag = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_ATK]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_DEF);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_DEF], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->palTag = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_DEF]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_DEF], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->palTag = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_DEF]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPATK);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPA], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->unk08 = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPA]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPA], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->unk08 = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPA]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPDEF);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPD], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->unk0A = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPD]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPD], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->unk0A = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPD]);
 
         statValue = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPEED);
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPE], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
-        sUnknown_203B144->unk0C = MACRO_8136350_1(sMonSummaryScreen->summary.unk309C[PSS_STAT_SPE]);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPE], statValue, STR_CONV_MODE_LEFT_ALIGN, 3);
+        sUnknown_203B144->unk0C = MACRO_8136350_1(sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPE]);
     }
 
     exp = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_EXP);
-    ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk31A4, exp, STR_CONV_MODE_LEFT_ALIGN, 7);
-    sUnknown_203B144->unk0E = MACRO_8136350_0(sMonSummaryScreen->summary.unk31A4);
+    ConvertIntToDecimalStringN(sMonSummaryScreen->summary.PSS_EXP, exp, STR_CONV_MODE_LEFT_ALIGN, 7);
+    sUnknown_203B144->unk0E = MACRO_8136350_0(sMonSummaryScreen->summary.PSS_EXP);
 
     level = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_LEVEL);
     expToNextLevel = 0;
@@ -1999,8 +1997,8 @@ static void PSS_GetStatsPokemon(void)
         expToNextLevel = gExperienceTables[gBaseStats[species].growthRate][level + 1] - exp;
     }
 
-    ConvertIntToDecimalStringN(sMonSummaryScreen->summary.unk31B0, expToNextLevel, STR_CONV_MODE_LEFT_ALIGN, 7);
-    sUnknown_203B144->unk10 = MACRO_8136350_0(sMonSummaryScreen->summary.unk31B0);
+    ConvertIntToDecimalStringN(sMonSummaryScreen->summary.expToNextLevel, expToNextLevel, STR_CONV_MODE_LEFT_ALIGN, 7);
+    sUnknown_203B144->unk10 = MACRO_8136350_0(sMonSummaryScreen->summary.expToNextLevel);
 
     type = GetAbilityBySpecies(GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES), GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_ABILITY_NUM));
     if (gSaveBlock2Ptr->optionsLanguage == ENG)
@@ -2358,14 +2356,14 @@ static void PSS_ShowMonStats(void)
 		AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 10, 67, sPSSTextColours[WHITE + sPSSNatureStatTable[nature][2]], TEXT_SPEED_FF, gText_PSS_SpeedSpa);
 	}
 	
-	AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 68 + sUnknown_203B144->unk02, 0, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk3090);
-    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->tileTag, 20, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk309C[PSS_STAT_ATK]);
-    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->palTag, 32, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk309C[PSS_STAT_DEF]);
-    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->unk08, 44, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk309C[PSS_STAT_SPA]);
-    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->unk0A, 56, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk309C[PSS_STAT_SPD]);
-    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->unk0C, 68, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk309C[PSS_STAT_SPE]);
-    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 55 + sUnknown_203B144->unk0E, 80, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk31A4);
-    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 55 + sUnknown_203B144->unk10, 92, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.unk31B0);
+	AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 68 + sUnknown_203B144->unk02, 0, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.PSS_HP);
+    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->tileTag, 20, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_ATK]);
+    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->palTag, 32, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_DEF]);
+    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->unk08, 44, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPA]);
+    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->unk0A, 56, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPD]);
+    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 90 + sUnknown_203B144->unk0C, 68, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.PSS_STATS_VALUE[PSS_STAT_SPE]);
+    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 55 + sUnknown_203B144->unk0E, 80, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.PSS_EXP);
+    AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 55 + sUnknown_203B144->unk10, 92, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.expToNextLevel);
 }
 
 #define MACRO_8137270(x) ((x) * 28 + 5)

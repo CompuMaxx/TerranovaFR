@@ -49,7 +49,7 @@ static EWRAM_DATA u16 gUnknown_203AB0C = 0;
 static EWRAM_DATA u16 sLargeStarXSpeed = 0;
 static EWRAM_DATA u16 sLargeStarYSpeed = 0;
 static EWRAM_DATA u16 sTrailingSparklesXmodMask = 0;
-static EWRAM_DATA u16 sUnusedVarRelatedToGameFreakStars = 0;
+//static EWRAM_DATA u16 sUnusedVarRelatedToGameFreakStars = 0;
 static EWRAM_DATA u16 sTrailingSparklesSpawnRate = 0;
 static EWRAM_DATA u16 sTrailingSparklesFlickerStartTime = 0;
 static EWRAM_DATA u16 sTrailingSparklesDestroySpriteTime = 0;
@@ -1780,7 +1780,7 @@ static void GameFreakScene_LoadGfxCreateStar(void)
     sLargeStarXSpeed = 0x60;
     sLargeStarYSpeed = 0x10;
     sTrailingSparklesXmodMask = 0x07;
-    sUnusedVarRelatedToGameFreakStars = 5;
+	//	sUnusedVarRelatedToGameFreakStars = 5;
     sTrailingSparklesSpawnRate = 8;
     sTrailingSparklesFlickerStartTime = 90;
     sTrailingSparklesDestroySpriteTime = 120;
