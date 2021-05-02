@@ -598,35 +598,35 @@ const union AnimCmd gAnimCmd_83A2F28[] = {
 };
 
 const union AnimCmd gAnimCmd_83A2F40[] = {
-    ANIMCMD_FRAME(9, 5),
-    ANIMCMD_FRAME(10, 3),
-    ANIMCMD_FRAME(9, 5),
-    ANIMCMD_FRAME(11, 3),
-    ANIMCMD_JUMP(0),
+	ANIMCMD_FRAME(9, 3),
+	ANIMCMD_FRAME(10, 5),
+	ANIMCMD_FRAME(9, 3),
+	ANIMCMD_FRAME(11, 5),
+	ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gAnimCmd_83A2F54[] = {
-    ANIMCMD_FRAME(12, 5),
-    ANIMCMD_FRAME(13, 3),
-    ANIMCMD_FRAME(12, 5),
-    ANIMCMD_FRAME(14, 3),
-    ANIMCMD_JUMP(0),
+	ANIMCMD_FRAME(12, 2),
+	ANIMCMD_FRAME(13, 6),
+	ANIMCMD_FRAME(12, 2),
+	ANIMCMD_FRAME(14, 6),
+	ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gAnimCmd_83A2F68[] = {
-    ANIMCMD_FRAME(15, 5),
-    ANIMCMD_FRAME(16, 3),
-    ANIMCMD_FRAME(15, 5),
-    ANIMCMD_FRAME(17, 3),
-    ANIMCMD_JUMP(0),
+	ANIMCMD_FRAME(15, 3),
+	ANIMCMD_FRAME(16, 5),
+	ANIMCMD_FRAME(15, 3),
+	ANIMCMD_FRAME(17, 5),
+	ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gAnimCmd_83A2F7C[] = {
-    ANIMCMD_FRAME(15, 5, .hFlip = TRUE),
-    ANIMCMD_FRAME(16, 3, .hFlip = TRUE),
-    ANIMCMD_FRAME(15, 5, .hFlip = TRUE),
-    ANIMCMD_FRAME(17, 3, .hFlip = TRUE),
-    ANIMCMD_JUMP(0),
+	ANIMCMD_FRAME(15, 3, .hFlip = TRUE),
+	ANIMCMD_FRAME(16, 5, .hFlip = TRUE),
+	ANIMCMD_FRAME(15, 3, .hFlip = TRUE),
+	ANIMCMD_FRAME(17, 5, .hFlip = TRUE),
+	ANIMCMD_JUMP(0),
 };
 
 const union AnimCmd gAnimCmd_83A2F90[] = {

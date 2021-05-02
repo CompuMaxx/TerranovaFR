@@ -1586,7 +1586,7 @@ const struct SpriteTemplate gSpriteTemplates_TrainerBackpics[] =
         .paletteTag = 0,
         .oam = &gOamData_BattlerPlayer,
         .anims = NULL, 
-        .images = gTrainerBackPicTable_Red,
+        .images = gTrainerBackPicTable_Hero,
         .affineAnims = gSpriteAffineAnimTable_BattlerPlayer,
         .callback = SpriteCB_AllyMon,
     },

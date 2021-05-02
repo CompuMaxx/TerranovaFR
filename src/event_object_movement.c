@@ -484,6 +484,55 @@ const u8 gInitialMovementTypeFacingDirections[NUM_FIELD_MAP_OBJECT_TEMPLATES] = 
 #define OBJ_EVENT_PAL_TAG_32 0x1121
 #define OBJ_EVENT_PAL_TAG_33 0x1122
 #define OBJ_EVENT_PAL_TAG_34 0x1123
+
+#define OBJ_EVENT_PAL_TAG_HERO_NORMAL	0x10FE
+#define OBJ_EVENT_PAL_TAG_GAMER	0x1124
+#define OBJ_EVENT_PAL_TAG_YOUNGSTER	0x1125
+#define OBJ_EVENT_PAL_TAG_PICNICKER	0x1126
+#define OBJ_EVENT_PAL_TAG_CAMPER	0x1127
+#define OBJ_EVENT_PAL_TAG_HIKER	0x1128
+#define OBJ_EVENT_PAL_TAG_SAILOR	0x1129
+#define OBJ_EVENT_PAL_TAG_BUG_CATCHER	0x112A
+#define OBJ_EVENT_PAL_TAG_COOL_TRAINER_M	0x112B
+#define OBJ_EVENT_PAL_TAG_COOL_TRAINER_F	0x112C
+#define OBJ_EVENT_PAL_TAG_SUPER_NERD	0x112D
+#define OBJ_EVENT_PAL_TAG_CHANNELER	0x112E
+#define OBJ_EVENT_PAL_TAG_ROCKET_M	0x112F
+#define OBJ_EVENT_PAL_TAG_ROCKET_F	0x1130
+#define OBJ_EVENT_PAL_TAG_BLACKBELT	0x1131
+#define OBJ_EVENT_PAL_TAG_SCIENTIST	0x1132
+#define OBJ_EVENT_PAL_TAG_GENTLEMAN	0x1133
+#define OBJ_EVENT_PAL_TAG_LASS	0x1134
+#define OBJ_EVENT_PAL_TAG_SWIMMER_M	0x1135
+#define OBJ_EVENT_PAL_TAG_SWIMMER_F	0x1136
+#define OBJ_EVENT_PAL_TAG_POLICEMAN	0x1137
+#define OBJ_EVENT_PAL_TAG_NURSE	0x1138
+#define OBJ_EVENT_PAL_TAG_FISHER	0x1139
+#define OBJ_EVENT_PAL_TAG_BATTLE_GIRL	0x113A
+#define OBJ_EVENT_PAL_TAG_BEAUTY	0x113B
+#define OBJ_EVENT_PAL_TAG_ROCKER	0x113C
+#define OBJ_EVENT_PAL_TAG_TUBER_F	0x113D
+#define OBJ_EVENT_PAL_TAG_TUBER_M	0x113E
+#define OBJ_EVENT_PAL_TAG_BIKER	0x113F
+#define OBJ_EVENT_PAL_TAG_TEACHY_TV_HOST	0x1140
+#define OBJ_EVENT_PAL_TAG_PROF_OAK	0x1141
+#define OBJ_EVENT_PAL_TAG_DAISY	0x1142
+#define OBJ_EVENT_PAL_TAG_BILL	0x1143
+#define OBJ_EVENT_PAL_TAG_KOGA	0x1144
+#define OBJ_EVENT_PAL_TAG_BROCK	0x1145
+#define OBJ_EVENT_PAL_TAG_MISTY	0x1146
+#define OBJ_EVENT_PAL_TAG_LT_SURGE	0x1147
+#define OBJ_EVENT_PAL_TAG_ERIKA	0x1148
+#define OBJ_EVENT_PAL_TAG_SABRINA	0x1149
+#define OBJ_EVENT_PAL_TAG_BLAINE	0x114A
+#define OBJ_EVENT_PAL_TAG_GIOVANNI	0x114B
+#define OBJ_EVENT_PAL_TAG_LORELEI	0x114C
+#define OBJ_EVENT_PAL_TAG_AGATHA	0x114D
+#define OBJ_EVENT_PAL_TAG_BRUNO	0x114E
+#define OBJ_EVENT_PAL_TAG_LANCE	0x114F
+#define OBJ_EVENT_PAL_TAG_CABLE_CLUB_RECEPTIONIST	0x1150
+#define OBJ_EVENT_PAL_TAG_OBJECT	0x1151
+
 #define OBJ_EVENT_PAL_TAG_NONE 0x11FF
 
 #include "data/object_events/object_event_graphics_info_pointers.h"
@@ -513,7 +562,55 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gUnknown_8394EA8, OBJ_EVENT_PAL_TAG_20},
     {gUnknown_8395AE8, OBJ_EVENT_PAL_TAG_11},
     {gUnknown_83952C8, OBJ_EVENT_PAL_TAG_21},
-    {},
+    {gObjectEventPal_HeroNormal, 			OBJ_EVENT_PAL_TAG_HERO_NORMAL},
+/*	{gObjectEventPal_Gamer, 				OBJ_EVENT_PAL_TAG_GAMER},
+	{gObjectEventPal_Youngster,				OBJ_EVENT_PAL_TAG_YOUNGSTER},
+    {gObjectEventPal_Picnicker,				OBJ_EVENT_PAL_TAG_PICNICKER},
+    {gObjectEventPal_Camper,				OBJ_EVENT_PAL_TAG_CAMPER},
+    {gObjectEventPal_Hiker,					OBJ_EVENT_PAL_TAG_HIKER},
+    {gObjectEventPal_Sailor,				OBJ_EVENT_PAL_TAG_SAILOR},
+    {gObjectEventPal_BugCatcher,			OBJ_EVENT_PAL_TAG_BUG_CATCHER},
+    {gObjectEventPal_CooltrainerM,			OBJ_EVENT_PAL_TAG_COOL_TRAINER_M},
+    {gObjectEventPal_CooltrainerF,			OBJ_EVENT_PAL_TAG_COOL_TRAINER_F},
+    {gObjectEventPal_SuperNerd,				OBJ_EVENT_PAL_TAG_SUPER_NERD},
+    {gObjectEventPal_Channeler,				OBJ_EVENT_PAL_TAG_CHANNELER},
+    {gObjectEventPal_RocketM,				OBJ_EVENT_PAL_TAG_ROCKET_M},
+    {gObjectEventPal_RocketF,				OBJ_EVENT_PAL_TAG_ROCKET_F},
+    {gObjectEventPal_Blackbelt,				OBJ_EVENT_PAL_TAG_BLACKBELT},
+    {gObjectEventPal_Scientist,				OBJ_EVENT_PAL_TAG_SCIENTIST},
+    {gObjectEventPal_Gentleman,				OBJ_EVENT_PAL_TAG_GENTLEMAN},
+    {gObjectEventPal_Lass,					OBJ_EVENT_PAL_TAG_LASS},
+    {gObjectEventPal_SwimmerMLand,			OBJ_EVENT_PAL_TAG_SWIMMER_M},
+    {gObjectEventPal_SwimmerFLand,			OBJ_EVENT_PAL_TAG_SWIMMER_F},
+    {gObjectEventPal_Policeman,				OBJ_EVENT_PAL_TAG_POLICEMAN},
+    {gObjectEventPal_Nurse,					OBJ_EVENT_PAL_TAG_NURSE},
+    {gObjectEventPal_Fisher,				OBJ_EVENT_PAL_TAG_FISHER},
+    {gObjectEventPal_BattleGirl,			OBJ_EVENT_PAL_TAG_BATTLE_GIRL},
+    {gObjectEventPal_Beauty,				OBJ_EVENT_PAL_TAG_BEAUTY},
+    {gObjectEventPal_Rocker,				OBJ_EVENT_PAL_TAG_ROCKER},
+    {gObjectEventPal_TuberF,				OBJ_EVENT_PAL_TAG_TUBER_F},
+    {gObjectEventPal_TuberM,				OBJ_EVENT_PAL_TAG_TUBER_M},
+    {gObjectEventPal_Biker,					OBJ_EVENT_PAL_TAG_BIKER},
+    {gObjectEventPal_TeachyTVHost,			OBJ_EVENT_PAL_TAG_TEACHY_TV_HOST},
+    {gObjectEventPal_ProfOak,				OBJ_EVENT_PAL_TAG_PROF_OAK},
+    {gObjectEventPal_Daisy,					OBJ_EVENT_PAL_TAG_DAISY},
+    {gObjectEventPal_Bill,					OBJ_EVENT_PAL_TAG_BILL},
+    {gObjectEventPal_Koga,					OBJ_EVENT_PAL_TAG_KOGA},
+    {gObjectEventPal_Brock,					OBJ_EVENT_PAL_TAG_BROCK},
+    {gObjectEventPal_Misty,					OBJ_EVENT_PAL_TAG_MISTY},
+    {gObjectEventPal_LtSurge,				OBJ_EVENT_PAL_TAG_LT_SURGE},
+    {gObjectEventPal_Erika,					OBJ_EVENT_PAL_TAG_ERIKA},
+    {gObjectEventPal_Sabrina,				OBJ_EVENT_PAL_TAG_SABRINA},
+    {gObjectEventPal_Blaine,				OBJ_EVENT_PAL_TAG_BLAINE},
+    {gObjectEventPal_Giovanni,				OBJ_EVENT_PAL_TAG_GIOVANNI},
+    {gObjectEventPal_Lorelei,				OBJ_EVENT_PAL_TAG_LORELEI},
+    {gObjectEventPal_Agatha,				OBJ_EVENT_PAL_TAG_AGATHA},
+    {gObjectEventPal_Bruno,					OBJ_EVENT_PAL_TAG_BRUNO},
+    {gObjectEventPal_Lance,					OBJ_EVENT_PAL_TAG_LANCE},
+    {gObjectEventPal_CableClubReceptionist,	OBJ_EVENT_PAL_TAG_CABLE_CLUB_RECEPTIONIST},
+    {gObjectEventPal_Lapras,				OBJ_EVENT_PAL_TAG_LAPRAS},
+    {gObjectEventPal_Object,				OBJ_EVENT_PAL_TAG_OBJECT},
+*/	{},
 };
 
 const u16 gPlayerReflectionPaletteTags[] = {

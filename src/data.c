@@ -40,7 +40,7 @@ const struct SpriteFrameImage gSpriteImages_BattlerOpponentRight[] =
     gHeap + 0xF800, 0x800,
 };
 
-const struct SpriteFrameImage gTrainerBackPicTable_Red[] =
+const struct SpriteFrameImage gTrainerBackPicTable_Hero[] =
 {
     gTrainerBackPic_Red, 0x0800,
     gTrainerBackPic_Red + 0x0800, 0x0800,

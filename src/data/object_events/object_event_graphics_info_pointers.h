@@ -1,10 +1,10 @@
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedNormal;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedBike;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedSurf;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedFieldMove;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedFish;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedVSSeeker;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RedVSSeekerBike;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroNormal;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroBike;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroSurf;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroFieldMove;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroFish;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroVSSeeker;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroVSSeekerBike;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenNormal;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenBike;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenSurf;
@@ -30,7 +30,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Woman2;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Beauty;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BaldingMan;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Woman3;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldMan1;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gamer;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldMan2;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldManLyingDown;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldWoman;
@@ -153,13 +153,13 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_SSAnne;
 
 
 const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM_OBJ_EVENT_GFX] = {
-    [OBJ_EVENT_GFX_RED_NORMAL]               = &gObjectEventGraphicsInfo_RedNormal,
-    [OBJ_EVENT_GFX_RED_BIKE]                 = &gObjectEventGraphicsInfo_RedBike,
-    [OBJ_EVENT_GFX_RED_SURF]                 = &gObjectEventGraphicsInfo_RedSurf,
-    [OBJ_EVENT_GFX_RED_FIELD_MOVE]           = &gObjectEventGraphicsInfo_RedFieldMove,
-    [OBJ_EVENT_GFX_RED_FISH]                 = &gObjectEventGraphicsInfo_RedFish,
-    [OBJ_EVENT_GFX_RED_VS_SEEKER]            = &gObjectEventGraphicsInfo_RedVSSeeker,
-    [OBJ_EVENT_GFX_RED_VS_SEEKER_BIKE]       = &gObjectEventGraphicsInfo_RedVSSeekerBike,
+    [OBJ_EVENT_GFX_RED_NORMAL]               = &gObjectEventGraphicsInfo_HeroNormal,
+    [OBJ_EVENT_GFX_RED_BIKE]                 = &gObjectEventGraphicsInfo_HeroBike,
+    [OBJ_EVENT_GFX_RED_SURF]                 = &gObjectEventGraphicsInfo_HeroSurf,
+    [OBJ_EVENT_GFX_RED_FIELD_MOVE]           = &gObjectEventGraphicsInfo_HeroFieldMove,
+    [OBJ_EVENT_GFX_RED_FISH]                 = &gObjectEventGraphicsInfo_HeroFish,
+    [OBJ_EVENT_GFX_RED_VS_SEEKER]            = &gObjectEventGraphicsInfo_HeroVSSeeker,
+    [OBJ_EVENT_GFX_RED_VS_SEEKER_BIKE]       = &gObjectEventGraphicsInfo_HeroVSSeekerBike,
     [OBJ_EVENT_GFX_GREEN_NORMAL]             = &gObjectEventGraphicsInfo_GreenNormal,
     [OBJ_EVENT_GFX_GREEN_BIKE]               = &gObjectEventGraphicsInfo_GreenBike,
     [OBJ_EVENT_GFX_GREEN_SURF]               = &gObjectEventGraphicsInfo_GreenSurf,
@@ -185,7 +185,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_BEAUTY]                   = &gObjectEventGraphicsInfo_Beauty,
     [OBJ_EVENT_GFX_BALDING_MAN]              = &gObjectEventGraphicsInfo_BaldingMan,
     [OBJ_EVENT_GFX_WOMAN_3]                  = &gObjectEventGraphicsInfo_Woman3,
-    [OBJ_EVENT_GFX_OLD_MAN_1]                = &gObjectEventGraphicsInfo_OldMan1,
+    [OBJ_EVENT_GFX_OLD_MAN_1]                = &gObjectEventGraphicsInfo_Gamer,
     [OBJ_EVENT_GFX_OLD_MAN_2]                = &gObjectEventGraphicsInfo_OldMan2,
     [OBJ_EVENT_GFX_OLD_MAN_LYING_DOWN]       = &gObjectEventGraphicsInfo_OldManLyingDown,
     [OBJ_EVENT_GFX_OLD_WOMAN]                = &gObjectEventGraphicsInfo_OldWoman,

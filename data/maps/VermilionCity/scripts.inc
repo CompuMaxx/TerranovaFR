@@ -35,16 +35,16 @@ VermilionCity_EventScript_Woman:: @ 8166917
 	msgbox VermilionCity_Text_GrimerMultipliesInSludge, MSGBOX_NPC
 	end
 
-VermilionCity_EventScript_OldMan1:: @ 8166920
+VermilionCity_EventScript_Gamer:: @ 8166920
 	lock
 	faceplayer
 	compare VAR_MAP_SCENE_VERMILION_CITY, 3
-	goto_if_eq VermilionCity_EventScript_OldMan1SSAnneLeft
+	goto_if_eq VermilionCity_EventScript_GamerSSAnneLeft
 	msgbox VermilionCity_Text_DidYouSeeSSAnneInHarbor
 	release
 	end
 
-VermilionCity_EventScript_OldMan1SSAnneLeft:: @ 8166937
+VermilionCity_EventScript_GamerSSAnneLeft:: @ 8166937
 	msgbox VermilionCity_Text_SSAnneHasDepartedForYear
 	release
 	end

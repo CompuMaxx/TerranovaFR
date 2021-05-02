@@ -13,7 +13,7 @@ CeladonCity_EventScript_LittleGirl:: @ 8166C99
 	msgbox CeladonCity_Text_GotMyKoffingInCinnabar, MSGBOX_NPC
 	end
 
-CeladonCity_EventScript_OldMan1:: @ 8166CA2
+CeladonCity_EventScript_Gamer:: @ 8166CA2
 	lock
 	msgbox CeladonCity_Text_GymIsGreatFullOfWomen
 	release
