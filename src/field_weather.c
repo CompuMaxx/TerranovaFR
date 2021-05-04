@@ -1,7 +1,6 @@
 #include "global.h"
 #include "gflib.h"
 #include "blend_palette.h"
-#include "field_camera.h"
 #include "field_effect.h"
 #include "field_weather.h"
 #include "field_weather_util.h"
@@ -13,13 +12,6 @@
 #include "constants/songs.h"
 
 #define DROUGHT_COLOR_INDEX(color) ((((color) >> 1) & 0xF) | (((color) >> 2) & 0xF0) | (((color) >> 3) & 0xF00))
-
-enum
-{
-    GAMMA_NONE,
-    GAMMA_NORMAL,
-    GAMMA_ALT,
-};
 
 struct RGBColor
 {
@@ -91,7 +83,7 @@ static void (*const sWeatherPalStateFuncs[])(void) = {
     DoNothing
 };
 
-static const u8 sBasePaletteGammaTypes[32] = {
+EWRAM_DATA u8 sBasePaletteGammaTypes[32] = {
     // background palettes
     GAMMA_NORMAL,
     GAMMA_NORMAL,
@@ -146,7 +138,7 @@ void StartWeather(void)
 {
     if (!FuncIsActiveTask(Task_WeatherMain))
     {
-        u8 index = AllocSpritePalette(0x1200);
+        u8 index = 15;
         CpuCopy32(gDefaultWeatherSpritePalette, &gPlttBufferUnfaded[0x100 + index * 16], 32);
         ApplyGlobalFieldPaletteTint(index);
         BuildGammaShiftTables();
@@ -212,7 +204,6 @@ static void Task_WeatherInit(u8 taskId)
     // When the screen fades in, this is set to TRUE.
     if (gWeatherPtr->readyForInit)
     {
-        UpdateCameraPanning();
 		sWeatherFuncs[gWeatherPtr->currWeather].initAll();
         gTasks[taskId].func = Task_WeatherMain;
     }
@@ -272,6 +263,10 @@ static void BuildGammaShiftTables(void)
     u32 v10;
     u16 v11;
     s16 dunno;
+	u8 i;
+	
+	for (i = 0; i <= 12; i++)
+		sBasePaletteGammaTypes[i] = GAMMA_NORMAL;
 
     sPaletteGammaTypes = sBasePaletteGammaTypes;
     for (v0 = 0; v0 <= 1; v0++)
@@ -909,10 +904,10 @@ static u8 IsWeatherFadingIn(void)
         return 0;
 }
 
-void LoadCustomWeatherSpritePalette(const u16 *palette)
+void LoadCustomWeatherSpritePalette(const struct SpritePalette *palette)
 {
-    LoadPalette(palette, 0x100 + gWeatherPtr->weatherPicSpritePalIndex * 16, 32);
-    UpdateSpritePaletteWithWeather(gWeatherPtr->weatherPicSpritePalIndex);
+    LoadSpritePalette(palette);
+    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(palette->tag));
 }
 
 static void LoadDroughtWeatherPalette(u8 *gammaIndexPtr, u8 *a1)
@@ -1172,3 +1167,10 @@ void SlightlyDarkenPalsInWeather(u16 *palbuf, u16 *unused, u32 size)
         break;
     }
 }
+
+void UpdatePaletteGammaType(u8 index, u8 gammaType)
+{
+	if (index != 0xFF)
+		sBasePaletteGammaTypes[index + 16] = gammaType;
+}
+

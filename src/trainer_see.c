@@ -4,12 +4,16 @@
 #include "field_effect.h"
 #include "field_player_avatar.h"
 #include "quest_log.h"
+#include "field_weather.h"
 #include "script.h"
 #include "task.h"
 #include "util.h"
 #include "constants/battle_setup.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
+
+extern const struct SpritePalette sObjectEventSpritePalettes[];
+extern const struct SpritePalette sObjectEventPalettes0;
 
 typedef u8 (*TrainerApproachFunc)(struct ObjectEvent *, s16, s16, s16);
 typedef bool8 (*TrainerSeeFunc)(u8, struct Task *, struct ObjectEvent *);
@@ -647,7 +651,7 @@ static const union AnimCmd *const sSpriteAnimTable_Emoticons[] = {
 
 static const struct SpriteTemplate sSpriteTemplate_Emoticons = {
     .tileTag = 0xFFFF,
-    .paletteTag = 0xFFFF,
+    .paletteTag = 0x1100, //LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_8)
     .oam = &sOamData_Emoticons,
     .anims = sSpriteAnimTable_Emoticons,
     .images = sSpriteImages_Emoticons,
@@ -657,7 +661,12 @@ static const struct SpriteTemplate sSpriteTemplate_Emoticons = {
 
 u8 FldEff_ExclamationMarkIcon1(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x53);
+    u8 spriteId, paletteNum;
+
+    LoadObjectEventPalette(0x1100); //LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_8)
+    UpdatePaletteGammaType(IndexOfSpritePaletteTag(0x1100), GAMMA_ALT);
+    UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1100));
+    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_EXCLAMATION_MARK_ICON, 0);
@@ -667,7 +676,12 @@ u8 FldEff_ExclamationMarkIcon1(void)
 
 u8 FldEff_DoubleExclMarkIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
+    u8 spriteId, paletteNum;
+	
+	LoadObjectEventPalette(0x1100); //LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_8)
+	UpdatePaletteGammaType(IndexOfSpritePaletteTag(0x1100), GAMMA_ALT);
+	UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1100));
+    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_DOUBLE_EXCL_MARK_ICON, 1);
@@ -677,7 +691,12 @@ u8 FldEff_DoubleExclMarkIcon(void)
 
 u8 FldEff_XIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
+    u8 spriteId, paletteNum;
+	
+	LoadObjectEventPalette(0x1100); //LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_8)
+	UpdatePaletteGammaType(IndexOfSpritePaletteTag(0x1100), GAMMA_ALT);
+	UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1100));
+    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_X_ICON, 2);
@@ -687,7 +706,12 @@ u8 FldEff_XIcon(void)
 
 u8 FldEff_SmileyFaceIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
+    u8 spriteId, paletteNum;
+	
+	LoadObjectEventPalette(0x1100); //LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_8)
+	UpdatePaletteGammaType(IndexOfSpritePaletteTag(0x1100), GAMMA_ALT);
+	UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1100));
+    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_SMILEY_FACE_ICON, 3);
@@ -697,7 +721,12 @@ u8 FldEff_SmileyFaceIcon(void)
 
 u8 FldEff_QuestionMarkIcon(void)
 {
-    u8 spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
+    u8 spriteId, paletteNum;
+	
+	LoadObjectEventPalette(0x1100); //LoadObjectEventPalette(OBJ_EVENT_PAL_TAG_8)
+	UpdatePaletteGammaType(IndexOfSpritePaletteTag(0x1100), GAMMA_ALT);
+	UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(0x1100));
+    spriteId = CreateSpriteAtEnd(&sSpriteTemplate_Emoticons, 0, 0, 0x52);
 
     if (spriteId != MAX_SPRITES)
         SetIconSpriteData(&gSprites[spriteId], FLDEFF_QUESTION_MARK_ICON, 4);

@@ -2048,7 +2048,7 @@ static void sub_8056E80(void)
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     ScanlineEffect_Stop();
 
-    DmaClear16(3, PLTT + 2, PLTT_SIZE - 2);
+	DmaClear16(3, PLTT + 2, PLTT_SIZE - 2);
     DmaFillLarge16(3, 0, (void *)(VRAM + 0x0), 0x18000, 0x1000);
     ResetOamRange(0, 128);
     LoadOam();
@@ -2102,12 +2102,8 @@ static void sub_8057024(u32 a1)
     ResetAllPicSprites();
     ResetCameraUpdateInfo();
     InstallCameraPanAheadCallback();
-    if (!a1)
-        InitObjectEventPalettes(0);
-    else
-        InitObjectEventPalettes(1);
-
-    FieldEffectActiveListClear();
+    FreeAllSpritePalettes();
+	FieldEffectActiveListClear();
     StartWeather();
     ResumePausedWeather();
     if (!a1)
