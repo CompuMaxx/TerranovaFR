@@ -2,22 +2,29 @@
 ## for item in items
 ## if item.pocket == "POCKET_TM_CASE"
 extern const u8 gMoveDescription_{{ item.moveId }}[];
+extern const u8 gMoveDescription_{{ item.moveId }}Spa[];
+## else if item.itemId != "ITEM_NONE"
+const u8 gItemDescription_{{ item.itemId }}[] = _("{{ item.description_english }}");
+const u8 gItemDescriptionSpa_{{ item.itemId }}[] = _("{{ item.description_spanish }}");
 ## endif
-{% if item.itemId != "ITEM_NONE" %}const u8 gItemDescription_{{ item.itemId }}[] = _("{{ item.description_english }}");{% endif %}
 ## endfor
 const u8 gItemDescription_ITEM_NONE[] = _("?????");
+const u8 gItemDescriptionSpa_ITEM_NONE[] = _("?????");
 
 const struct Item gItems[] = {
     {% for item in items %}{
         .name = _("{{ item.english }}"),
+		.nameSpa = _("{{ item.spanish }}"),
         .itemId = {{ item.itemId }},
         .price = {{ item.price }},
         .holdEffect = {{ item.holdEffect }},
         .holdEffectParam = {{ item.holdEffectParam }},
 ## if item.pocket == "POCKET_TM_CASE"
         .description = gMoveDescription_{{ item.moveId }},
+        .descriptionSpa = gMoveDescription_{{ item.moveId }}Spa,
 ## else
         .description = gItemDescription_{{ item.itemId }},
+        .descriptionSpa = gItemDescriptionSpa_{{ item.itemId }},
 ## endif
         .importance = {{ item.importance }},
         .exitsBagOnUse = {{ item.exitsBagOnUse }},
