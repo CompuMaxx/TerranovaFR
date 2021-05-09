@@ -12,8 +12,8 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenFieldMove;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenFish;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenVSSeeker;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenVSSeekerBike;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RSBrendan;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_RSMay;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Brendan;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_May;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_LittleBoy;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_LittleGirl;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Youngster;
@@ -31,11 +31,11 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Beauty;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_BaldingMan;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Woman3;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gamer;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldMan2;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldMan1;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldManLyingDown;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldWoman;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldWoman1;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberMWater;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberF;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberFLand;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberMLand;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Camper;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Picnicker;
@@ -65,7 +65,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Captain;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Nurse;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_CableClubReceptionist;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnionRoomReceptionist;
-const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_UnusedMaleReceptionist;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Cameraman;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Clerk;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_MGDeliveryman;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TrainerTowerDude;
@@ -167,8 +167,8 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_GREEN_FISH]               = &gObjectEventGraphicsInfo_GreenFish,
     [OBJ_EVENT_GFX_GREEN_VS_SEEKER]          = &gObjectEventGraphicsInfo_GreenVSSeeker,
     [OBJ_EVENT_GFX_GREEN_VS_SEEKER_BIKE]     = &gObjectEventGraphicsInfo_GreenVSSeekerBike,
-    [OBJ_EVENT_GFX_RS_BRENDAN]               = &gObjectEventGraphicsInfo_RSBrendan,
-    [OBJ_EVENT_GFX_RS_MAY]                   = &gObjectEventGraphicsInfo_RSMay,
+    [OBJ_EVENT_GFX_RS_BRENDAN]               = &gObjectEventGraphicsInfo_Brendan,
+    [OBJ_EVENT_GFX_RS_MAY]                   = &gObjectEventGraphicsInfo_May,
     [OBJ_EVENT_GFX_LITTLE_BOY]               = &gObjectEventGraphicsInfo_LittleBoy,
     [OBJ_EVENT_GFX_LITTLE_GIRL]              = &gObjectEventGraphicsInfo_LittleGirl,
     [OBJ_EVENT_GFX_YOUNGSTER]                = &gObjectEventGraphicsInfo_Youngster,
@@ -178,19 +178,19 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_LASS]                     = &gObjectEventGraphicsInfo_Lass,
     [OBJ_EVENT_GFX_WOMAN_1]                  = &gObjectEventGraphicsInfo_Woman1,
     [OBJ_EVENT_GFX_BATTLE_GIRL]              = &gObjectEventGraphicsInfo_BattleGirl,
-    [OBJ_EVENT_GFX_MAN]                      = &gObjectEventGraphicsInfo_Man,
+    [OBJ_EVENT_GFX_MAN]                    = &gObjectEventGraphicsInfo_Man,
     [OBJ_EVENT_GFX_ROCKER]                   = &gObjectEventGraphicsInfo_Rocker,
     [OBJ_EVENT_GFX_FAT_MAN]                  = &gObjectEventGraphicsInfo_FatMan,
     [OBJ_EVENT_GFX_WOMAN_2]                  = &gObjectEventGraphicsInfo_Woman2,
     [OBJ_EVENT_GFX_BEAUTY]                   = &gObjectEventGraphicsInfo_Beauty,
     [OBJ_EVENT_GFX_BALDING_MAN]              = &gObjectEventGraphicsInfo_BaldingMan,
     [OBJ_EVENT_GFX_WOMAN_3]                  = &gObjectEventGraphicsInfo_Woman3,
-    [OBJ_EVENT_GFX_OLD_MAN_1]                = &gObjectEventGraphicsInfo_Gamer,
-    [OBJ_EVENT_GFX_OLD_MAN_2]                = &gObjectEventGraphicsInfo_OldMan2,
+    [OBJ_EVENT_GFX_GAMER]                	 = &gObjectEventGraphicsInfo_Gamer,
+    [OBJ_EVENT_GFX_OLD_MAN_1]                = &gObjectEventGraphicsInfo_OldMan1,
     [OBJ_EVENT_GFX_OLD_MAN_LYING_DOWN]       = &gObjectEventGraphicsInfo_OldManLyingDown,
-    [OBJ_EVENT_GFX_OLD_WOMAN]                = &gObjectEventGraphicsInfo_OldWoman,
+    [OBJ_EVENT_GFX_OLD_WOMAN_1]              = &gObjectEventGraphicsInfo_OldWoman1,
     [OBJ_EVENT_GFX_TUBER_M_WATER]            = &gObjectEventGraphicsInfo_TuberMWater,
-    [OBJ_EVENT_GFX_TUBER_F]                  = &gObjectEventGraphicsInfo_TuberF,
+    [OBJ_EVENT_GFX_TUBER_F_LAND]             = &gObjectEventGraphicsInfo_TuberFLand,
     [OBJ_EVENT_GFX_TUBER_M_LAND]             = &gObjectEventGraphicsInfo_TuberMLand,
     [OBJ_EVENT_GFX_CAMPER]                   = &gObjectEventGraphicsInfo_Camper,
     [OBJ_EVENT_GFX_PICNICKER]                = &gObjectEventGraphicsInfo_Picnicker,
@@ -220,7 +220,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_NURSE]                    = &gObjectEventGraphicsInfo_Nurse,
     [OBJ_EVENT_GFX_CABLE_CLUB_RECEPTIONIST]  = &gObjectEventGraphicsInfo_CableClubReceptionist,
     [OBJ_EVENT_GFX_UNION_ROOM_RECEPTIONIST]  = &gObjectEventGraphicsInfo_UnionRoomReceptionist,
-    [OBJ_EVENT_GFX_UNUSED_MALE_RECEPTIONIST] = &gObjectEventGraphicsInfo_UnusedMaleReceptionist,
+    [OBJ_EVENT_GFX_CAMERAMAN] 				 = &gObjectEventGraphicsInfo_Cameraman,
     [OBJ_EVENT_GFX_CLERK]                    = &gObjectEventGraphicsInfo_Clerk,
     [OBJ_EVENT_GFX_MG_DELIVERYMAN]           = &gObjectEventGraphicsInfo_MGDeliveryman,
     [OBJ_EVENT_GFX_TRAINER_TOWER_DUDE]       = &gObjectEventGraphicsInfo_TrainerTowerDude,

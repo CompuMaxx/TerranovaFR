@@ -92,7 +92,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "graphics_id": "OBJ_EVENT_GFX_GAMER",
       "x": 30,
       "y": 24,
       "elevation": 3,
@@ -105,7 +105,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_2",
+      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
       "x": 26,
       "y": 19,
       "elevation": 3,
@@ -131,7 +131,7 @@
       "flag": "FLAG_HIDE_CELADON_ROCKETS"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "graphics_id": "OBJ_EVENT_GFX_GAMER",
       "x": 9,
       "y": 30,
       "elevation": 3,

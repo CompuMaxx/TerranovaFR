@@ -480,7 +480,6 @@ const u8 gInitialMovementTypeFacingDirections[NUM_FIELD_MAP_OBJECT_TEMPLATES] = 
 #define OBJ_EVENT_PAL_TAG_33 0x1122
 #define OBJ_EVENT_PAL_TAG_34 0x1123
 
-#define OBJ_EVENT_PAL_TAG_HERO_NORMAL	0x10FE
 #define OBJ_EVENT_PAL_TAG_GAMER	0x1124
 #define OBJ_EVENT_PAL_TAG_YOUNGSTER	0x1125
 #define OBJ_EVENT_PAL_TAG_PICNICKER	0x1126
@@ -526,8 +525,41 @@ const u8 gInitialMovementTypeFacingDirections[NUM_FIELD_MAP_OBJECT_TEMPLATES] = 
 #define OBJ_EVENT_PAL_TAG_BRUNO	0x114E
 #define OBJ_EVENT_PAL_TAG_LANCE	0x114F
 #define OBJ_EVENT_PAL_TAG_CABLE_CLUB_RECEPTIONIST	0x1150
-#define OBJ_EVENT_PAL_TAG_OBJECT	0x1151
+#define OBJ_EVENT_PAL_TAG_CLERK	0x1151
+#define OBJ_EVENT_PAL_TAG_MAN	0x1152
+#define OBJ_EVENT_PAL_TAG_WOMAN_1	0x1153
+#define OBJ_EVENT_PAL_TAG_WOMAN_2	0x1154
+#define OBJ_EVENT_PAL_TAG_WOMAN_3	0x1155
+#define OBJ_EVENT_PAL_TAG_GBA_KID	0x1156
+#define OBJ_EVENT_PAL_TAG_MOM	0x1157
+#define OBJ_EVENT_PAL_TAG_LITTLE_BOY	0x1158
+#define OBJ_EVENT_PAL_TAG_LITTLE_GIRL	0x1159
+#define OBJ_EVENT_PAL_TAG_JANINE	0x115A
+#define OBJ_EVENT_PAL_TAG_BLUE	0x115B
+#define OBJ_EVENT_PAL_TAG_CAPTAIN	0x115C
+#define OBJ_EVENT_PAL_TAG_CHEF	0x115D
+#define OBJ_EVENT_PAL_TAG_MR_FUJI	0x115E
+#define OBJ_EVENT_PAL_TAG_BALDING_MAN	0x115F
+#define OBJ_EVENT_PAL_TAG_FAT_MAN	0x1160
+#define OBJ_EVENT_PAL_TAG_BOY	0x1161
+#define OBJ_EVENT_PAL_TAG_SITTING_BOY	0x1162
+#define OBJ_EVENT_PAL_TAG_CELIO	0x1163
+#define OBJ_EVENT_PAL_TAG_CAMERAMAN	0x1164
+#define OBJ_EVENT_PAL_TAG_BRENDAN	0x1165
+#define OBJ_EVENT_PAL_TAG_MAY	0x1166
+#define OBJ_EVENT_PAL_TAG_WORKER_M	0x1167
+#define OBJ_EVENT_PAL_TAG_WORKER_F	0x1168
+#define OBJ_EVENT_PAL_TAG_OLD_MAN_1	0x1169
+#define OBJ_EVENT_PAL_TAG_OLD_WOMAN_1	0x116A
+#define OBJ_EVENT_PAL_TAG_GYM_GUY	0x116B
+#define OBJ_EVENT_PAL_TAG_RICH_BOY	0x116C
+#define OBJ_EVENT_PAL_TAG_MG_DELIVERYMAN	0x116D
+#define OBJ_EVENT_PAL_TAG_TRAINER_TOWER_DUDE	0x116E
+#define OBJ_EVENT_PAL_TAG_UNION_ROOM_RECEPTIONIST	0x116F
 
+#define OBJ_EVENT_PAL_TAG_HERO_NORMAL	0x10FC
+#define OBJ_EVENT_PAL_TAG_GREEN_NORMAL	0x10FD
+#define OBJ_EVENT_PAL_TAG_OBJECT	0x11FE
 #define OBJ_EVENT_PAL_TAG_NONE 0x11FF
 
 #include "data/field_effects/field_effect_object_template_pointers.h"
@@ -539,6 +571,7 @@ const u8 gInitialMovementTypeFacingDirections[NUM_FIELD_MAP_OBJECT_TEMPLATES] = 
 #include "data/object_events/object_event_graphics_info_pointers.h"
 
 static const struct SpritePalette sObjectEventSpritePalettes[] = {
+//OLD
     {gUnknown_836D828, OBJ_EVENT_PAL_TAG_0},
     {gUnknown_836D848, OBJ_EVENT_PAL_TAG_1},
     {gUnknown_836D868, OBJ_EVENT_PAL_TAG_2},
@@ -557,8 +590,10 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gUnknown_8394EA8, OBJ_EVENT_PAL_TAG_20},
     {gUnknown_8395AE8, OBJ_EVENT_PAL_TAG_11},
     {gUnknown_83952C8, OBJ_EVENT_PAL_TAG_21},
+//PEOPLE
     {gObjectEventPal_HeroNormal, 			OBJ_EVENT_PAL_TAG_HERO_NORMAL},
-/*	{gObjectEventPal_Gamer, 				OBJ_EVENT_PAL_TAG_GAMER},
+    {gObjectEventPal_GreenNormal, 			OBJ_EVENT_PAL_TAG_GREEN_NORMAL},
+	{gObjectEventPal_Gamer, 				OBJ_EVENT_PAL_TAG_GAMER},
 	{gObjectEventPal_Youngster,				OBJ_EVENT_PAL_TAG_YOUNGSTER},
     {gObjectEventPal_Picnicker,				OBJ_EVENT_PAL_TAG_PICNICKER},
     {gObjectEventPal_Camper,				OBJ_EVENT_PAL_TAG_CAMPER},
@@ -595,6 +630,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Misty,					OBJ_EVENT_PAL_TAG_MISTY},
     {gObjectEventPal_LtSurge,				OBJ_EVENT_PAL_TAG_LT_SURGE},
     {gObjectEventPal_Erika,					OBJ_EVENT_PAL_TAG_ERIKA},
+    {gObjectEventPal_Janine,				OBJ_EVENT_PAL_TAG_JANINE},
     {gObjectEventPal_Sabrina,				OBJ_EVENT_PAL_TAG_SABRINA},
     {gObjectEventPal_Blaine,				OBJ_EVENT_PAL_TAG_BLAINE},
     {gObjectEventPal_Giovanni,				OBJ_EVENT_PAL_TAG_GIOVANNI},
@@ -603,9 +639,41 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gObjectEventPal_Bruno,					OBJ_EVENT_PAL_TAG_BRUNO},
     {gObjectEventPal_Lance,					OBJ_EVENT_PAL_TAG_LANCE},
     {gObjectEventPal_CableClubReceptionist,	OBJ_EVENT_PAL_TAG_CABLE_CLUB_RECEPTIONIST},
-    {gObjectEventPal_Lapras,				OBJ_EVENT_PAL_TAG_LAPRAS},
+    {gObjectEventPal_Clerk,					OBJ_EVENT_PAL_TAG_CLERK},
+    {gObjectEventPal_Man,					OBJ_EVENT_PAL_TAG_MAN},
+    {gObjectEventPal_Woman1,				OBJ_EVENT_PAL_TAG_WOMAN_1},
+    {gObjectEventPal_Woman2,				OBJ_EVENT_PAL_TAG_WOMAN_2},
+    {gObjectEventPal_Woman3,				OBJ_EVENT_PAL_TAG_WOMAN_3},
+    {gObjectEventPal_GBAKid,				OBJ_EVENT_PAL_TAG_GBA_KID},
+    {gObjectEventPal_Mom,					OBJ_EVENT_PAL_TAG_MOM},
+    {gObjectEventPal_LittleBoy,				OBJ_EVENT_PAL_TAG_LITTLE_BOY},
+    {gObjectEventPal_LittleGirl,			OBJ_EVENT_PAL_TAG_LITTLE_GIRL},
+    {gObjectEventPal_Blue,					OBJ_EVENT_PAL_TAG_BLUE},
+    {gObjectEventPal_Captain,				OBJ_EVENT_PAL_TAG_CAPTAIN},
+    {gObjectEventPal_Chef,					OBJ_EVENT_PAL_TAG_CHEF},
+    {gObjectEventPal_MrFuji,				OBJ_EVENT_PAL_TAG_MR_FUJI},
+    {gObjectEventPal_BaldingMan,			OBJ_EVENT_PAL_TAG_BALDING_MAN},
+    {gObjectEventPal_FatMan,				OBJ_EVENT_PAL_TAG_FAT_MAN},
+    {gObjectEventPal_Boy,					OBJ_EVENT_PAL_TAG_BOY},
+    {gObjectEventPal_SittingBoy,			OBJ_EVENT_PAL_TAG_SITTING_BOY},
+    {gObjectEventPal_Celio,					OBJ_EVENT_PAL_TAG_CELIO},
+    {gObjectEventPal_Cameraman,				OBJ_EVENT_PAL_TAG_CAMERAMAN},
+    {gObjectEventPal_Brendan,				OBJ_EVENT_PAL_TAG_BRENDAN},
+    {gObjectEventPal_May,					OBJ_EVENT_PAL_TAG_MAY},
+    {gObjectEventPal_WorkerM,				OBJ_EVENT_PAL_TAG_WORKER_M},
+    {gObjectEventPal_WorkerF,				OBJ_EVENT_PAL_TAG_WORKER_F},
+    {gObjectEventPal_OldMan1,				OBJ_EVENT_PAL_TAG_OLD_MAN_1},
+    {gObjectEventPal_OldWoman1,				OBJ_EVENT_PAL_TAG_OLD_WOMAN_1},
+    {gObjectEventPal_GymGuy,				OBJ_EVENT_PAL_TAG_GYM_GUY},
+    {gObjectEventPal_RichBoy,				OBJ_EVENT_PAL_TAG_RICH_BOY},
+    {gObjectEventPal_MGDeliveryman,			OBJ_EVENT_PAL_TAG_MG_DELIVERYMAN},
+    {gObjectEventPal_TrainerTowerDude,		OBJ_EVENT_PAL_TAG_TRAINER_TOWER_DUDE},
+    {gObjectEventPal_UnionRoomReceptionist,	OBJ_EVENT_PAL_TAG_UNION_ROOM_RECEPTIONIST},
+//OBJECTS
     {gObjectEventPal_Object,				OBJ_EVENT_PAL_TAG_OBJECT},
-*/	{},
+//POKEMON
+//	{gObjectEventPal_Lapras,				OBJ_EVENT_PAL_TAG_LAPRAS},
+	{},
 };
 
 //#include "data/object_events/berry_tree_graphics_tables.h"
@@ -1316,7 +1384,7 @@ static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template,
     objectEvent->previousMovementDirection = gInitialMovementTypeFacingDirections[template->movementType];
     SetObjectEventDirection(objectEvent, objectEvent->previousMovementDirection);
     SetObjectEventDynamicGraphicsId(objectEvent);
-    if (gRangedMovementTypes[objectEvent->movementType])
+	if (gRangedMovementTypes[objectEvent->movementType])
     {
         if (objectEvent->rangeX == 0)
         {
@@ -8703,11 +8771,13 @@ void UnfreezeObjectEvent(struct ObjectEvent * objectEvent)
 void UnfreezeObjectEvents(void)
 {
     u8 i;
+
     for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
     {
         if (gObjectEvents[i].active)
             UnfreezeObjectEvent(&gObjectEvents[i]);
     }
+	
 }
 
 #define tObjectEventId data[0]

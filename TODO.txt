@@ -66,7 +66,7 @@
 + Update Multiplicador de Golpe Crítico a la GEN VI(150% de daño)(LISTO)
 + Update Huevos nacen en nivel 1 GEN IV(LISTO)
 + Update Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
-- Update Incremento de retardo entre frames al correr GEN IV(LISTO)
++ Update Incremento de retardo entre frames al correr GEN IV(LISTO)
 - Update Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
 + Update Estadísticas coloreadas por Naturaleza GEN IV(LISTO)
 + Update Sistema de Repelente GEN IV(LISTO)
@@ -108,10 +108,10 @@
 - Remover Sistema de Ayuda
 - Remover opciones de Movimiento de Campo de Menú Pokémon
 + Espacio Extra en Save (LISTO)
-- DynamicOverwoldPalette(en desarrollo...)
++ DynamicOverwoldPalette(en desarrollo...)
 	Falta corregir error con Fame Checker
-	Falta corregir error con Fosil Pic
-	Falta corregir error con Climas
+	Falta corregir error con Fosil Pic(Listo)
+	Falta corregir error con Climas(Listo)
 
 ==============================================
 	Fixes

@@ -40,7 +40,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "graphics_id": "OBJ_EVENT_GFX_GAMER",
       "x": 16,
       "y": 17,
       "elevation": 3,
@@ -79,7 +79,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "graphics_id": "OBJ_EVENT_GFX_GAMER",
       "x": 38,
       "y": 15,
       "elevation": 3,
@@ -92,7 +92,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "graphics_id": "OBJ_EVENT_GFX_GAMER",
       "x": 50,
       "y": 4,
       "elevation": 3,
@@ -131,7 +131,7 @@
       "flag": "0"
     },
     {
-      "graphics_id": "OBJ_EVENT_GFX_OLD_MAN_1",
+      "graphics_id": "OBJ_EVENT_GFX_GAMER",
       "x": 57,
       "y": 16,
       "elevation": 3,
