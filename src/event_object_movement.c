@@ -18,6 +18,7 @@
 #include "trig.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
+#include "constants/weather.h"
 
 #define NUM_FIELD_MAP_OBJECT_TEMPLATES 0x51
 
@@ -48,6 +49,7 @@ static void GetGroundEffectFlags_Puddle(struct ObjectEvent*, u32*);
 static void GetGroundEffectFlags_Ripple(struct ObjectEvent*, u32*);
 static void GetGroundEffectFlags_Seaweed(struct ObjectEvent*, u32*);
 static void GetGroundEffectFlags_JumpLanding(struct ObjectEvent*, u32*);
+static void GetGroundEffectFlags_Shadow(struct ObjectEvent*, u32*);
 static u8 ObjectEventCheckForReflectiveSurface(struct ObjectEvent*);
 static u8 GetReflectionTypeByMetatileBehavior(u32);
 static void InitObjectPriorityByZCoord(struct Sprite *sprite, u8 z);
@@ -7984,6 +7986,7 @@ static void GetAllGroundEffectFlags_OnSpawn(struct ObjectEvent *objEvent, u32 *f
     GetGroundEffectFlags_ShallowFlowingWater(objEvent, flags);
     GetGroundEffectFlags_ShortGrass(objEvent, flags);
     GetGroundEffectFlags_HotSprings(objEvent, flags);
+	GetGroundEffectFlags_Shadow(objEvent, flags);
 }
 
 static void GetAllGroundEffectFlags_OnBeginStep(struct ObjectEvent *objEvent, u32 *flags)
@@ -7998,6 +8001,7 @@ static void GetAllGroundEffectFlags_OnBeginStep(struct ObjectEvent *objEvent, u3
     GetGroundEffectFlags_Puddle(objEvent, flags);
     GetGroundEffectFlags_ShortGrass(objEvent, flags);
     GetGroundEffectFlags_HotSprings(objEvent, flags);
+	GetGroundEffectFlags_Shadow(objEvent, flags);
 }
 
 static void GetAllGroundEffectFlags_OnFinishStep(struct ObjectEvent *objEvent, u32 *flags)
@@ -8011,6 +8015,7 @@ static void GetAllGroundEffectFlags_OnFinishStep(struct ObjectEvent *objEvent, u
     GetGroundEffectFlags_HotSprings(objEvent, flags);
     GetGroundEffectFlags_Seaweed(objEvent, flags);
     GetGroundEffectFlags_JumpLanding(objEvent, flags);
+	GetGroundEffectFlags_Shadow(objEvent, flags);
 }
 
 static void ObjectEventUpdateMetatileBehaviors(struct ObjectEvent *objEvent)
@@ -8206,6 +8211,81 @@ static void GetGroundEffectFlags_JumpLanding(struct ObjectEvent *objEvent, u32 *
             }
         }
     }
+}
+
+
+static const u8 sDisallowedIds[] = {
+    OBJ_EVENT_GFX_SEAGALLOP,
+    OBJ_EVENT_GFX_SS_ANNE,
+};
+
+static const u8 sDisallowedWeathers[] = {
+    WEATHER_RAIN,
+    WEATHER_FOG_HORIZONTAL,
+};
+
+typedef bool8 (*MetatileFunc)(u8);
+static const MetatileFunc sDisallowedMetatiles[] = {
+    MetatileBehavior_IsTallGrass_2,
+    MetatileBehavior_IsLongGrass,
+};
+
+static bool8 IsShadowAllowedInId(struct ObjectEvent *objEvent) {
+    u8 i;
+
+    for (i = 0; i < NELEMS(sDisallowedIds); i++) {
+        if (sDisallowedIds[i] == objEvent->graphicsId) 
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+static bool8 IsShadowAllowedInWeather() {
+    u8 i;
+    bool8 currWeatherDisallowed = FALSE;
+    bool8 nextWeatherDisallowed = FALSE;
+
+    for (i = 0; i < NELEMS(sDisallowedWeathers); i++) {
+        if(gWeatherPtr->currWeather == sDisallowedWeathers[i]) {
+            currWeatherDisallowed = TRUE;
+            //If the weather hasn't changed completely, no shadow will show
+            //Force "nextWeatherDisallowed" to avoid duplicated return statements
+            if(!gWeatherPtr->weatherChangeComplete)
+                nextWeatherDisallowed = TRUE;
+        }
+        if(gWeatherPtr->nextWeather == sDisallowedWeathers[i])
+            nextWeatherDisallowed = TRUE;
+
+        if (currWeatherDisallowed && nextWeatherDisallowed) {
+            return FALSE;
+        }
+    }
+
+    return TRUE;
+}
+
+static bool8 IsShadowAllowedInMetatile(struct ObjectEvent *objEvent) {
+    u8 i;
+
+    for (i = 0; i < NELEMS(sDisallowedMetatiles); i++) {
+        if (sDisallowedMetatiles[i](objEvent->currentMetatileBehavior)) 
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+static void GetGroundEffectFlags_Shadow(struct ObjectEvent *objEvent, u32 *flags) 
+{
+    if(objEvent->invisible || !objEvent->active || !IsShadowAllowedInId(objEvent) || !IsShadowAllowedInWeather() || !IsShadowAllowedInMetatile(objEvent))
+	{
+        objEvent->hasShadow = FALSE;
+        return;
+    }
+    if(objEvent->hasShadow)
+        return;
+    *flags |= GROUND_EFFECT_SHADOW;
 }
 
 static u8 ObjectEventCheckForReflectiveSurface(struct ObjectEvent *objEvent)
@@ -8619,6 +8699,12 @@ void GroundEffect_Seaweed(struct ObjectEvent *objEvent, struct Sprite *sprite)
     FieldEffectStart(FLDEFF_BUBBLES);
 }
 
+void GroundEffect_Shadow(struct ObjectEvent *objEvent, struct Sprite *sprite) 
+{
+    objEvent->hasShadow = TRUE;
+    StartFieldEffectForObjectEvent(FLDEFF_SHADOW, objEvent);
+}
+
 static void (*const sGroundEffectFuncs[])(struct ObjectEvent *objEvent, struct Sprite *sprite) = {
     GroundEffect_SpawnOnTallGrass,
     GroundEffect_StepOnTallGrass,
@@ -8639,7 +8725,8 @@ static void (*const sGroundEffectFuncs[])(struct ObjectEvent *objEvent, struct S
     GroundEffect_JumpLandingDust,
     GroundEffect_ShortGrass,
     GroundEffect_HotSprings,
-    GroundEffect_Seaweed
+    GroundEffect_Seaweed,
+	GroundEffect_Shadow,
 };
 
 static void DoFlaggedGroundEffects(struct ObjectEvent *objEvent, struct Sprite *sprite, u32 flags)

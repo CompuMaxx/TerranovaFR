@@ -2,6 +2,7 @@
 	Update Gráficos a nuevas GEN's
 ==============================================
 + Sprites e Icons Pokemon GEN IV(LISTO)
+	Creditos: DS-style 64x64 Pokémon Sprite Resourses
 + Main Menu GEN V(LISTO)
 + Option Menu GEN V(LISTO)
 + Pokemon Summary Screen GEN V(LISTO)
@@ -20,9 +21,8 @@
 + Party Menu GEN V(LISTO)
 	- Función MOTE (FALTA)
 	- Funcion Swap Items (FALTA)
-	- Expandir íconos de Objetos llevados por los Pokémon
 	- Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
-	- Items, Mail, Pokeballs & Berries 
+	- Expandir íconos de Objetos llevados por los Pokémon (Items, Mail, Pokeballs & Berries )
 	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
 + Diferencia de Género de Pokémon(LISTO)
 + Mejora de Pokémart(LISTO)
@@ -37,7 +37,9 @@
 	- Balls (En Progreso...)
 - Wallpapers Pokémon Box GEN IV & V (En Progreso...)
 - BG Mail GEN IV & V (En Progreso...)
-- OW GEN IV
++ OW GEN IV
++ Sistema de Sombras de Overwolds
+	 Crédito: NotToDisturb (Disturbo)
 - Pokedex GEN V
 - DexNav
 - Battle BG GEN V
@@ -62,6 +64,7 @@
 + Update Pérdida de Velocidad por Parálisis a la GEN VII(50% de la original)(LISTO)
 + Update Habilidad Piel Tosca a la GEN VII(Pierde 1/8 de los PS Máx)(LISTO)
 + Update Sistema de Repartir Experiencia a la GEN VII(100% a los participantes y 50% al resto)(LISTO)
++ Update Sistema de Obetener Experiencia al Capturar como en la GEN VI(LISTO)
 + Update Probabilidad de Golpe Crítico a la GEN VI(16.25%, 12.5%, 50% y 100%)(LISTO)
 + Update Multiplicador de Golpe Crítico a la GEN VI(150% de daño)(LISTO)
 + Update Huevos nacen en nivel 1 GEN IV(LISTO)
@@ -110,8 +113,6 @@
 + Espacio Extra en Save (LISTO)
 + DynamicOverwoldPalette(en desarrollo...)
 	Falta corregir error con Fame Checker
-	Falta corregir error con Fosil Pic(Listo)
-	Falta corregir error con Climas(Listo)
 
 ==============================================
 	Fixes
