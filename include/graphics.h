@@ -5010,4 +5010,14 @@ extern const u32 gPartyMenuBg_Tilemap[];
 extern const u32 gPartyMenuStatusGfx_Icons[];
 extern const u32 gPartyMenuStatusPal_Icons[];
 
+//Battle Interface
+extern const u32 gBattleTiles[];
+extern const u16 gBattleFramesPalette[];
+extern const u16 gBattleTextPalette[];
+extern const u32 gBattleFramesTilemap[];
+extern const u32 gBattleEngTilemap[];
+extern const u32 gBattleSpaTilemap[];
+extern const u32 gSafariEngTilemap[];
+extern const u32 gSafariSpaTilemap[];
+
 #endif //GUARD_GRAPHICS_H

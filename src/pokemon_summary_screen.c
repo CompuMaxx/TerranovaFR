@@ -3830,11 +3830,10 @@ static void sub_81393D4(u8 taskId)
         break;
     case 5:
         FillWindowPixelBuffer(sMonSummaryScreen->window[4], 0);
-        AddTextPrinterParameterized4(sMonSummaryScreen->window[4], 2,
-                                     7, 42,
-                                     0, 0,
-                                     sPSSTextColours[DARK], TEXT_SPEED_FF,
-                                     gText_8419CB9);
+		if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized4(sMonSummaryScreen->window[4], 2,  7, 63, 0, -2, sPSSTextColours[DARK], TEXT_SPEED_FF, gText_8419CB9);
+		if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized4(sMonSummaryScreen->window[4], 2,  7, 63, 0, -2, sPSSTextColours[DARK], TEXT_SPEED_FF, gText_8419CB9Spa);
         CopyWindowToVram(sMonSummaryScreen->window[4], 2);
         CopyBgTilemapBufferToVram(0);
         sMonSummaryScreen->unk3288 = 2;

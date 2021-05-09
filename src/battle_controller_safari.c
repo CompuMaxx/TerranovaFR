@@ -11,6 +11,7 @@
 #include "main.h"
 #include "pokeball.h"
 #include "util.h"
+#include "graphics.h"
 #include "strings.h"
 #include "constants/songs.h"
 #include "constants/battle_anim.h"
@@ -76,6 +77,7 @@ static void SafariCmdEnd(void);
 static void SafariBufferRunCommand(void);
 static void SafariBufferExecCompleted(void);
 static void CompleteWhenChosePokeblock(void);
+static void SafariLightSelectionMenu(void);
 
 static void (*const sSafariBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
 {
@@ -138,11 +140,6 @@ static void (*const sSafariBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     SafariCmdEnd,
 };
 
-// not used
-static void SafariDummy(void)
-{
-}
-
 void SetControllerToSafari(void)
 {
     gBattlerControllerFuncs[gActiveBattler] = SafariBufferRunCommand;
@@ -187,9 +184,8 @@ static void HandleInputChooseAction(void)
         if (gActionSelectionCursor[gActiveBattler] & 1)
         {
             PlaySE(SE_SELECT);
-            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 1;
-            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+			SafariLightSelectionMenu();
         }
     }
     else if (JOY_NEW(DPAD_RIGHT))
@@ -197,9 +193,8 @@ static void HandleInputChooseAction(void)
         if (!(gActionSelectionCursor[gActiveBattler] & 1))
         {
             PlaySE(SE_SELECT);
-            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 1;
-            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+			SafariLightSelectionMenu();
         }
     }
     else if (JOY_NEW(DPAD_UP))
@@ -207,9 +202,8 @@ static void HandleInputChooseAction(void)
         if (gActionSelectionCursor[gActiveBattler] & 2)
         {
             PlaySE(SE_SELECT);
-            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 2;
-            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+			SafariLightSelectionMenu();
         }
     }
     else if (JOY_NEW(DPAD_DOWN))
@@ -217,9 +211,8 @@ static void HandleInputChooseAction(void)
         if (!(gActionSelectionCursor[gActiveBattler] & 2))
         {
             PlaySE(SE_SELECT);
-            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 2;
-            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+            SafariLightSelectionMenu();
         }
     }
 }
@@ -429,6 +422,7 @@ static void HandleChooseActionAfterDma3(void)
     {
         gBattle_BG0_X = 0;
         gBattle_BG0_Y = 160;
+		SafariLightSelectionMenu();
         gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseAction;
     }
 }
@@ -439,11 +433,14 @@ static void SafariHandleChooseAction(void)
 
     gBattlerControllerFuncs[gActiveBattler] = HandleChooseActionAfterDma3;
     BattlePutTextOnWindow(gText_EmptyString3, 0);
-    BattlePutTextOnWindow(gText_83FE747, 2);
-    for (i = 0; i < 4; ++i)
-        ActionSelectionDestroyCursorAt(i);
-    ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
-    BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPlayerThrow);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		BattlePutTextOnWindow(gText_WhatWillPlayerThrow, 2);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		BattlePutTextOnWindow(gText_WhatWillPlayerThrowSpa, 2);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPlayerThrow);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPlayerThrowSpa);
     BattlePutTextOnWindow(gDisplayedStringBattle, 1);
 }
 
@@ -667,3 +664,27 @@ static void SafariHandleCmd55(void)
 static void SafariCmdEnd(void)
 {
 }
+
+static void SafariLightSelectionMenu(void)
+{
+	u16 palette[1] = {RGB( 31, 31, 31)};
+	
+	LoadPalette(gBattleFramesPalette, 0xE0, 0x20);
+	switch (gActionSelectionCursor[gActiveBattler])
+	{
+	case 0:
+		LoadPalette(&palette, 0xEC, 2);
+		break;
+	case 1:
+		LoadPalette(&palette, 0xED, 2);
+		break;
+	case 2:
+		LoadPalette(&palette, 0xEE, 2);
+		break;
+	case 3:
+		LoadPalette(&palette, 0xEF, 2);
+		break;
+	}
+
+}
+

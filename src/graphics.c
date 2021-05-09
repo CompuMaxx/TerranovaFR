@@ -1487,3 +1487,12 @@ const u32 gPartyMenuBg_Tilemap[] = INCBIN_U32("graphics/party_menu/tilemap.bin.l
 const u32 gPartyMenuStatusGfx_Icons[] = INCBIN_U32("graphics/party_menu/status_icons.4bpp.lz");
 const u32 gPartyMenuStatusPal_Icons[] = INCBIN_U32("graphics/party_menu/status_icons.gbapal.lz");
 
+//Battle Interface
+const u32 gBattleTiles[] = INCBIN_U32("graphics/battle_interface/tiles.4bpp.lz");
+const u16 gBattleFramesPalette[] = INCBIN_U16("graphics/battle_interface/frames.gbapal");
+const u16 gBattleTextPalette[] = INCBIN_U16("graphics/battle_interface/text.gbapal");
+const u32 gBattleFramesTilemap[] = INCBIN_U32("graphics/battle_interface/frames.bin.lz");
+const u32 gBattleEngTilemap[] = INCBIN_U32("graphics/battle_interface/battle_eng.bin.lz");
+const u32 gBattleSpaTilemap[] = INCBIN_U32("graphics/battle_interface/battle_spa.bin.lz");
+const u32 gSafariEngTilemap[] = INCBIN_U32("graphics/battle_interface/safari_eng.bin.lz");
+const u32 gSafariSpaTilemap[] = INCBIN_U32("graphics/battle_interface/safari_spa.bin.lz");

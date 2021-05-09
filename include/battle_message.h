@@ -255,4 +255,25 @@ extern const u8 gText_Win[];
 extern const u8 gText_Loss[];
 extern const u8 gText_Draw[];
 
+extern const u8 gText_SleepSpa[];
+extern const u8 gText_PoisonSpa[];
+extern const u8 gText_BurnSpa[];
+extern const u8 gText_ParalysisSpa[];
+extern const u8 gText_IceSpa[];
+extern const u8 gText_ConfusionSpa[];
+extern const u8 gText_LoveSpa[];
+
+extern const u8 gUnknown_83FE859Spa[];
+extern const u8 gUnknown_83FE85ESpa[];
+extern const u8 gUnknown_83FE85CSpa[];
+extern const u8 gUnknown_83FE860Spa[];
+extern const u8 gUnknown_83FE864Spa[];
+
+extern const u8 gText_SafariBallsSpa[];
+extern const u8 gText_HighlightRed_LeftSpa[];
+
+extern const u8 gText_WinSpa[];
+extern const u8 gText_LossSpa[];
+extern const u8 gText_DrawSpa[];
+
 #endif // GUARD_BATTLE_MESSAGE_H

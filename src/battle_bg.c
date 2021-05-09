@@ -25,7 +25,6 @@ struct BattleBackground
     const void *palette;
 };
 
-static void CB2_unused(void);
 static u8 GetBattleTerrainOverride(void);
 
 static const u8 gUnknown_824829C[] = {1, 2};
@@ -139,134 +138,134 @@ const struct BgTemplate gBattleBgTemplates[4] = {
     }
 };
 
-static const struct WindowTemplate gUnknown_8248330[] = {
-    {
+static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
+    {	//Intro Texts
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 15,
         .width = 28,
         .height = 4,
-        .paletteNum = 0,
-        .baseBlock = 0x090
-    }, {
+        .paletteNum = 15,
+        .baseBlock = 200
+    }, { //What will\n{B_ACTIVE_NAME_WITH_PREFIX} do?
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 35,
         .width = 14,
         .height = 4,
-        .paletteNum = 0,
-        .baseBlock = 0x1c0
-    }, {
+        .paletteNum = 15,
+        .baseBlock = 312
+    }, { //Fight Bag\nPokémon Run
         .bg = 0,
-        .tilemapLeft = 17,
-        .tilemapTop = 35,
-        .width = 12,
-        .height = 4,
-        .paletteNum = 5,
-        .baseBlock = 0x190
-    }, {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 55,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x300
-    }, {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 55,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x310
-    }, {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 57,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x320
-    }, {
-        .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 57,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x330
-    }, {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 55,
-        .width = 3,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x290
-    }, {
-        .bg = 0,
-        .tilemapLeft = 21,
-        .tilemapTop = 57,
-        .width = 8,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x296
-    }, {
-        .bg = 0,
-        .tilemapLeft = 24,
-        .tilemapTop = 55,
-        .width = 5,
-        .height = 2,
-        .paletteNum = 5,
-        .baseBlock = 0x2a6
-    }, {
-        .bg = 0,
-        .tilemapLeft = 25,
-        .tilemapTop = 57,
+        .tilemapLeft = 0,
+        .tilemapTop = 0,
         .width = 0,
         .height = 0,
-        .paletteNum = 5,
-        .baseBlock = 0x2b0
-    }, {
+        .paletteNum = 0,
+        .baseBlock = 0
+    }, { //1st Move
         .bg = 0,
-        .tilemapLeft = 21,
+        .tilemapLeft = 1,
         .tilemapTop = 55,
-        .width = 8,
-        .height = 4,
-        .paletteNum = 5,
-        .baseBlock = 0x2b0
+        .width = 10,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 368
+    }, { //2nd Move
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 55,
+        .width = 9,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 388
+    }, { //3th Move
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 57,
+        .width = 9,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 408
+    }, { //4th Move
+        .bg = 0,
+        .tilemapLeft = 11,
+        .tilemapTop = 57,
+        .width = 9,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 428
+    }, { //PP Text
+        .bg = 0,
+        .tilemapLeft = 23,
+        .tilemapTop = 55,
+        .width = 2,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 448
+    }, { //PP Count
+        .bg = 0,
+        .tilemapLeft = 25,
+        .tilemapTop = 55,
+        .width = 4,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 452
+    }, { //Type Icon
+        .bg = 0,
+        .tilemapLeft = 23,
+        .tilemapTop = 57,
+        .width = 4,
+        .height = 2,
+        .paletteNum = 13,
+        .baseBlock = 460
+    }, { //Category Icon
+        .bg = 0,
+        .tilemapLeft = 27,
+        .tilemapTop = 57,
+        .width = 2,
+        .height = 2,
+        .paletteNum = 13,
+        .baseBlock = 468
     }, {
+		.bg = 0,
+        .tilemapLeft = 0, //21,
+        .tilemapTop = 0, //55,
+        .width = 0, //8,
+        .height = 0, //4,
+        .paletteNum = 0,//5,
+        .baseBlock = 0,//0x2b0
+    }, {// Stats al subir nivel
         .bg = 1,
         .tilemapLeft = 19,
         .tilemapTop = 8,
         .width = 10,
         .height = 11,
-        .paletteNum = 5,
-        .baseBlock = 0x100
+        .paletteNum = 15,
+        .baseBlock = 472
     }, {
         .bg = 2,
         .tilemapLeft = 18,
         .tilemapTop = 0,
         .width = 12,
         .height = 3,
-        .paletteNum = 6,
-        .baseBlock = 0x16e
-    }, {
+        .paletteNum = 15,
+        .baseBlock = 578
+    }, { //Yes/No
         .bg = 0,
         .tilemapLeft = 25,
         .tilemapTop = 9,
         .width = 4,
         .height = 4,
-        .paletteNum = 5,
-        .baseBlock = 0x100
+        .paletteNum = 15,
+        .baseBlock = 472
     }, {
         .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 3,
         .width = 7,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x020
     }, {
         .bg = 2,
@@ -274,7 +273,7 @@ static const struct WindowTemplate gUnknown_8248330[] = {
         .tilemapTop = 3,
         .width = 7,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x040
     }, {
         .bg = 1,
@@ -282,7 +281,7 @@ static const struct WindowTemplate gUnknown_8248330[] = {
         .tilemapTop = 2,
         .width = 7,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x020
     }, {
         .bg = 2,
@@ -290,7 +289,7 @@ static const struct WindowTemplate gUnknown_8248330[] = {
         .tilemapTop = 2,
         .width = 7,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x040
     }, {
         .bg = 1,
@@ -298,7 +297,7 @@ static const struct WindowTemplate gUnknown_8248330[] = {
         .tilemapTop = 6,
         .width = 7,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x060
     }, {
         .bg = 2,
@@ -306,40 +305,40 @@ static const struct WindowTemplate gUnknown_8248330[] = {
         .tilemapTop = 6,
         .width = 7,
         .height = 2,
-        .paletteNum = 5,
+        .paletteNum = 15,
         .baseBlock = 0x080
     }, {
         .bg = 0,
-        .tilemapLeft = 11,
-        .tilemapTop = 2,
-        .width = 8,
-        .height = 2,
+        .tilemapLeft = 0,
+        .tilemapTop = 0,
+        .width = 0,
+        .height = 0,
         .paletteNum = 0,
-        .baseBlock = 0x0a0
+        .baseBlock = 200
     }, {
         .bg = 0,
-        .tilemapLeft = 4,
-        .tilemapTop = 2,
-        .width = 8,
-        .height = 2,
+        .tilemapLeft = 0,
+        .tilemapTop = 0,
+        .width = 0,
+        .height = 0,
         .paletteNum = 0,
-        .baseBlock = 0x0a0
+        .baseBlock = 200
     }, {
         .bg = 0,
-        .tilemapLeft = 19,
-        .tilemapTop = 2,
-        .width = 8,
-        .height = 2,
+        .tilemapLeft = 0,
+        .tilemapTop = 0,
+        .width = 0,
+        .height = 0,
         .paletteNum = 0,
-        .baseBlock = 0x0b0
-    }, {
+        .baseBlock = 216
+    }, { // Tutorial Texts
         .bg = 0,
-        .tilemapLeft = 2,
+        .tilemapLeft = 1,
         .tilemapTop = 15,
-        .width = 26,
+        .width = 28,
         .height = 4,
-        .paletteNum = 7,
-        .baseBlock = 0x090
+        .paletteNum = 15,
+        .baseBlock = 200
     }, DUMMY_WIN_TEMPLATE
 };
 
@@ -579,22 +578,6 @@ static const struct {
     {MAP_BATTLE_SCENE_LINK,     BATTLE_TERRAIN_LINK}
 };
 
-UNUSED void CreateUnknownDebugSprite(void)
-{
-    u8 spriteId;
-
-    ResetSpriteData();
-    spriteId = CreateSprite(&gUnknownDebugSprite, 0, 0, 0);
-    gSprites[spriteId].invisible = TRUE;
-    SetMainCallback2(CB2_unused);
-}
-
-static void CB2_unused(void)
-{
-    AnimateSprites();
-    BuildOamBuffer();
-}
-
 static u8 GetBattleTerrainByMapScene(u8 mapBattleScene)
 {
     int i;
@@ -625,15 +608,6 @@ static void LoadBattleTerrainEntryGfx(u16 terrain)
     LZDecompressVram(sBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(28));
 }
 
-UNUSED void GetBattleTerrainGfxPtrs(u8 terrain, const u32 **tilesPtr, const u32 **mapPtr, const u32 **palPtr)
-{
-    if (terrain > 9)
-        terrain = 9;
-    *tilesPtr = sBattleTerrainTable[terrain].tileset;
-    *mapPtr = sBattleTerrainTable[terrain].tilemap;
-    *palPtr = sBattleTerrainTable[terrain].palette;
-}
-
 void sub_800F324(void)
 {
     ResetBgsAndClearDma3BusyFlags(FALSE);
@@ -654,20 +628,12 @@ void InitBattleBgsVideo(void)
 
 void LoadBattleMenuWindowGfx(void)
 {
-    TextWindow_SetUserSelectedFrame(2, 0x012, 0x10);
-    TextWindow_SetUserSelectedFrame(2, 0x022, 0x10);
-    gPlttBufferUnfaded[0x5C] = RGB( 9,  9,  9);
-    gPlttBufferUnfaded[0x5D] = RGB( 9,  9,  9);
-    gPlttBufferUnfaded[0x5E] = RGB(31, 31, 31);
-    gPlttBufferUnfaded[0x5F] = RGB( 26,  26,  25);
-    CpuCopy16(&gPlttBufferUnfaded[0x5C], &gPlttBufferFaded[0x5C], 8);
-    if (gBattleTypeFlags & (BATTLE_TYPE_FIRST_BATTLE | BATTLE_TYPE_POKEDUDE))
-    {
-        Menu_LoadStdPalAt(0x70);
-        TextWindow_LoadResourcesStdFrame0(0, 0x030, 0x70);
-        gPlttBufferUnfaded[0x76] = RGB( 0,  0,  0);
-        CpuCopy16(&gPlttBufferUnfaded[0x76], &gPlttBufferFaded[0x76], 2);
-    }
+    TextWindow_SetUserSelectedFrame(2, 0x022, 0xC0);
+    gPlttBufferUnfaded[0xFC] = RGB( 9,  9,  9);
+    gPlttBufferUnfaded[0xFD] = RGB( 9,  9,  9);
+    gPlttBufferUnfaded[0xFE] = RGB(31, 31, 31);
+    gPlttBufferUnfaded[0xFF] = RGB( 26,  26,  25);
+    CpuCopy16(&gPlttBufferUnfaded[0xFC], &gPlttBufferFaded[0xFC], 8);
 }
 
 void DrawMainBattleBackground(void)
@@ -677,10 +643,35 @@ void DrawMainBattleBackground(void)
 
 void LoadBattleTextboxAndBackground(void)
 {
-    LZDecompressVram(gBattleTextboxTiles, (void *)BG_CHAR_ADDR(0));
-    CopyToBgTilemapBuffer(0, gBattleTextboxTilemap, 0, 0x000);
-    CopyBgTilemapBufferToVram(0);
-    LoadCompressedPalette(gBattleTextboxPalette, 0x00, 0x40);
+    LZDecompressVram(gBattleTiles, (void *)BG_CHAR_ADDR(0));
+	CopyToBgTilemapBuffer(0, gBattleFramesTilemap, 0, 0x000);
+
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
+		{
+			CopyToBgTilemapBuffer(0, gSafariEngTilemap, 0, 68);
+		}
+		else
+		{
+			CopyToBgTilemapBuffer(0, gBattleEngTilemap, 0, 68);
+		}
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
+		{
+			CopyToBgTilemapBuffer(0, gSafariSpaTilemap, 0, 68);
+		}
+		else
+		{
+			CopyToBgTilemapBuffer(0, gBattleSpaTilemap, 0, 68);
+		}
+	}
+	LoadPalette(gFireRedMenuElements2_Pal, 0xD0, 0x20);
+    LoadPalette(gBattleFramesPalette, 0xE0, 0x20);
+	LoadPalette(gBattleTextPalette, 0xF0, 0x20);
+	CopyBgTilemapBufferToVram(0);
     LoadBattleMenuWindowGfx();
     DrawMainBattleBackground();
 }
@@ -755,30 +746,35 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
 {
     if (gBattleOutcome == B_OUTCOME_DREW)
     {
-        BattlePutTextOnWindow(gText_Draw, 0x15);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BattlePutTextOnWindow(gText_Draw, 0x15);
+        else
+			BattlePutTextOnWindow(gText_DrawSpa, 0x15);
     }
     else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
-        if (gBattleOutcome == B_OUTCOME_WON)
-        {
-            switch (gLinkPlayers[gBattleStruct->multiplayerId].id)
-            {
-            case 0:
-                BattlePutTextOnWindow(gText_Win, 0x16);
-                BattlePutTextOnWindow(gText_Loss, 0x17);
-                break;
-            case 1:
-                BattlePutTextOnWindow(gText_Win, 0x17);
-                BattlePutTextOnWindow(gText_Loss, 0x16);
-                break;
-            case 2:
-                BattlePutTextOnWindow(gText_Win, 0x16);
-                BattlePutTextOnWindow(gText_Loss, 0x17);
-                break;
-            case 3:
-                BattlePutTextOnWindow(gText_Win, 0x17);
-                BattlePutTextOnWindow(gText_Loss, 0x16);
-                break;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			if (gBattleOutcome == B_OUTCOME_WON)
+			{
+				switch (gLinkPlayers[gBattleStruct->multiplayerId].id)
+				{
+				case 0:
+					BattlePutTextOnWindow(gText_Win, 0x16);
+					BattlePutTextOnWindow(gText_Loss, 0x17);
+					break;
+				case 1:
+					BattlePutTextOnWindow(gText_Win, 0x17);
+					BattlePutTextOnWindow(gText_Loss, 0x16);
+					break;
+				case 2:
+					BattlePutTextOnWindow(gText_Win, 0x16);
+					BattlePutTextOnWindow(gText_Loss, 0x17);
+					break;
+				case 3:
+					BattlePutTextOnWindow(gText_Win, 0x17);
+					BattlePutTextOnWindow(gText_Loss, 0x16);
+					break;
             }
         }
         else
@@ -803,23 +799,89 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
                 break;
             }
         }
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			if (gBattleOutcome == B_OUTCOME_WON)
+			{
+				switch (gLinkPlayers[gBattleStruct->multiplayerId].id)
+				{
+				case 0:
+					BattlePutTextOnWindow(gText_WinSpa, 0x16);
+					BattlePutTextOnWindow(gText_LossSpa, 0x17);
+					break;
+				case 1:
+					BattlePutTextOnWindow(gText_WinSpa, 0x17);
+					BattlePutTextOnWindow(gText_LossSpa, 0x16);
+					break;
+				case 2:
+					BattlePutTextOnWindow(gText_WinSpa, 0x16);
+					BattlePutTextOnWindow(gText_LossSpa, 0x17);
+					break;
+				case 3:
+					BattlePutTextOnWindow(gText_WinSpa, 0x17);
+					BattlePutTextOnWindow(gText_LossSpa, 0x16);
+					break;
+				}
+			}
+			else
+			{
+				switch (gLinkPlayers[gBattleStruct->multiplayerId].id)
+				{
+				case 0:
+					BattlePutTextOnWindow(gText_WinSpa, 0x17);
+					BattlePutTextOnWindow(gText_LossSpa, 0x16);
+					break;
+				case 1:
+					BattlePutTextOnWindow(gText_WinSpa, 0x16);
+					BattlePutTextOnWindow(gText_LossSpa, 0x17);
+					break;
+				case 2:
+					BattlePutTextOnWindow(gText_WinSpa, 0x17);
+					BattlePutTextOnWindow(gText_LossSpa, 0x16);
+					break;
+				case 3:
+					BattlePutTextOnWindow(gText_WinSpa, 0x16);
+					BattlePutTextOnWindow(gText_LossSpa, 0x17);
+					break;
+				}
+			}
+		}
     }
     else if (gBattleOutcome == B_OUTCOME_WON)
     {
-        if (gLinkPlayers[gBattleStruct->multiplayerId].id != 0)
-        {
-            BattlePutTextOnWindow(gText_Win, 0x17);
-            BattlePutTextOnWindow(gText_Loss, 0x16);
-        }
-        else
-        {
-            BattlePutTextOnWindow(gText_Win, 0x16);
-            BattlePutTextOnWindow(gText_Loss, 0x17);
-        }
-    }
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			if (gLinkPlayers[gBattleStruct->multiplayerId].id != 0)
+			{
+				BattlePutTextOnWindow(gText_Win, 0x17);
+				BattlePutTextOnWindow(gText_Loss, 0x16);
+			}
+			else
+			{
+				BattlePutTextOnWindow(gText_Win, 0x16);
+				BattlePutTextOnWindow(gText_Loss, 0x17);
+			}
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			if (gLinkPlayers[gBattleStruct->multiplayerId].id != 0)
+			{
+				BattlePutTextOnWindow(gText_WinSpa, 0x17);
+				BattlePutTextOnWindow(gText_LossSpa, 0x16);
+			}
+			else
+			{
+				BattlePutTextOnWindow(gText_WinSpa, 0x16);
+				BattlePutTextOnWindow(gText_LossSpa, 0x17);
+			}
+		}
+	}
     else
     {
-        if (gLinkPlayers[gBattleStruct->multiplayerId].id != 0)
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			if (gLinkPlayers[gBattleStruct->multiplayerId].id != 0)
         {
             BattlePutTextOnWindow(gText_Win, 0x16);
             BattlePutTextOnWindow(gText_Loss, 0x17);
@@ -829,6 +891,20 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
             BattlePutTextOnWindow(gText_Win, 0x17);
             BattlePutTextOnWindow(gText_Loss, 0x16);
         }
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			if (gLinkPlayers[gBattleStruct->multiplayerId].id != 0)
+        {
+            BattlePutTextOnWindow(gText_WinSpa, 0x16);
+            BattlePutTextOnWindow(gText_LossSpa, 0x17);
+        }
+        else
+        {
+            BattlePutTextOnWindow(gText_WinSpa, 0x17);
+            BattlePutTextOnWindow(gText_LossSpa, 0x16);
+        }
+		}
     }
 }
 
@@ -1044,28 +1120,21 @@ bool8 LoadChosenBattleElement(u8 caseId)
     switch (caseId)
     {
     case 0:
-        LZDecompressVram(gBattleTextboxTiles, (void *)BG_CHAR_ADDR(0));
-        break;
+		LoadBattleTextboxAndBackground();
+		break;
     case 1:
-        CopyToBgTilemapBuffer(0, gBattleTextboxTilemap, 0, 0x000);
-        CopyBgTilemapBufferToVram(0);
-        break;
-    case 2:
-        LoadCompressedPalette(gBattleTextboxPalette, 0x00, 0x40);
-        break;
-    case 3:
         battleScene = GetBattleTerrainOverride();
         LZDecompressVram(sBattleTerrainTable[battleScene].tileset, (void *)BG_CHAR_ADDR(2));
-        // fallthrough
-    case 4:
+        break;
+    case 2:
         battleScene = GetBattleTerrainOverride();
         LZDecompressVram(sBattleTerrainTable[battleScene].tilemap, (void *)BG_SCREEN_ADDR(26));
         break;
-    case 5:
+    case 3:
         battleScene = GetBattleTerrainOverride();
         LoadCompressedPalette(sBattleTerrainTable[battleScene].palette, 0x20, 0x60);
         break;
-    case 6:
+    case 4:
         LoadBattleMenuWindowGfx();
         break;
     default:

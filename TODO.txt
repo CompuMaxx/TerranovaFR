@@ -132,11 +132,11 @@
 	Sistema Bilingüe
 ==============================================
 - bag.c
-- battle_bg.c
-- battle_controller_oak_old_man.c
-- battle_controller_player.c
-- battle_controller_pokedude.c
-- battle_controller_safari.c
++ battle_bg.c
++ battle_controller_oak_old_man.c
++ battle_controller_player.c
++ battle_controller_pokedude.c
++ battle_controller_safari.c
 - battle_interface.c
 + battle_main.c
 + battle_message.c(posibles fallos...)

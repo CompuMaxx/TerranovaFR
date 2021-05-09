@@ -1,10 +1,12 @@
 #include "global.h"
 #include "gflib.h"
 #include "task.h"
+#include "graphics.h"
 #include "party_menu.h"
 #include "pokeball.h"
 #include "data.h"
 #include "util.h"
+#include "menu.h"
 #include "m4a.h"
 #include "link.h"
 #include "event_data.h"
@@ -120,6 +122,10 @@ static void StartSendOutAnim(u8 battlerId);
 static void PokedudeDoMoveAnimation(void);
 static void Task_StartSendOutAnim(u8 taskId);
 static const u8 *GetPokedudeText(void);
+static void LightSelectionMenu(void);
+static void MoveSelectionDisplayMoveNames(void);
+static void MoveSelectionDisplayTypeIcon(void);
+static void MoveSelectionDisplayCategoryIcon(void);
 
 static void (*const sPokedudeBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     {
@@ -1565,11 +1571,14 @@ static void PokedudeHandleChooseAction(void)
     {
         gBattlerControllerFuncs[gActiveBattler] = HandleChooseActionAfterDma3;
         BattlePutTextOnWindow(gText_EmptyString3, 0);
-        BattlePutTextOnWindow(gText_BattleMenu, 2);
-        for (i = 0; i < MAX_MON_MOVES; ++i)
-            ActionSelectionDestroyCursorAt((u8)i);
-        ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
-        BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BattlePutTextOnWindow(gText_BattleMenu, 2);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BattlePutTextOnWindow(gText_BattleMenuSpa, 2);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDoSpa);
         BattlePutTextOnWindow(gDisplayedStringBattle, 1);
     }
     else
@@ -2292,6 +2301,10 @@ static const u8 *const sPokedudeTexts_Battle[] =
     gText_Pokedude_MyRattataFasterThanPidgey,
     gText_Pokedude_BattlersTakeTurnsAttacking,
     gText_Pokedude_MyRattataWonGetsEXP,
+    gText_Pokedude_SpeedierBattlerGoesFirstSpa,
+    gText_Pokedude_MyRattataFasterThanPidgeySpa,
+    gText_Pokedude_BattlersTakeTurnsAttackingSpa,
+    gText_Pokedude_MyRattataWonGetsEXPSpa,
 };
 
 static const u8 *const sPokedudeTexts_Status[] =
@@ -2301,6 +2314,11 @@ static const u8 *const sPokedudeTexts_Status[] =
     gText_Pokedude_HealStatusRightAway,
     gText_Pokedude_UsingItemTakesTurn,
     gText_Pokedude_YayWeManagedToWin,
+    gText_Pokedude_UhOhRattataPoisonedSpa,
+    gText_Pokedude_UhOhRattataPoisonedSpa,
+    gText_Pokedude_HealStatusRightAwaySpa,
+    gText_Pokedude_UsingItemTakesTurnSpa,
+    gText_Pokedude_YayWeManagedToWinSpa,
 };
 
 static const u8 *const sPokedudeTexts_TypeMatchup[] =
@@ -2312,6 +2330,13 @@ static const u8 *const sPokedudeTexts_TypeMatchup[] =
     gText_Pokedude_ButterfreeDoubleResistsGrass,
     gText_Pokedude_ButterfreeGoodAgainstOddish,
     gText_Pokedude_YeahWeWon,
+    gText_Pokedude_WaterNotVeryEffectiveAgainstGrassSpa,
+    gText_Pokedude_GrassEffectiveAgainstWaterSpa,
+    gText_Pokedude_LetsTryShiftingMonsSpa,
+    gText_Pokedude_ShiftingUsesTurnSpa,
+    gText_Pokedude_ButterfreeDoubleResistsGrassSpa,
+    gText_Pokedude_ButterfreeGoodAgainstOddishSpa,
+    gText_Pokedude_YeahWeWonSpa,
 };
 
 static const u8 *const sPokedudeTexts_Catching[] =
@@ -2322,6 +2347,12 @@ static const u8 *const sPokedudeTexts_Catching[] =
     gText_Pokedude_CantDoubleUpOnStatus,
     gText_Pokedude_LetMeThrowBall,
     gText_Pokedude_PickBestKindOfBall,
+    gText_Pokedude_WeakenMonBeforeCatchingSpa,
+    gText_Pokedude_WeakenMonBeforeCatchingSpa,
+    gText_Pokedude_BestIfTargetStatusedSpa,
+    gText_Pokedude_CantDoubleUpOnStatusSpa,
+    gText_Pokedude_LetMeThrowBallSpa,
+    gText_Pokedude_PickBestKindOfBallSpa,
 };
 
 static const struct PokedudeBattlePartyInfo sParties_Battle[] =
@@ -2467,9 +2498,8 @@ static void PokedudeSimulateInputChooseAction(void)
             && script_p[gPokedudeBattlerStates[gActiveBattler]->action_idx].delay[gActiveBattler] / 2 == gPokedudeBattlerStates[gActiveBattler]->timer)
         {
             PlaySE(SE_SELECT);
-            ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] = script_p[gPokedudeBattlerStates[gActiveBattler]->action_idx].cursorPos[gActiveBattler];
-            ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+            LightSelectionMenu();
         }
         ++gPokedudeBattlerStates[gActiveBattler]->timer;
     }
@@ -2498,9 +2528,10 @@ static void PokedudeSimulateInputChooseMove(void)
             && script_p[gPokedudeBattlerStates[gActiveBattler]->move_idx].delay[gActiveBattler] / 2 == gPokedudeBattlerStates[gActiveBattler]->timer)
         {
             PlaySE(SE_SELECT);
-            MoveSelectionDestroyCursorAt(gMoveSelectionCursor[gActiveBattler]);
             gMoveSelectionCursor[gActiveBattler] = script_p[gPokedudeBattlerStates[gActiveBattler]->move_idx].cursorPos[gActiveBattler];
-            MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
+            MoveSelectionDisplayMoveNames();
+			MoveSelectionDisplayTypeIcon();
+			MoveSelectionDisplayCategoryIcon();
         }
         ++gPokedudeBattlerStates[gActiveBattler]->timer;
     }
@@ -2577,7 +2608,6 @@ static void PokedudeAction_PrintVoiceoverMessage(void)
                 PlayBGM(MUS_VICTORY_WILD);
             }
             gBattle_BG0_Y = gPokedudeBattlerStates[gActiveBattler]->saved_bg0y;
-            BtlCtrl_RemoveVoiceoverMessageFrame();
             ReturnFromPokedudeAction();
         }
         break;
@@ -2650,7 +2680,6 @@ static void PokedudeAction_PrintMessageWithHealthboxPals(void)
                 PlayBGM(MUS_VICTORY_WILD);
             }
             DoFreeHealthboxPalsForLevelUp(GetBattlerAtPosition(B_POSITION_PLAYER_LEFT));
-            BtlCtrl_RemoveVoiceoverMessageFrame();
             ReturnFromPokedudeAction();
         }
         break;
@@ -2663,13 +2692,25 @@ static const u8 *GetPokedudeText(void)
     {
     case TTVSCR_BATTLE:
     default:
-        return sPokedudeTexts_Battle[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			return sPokedudeTexts_Battle[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			return sPokedudeTexts_Battle[gBattleStruct->pdMessageNo - 1 + 4];
     case TTVSCR_STATUS:
-        return sPokedudeTexts_Status[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			return sPokedudeTexts_Status[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			return sPokedudeTexts_Status[gBattleStruct->pdMessageNo - 1 + 5];
     case TTVSCR_MATCHUPS:
-        return sPokedudeTexts_TypeMatchup[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			return sPokedudeTexts_TypeMatchup[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			return sPokedudeTexts_TypeMatchup[gBattleStruct->pdMessageNo - 1 + 7];
     case TTVSCR_CATCHING:
-        return sPokedudeTexts_Catching[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			return sPokedudeTexts_Catching[gBattleStruct->pdMessageNo - 1];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			return sPokedudeTexts_Catching[gBattleStruct->pdMessageNo - 1 + 6];
     }
 }
 
@@ -2697,3 +2738,91 @@ void InitPokedudePartyAndOpponent(void)
             SetMonMoveSlot(mon, data[i].moves[j], j);
     } while (data[++i].side != 0xFF);
 }
+
+static void LightSelectionMenu(void)
+{
+	u16 palette[1] = {RGB( 31, 31, 31)};
+	
+	LoadPalette(gBattleFramesPalette, 0xE0, 0x20);
+	switch (gActionSelectionCursor[gActiveBattler])
+	{
+	case 0:
+		LoadPalette(&palette, 0xEC, 2);
+		break;
+	case 1:
+		LoadPalette(&palette, 0xED, 2);
+		break;
+	case 2:
+		LoadPalette(&palette, 0xEE, 2);
+		break;
+	case 3:
+		LoadPalette(&palette, 0xEF, 2);
+		break;
+	}
+
+}
+
+static void MoveSelectionDisplayMoveNames(void)
+{
+    s32 i;
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
+    gNumberOfMovesToChoose = 0;
+	
+	for (i = 0; i < MAX_MON_MOVES; i++)
+	{
+		if (moveInfo->moves[i] != MOVE_NONE)
+			++gNumberOfMovesToChoose;
+		StringCopy(gDisplayedStringBattle, gText_BattleTextPrefix);
+		
+		if (i == gMoveSelectionCursor[gActiveBattler])
+		{			
+			if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			{
+				StringAppend(gDisplayedStringBattle, gMoveNames[moveInfo->moves[i]]);
+			}
+			if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			{
+				StringAppend(gDisplayedStringBattle, gMoveNamesSpa[moveInfo->moves[i]]);
+			}
+			BattlePutTextOnWindow(gDisplayedStringBattle, i + 3);
+		}
+		else
+		{			
+			if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			{
+				StringCopy(gDisplayedStringBattle, gMoveNames[moveInfo->moves[i]]);
+			}
+			if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			{
+				StringCopy(gDisplayedStringBattle, gMoveNamesSpa[moveInfo->moves[i]]);
+			}
+			BattlePutTextOnWindow(gDisplayedStringBattle, i + 3);
+		}
+	}
+}
+
+static void MoveSelectionDisplayTypeIcon(void)
+{
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
+	u8 type = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type;
+
+	FillWindowPixelRect(9, 0xF, 0, 0, 32, 16);
+	if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		BlitMoveInfoIcon(9, type + 1, 0, 3);
+	if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		BlitMoveInfoIcon(9, type + 24, 0, 3);
+	PutWindowTilemap(9);
+	CopyWindowToVram(9, COPYWIN_BOTH);
+}
+
+static void MoveSelectionDisplayCategoryIcon(void)
+{
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
+	u8 category = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].category;
+
+	FillWindowPixelRect(10, 0xF, 0, 0, 16, 16);
+	BlitMoveInfoIcon(10, category + 50, 0, 0);
+	PutWindowTilemap(10);
+	CopyWindowToVram(10, COPYWIN_BOTH);
+}
+

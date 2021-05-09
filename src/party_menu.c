@@ -350,23 +350,23 @@ static void SlideMultiPartyMenuBoxSpritesOneStep(u8 taskId);
 static void Task_MultiPartnerPartySlideIn(u8 taskId);
 static bool8 CB2_FadeFromPartyMenu(void);
 static void Task_PartyMenuWaitForFade(u8 taskId);
-static void sub_8120C6C(u8 taskId);
-static void sub_8120CA8(u8 taskId);
-static void sub_8120CD8(u8 taskId);
-static void sub_8120D08(u8 taskId);
-static void sub_8120D40(u8 taskId);
-static void sub_8120D7C(u8 taskId);
-static void sub_8120DAC(u8 taskId);
-static void sub_8120DE0(u8 taskId);
-static void sub_8120E1C(u8 taskId);
-static void sub_8120E58(u8 taskId);
-static void sub_8120EE0(u8 taskId);
-static void sub_8120FF0(u8 taskId);
-static bool8 sub_8120F78(u8 taskId);
-static void sub_8120FB0(void);
-static void sub_8122084(u8 windowId, const u8 *str);
-static u8 sub_81220D4(void);
-static void sub_8122110(u8 windowId);
+static void Task_FirstBattleEnterParty_DarkenScreen(u8 taskId);
+static void Task_FirstBattleEnterParty_WaitDarken(u8 taskId);
+static void Task_FirstBattleEnterParty_CreatePrinter(u8 taskId);
+static void Task_FirstBattleEnterParty_RunPrinterMsg1(u8 taskId);
+static void Task_FirstBattleEnterParty_LightenFirstMonIcon(u8 taskId);
+static void Task_FirstBattleEnterParty_WaitLightenFirstMonIcon(u8 taskId);
+static void Task_FirstBattleEnterParty_StartPrintMsg2(u8 taskId);
+static void Task_FirstBattleEnterParty_RunPrinterMsg2(u8 taskId);
+static void Task_FirstBattleEnterParty_FadeNormal(u8 taskId);
+static void Task_FirstBattleEnterParty_WaitFadeNormal(u8 taskId);
+static void Task_PartyMenu_PokedudeStep(u8 taskId);
+static void Task_PartyMenuFromBag_PokedudeStep(u8 taskId);
+static bool8 PartyMenuPokedudeIsCancelled(u8 taskId);
+static void PartyMenuHandlePokedudeCancel(void);
+static void PartyMenu_Oak_PrintText(u8 windowId, const u8 *str);
+static u8 FirstBattleEnterParty_CreateWindowAndMsg1Printer(void);
+static void FirstBattleEnterParty_DestroyVoiceoverWindow(u8 windowId);
 static void SetSwitchedPartyOrderQuestLogEvent(void);
 static void SetUsedFieldMoveQuestLogEvent(struct Pokemon *mon, u8 fieldMove);
 static void sub_8124DE0(void);
@@ -2042,111 +2042,108 @@ static bool8 CanLearnTutorMove(u16 species, u8 tutor)
     }
 }
 
-static void sub_8120C3C(u8 taskId)
+// Tutorial battle messages
+
+static void Task_FirstBattleEnterParty_WaitFadeIn(u8 taskId)
 {
     if (!gPaletteFade.active)
-        gTasks[taskId].func = sub_8120C6C;
+        gTasks[taskId].func = Task_FirstBattleEnterParty_DarkenScreen;
 }
 
-static void sub_8120C6C(u8 taskId)
+static void Task_FirstBattleEnterParty_DarkenScreen(u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFF1FFF, 4, 0, 6, RGB_BLACK);
-    gTasks[taskId].func = sub_8120CA8;
+    gTasks[taskId].func = Task_FirstBattleEnterParty_WaitDarken;
 }
 
-static void sub_8120CA8(u8 taskId)
+static void Task_FirstBattleEnterParty_WaitDarken(u8 taskId)
 {
     if (!gPaletteFade.active)
-        gTasks[taskId].func = sub_8120CD8;
+        gTasks[taskId].func = Task_FirstBattleEnterParty_CreatePrinter;
 }
 
-static void sub_8120CD8(u8 taskId)
+static void Task_FirstBattleEnterParty_CreatePrinter(u8 taskId)
 {
-    gTasks[taskId].data[0] = sub_81220D4();
-    gTasks[taskId].func = sub_8120D08;
+    gTasks[taskId].data[0] = FirstBattleEnterParty_CreateWindowAndMsg1Printer();
+    gTasks[taskId].func = Task_FirstBattleEnterParty_RunPrinterMsg1;
 }
 
-static void sub_8120D08(u8 taskId)
+static void Task_FirstBattleEnterParty_RunPrinterMsg1(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     if (RunTextPrinters_CheckActive((u8)data[0]) != TRUE)
-        gTasks[taskId].func = sub_8120D40;
+        gTasks[taskId].func = Task_FirstBattleEnterParty_LightenFirstMonIcon;
 }
 
-static void sub_8120D40(u8 taskId)
+static void Task_FirstBattleEnterParty_LightenFirstMonIcon(u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFF0008, 4, 6, 0, RGB_BLACK);
-    gTasks[taskId].func = sub_8120D7C;
+    gTasks[taskId].func = Task_FirstBattleEnterParty_WaitLightenFirstMonIcon;
 }
 
-static void sub_8120D7C(u8 taskId)
+static void Task_FirstBattleEnterParty_WaitLightenFirstMonIcon(u8 taskId)
 {
     if (!gPaletteFade.active)
-        gTasks[taskId].func = sub_8120DAC;
+        gTasks[taskId].func = Task_FirstBattleEnterParty_StartPrintMsg2;
 }
 //TRADUCIR
-static void sub_8120DAC(u8 taskId)
+static void Task_FirstBattleEnterParty_StartPrintMsg2(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     if (gSaveBlock2Ptr->optionsLanguage == ENG)
-		sub_8122084(data[0], gText_OakThisIsListOfPokemon);
+		PartyMenu_Oak_PrintText(data[0], gText_OakThisIsListOfPokemon);
     if (gSaveBlock2Ptr->optionsLanguage == SPA)
-		sub_8122084(data[0], gText_OakThisIsListOfPokemonSpa);
-    gTasks[taskId].func = sub_8120DE0;
+		PartyMenu_Oak_PrintText(data[0], gText_OakThisIsListOfPokemonSpa);
+    gTasks[taskId].func = Task_FirstBattleEnterParty_RunPrinterMsg2;
 }
 
-static void sub_8120DE0(u8 taskId)
+static void Task_FirstBattleEnterParty_RunPrinterMsg2(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     if (RunTextPrinters_CheckActive((u8)data[0]) != TRUE)
     {
-        sub_8122110((u8)data[0]);
-        gTasks[taskId].func = sub_8120E1C;
+        FirstBattleEnterParty_DestroyVoiceoverWindow((u8)data[0]);
+        gTasks[taskId].func = Task_FirstBattleEnterParty_FadeNormal;
     }
 }
 
-static void sub_8120E1C(u8 taskId)
+static void Task_FirstBattleEnterParty_FadeNormal(u8 taskId)
 {
     BeginNormalPaletteFade(0x0000FFF7, 4, 6, 0, RGB_BLACK);
-    gTasks[taskId].func = sub_8120E58;
+    gTasks[taskId].func = Task_FirstBattleEnterParty_WaitFadeNormal;
 }
 //TRADUCIR
-static void sub_8120E58(u8 taskId)
+static void Task_FirstBattleEnterParty_WaitFadeNormal(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
         TextWindow_SetUserSelectedFrame(0, 0x4F, 0xD0);
         TextWindow_SetStdFrame0_WithPal(0, 0x58, 0xF0);
         if (gPartyMenu.action == PARTY_ACTION_USE_ITEM)
-            if (gSaveBlock2Ptr->optionsLanguage == ENG)
-				DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON);
-            if (gSaveBlock2Ptr->optionsLanguage == SPA)
-				DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON + 27);
+            DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON);
         else
-            if (gSaveBlock2Ptr->optionsLanguage == ENG)
-				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
-            if (gSaveBlock2Ptr->optionsLanguage == SPA)
-				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON + 27);
+            DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
         gTasks[taskId].func = Task_HandleChooseMonInput;
     }
 }
 
-static void sub_8120EBC(u8 taskId)
+// Pokedude switches Pokemon
+static void Task_PartyMenu_Pokedude(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     data[0] = 0;
-    gTasks[taskId].func = sub_8120EE0;
+    gTasks[taskId].func = Task_PartyMenu_PokedudeStep;
 }
 
-static void sub_8120EE0(u8 taskId)
+static void Task_PartyMenu_PokedudeStep(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (!gPaletteFade.active && sub_8120F78(taskId) != TRUE)
+    if (!gPaletteFade.active && PartyMenuPokedudeIsCancelled(taskId) != TRUE)
     {
         switch (data[0])
         {
@@ -2166,18 +2163,18 @@ static void sub_8120EE0(u8 taskId)
     }
 }
 
-static bool8 sub_8120F78(u8 taskId)
+static bool8 PartyMenuPokedudeIsCancelled(u8 taskId)
 {
     if (JOY_NEW(B_BUTTON))
     {
-        sPartyMenuInternal->exitCallback = sub_8120FB0;
+        sPartyMenuInternal->exitCallback = PartyMenuHandlePokedudeCancel;
         Task_ClosePartyMenu(taskId);
         return TRUE;
     }
     return FALSE;
 }
 
-static void sub_8120FB0(void)
+static void PartyMenuHandlePokedudeCancel(void)
 {
     FreeRestoreBattleData();
     LoadPlayerParty();
@@ -2185,19 +2182,20 @@ static void sub_8120FB0(void)
     SetMainCallback2(CB2_ReturnToTeachyTV);
 }
 
-static void sub_8120FCC(u8 taskId)
+// Pokedude uses item on his own Pokemon
+static void Task_PartyMenuFromBag_Pokedude(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
     data[0] = 0;
-    gTasks[taskId].func = sub_8120FF0;
+    gTasks[taskId].func = Task_PartyMenuFromBag_PokedudeStep;
 }
 
-static void sub_8120FF0(u8 taskId)
+static void Task_PartyMenuFromBag_PokedudeStep(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (!gPaletteFade.active && sub_8120F78(taskId) != TRUE)
+    if (!gPaletteFade.active && PartyMenuPokedudeIsCancelled(taskId) != TRUE)
     {
         if (data[0] != 80)
         {
@@ -2756,27 +2754,27 @@ static void RemoveLevelUpStatsWindow(void)
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
 }
 
-static void sub_8122084(u8 windowId, const u8 *str)
+static void PartyMenu_Oak_PrintText(u8 windowId, const u8 *str)
 {
     StringExpandPlaceholders(gStringVar4, str);
     gTextFlags.canABSpeedUpPrint = TRUE;
     AddTextPrinterParameterized2(windowId, 4, gStringVar4, GetTextSpeedSetting(), 0, 2, 1, 3);
 }
 //TRADUCIR
-static bool8 sub_81220D4(void)
+static bool8 FirstBattleEnterParty_CreateWindowAndMsg1Printer(void)
 {
     u8 windowId = AddWindow(&sTutorialOakWindowTemplate);
 
     TextWindow_LoadResourcesStdFrame0(windowId, 0x4F, 0xE0);
     DrawDialogFrameWithCustomTileAndPalette(windowId, 1, 0x4F, 0xE);
     if (gSaveBlock2Ptr->optionsLanguage == ENG)
-		sub_8122084(windowId, gText_OakImportantToGetToKnowPokemonThroughly);
+		PartyMenu_Oak_PrintText(windowId, gText_OakImportantToGetToKnowPokemonThroughly);
     if (gSaveBlock2Ptr->optionsLanguage == SPA)
-		sub_8122084(windowId, gText_OakImportantToGetToKnowPokemonThroughlySpa);
+		PartyMenu_Oak_PrintText(windowId, gText_OakImportantToGetToKnowPokemonThroughlySpa);
     return windowId;
 }
 
-static void sub_8122110(u8 windowId)
+static void FirstBattleEnterParty_DestroyVoiceoverWindow(u8 windowId)
 {
     ClearWindowTilemap(windowId);
     ClearDialogWindowAndFrameToTransparent(windowId, FALSE);
@@ -4236,16 +4234,10 @@ static void CursorCB_Enter(u8 taskId)
         {
             PlaySE(SE_SELECT);
             gSelectedOrderFromParty[i] = gPartyMenu.slotId + 1;
-            if (gSaveBlock2Ptr->optionsLanguage == ENG)
-				DisplayPartyPokemonDescriptionText(i + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
-            if (gSaveBlock2Ptr->optionsLanguage == SPA)
-				DisplayPartyPokemonDescriptionText(i + 10 + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
+            DisplayPartyPokemonDescriptionText(i + PARTYBOX_DESC_FIRST, &sPartyMenuBoxes[gPartyMenu.slotId], 1);
             if (i == (maxBattlers - 1))
                 MoveCursorToConfirm();
-            if (gSaveBlock2Ptr->optionsLanguage == ENG)
-				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
-            if (gSaveBlock2Ptr->optionsLanguage == SPA)
-				DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON + 27);
+            DisplayPartyMenuStdMessage(PARTY_MSG_CHOOSE_MON);
             gTasks[taskId].func = Task_HandleChooseMonInput;
             return;
         }
@@ -4386,15 +4378,9 @@ static void CursorCB_FieldMove(u8 taskId)
     if (MenuHelpers_LinkSomething() == TRUE || InUnionRoom() == TRUE)
     {
         if (fieldMove == FIELD_MOVE_MILK_DRINK || fieldMove == FIELD_MOVE_SOFT_BOILED)
-            if (gSaveBlock2Ptr->optionsLanguage == ENG)
-				DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE);
-            if (gSaveBlock2Ptr->optionsLanguage == SPA)
-				DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE + 27);
+            DisplayPartyMenuStdMessage(PARTY_MSG_CANT_USE_HERE);
         else
-            if (gSaveBlock2Ptr->optionsLanguage == ENG)
-				DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
-            if (gSaveBlock2Ptr->optionsLanguage == SPA)
-				DisplayPartyMenuStdMessage(12 + sFieldMoveCursorCallbacks[fieldMove].msgId);
+            DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
         gTasks[taskId].func = Task_CancelAfterAorBPress;
     }
     else
@@ -4459,10 +4445,7 @@ static void CursorCB_FieldMove(u8 taskId)
                 DisplayCantUseFlashMessage();
                 break;
             default:
-                if (gSaveBlock2Ptr->optionsLanguage == ENG)
-					DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
-                if (gSaveBlock2Ptr->optionsLanguage == SPA)
-					DisplayPartyMenuStdMessage(12 + sFieldMoveCursorCallbacks[fieldMove].msgId);
+                DisplayPartyMenuStdMessage(sFieldMoveCursorCallbacks[fieldMove].msgId);
                 break;
             }
             gTasks[taskId].func = Task_CancelAfterAorBPress;
@@ -6540,7 +6523,7 @@ void OpenPartyMenuInTutorialBattle(u8 partyAction)
                       partyAction,
                       FALSE,
                       PARTY_MSG_NONE,
-                      sub_8120C3C,
+                      Task_FirstBattleEnterParty_WaitFadeIn,
                       SetCB2ToReshowScreenAfterMenu);
         BtlCtrl_OakOldMan_SetState2Flag(8);
     }
@@ -6560,14 +6543,14 @@ void OpenPartyMenuInTutorialBattle(u8 partyAction)
 
 void Pokedude_OpenPartyMenuInBattle(void)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_MON, sub_8120EBC, SetCB2ToReshowScreenAfterMenu);
+    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_CHOOSE_MON, FALSE, PARTY_MSG_CHOOSE_MON, Task_PartyMenu_Pokedude, SetCB2ToReshowScreenAfterMenu);
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }
 
 void Pokedude_ChooseMonForInBattleItem(void)
 {
-    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_REUSABLE_ITEM, FALSE, PARTY_MSG_USE_ON_WHICH_MON, sub_8120FCC, CB2_BagMenuFromBattle);
+    InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE, GetPartyLayoutFromBattleType(), PARTY_ACTION_REUSABLE_ITEM, FALSE, PARTY_MSG_USE_ON_WHICH_MON, Task_PartyMenuFromBag_Pokedude, CB2_BagMenuFromBattle);
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }
@@ -6581,7 +6564,7 @@ void EnterPartyFromItemMenuInBattle(void)
                       PARTY_ACTION_USE_ITEM,
                       FALSE,
                       PARTY_MSG_NONE,
-                      sub_8120C3C,
+                      Task_FirstBattleEnterParty_WaitFadeIn,
                       CB2_BagMenuFromBattle);
         BtlCtrl_OakOldMan_SetState2Flag(8);
     }
