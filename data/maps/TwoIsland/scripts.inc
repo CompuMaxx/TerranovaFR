@@ -103,7 +103,7 @@ TwoIsland_EventScript_ClerkShopInitial:: @ 816768E
 	end
 
 TwoIsland_EventScript_ClerkShopSkipIntro:: @ 81676A6
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	compare VAR_MAP_SCENE_TWO_ISLAND, 4
 	goto_if_eq TwoIsland_EventScript_ShopExpanded3

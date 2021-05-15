@@ -42,18 +42,18 @@
 	 Crédito: NotToDisturb (Disturbo)
 - Pokedex GEN V
 - DexNav
-- Battle BG GEN V
++ Battle BG GEN V
 	- Corregir paleta numero 5 de los BG
 	- Corregir paleta por defecto de los ataques
 	- Correr paletas de los BG al slot 0
 	- Ajustar slots afectados por ataques y efectos
 	- Mejorar distribución de colores en los ataques
-- Battle UI GEN V
+- New Battle UI
 - Sistema de Sombras GEN V
 - Cosplays de Pikachu
 - Text Font GEN V 
 - Map Name Popup GEN V
-- Vs Bar GEN IV, V y VI (editar battle_transition.c)
+- Vs Bar GEN IV y V (editar battle_transition.c)
 
 ==============================================
 	Update Mecanismos a nuevas GENs
@@ -65,12 +65,12 @@
 + Update Habilidad Piel Tosca a la GEN VII(Pierde 1/8 de los PS Máx)(LISTO)
 + Update Sistema de Repartir Experiencia a la GEN VII(100% a los participantes y 50% al resto)(LISTO)
 + Update Sistema de Obetener Experiencia al Capturar como en la GEN VI(LISTO)
-+ Update Probabilidad de Golpe Crítico a la GEN VI(16.25%, 12.5%, 50% y 100%)(LISTO)
++ Update Probabilidad de Golpe Crítico a la GEN VI(6.25%, 12.5%, 50% y 100%)(LISTO)
 + Update Multiplicador de Golpe Crítico a la GEN VI(150% de daño)(LISTO)
 + Update Huevos nacen en nivel 1 GEN IV(LISTO)
 + Update Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
 + Update Incremento de retardo entre frames al correr GEN IV(LISTO)
-- Update Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
++ Update Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
 + Update Estadísticas coloreadas por Naturaleza GEN IV(LISTO)
 + Update Sistema de Repelente GEN IV(LISTO)
 	-Falta chequear el resto de los Repelentes una vez agotado el que está en uso
@@ -131,7 +131,7 @@
 ==============================================
 	Sistema Bilingüe
 ==============================================
-- bag.c
++ bag.c
 + battle_bg.c
 + battle_controller_oak_old_man.c
 + battle_controller_player.c
@@ -141,7 +141,7 @@
 + battle_main.c
 + battle_message.c(posibles fallos...)
 - battle_records.c
-- battle_script_commands.c
++ battle_script_commands.c
 + battle_setup.c
 - berry_crush_2.c
 - berry_crush_3.c
@@ -202,7 +202,7 @@
 - script_menu.c(falta, editar de acuerdo a la nueva(s) región(es))
 + shop.c
 - slot_machine.c
-- start_menu.c
++ start_menu.c
 + tm_case.c
 - trade.c
 - trade_scene.c

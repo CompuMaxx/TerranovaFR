@@ -175,6 +175,7 @@ const u32 gObjectEventPic_TrainerTowerDude[] = INCBIN_U32("graphics/object_event
 const u16 gObjectEventPal_TrainerTowerDude[] = INCBIN_U16("graphics/object_events/pics/people/trainer_tower_dude/object.gbapal");
 const u32 gObjectEventPic_UnionRoomReceptionist[] = INCBIN_U32("graphics/object_events/pics/people/union_room_receptionist/object.4bpp");
 const u16 gObjectEventPal_UnionRoomReceptionist[] = INCBIN_U16("graphics/object_events/pics/people/union_room_receptionist/object.gbapal");
+const u32 gObjectEventPic_OldManLyingDown[] = INCBIN_U32("graphics/object_events/pics/people/old_man_lying_down/object.4bpp");
 //POKEMON
 
 //OBJECTS
@@ -183,7 +184,6 @@ const u32 gObjectEventPic_RockSmashRock[] = INCBIN_U32("graphics/object_events/p
 const u32 gObjectEventPic_StrengthBoulder[] = INCBIN_U32("graphics/object_events/pics/misc/strength_boulder.4bpp");
 const u16 gObjectEventPal_Object[] = INCBIN_U16("graphics/object_events/pics/misc/cut_tree.gbapal");
 //OLD
-const u32 gObjectEventPic_OldManLyingDown[] = INCBIN_U32("graphics/object_events/pics/people/old_man_lying_down.4bpp");
 const u32 gObjectEventPic_Pokedex[] = INCBIN_U32("graphics/object_events/pics/misc/pokedex.4bpp");
 const u32 gObjectEventPic_ItemBall[] = INCBIN_U32("graphics/object_events/pics/misc/item_ball.4bpp");
 const u32 gObjectEventPic_TownMap[] = INCBIN_U32("graphics/object_events/pics/misc/town_map.4bpp");

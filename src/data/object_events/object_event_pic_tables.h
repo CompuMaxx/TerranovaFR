@@ -1168,8 +1168,6 @@ const struct SpriteFrameImage gObjectEventPicTable_UnionRoomReceptionist[] = {
     overworld_frame(gObjectEventPic_UnionRoomReceptionist, 4, 4, 8),
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////
-
 const struct SpriteFrameImage gObjectEventPicTable_OldManLyingDown[] = {
     overworld_frame(gObjectEventPic_OldManLyingDown, 4, 4, 0),
     overworld_frame(gObjectEventPic_OldManLyingDown, 4, 4, 0),
@@ -1181,6 +1179,8 @@ const struct SpriteFrameImage gObjectEventPicTable_OldManLyingDown[] = {
     overworld_frame(gObjectEventPic_OldManLyingDown, 4, 4, 0),
     overworld_frame(gObjectEventPic_OldManLyingDown, 4, 4, 0),
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 const struct SpriteFrameImage gObjectEventPicTable_ItemBall[] = {
     overworld_frame(gObjectEventPic_ItemBall, 2, 2, 0),

@@ -13,7 +13,7 @@ VermilionCity_Mart_EventScript_Clerk:: @ 816B666
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	pokemart VermilionCity_Mart_Items
 	msgbox Text_PleaseComeAgain

@@ -13,7 +13,7 @@ CinnabarIsland_Mart_EventScript_Clerk:: @ 816EA22
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	pokemart CinnabarIsland_Mart_Items
 	msgbox Text_PleaseComeAgain

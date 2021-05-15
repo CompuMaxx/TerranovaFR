@@ -189,8 +189,6 @@ static const struct WindowTemplate sWindowTemplates[] = {
     }
 };
 
-static const u8 sUnused_8453174[] = {16, 8, 4};
-
 static EWRAM_DATA u8 sOpenWindows[11] = {};
 
 void InitBagWindows(void)
@@ -233,8 +231,16 @@ void BagDrawDepositItemTextBox(void)
 {
     u32 x;
     DrawStdFrameWithCustomTileAndPalette(2, FALSE, 0x081, 0x0C);
-    x = 0x40 - GetStringWidth(0, gText_DepositItem, 0);
-    AddTextPrinterParameterized(2, 0, gText_DepositItem, x / 2, 1, 0, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		x = 0x40 - GetStringWidth(0, gText_DepositItem, 0);
+		AddTextPrinterParameterized(2, 0, gText_DepositItem, x / 2, 1, 0, NULL);
+	}
+    else
+	{
+		x = 0x40 - GetStringWidth(0, gText_DepositItemSpa, 0);
+		AddTextPrinterParameterized(2, 0, gText_DepositItemSpa, x / 2, 1, 0, NULL);
+	}
 }
 
 u8 ShowBagWindow(u8 whichWindow, u8 nItems)

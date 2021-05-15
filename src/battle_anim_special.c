@@ -864,7 +864,7 @@ static void SpriteCB_ThrowBall_ArcFlight(struct Sprite *sprite)
             {
             case 0 ... POKEBALL_COUNT - 1:
                 LaunchBallStarsTask(sprite->pos1.x, sprite->pos1.y - 5, 1, 28, ballId);
-                LaunchBallFadeMonTask(0, gBattleAnimTarget, 14, ballId);
+                LaunchBallFadeMonTask(0, gBattleAnimTarget, 0x3F, ballId);
                 break;
             }
         }
@@ -1323,7 +1323,7 @@ static void SpriteCB_ThrowBall_BeginBreakOut(struct Sprite *sprite)
     {
     case 0 ... POKEBALL_COUNT - 1:
         LaunchBallStarsTask(sprite->pos1.x, sprite->pos1.y - 5, 1, 28, ballId);
-        LaunchBallFadeMonTask(1, gBattleAnimTarget, 14, ballId);
+        LaunchBallFadeMonTask(1, gBattleAnimTarget, 0x3F, ballId);
         break;
     }
 

@@ -20,7 +20,7 @@ CableClub_EventScript_MysteryGiftMan:: @ 81BB1D2
 
 @ Unused
 EventScript_MysteryGiftThankYou:: @ 81BB1E4
-	msgbox Text_ThankYouForAccessingMysteryGift, MSGBOX_NPC
+	msgbox gText_ThankYouForAccessingMysteryGift, MSGBOX_NPC
 	end
 
 CableClub_OnWarp:: @ 81BB1ED

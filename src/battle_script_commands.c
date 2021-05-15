@@ -4986,7 +4986,10 @@ static void atk5A_yesnoboxlearnmove(void)
     {
     case 0:
         HandleBattleWindow(0x17, 8, 0x1D, 0xD, 0);
-        BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BattlePutTextOnWindow(gText_BattleYesNoChoiceSpa, 0xE);
         ++gBattleScripting.learnMoveState;
         gBattleCommunication[CURSOR_POSITION] = 0;
         BattleCreateYesNoCursorAt();
@@ -5096,7 +5099,10 @@ static void atk5B_yesnoboxstoplearningmove(void)
     {
     case 0:
         HandleBattleWindow(0x17, 8, 0x1D, 0xD, 0);
-        BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BattlePutTextOnWindow(gText_BattleYesNoChoiceSpa, 0xE);
         ++gBattleScripting.learnMoveState;
         gBattleCommunication[CURSOR_POSITION] = 0;
         BattleCreateYesNoCursorAt();
@@ -5384,7 +5390,10 @@ static void atk67_yesnobox(void)
     {
     case 0:
         HandleBattleWindow(0x17, 8, 0x1D, 0xD, 0);
-        BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BattlePutTextOnWindow(gText_BattleYesNoChoiceSpa, 0xE);
         ++gBattleCommunication[0];
         gBattleCommunication[CURSOR_POSITION] = 0;
         BattleCreateYesNoCursorAt();
@@ -5596,7 +5605,7 @@ static void DrawLevelUpWindow2(void)
 static void sub_8026480(void)
 {
     gBattle_BG2_Y = 0;
-    gBattle_BG2_X = 0x1A0;
+    gBattle_BG2_X = 416;
     LoadPalette(gUnknown_82506D0, 0x60, 0x20);
     CopyToWindowPixelBuffer(13, gUnknown_82506F0, 0, 0);
     PutWindowTilemap(13);
@@ -5608,14 +5617,14 @@ static bool8 sub_80264D0(void)
 {
     if (IsDma3ManagerBusyWithBgCopy())
         return TRUE;
-    if (gBattle_BG2_X == 0x200)
+    if (gBattle_BG2_X == 512)
         return FALSE;
-    if (gBattle_BG2_X == 0x1A0)
+    if (gBattle_BG2_X == 416)
         PutLevelAndGenderOnLvlUpBox();
     gBattle_BG2_X += 8;
-    if (gBattle_BG2_X >= 0x200)
-        gBattle_BG2_X = 0x200;
-    return (gBattle_BG2_X != 0x200);
+    if (gBattle_BG2_X >= 512)
+        gBattle_BG2_X = 512;
+    return (gBattle_BG2_X != 512);
 }
 
 static void PutLevelAndGenderOnLvlUpBox(void)
@@ -5675,13 +5684,13 @@ static void PutLevelAndGenderOnLvlUpBox(void)
 
 static bool8 sub_8026648(void)
 {
-    if (gBattle_BG2_X == 0x1A0)
+    if (gBattle_BG2_X == 416)
         return FALSE;
-    if (gBattle_BG2_X - 16 < 0x1A0)
-        gBattle_BG2_X = 0x1A0;
+    if (gBattle_BG2_X - 16 < 416)
+        gBattle_BG2_X = 416;
     else
         gBattle_BG2_X -= 16;
-    return (gBattle_BG2_X != 0x1A0);
+    return (gBattle_BG2_X != 416);
 }
 
 #define sDestroy                    data[0]
@@ -9267,9 +9276,9 @@ void HandleBattleWindow(u8 xStart, u8 yStart, u8 xEnd, u8 yEnd, u8 flags)
             if (flags & WINDOW_CLEAR)
                 var = 0;
             if (flags & WINDOW_x80)
-                CopyToBgTilemapBufferRect_ChangePalette(1, &var, destX, destY, 1, 1, 0x11);
+                CopyToBgTilemapBufferRect_ChangePalette(1, &var, destX, destY, 1, 1, 0xC);
             else
-                CopyToBgTilemapBufferRect_ChangePalette(0, &var, destX, destY, 1, 1, 0x11);
+                CopyToBgTilemapBufferRect_ChangePalette(0, &var, destX, destY, 1, 1, 0xC);
         }
     }
     CopyBgTilemapBufferToVram(1);
@@ -9281,7 +9290,7 @@ void BattleCreateYesNoCursorAt(void)
 
     src[0] = 1;
     src[1] = 2;
-    CopyToBgTilemapBufferRect_ChangePalette(0, src, 0x18, 9 + (2 * gBattleCommunication[1]), 1, 2, 0x11);
+    CopyToBgTilemapBufferRect_ChangePalette(0, src, 0x18, 9 + (2 * gBattleCommunication[1]), 1, 2, 0xF);
     CopyBgTilemapBufferToVram(0);
 }
 
@@ -9291,7 +9300,7 @@ void BattleDestroyYesNoCursorAt(void)
 
     src[0] = 32;
     src[1] = 32;
-    CopyToBgTilemapBufferRect_ChangePalette(0, src, 0x18, 9 + (2 * gBattleCommunication[1]), 1, 2, 0x11);
+    CopyToBgTilemapBufferRect_ChangePalette(0, src, 0x18, 9 + (2 * gBattleCommunication[1]), 1, 2, 0xF);
     CopyBgTilemapBufferToVram(0);
 }
 
@@ -9301,7 +9310,10 @@ static void atkF3_trygivecaughtmonnick(void)
     {
     case 0:
         HandleBattleWindow(0x17, 8, 0x1D, 0xD, 0);
-        BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			BattlePutTextOnWindow(gText_BattleYesNoChoiceSpa, 0xE);
         ++gBattleCommunication[MULTIUSE_STATE];
         gBattleCommunication[CURSOR_POSITION] = 0;
         BattleCreateYesNoCursorAt();

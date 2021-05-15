@@ -124,6 +124,18 @@ static const struct MenuAction sStartMenuActionTable[] = {
     { gText_StartMenu_Player, {.u8_void = StartMenuLinkPlayerCallback} }
 };
 
+static const struct MenuAction sStartMenuActionTableSpa[] = {
+    { gText_StartMenu_PokedexSpa, {.u8_void = StartMenuPokedexCallback} },
+    { gText_StartMenu_PokemonSpa, {.u8_void = StartMenuPokemonCallback} },
+    { gText_StartMenu_BagSpa, {.u8_void = StartMenuBagCallback} },
+    { gText_StartMenu_PlayerSpa, {.u8_void = StartMenuPlayerCallback} },
+    { gText_StartMenu_SaveSpa, {.u8_void = StartMenuSaveCallback} },
+    { gText_StartMenu_OptionSpa, {.u8_void = StartMenuOptionCallback} },
+    { gText_StartMenu_ExitSpa, {.u8_void = StartMenuExitCallback} },
+    { gText_StartMenu_RetireSpa, {.u8_void = StartMenuSafariZoneRetireCallback} },
+    { gText_StartMenu_PlayerSpa, {.u8_void = StartMenuLinkPlayerCallback} }
+};
+
 static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
     .bg = 0,
     .tilemapLeft = 1,
@@ -144,6 +156,18 @@ static const u8 *const sStartMenuDescPointers[] = {
     gText_StartMenuDesc_Exit,
     gText_StartMenuDesc_Retire,
     gText_StartMenuDesc_Player
+};
+
+static const u8 *const sStartMenuDescPointersSpa[] = {
+    gText_StartMenuDesc_PokedexSpa,
+    gText_StartMenuDesc_PokemonSpa,
+    gText_StartMenuDesc_BagSpa,
+    gText_StartMenuDesc_PlayerSpa,
+    gText_StartMenuDesc_SaveSpa,
+    gText_StartMenuDesc_OptionSpa,
+    gText_StartMenuDesc_ExitSpa,
+    gText_StartMenuDesc_RetireSpa,
+    gText_StartMenuDesc_PlayerSpa
 };
 
 static const struct BgTemplate sBGTemplates_AfterLinkSaveMessage[] = {
@@ -252,7 +276,10 @@ static void DrawSafariZoneStatsWindow(void)
     ConvertIntToDecimalStringN(gStringVar1, gSafariZoneStepCounter, STR_CONV_MODE_RIGHT_ALIGN, 3);
     ConvertIntToDecimalStringN(gStringVar2, 600, STR_CONV_MODE_RIGHT_ALIGN, 3);
     ConvertIntToDecimalStringN(gStringVar3, gNumSafariBalls, STR_CONV_MODE_RIGHT_ALIGN, 2);
-    StringExpandPlaceholders(gStringVar4, gText_84162A9);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_84162A9);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_84162A9Spa);
     AddTextPrinterParameterized(sSafariZoneStatsWindowId,2, gStringVar4, 4, 3, 0xFF, NULL);
     CopyWindowToVram(sSafariZoneStatsWindowId, COPYWIN_GFX);
 }
@@ -274,11 +301,17 @@ static s8 PrintStartMenuItems(s8 *cursor_p, u8 nitems)
     {
         if (sStartMenuOrder[i] == STARTMENU_PLAYER || sStartMenuOrder[i] == STARTMENU_PLAYER2)
         {
-            Menu_PrintFormatIntlPlayerName(GetStartMenuWindowId(), sStartMenuActionTable[sStartMenuOrder[i]].text, 8, i * 15);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				Menu_PrintFormatIntlPlayerName(GetStartMenuWindowId(), sStartMenuActionTable[sStartMenuOrder[i]].text, 8, i * 15);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				Menu_PrintFormatIntlPlayerName(GetStartMenuWindowId(), sStartMenuActionTableSpa[sStartMenuOrder[i]].text, 8, i * 15);
         }
         else
         {
-            StringExpandPlaceholders(gStringVar4, sStartMenuActionTable[sStartMenuOrder[i]].text);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, sStartMenuActionTable[sStartMenuOrder[i]].text);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, sStartMenuActionTableSpa[sStartMenuOrder[i]].text);
             AddTextPrinterParameterized(GetStartMenuWindowId(), 2, gStringVar4, 8, i * 15, 0xFF, NULL);
         }
         i++;
@@ -321,7 +354,10 @@ static s8 DoDrawStartMenu(void)
         sStartMenuCursorPos = Menu_InitCursor(GetStartMenuWindowId(), 2, 0, 0, 15, sNumStartMenuItems, sStartMenuCursorPos);
         if (!MenuHelpers_LinkSomething() && InUnionRoom() != TRUE && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_HELP)
         {
-            DrawHelpMessageWindowWithText(sStartMenuDescPointers[sStartMenuOrder[sStartMenuCursorPos]]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DrawHelpMessageWindowWithText(sStartMenuDescPointers[sStartMenuOrder[sStartMenuCursorPos]]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DrawHelpMessageWindowWithText(sStartMenuDescPointersSpa[sStartMenuOrder[sStartMenuCursorPos]]);
         }
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
         return TRUE;
@@ -405,7 +441,10 @@ static bool8 StartCB_HandleInput(void)
         sStartMenuCursorPos = Menu_MoveCursor(-1);
         if (!MenuHelpers_LinkSomething() && InUnionRoom() != TRUE && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_HELP)
         {
-            PrintTextOnHelpMessageWindow(sStartMenuDescPointers[sStartMenuOrder[sStartMenuCursorPos]], 2);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				PrintTextOnHelpMessageWindow(sStartMenuDescPointers[sStartMenuOrder[sStartMenuCursorPos]], 2);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				PrintTextOnHelpMessageWindow(sStartMenuDescPointersSpa[sStartMenuOrder[sStartMenuCursorPos]], 2);
         }
     }
     if (JOY_NEW(DPAD_DOWN))
@@ -414,7 +453,10 @@ static bool8 StartCB_HandleInput(void)
         sStartMenuCursorPos = Menu_MoveCursor(+1);
         if (!MenuHelpers_LinkSomething() && InUnionRoom() != TRUE && gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_HELP)
         {
-            PrintTextOnHelpMessageWindow(sStartMenuDescPointers[sStartMenuOrder[sStartMenuCursorPos]], 2);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				PrintTextOnHelpMessageWindow(sStartMenuDescPointers[sStartMenuOrder[sStartMenuCursorPos]], 2);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				PrintTextOnHelpMessageWindow(sStartMenuDescPointersSpa[sStartMenuOrder[sStartMenuCursorPos]], 2);
         }
     }
     if (JOY_NEW(A_BUTTON))
@@ -704,7 +746,10 @@ static u8 SaveDialogCB_PrintAskSaveText(void)
     RemoveStartMenuWindow();
     DestroyHelpMessageWindow(0);
     PrintSaveStats();
-    PrintSaveTextWithFollowupFunc(gText_WouldYouLikeToSaveTheGame, SaveDialogCB_AskSavePrintYesNoMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		PrintSaveTextWithFollowupFunc(gText_WouldYouLikeToSaveTheGame, SaveDialogCB_AskSavePrintYesNoMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		PrintSaveTextWithFollowupFunc(gText_WouldYouLikeToSaveTheGameSpa, SaveDialogCB_AskSavePrintYesNoMenu);
     return SAVECB_RETURN_CONTINUE;
 }
 
@@ -737,9 +782,19 @@ static u8 SaveDialogCB_AskSaveHandleInput(void)
 static u8 SaveDialogCB_PrintAskOverwriteText(void)
 {
     if (gDifferentSaveFile == TRUE)
-        PrintSaveTextWithFollowupFunc(gText_DifferentGameFile, SaveDialogCB_AskReplacePreviousFilePrintYesNoMenu);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			PrintSaveTextWithFollowupFunc(gText_DifferentGameFile, SaveDialogCB_AskReplacePreviousFilePrintYesNoMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			PrintSaveTextWithFollowupFunc(gText_DifferentGameFileSpa, SaveDialogCB_AskReplacePreviousFilePrintYesNoMenu);
+	}
     else
-        PrintSaveTextWithFollowupFunc(gText_AlreadySaveFile_WouldLikeToOverwrite, SaveDialogCB_AskOverwritePrintYesNoMenu);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			PrintSaveTextWithFollowupFunc(gText_AlreadySaveFile_WouldLikeToOverwrite, SaveDialogCB_AskOverwritePrintYesNoMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			PrintSaveTextWithFollowupFunc(gText_AlreadySaveFile_WouldLikeToOverwriteSpa, SaveDialogCB_AskOverwritePrintYesNoMenu);
+	}
     return SAVECB_RETURN_CONTINUE;
 }
 
@@ -776,7 +831,10 @@ static u8 SaveDialogCB_AskOverwriteOrReplacePreviousFileHandleInput(void)
 static u8 SaveDialogCB_PrintSavingDontTurnOffPower(void)
 {
     SaveQuestLogData();
-    PrintSaveTextWithFollowupFunc(gText_SavingDontTurnOffThePower, SaveDialogCB_DoSave);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		PrintSaveTextWithFollowupFunc(gText_SavingDontTurnOffThePower, SaveDialogCB_DoSave);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		PrintSaveTextWithFollowupFunc(gText_SavingDontTurnOffThePowerSpa, SaveDialogCB_DoSave);
     return SAVECB_RETURN_CONTINUE;
 }
 
@@ -799,9 +857,19 @@ static u8 SaveDialogCB_DoSave(void)
 static u8 SaveDialogCB_PrintSaveResult(void)
 {
     if (gSaveSucceeded == TRUE)
-        PrintSaveTextWithFollowupFunc(gText_PlayerSavedTheGame, SaveDialogCB_WaitPrintSuccessAndPlaySE);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			PrintSaveTextWithFollowupFunc(gText_PlayerSavedTheGame, SaveDialogCB_WaitPrintSuccessAndPlaySE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			PrintSaveTextWithFollowupFunc(gText_PlayerSavedTheGameSpa, SaveDialogCB_WaitPrintSuccessAndPlaySE);
+	}
     else
-        PrintSaveTextWithFollowupFunc(gText_SaveError_PleaseExchangeBackupMemory, SaveDialogCB_WaitPrintErrorAndPlaySE);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			PrintSaveTextWithFollowupFunc(gText_SaveError_PleaseExchangeBackupMemory, SaveDialogCB_WaitPrintErrorAndPlaySE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			PrintSaveTextWithFollowupFunc(gText_SaveError_PleaseExchangeBackupMemorySpa, SaveDialogCB_WaitPrintErrorAndPlaySE);
+	}
     SetSaveDialogDelayTo60Frames();
     return SAVECB_RETURN_CONTINUE;
 }
@@ -909,7 +977,10 @@ static void task50_after_link_battle_save(u8 taskId)
         {
         case 0:
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffThePower2, 0xFF, NULL, 2, 1, 3);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffThePower2, 0xFF, NULL, 2, 1, 3);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffThePower2Spa, 0xFF, NULL, 2, 1, 3);
             DrawTextBorderOuter(0, 0x008, 0x0F);
             PutWindowTilemap(0);
             CopyWindowToVram(0, COPYWIN_BOTH);
@@ -963,10 +1034,16 @@ static void PrintSaveStats(void)
     x = (u32)(112 - GetStringWidth(2, gStringVar4, -1)) / 2;
     AddTextPrinterParameterized3(sSaveStatsWindowId, 2, x, 0, sTextColor_LocationHeader, -1, gStringVar4);
     x = (u32)(112 - GetStringWidth(2, gStringVar4, -1)) / 2;
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 14, sTextColor_StatName, -1, gText_SaveStatName_Player);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 14, sTextColor_StatName, -1, gText_SaveStatName_Player);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 14, sTextColor_StatName, -1, gText_SaveStatName_PlayerSpa);
     SaveStatToString(SAVE_STAT_NAME, gStringVar4, 2);
     Menu_PrintFormatIntlPlayerName(sSaveStatsWindowId, gStringVar4, 60, 14);
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gText_SaveStatName_Badges);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gText_SaveStatName_Badges);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gText_SaveStatName_BadgesSpa);
     SaveStatToString(SAVE_STAT_BADGES, gStringVar4, 2);
     AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 28, sTextColor_StatValue, -1, gStringVar4);
     y = 42;
@@ -977,7 +1054,10 @@ static void PrintSaveStats(void)
         AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 42, sTextColor_StatValue, -1, gStringVar4);
         y = 56;
     }
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gText_SaveStatName_Time);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gText_SaveStatName_Time);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gText_SaveStatName_TimeSpa);
     SaveStatToString(SAVE_STAT_TIME, gStringVar4, 2);
     AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, -1, gStringVar4);
     CopyWindowToVram(sSaveStatsWindowId, COPYWIN_GFX);

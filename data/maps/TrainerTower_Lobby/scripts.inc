@@ -127,7 +127,7 @@ TrainerTower_Lobby_EventScript_MartClerk:: @ 8164992
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	pokemart TrainerTower_Lobby_Mart_Items
 	msgbox Text_PleaseComeAgain

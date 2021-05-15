@@ -17,7 +17,7 @@ LavenderTown_Mart_EventScript_Clerk:: @ 816B36B
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	pokemart LavenderTown_Mart_Items
 	msgbox Text_PleaseComeAgain

@@ -464,8 +464,21 @@ u8 BattleSetup_GetTerrainId(void)
     PlayerGetDestCoords(&x, &y);
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     if (MetatileBehavior_IsTallGrass_2(tileBehavior))
-        return BATTLE_TERRAIN_GRASS;
-    if (MetatileBehavior_IsLongGrass(tileBehavior))
+    {
+ /*		if (gSpecialVar_FacingPlayer == 1) //Mira Abajo
+            tileBehavior = MapGridGetMetatileBehaviorAt(x, y + 1);
+        if (gSpecialVar_FacingPlayer == 2) //Mira Arriba
+            tileBehavior = MapGridGetMetatileBehaviorAt(x, y - 1);
+        if (gSpecialVar_FacingPlayer == 3) //Mira Izquierda
+            tileBehavior = MapGridGetMetatileBehaviorAt(x - 1, y);
+        if (gSpecialVar_FacingPlayer == 4) //Mira Derecha
+            tileBehavior = MapGridGetMetatileBehaviorAt(x + 1, y);
+        if (MetatileBehavior_IsSurfable(tileBehavior))
+            return BATTLE_TERRAIN_GRASS_WATER;  //BattleBG Grass - Water
+        else*/
+            return BATTLE_TERRAIN_GRASS;  //BattleBG Grass
+    }    
+	if (MetatileBehavior_IsLongGrass(tileBehavior))
         return BATTLE_TERRAIN_LONG_GRASS;
     if (MetatileBehavior_IsSandOrShallowFlowingWater(tileBehavior))
         return BATTLE_TERRAIN_SAND;
@@ -504,7 +517,18 @@ u8 BattleSetup_GetTerrainId(void)
         if (MetatileBehavior_IsBridge(tileBehavior) == TRUE)
             return BATTLE_TERRAIN_WATER;
     }
-    return BATTLE_TERRAIN_PLAIN;
+/*	if (gSpecialVar_FacingPlayer == 1) //Mira Abajo
+            tileBehavior = MapGridGetMetatileBehaviorAt(x, y + 1);
+    if (gSpecialVar_FacingPlayer == 2) //Mira Arriba
+            tileBehavior = MapGridGetMetatileBehaviorAt(x, y - 1);
+    if (gSpecialVar_FacingPlayer == 3) //Mira Izquierda
+            tileBehavior = MapGridGetMetatileBehaviorAt(x - 1, y);
+    if (gSpecialVar_FacingPlayer == 4) //Mira Derecha
+            tileBehavior = MapGridGetMetatileBehaviorAt(x + 1, y);
+	if (MetatileBehavior_IsSurfable(tileBehavior))
+		return BATTLE_TERRAIN_GRASS_WATER;  //BattleBG Plain - Water
+	else*/
+		return BATTLE_TERRAIN_PLAIN;  //BattleBG Plain
 }
 
 static u8 GetBattleTransitionTypeByMap(void)

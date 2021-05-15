@@ -5,7 +5,7 @@ SixIsland_Mart_EventScript_Clerk:: @ 8171E66
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	pokemart SixIsland_Mart_Items
 	msgbox Text_PleaseComeAgain

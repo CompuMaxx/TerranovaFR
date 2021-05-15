@@ -94,7 +94,7 @@ s32 DoPoisonFieldEffect(void)
 {
 	int i;
 	u32 hp;
-	u8 ability;
+//	u8 ability;
 	
 	struct Pokemon* pokemon = gPlayerParty;
 	u32 numPoisoned = 0;
@@ -103,41 +103,31 @@ s32 DoPoisonFieldEffect(void)
 
 	for (i = 0; i < PARTY_SIZE; i++)
 	{
-		ability = GetMonAbility(pokemon);
-		if (GetMonData(pokemon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
-		&& GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN/*
-		&& ability != ABILITY_POISONHEAL && ability != ABILITY_MAGICGUARD*/)
+//		ability = GetMonAbility(pokemon);
+        if (GetMonData(pokemon, MON_DATA_SANITY_HAS_SPECIES) && GetAilmentFromStatus(GetMonData(pokemon, MON_DATA_STATUS)) == AILMENT_PSN
+/*		&& ability != ABILITY_POISONHEAL && ability != ABILITY_MAGICGUARD*/)
 		{
-			hp = pokemon->hp;
-
-				if (hp == 1 || --hp == 1)
-				{
-					pokemon->hp = hp;
-					pokemon->status = STATUS1_NONE;
-					++numSurvived;
-					ScriptContext1_SetupScript(EventScript_PoisonSurvial);
-					GetMonData(pokemon, MON_DATA_NICKNAME, gStringVar1);
-					return;
-				}
-			pokemon->hp = hp;
+            hp = GetMonData(pokemon, MON_DATA_HP);
+			if (hp == 1 || --hp == 1)
+			{
+				pokemon->hp = hp;
+				pokemon->status = STATUS1_NONE;
+				++numSurvived;
+				ScriptContext1_SetupScript(EventScript_PoisonSurvial);
+				GetMonData(pokemon, MON_DATA_NICKNAME, gStringVar1);
+				return;
+			}
+			SetMonData(pokemon, MON_DATA_HP, &hp);
 			numPoisoned++;
 		}
+		pokemon++;
 	}
-	if (numSurvived != 0)
-	{
-		return FLDPSN_NONE;
-	}
-	if (numFainted != 0 || numPoisoned != 0)
-	{
+    if (numFainted || numPoisoned)
 		FldEffPoison_Start();
-	}
-	if (numFainted != 0)
-	{
-		return FLDPSN_FNT;
-	}
-	if (numPoisoned != 0)
-	{
+    if (numFainted)
+    if (numPoisoned)
 		return FLDPSN_PSN;
-	}
+	if (numSurvived)
+		return FLDPSN_NONE;
 	return FLDPSN_NONE;
 }

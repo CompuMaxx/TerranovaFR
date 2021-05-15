@@ -25,7 +25,7 @@ struct BattleBackground
     const void *palette;
 };
 
-static u8 GetBattleTerrainOverride(void);
+u8 GetBattleTerrainOverride(void);
 
 static const u8 gUnknown_824829C[] = {1, 2};
 
@@ -41,7 +41,7 @@ static const struct OamData gOamData_82482A0 = {
     .size = SPRITE_SIZE(64x64),
     .tileNum = 0x000,
     .priority = 0,
-    .paletteNum = 0,
+    .paletteNum = 14,
     .affineParam = 0
 };
 
@@ -57,7 +57,7 @@ static const struct OamData gOamData_82482A8 = {
     .size = SPRITE_SIZE(64x64),
     .tileNum = 0x040,
     .priority = 0,
-    .paletteNum = 0,
+    .paletteNum = 14,
     .affineParam = 0
 };
 
@@ -117,7 +117,7 @@ const struct BgTemplate gBattleBgTemplates[4] = {
         .mapBaseIndex = 28,
         .screenSize = 2,
         .paletteMode = 0,
-        .priority = 0,
+        .priority = 3,
         .baseTile = 0x000
     }, {
         .bg = 2,
@@ -133,21 +133,21 @@ const struct BgTemplate gBattleBgTemplates[4] = {
         .mapBaseIndex = 26,
         .screenSize = 1,
         .paletteMode = 0,
-        .priority = 3,
+        .priority = 2,
         .baseTile = 0x000
     }
 };
 
-static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
-    {	//Intro Texts
+static const struct WindowTemplate sBattleWindowTemplates[] = { //Fix baseBlock
+    {	//BTLWIN_MESSAGE
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 15,
         .width = 28,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 200
-    }, { //What will\n{B_ACTIVE_NAME_WITH_PREFIX} do?
+        .baseBlock = 168
+    }, { //BTLWIN_WHATWILLPKMNDO
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 35,
@@ -155,15 +155,15 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 4,
         .paletteNum = 15,
         .baseBlock = 312
-    }, { //Fight Bag\nPokémon Run
+    }, { //BTLWIN_TURNMENU
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
         .width = 0,
         .height = 0,
-        .paletteNum = 0,
+        .paletteNum = 14,
         .baseBlock = 0
-    }, { //1st Move
+    }, { //BTLWIN_MOVE1
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 55,
@@ -171,31 +171,31 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 368
-    }, { //2nd Move
+    }, { //BTLWIN_MOVE2
         .bg = 0,
         .tilemapLeft = 11,
         .tilemapTop = 55,
-        .width = 9,
+        .width = 10,
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 388
-    }, { //3th Move
+    }, { //BTLWIN_MOVE3
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 57,
-        .width = 9,
+        .width = 10,
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 408
-    }, { //4th Move
+    }, { //BTLWIN_MOVE4
         .bg = 0,
         .tilemapLeft = 11,
         .tilemapTop = 57,
-        .width = 9,
+        .width = 10,
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 428
-    }, { //PP Text
+    }, { //BTLWIN_SELMOVEINTERFACEPP
         .bg = 0,
         .tilemapLeft = 23,
         .tilemapTop = 55,
@@ -203,7 +203,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 448
-    }, { //PP Count
+    }, { //BTLWIN_SELMOVEPPREMAINING
         .bg = 0,
         .tilemapLeft = 25,
         .tilemapTop = 55,
@@ -211,7 +211,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 452
-    }, { //Type Icon
+    }, { //BTLWIN_SELMOVETYPEICON
         .bg = 0,
         .tilemapLeft = 23,
         .tilemapTop = 57,
@@ -219,7 +219,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 13,
         .baseBlock = 460
-    }, { //Category Icon
+    }, { //BTLWIN_CATEGORYICON
         .bg = 0,
         .tilemapLeft = 27,
         .tilemapTop = 57,
@@ -227,7 +227,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 13,
         .baseBlock = 468
-    }, {
+    }, { //BTLWIN_SWITCHWHICH UNUSED
 		.bg = 0,
         .tilemapLeft = 0, //21,
         .tilemapTop = 0, //55,
@@ -235,7 +235,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 0, //4,
         .paletteNum = 0,//5,
         .baseBlock = 0,//0x2b0
-    }, {// Stats al subir nivel
+    }, {// BTLWIN_LEVELUPSTATS
         .bg = 1,
         .tilemapLeft = 19,
         .tilemapTop = 8,
@@ -243,15 +243,15 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 11,
         .paletteNum = 15,
         .baseBlock = 472
-    }, {
+    }, { //BTLWIN_LEVELUPBENCHEDMON
         .bg = 2,
         .tilemapLeft = 18,
         .tilemapTop = 0,
         .width = 12,
         .height = 3,
-        .paletteNum = 15,
-        .baseBlock = 578
-    }, { //Yes/No
+        .paletteNum = 6,
+        .baseBlock = 582
+    }, { //BTLWIN_YESNO
         .bg = 0,
         .tilemapLeft = 25,
         .tilemapTop = 9,
@@ -259,7 +259,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 4,
         .paletteNum = 15,
         .baseBlock = 472
-    }, {
+    }, { //BTLWIN_LINKPLAYERNAME
         .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 3,
@@ -267,7 +267,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 0x020
-    }, {
+    }, { //BTLWIN_LINKPARTNERNAME
         .bg = 2,
         .tilemapLeft = 2,
         .tilemapTop = 3,
@@ -275,7 +275,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 0x040
-    }, {
+    }, { //BTLWIN_MULTIPLAYER1NAME
         .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 2,
@@ -283,7 +283,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 0x020
-    }, {
+    }, { //BTLWIN_MULTIPLAYER2NAME
         .bg = 2,
         .tilemapLeft = 2,
         .tilemapTop = 2,
@@ -291,7 +291,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 0x040
-    }, {
+    }, { //BTLWIN_MULTIPLAYER3NAME
         .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 6,
@@ -299,7 +299,7 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 0x060
-    }, {
+    }, { //BTLWIN_MULTIPLAYER4NAME
         .bg = 2,
         .tilemapLeft = 2,
         .tilemapTop = 6,
@@ -307,86 +307,92 @@ static const struct WindowTemplate gUnknown_8248330[] = { //Fix baseBlock
         .height = 2,
         .paletteNum = 15,
         .baseBlock = 0x080
-    }, {
+    }, { //BTLWIN_LINKRESULTDRAW
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
         .width = 0,
         .height = 0,
-        .paletteNum = 0,
+        .paletteNum = 14,
         .baseBlock = 200
-    }, {
+    }, { //BTLWIN_LINKRESULTLEFT
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
         .width = 0,
         .height = 0,
-        .paletteNum = 0,
-        .baseBlock = 200
-    }, {
+        .paletteNum = 14,
+        .baseBlock = 168
+    }, { //BTLWIN_LINKRESULTRIGHT
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
         .width = 0,
         .height = 0,
-        .paletteNum = 0,
+        .paletteNum = 14,
         .baseBlock = 216
-    }, { // Tutorial Texts
+    }, { // BTLWIN_TUTORIAL_MESSAGE
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 15,
         .width = 28,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 200
+        .baseBlock = 168
     }, DUMMY_WIN_TEMPLATE
 };
 
-static const u32 sBattleTerrainPalette_Grass[] = INCBIN_U32("graphics/battle/unk_8248400.gbapal.lz");
-static const u32 sBattleTerrainTiles_Grass[] = INCBIN_U32("graphics/battle/unk_824844C.4bpp.lz");
-static const u32 sBattleTerrainTilemap_Grass[] = INCBIN_U32("graphics/battle/unk_82489A8.bin.lz");
-static const u32 sBattleTerrainAnimTiles_Grass[] = INCBIN_U32("graphics/battle/unk_8248C68.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_Grass[] = INCBIN_U32("graphics/battle/unk_8248F58.bin.lz");
-static const u32 sBattleTerrainPalette_LongGrass[] = INCBIN_U32("graphics/battle/unk_8249074.gbapal.lz");
-static const u32 sBattleTerrainTiles_LongGrass[] = INCBIN_U32("graphics/battle/unk_82490C4.4bpp.lz");
-static const u32 sBattleTerrainTilemap_LongGrass[] = INCBIN_U32("graphics/battle/unk_8249620.bin.lz");
-static const u32 sBattleTerrainAnimTiles_LongGrass[] = INCBIN_U32("graphics/battle/unk_82498DC.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_LongGrass[] = INCBIN_U32("graphics/battle/unk_8249E10.bin.lz");
-static const u32 sBattleTerrainPalette_Sand[] = INCBIN_U32("graphics/battle/unk_8249F98.gbapal.lz");
-static const u32 sBattleTerrainTiles_Sand[] = INCBIN_U32("graphics/battle/unk_8249FE4.4bpp.lz");
-static const u32 sBattleTerrainTilemap_Sand[] = INCBIN_U32("graphics/battle/unk_824A37C.bin.lz");
-static const u32 sBattleTerrainAnimTiles_Sand[] = INCBIN_U32("graphics/battle/unk_824A618.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_Sand[] = INCBIN_U32("graphics/battle/unk_824A844.bin.lz");
+static const u32 sBattleTerrainPalette_Grass[] = INCBIN_U32("graphics/battle_bg/tall_grass/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Grass[] = INCBIN_U32("graphics/battle_bg/tall_grass/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Grass[] = INCBIN_U32("graphics/battle_bg/tall_grass/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Grass[] = INCBIN_U32("graphics/battle_bg/tall_grass/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Grass[] = INCBIN_U32("graphics/battle_bg/tall_grass/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_LongGrass[] = INCBIN_U32("graphics/battle_bg/long_grass/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_LongGrass[] = INCBIN_U32("graphics/battle_bg/long_grass/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_LongGrass[] = INCBIN_U32("graphics/battle_bg/long_grass/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_LongGrass[] = INCBIN_U32("graphics/battle_bg/long_grass/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_LongGrass[] = INCBIN_U32("graphics/battle_bg/long_grass/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_Sand[] = INCBIN_U32("graphics/battle_bg/sand/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Sand[] = INCBIN_U32("graphics/battle_bg/sand/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Sand[] = INCBIN_U32("graphics/battle_bg/sand/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Sand[] = INCBIN_U32("graphics/battle_bg/sand/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Sand[] = INCBIN_U32("graphics/battle_bg/sand/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_Water[] = INCBIN_U32("graphics/battle_bg/water/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Water[] = INCBIN_U32("graphics/battle_bg/water/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Water[] = INCBIN_U32("graphics/battle_bg/water/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Water[] = INCBIN_U32("graphics/battle_bg/water/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Water[] = INCBIN_U32("graphics/battle_bg/water/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_Pond[] = INCBIN_U32("graphics/battle_bg/pond/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Pond[] = INCBIN_U32("graphics/battle_bg/pond/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Pond[] = INCBIN_U32("graphics/battle_bg/pond/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Pond[] = INCBIN_U32("graphics/battle_bg/pond/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Pond[] = INCBIN_U32("graphics/battle_bg/pond/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_Mountain[] = INCBIN_U32("graphics/battle_bg/mountain/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Mountain[] = INCBIN_U32("graphics/battle_bg/mountain/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Mountain[] = INCBIN_U32("graphics/battle_bg/mountain/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Mountain[] = INCBIN_U32("graphics/battle_bg/mountain/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Mountain[] = INCBIN_U32("graphics/battle_bg/mountain/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_Cave[] = INCBIN_U32("graphics/battle_bg/cave/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Cave[] = INCBIN_U32("graphics/battle_bg/cave/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Cave[] = INCBIN_U32("graphics/battle_bg/cave/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Cave[] = INCBIN_U32("graphics/battle_bg/cave/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Cave[] = INCBIN_U32("graphics/battle_bg/cave/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_Building[] = INCBIN_U32("graphics/battle_bg/building/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Building[] = INCBIN_U32("graphics/battle_bg/building/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Building[] = INCBIN_U32("graphics/battle_bg/building/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Building[] = INCBIN_U32("graphics/battle_bg/building/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Building[] = INCBIN_U32("graphics/battle_bg/building/anim_map.bin.lz");
+static const u32 sBattleTerrainPalette_Plain[] = INCBIN_U32("graphics/battle_bg/plain/palette.gbapal.lz");
+static const u32 sBattleTerrainTiles_Plain[] = INCBIN_U32("graphics/battle_bg/plain/tiles.4bpp.lz");
+static const u32 sBattleTerrainTilemap_Plain[] = INCBIN_U32("graphics/battle_bg/plain/map.bin.lz");
+static const u32 sBattleTerrainAnimTiles_Plain[] = INCBIN_U32("graphics/battle_bg/plain/anim_tiles.4bpp.lz");
+static const u32 sBattleTerrainAnimTilemap_Plain[] = INCBIN_U32("graphics/battle_bg/plain/anim_map.bin.lz");
+
 static const u32 sBattleTerrainPalette_Underwater[] = INCBIN_U32("graphics/battle/unk_824A940.gbapal.lz");
 static const u32 sBattleTerrainTiles_Underwater[] = INCBIN_U32("graphics/battle/unk_824A990.4bpp.lz");
 static const u32 sBattleTerrainTilemap_Underwater[] = INCBIN_U32("graphics/battle/unk_824ACD0.bin.lz");
 static const u32 sBattleTerrainAnimTiles_Underwater[] = INCBIN_U32("graphics/battle/unk_824AF70.4bpp.lz");
 static const u32 sBattleTerrainAnimTilemap_Underwater[] = INCBIN_U32("graphics/battle/unk_824B0DC.bin.lz");
-static const u32 sBattleTerrainPalette_Water[] = INCBIN_U32("graphics/battle/unk_824B19C.gbapal.lz");
-static const u32 sBattleTerrainTiles_Water[] = INCBIN_U32("graphics/battle/unk_824B1EC.4bpp.lz");
-static const u32 sBattleTerrainTilemap_Water[] = INCBIN_U32("graphics/battle/unk_824B608.bin.lz");
-static const u32 sBattleTerrainAnimTiles_Water[] = INCBIN_U32("graphics/battle/unk_824B8A8.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_Water[] = INCBIN_U32("graphics/battle/unk_824BBE0.bin.lz");
-static const u32 sBattleTerrainPalette_Pond[] = INCBIN_U32("graphics/battle/unk_824BCE0.gbapal.lz");
-static const u32 sBattleTerrainTiles_Pond[] = INCBIN_U32("graphics/battle/unk_824BD38.4bpp.lz");
-static const u32 sBattleTerrainTilemap_Pond[] = INCBIN_U32("graphics/battle/unk_824C07C.bin.lz");
-static const u32 sBattleTerrainAnimTiles_Pond[] = INCBIN_U32("graphics/battle/unk_824C314.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_Pond[] = INCBIN_U32("graphics/battle/unk_824C520.bin.lz");
-static const u32 sBattleTerrainPalette_Mountain[] = INCBIN_U32("graphics/battle/unk_824C5D8.gbapal.lz");
-static const u32 sBattleTerrainTiles_Mountain[] = INCBIN_U32("graphics/battle/unk_824C624.4bpp.lz");
-static const u32 sBattleTerrainTilemap_Mountain[] = INCBIN_U32("graphics/battle/unk_824C958.bin.lz");
-static const u32 sBattleTerrainAnimTiles_Mountain[] = INCBIN_U32("graphics/battle/unk_824CBF8.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_Mountain[] = INCBIN_U32("graphics/battle/unk_824CEC8.bin.lz");
-static const u32 sBattleTerrainPalette_Cave[] = INCBIN_U32("graphics/battle/unk_824CF98.gbapal.lz");
-static const u32 sBattleTerrainTiles_Cave[] = INCBIN_U32("graphics/battle/unk_824CFEC.4bpp.lz");
-static const u32 sBattleTerrainTilemap_Cave[] = INCBIN_U32("graphics/battle/unk_824D418.bin.lz");
-static const u32 sBattleTerrainAnimTiles_Cave[] = INCBIN_U32("graphics/battle/unk_824D6B8.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_Cave[] = INCBIN_U32("graphics/battle/unk_824DC98.bin.lz");
-static const u32 sBattleTerrainPalette_Building[] = INCBIN_U32("graphics/battle/unk_824DDF0.gbapal.lz");
-static const u32 sBattleTerrainTiles_Building[] = INCBIN_U32("graphics/battle/unk_824DE34.4bpp.lz");
-static const u32 sBattleTerrainTilemap_Building[] = INCBIN_U32("graphics/battle/unk_824E16C.bin.lz");
-static const u32 sBattleTerrainAnimTiles_Building[] = INCBIN_U32("graphics/battle/unk_824E410.4bpp.lz");
-static const u32 sBattleTerrainAnimTilemap_Building[] = INCBIN_U32("graphics/battle/unk_824E490.bin.lz");
 static const u32 sBattleTerrainPalette_Link[] = INCBIN_U32("graphics/battle/unk_824E528.gbapal.lz");
 static const u32 sBattleTerrainPalette_Gym[] = INCBIN_U32("graphics/battle/unk_824E56C.gbapal.lz");
 static const u32 sBattleTerrainPalette_Leader[] = INCBIN_U32("graphics/battle/unk_824E5B8.gbapal.lz");
@@ -397,11 +403,11 @@ static const u32 sBattleTerrainPalette_Bruno[] = INCBIN_U32("graphics/battle/unk
 static const u32 sBattleTerrainPalette_Agatha[] = INCBIN_U32("graphics/battle/unk_824E740.gbapal.lz");
 static const u32 sBattleTerrainPalette_Lance[] = INCBIN_U32("graphics/battle/unk_824E78C.gbapal.lz");
 static const u32 sBattleTerrainPalette_Champion[] = INCBIN_U32("graphics/battle/unk_824E7DC.gbapal.lz");
-static const u32 sBattleTerrainPalette_Plain[] = INCBIN_U32("graphics/battle/unk_824E81C.gbapal.lz");
 static const u32 sBattleTerrainTiles_Indoor2[] = INCBIN_U32("graphics/battle/unk_824E858.4bpp.lz");
 static const u32 sBattleTerrainTilemap_Indoor2[] = INCBIN_U32("graphics/battle/unk_824EB90.bin.lz");
+extern u8 BattleSetup_GetTerrainId(void);
 
-static const struct BattleBackground sBattleTerrainTable[] = {
+const struct BattleBackground sBattleTerrainTable[] = {
     [BATTLE_TERRAIN_GRASS] =
     {
         .tileset = sBattleTerrainTiles_Grass,
@@ -476,10 +482,10 @@ static const struct BattleBackground sBattleTerrainTable[] = {
     },
     [BATTLE_TERRAIN_PLAIN] =
     {
-        .tileset = sBattleTerrainTiles_Building,
-        .tilemap = sBattleTerrainTilemap_Building,
-        .entryTileset = sBattleTerrainAnimTiles_Building,
-        .entryTilemap = sBattleTerrainAnimTilemap_Building,
+        .tileset = sBattleTerrainTiles_Plain,
+        .tilemap = sBattleTerrainTilemap_Plain,
+        .entryTileset = sBattleTerrainAnimTiles_Plain,
+        .entryTilemap = sBattleTerrainAnimTilemap_Plain,
         .palette = sBattleTerrainPalette_Plain
     },
     [BATTLE_TERRAIN_LINK] =
@@ -496,7 +502,7 @@ static const struct BattleBackground sBattleTerrainTable[] = {
         .tilemap = sBattleTerrainTilemap_Building,
         .entryTileset = sBattleTerrainAnimTiles_Building,
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
-        .palette = sBattleTerrainPalette_Gym
+        .palette = sBattleTerrainPalette_Building
     },
     [BATTLE_TERRAIN_LEADER] =
     {
@@ -504,7 +510,7 @@ static const struct BattleBackground sBattleTerrainTable[] = {
         .tilemap = sBattleTerrainTilemap_Building,
         .entryTileset = sBattleTerrainAnimTiles_Building,
         .entryTilemap = sBattleTerrainAnimTilemap_Building,
-        .palette = sBattleTerrainPalette_Leader
+        .palette = sBattleTerrainPalette_Building
     },
     [BATTLE_TERRAIN_INDOOR_2] =
     {
@@ -594,9 +600,9 @@ static void LoadBattleTerrainGfx(u16 terrain)
     if (terrain >= NELEMS(sBattleTerrainTable))
         terrain = 9;
     // Copy to bg3
-    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
-    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
-    LoadCompressedPalette(sBattleTerrainTable[terrain].palette, 0x20, 0x60);
+    LZDecompressVram(sBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(2));
+    LZDecompressVram(sBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(26));
+    LoadCompressedPalette(sBattleTerrainTable[terrain].palette, 0x0, 0xC0);
 }
 
 static void LoadBattleTerrainEntryGfx(u16 terrain)
@@ -604,15 +610,25 @@ static void LoadBattleTerrainEntryGfx(u16 terrain)
     if (terrain >= NELEMS(sBattleTerrainTable))
         terrain = 9;
     // Copy to bg1
-    LZDecompressVram(sBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(1));
-    LZDecompressVram(sBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(28));
+    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(1));
+    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(28));
+}
+
+static void LoadBattleTerrainGfx2(u16 terrain)
+{
+    if (terrain >= NELEMS(sBattleTerrainTable))
+        terrain = 9;
+    // Copy to bg3
+    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
+    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
+    LoadCompressedPalette(sBattleTerrainTable[terrain].palette, 0x0, 0xC0);
 }
 
 void sub_800F324(void)
 {
     ResetBgsAndClearDma3BusyFlags(FALSE);
     InitBgsFromTemplates(0, gBattleBgTemplates, NELEMS(gBattleBgTemplates));
-    InitWindows(gUnknown_8248330);
+    InitWindows(sBattleWindowTemplates);
     DeactivateAllTextPrinters();
 }
 
@@ -670,10 +686,57 @@ void LoadBattleTextboxAndBackground(void)
 	}
 	LoadPalette(gFireRedMenuElements2_Pal, 0xD0, 0x20);
     LoadPalette(gBattleFramesPalette, 0xE0, 0x20);
-	LoadPalette(gBattleTextPalette, 0xF0, 0x20);
+	LoadPalette(gBattleTextPalette, 0xF0, 0x16);
 	CopyBgTilemapBufferToVram(0);
     LoadBattleMenuWindowGfx();
     DrawMainBattleBackground();
+}
+
+void DrawMainBattleBackground2(void)
+{
+    LoadBattleTerrainGfx2(GetBattleTerrainOverride());
+}
+
+void LoadMainBattleBackground2(u8 terrain)
+{
+    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void*)(VRAM + 0x8000));
+    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void*)(VRAM + 0xD000));
+    LoadCompressedPalette(sBattleTerrainTable[terrain].palette, 0x0, 0xC0);
+}
+
+void LoadBattleTextboxAndBackground2(void)
+{
+    LZDecompressVram(gBattleTiles, (void *)BG_CHAR_ADDR(0));
+	CopyToBgTilemapBuffer(0, gBattleFramesTilemap, 0, 0x000);
+
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
+		{
+			CopyToBgTilemapBuffer(0, gSafariEngTilemap, 0, 68);
+		}
+		else
+		{
+			CopyToBgTilemapBuffer(0, gBattleEngTilemap, 0, 68);
+		}
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
+		{
+			CopyToBgTilemapBuffer(0, gSafariSpaTilemap, 0, 68);
+		}
+		else
+		{
+			CopyToBgTilemapBuffer(0, gBattleSpaTilemap, 0, 68);
+		}
+	}
+	LoadPalette(gFireRedMenuElements2_Pal, 0xD0, 0x20);
+    LoadPalette(gBattleFramesPalette, 0xE0, 0x20);
+	LoadPalette(gBattleTextPalette, 0xF0, 0x16);
+	CopyBgTilemapBufferToVram(0);
+    LoadBattleMenuWindowGfx();
+    DrawMainBattleBackground2();
 }
 
 static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 bgId, u8 destX, u8 destY)
@@ -1018,31 +1081,19 @@ void InitLinkBattleVsScreen(u8 taskId)
 
 void DrawBattleEntryBackground(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+	u8 trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
+	u8 trainerPic = gTrainers[gTrainerBattleOpponent_A].trainerPic;
+
+    if (gBattleTypeFlags & BATTLE_TYPE_POKEDUDE)
     {
-        LZDecompressVram(gFile_graphics_battle_transitions_vs_frame_sheet, (void*)(BG_CHAR_ADDR(1)));
-        LZDecompressVram(gVsLettersGfx, (void*)(VRAM + 0x10000));
-        LoadCompressedPalette(gFile_graphics_battle_transitions_vs_frame_palette, 0x60, 0x20);
-        SetBgAttribute(1, BG_ATTR_SCREENSIZE, 1);
-        SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(1) | BGCNT_16COLOR | BGCNT_SCREENBASE(28) | BGCNT_TXT512x256);
-        CopyToBgTilemapBuffer(1, gFile_graphics_battle_transitions_vs_frame_tilemap, 0, 0);
-        CopyToBgTilemapBuffer(2, gFile_graphics_battle_transitions_vs_frame_tilemap, 0, 0);
-        CopyBgTilemapBufferToVram(1);
-        CopyBgTilemapBufferToVram(2);
-        SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG1 | WININ_WIN0_BG2 | WININ_WIN0_OBJ | WININ_WIN0_CLR);
-        SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG1 | WINOUT_WIN01_BG2 | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
-        gBattle_BG1_Y = -164;
-        gBattle_BG2_Y = -164;
-        LoadCompressedSpriteSheetUsingHeap(&sVsLettersSpriteSheet);
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_POKEDUDE)
-    {
-        LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_GRASS);
+        LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_PLAIN);
+		return;
     }
     else if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER_TOWER | BATTLE_TYPE_LINK | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER))
-    {
-        LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
-    }
+	{
+		LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
+		return;
+	}
     else if (gBattleTypeFlags & BATTLE_TYPE_KYOGRE_GROUDON)
     {
         if (gGameVersion == VERSION_FIRE_RED)
@@ -1054,64 +1105,59 @@ void DrawBattleEntryBackground(void)
             LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_WATER);
         }
     }
-    else
-    {
-        if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
-        {
-            u8 trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
-            if (trainerClass == CLASS_LEADER_2)
-            {
-                LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
-                return;
-            }
-            else if (trainerClass == CLASS_CHAMPION_2)
-            {
-                LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
-                return;
-            }
-        }
-
-        if (GetCurrentMapBattleScene() == MAP_BATTLE_SCENE_NORMAL)
-        {
-            LoadBattleTerrainEntryGfx(gBattleTerrain);
-        }
-        else
-        {
-            LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
-        }
-    }
-}
-
-static u8 GetBattleTerrainOverride(void)
-{
-    u8 battleScene;
-    if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER_TOWER | BATTLE_TYPE_LINK | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER))
-    {
-        return BATTLE_TERRAIN_LINK;
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_POKEDUDE)
-    {
-        gBattleTerrain = BATTLE_TERRAIN_GRASS;
-        return BATTLE_TERRAIN_GRASS;
-    }
     else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
     {
-        if (gTrainers[gTrainerBattleOpponent_A].trainerClass == CLASS_LEADER_2)
+		if (trainerClass == (CLASS_CHAMPION || CLASS_CHAMPION_2))
         {
-            return BATTLE_TERRAIN_LEADER;
+            LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BUILDING);
+			return;
         }
-        else if (gTrainers[gTrainerBattleOpponent_A].trainerClass == CLASS_CHAMPION_2)
-        {
-            return BATTLE_TERRAIN_CHAMPION;
-        }
+		if (trainerPic == TRAINER_PIC_LEADER_BLAINE)
+		{
+			LoadBattleTerrainEntryGfx(BATTLE_TERRAIN_BLAINE);
+			return;
+		}
+		else
+		{
+			LoadBattleTerrainEntryGfx(BattleSetup_GetTerrainId());
+			return;
+		}
     }
-    battleScene = GetCurrentMapBattleScene();
-    if (battleScene == MAP_BATTLE_SCENE_NORMAL)
-    {
-        return gBattleTerrain;
-    }
-    return GetBattleTerrainByMapScene(battleScene);
+    else
+        LoadBattleTerrainEntryGfx(BattleSetup_GetTerrainId());
 }
+
+u8 GetBattleTerrainOverride(void)
+{
+    u8 trainerClass = gTrainers[gTrainerBattleOpponent_A].trainerClass;
+    u8 trainerPic = gTrainers[gTrainerBattleOpponent_A].trainerPic;
+
+    if (gBattleTypeFlags & (BATTLE_TYPE_TRAINER_TOWER | BATTLE_TYPE_LINK | BATTLE_TYPE_BATTLE_TOWER | BATTLE_TYPE_EREADER_TRAINER))
+        return BATTLE_TERRAIN_BUILDING;
+    else if (gBattleTypeFlags & BATTLE_TYPE_POKEDUDE)
+    {
+        gBattleTerrain = BATTLE_TERRAIN_PLAIN;
+        return BATTLE_TERRAIN_PLAIN;
+    }
+    else if (trainerClass == (CLASS_CHAMPION || CLASS_CHAMPION_2))
+    {
+        return BATTLE_TERRAIN_CHAMPION;
+    }
+    else if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+	{
+		if (trainerPic == TRAINER_PIC_LEADER_BLAINE)
+		{
+			return BATTLE_TERRAIN_BLAINE;
+		}
+		else
+		{
+			return BattleSetup_GetTerrainId();
+		}
+	}
+    else
+    {
+		return BattleSetup_GetTerrainId();
+    }}
 
 bool8 LoadChosenBattleElement(u8 caseId)
 {

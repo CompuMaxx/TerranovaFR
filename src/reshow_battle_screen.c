@@ -82,7 +82,7 @@ static void CB2_ReshowBattleScreenAfterMenu(void)
         CpuFastFill(0, (void *)VRAM, VRAM_SIZE);
         break;
     case 3:
-        LoadBattleTextboxAndBackground();
+        LoadBattleTextboxAndBackground2();
         break;
     case 4:
         FreeAllSpritePalettes();

@@ -1241,7 +1241,7 @@ u32 SelectBattleAnimSpriteAndBgPalettes(bool8 battleBackground, bool8 attacker, 
 
     if (battleBackground)
     {
-        selectedPalettes = 0xe;
+        selectedPalettes = 0x3F;
     }
     if (attacker)
     {

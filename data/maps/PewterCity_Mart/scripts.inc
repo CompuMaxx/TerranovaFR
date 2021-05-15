@@ -13,7 +13,7 @@ PewterCity_Mart_EventScript_Clerk:: @ 816A6E0
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	pokemart PewterCity_Mart_Items
 	msgbox Text_PleaseComeAgain

@@ -46,7 +46,7 @@ IndigoPlateau_PokemonCenter_1F_EventScript_Clerk:: @ 816EACC
 	goto_if_questlog EventScript_ReleaseEnd
 	lock
 	faceplayer
-	message Text_MayIHelpYou
+	message gText_MayIHelpYou
 	waitmessage
 	pokemart IndigoPlateau_PokemonCenter_1F_Items
 	msgbox Text_PleaseComeAgain

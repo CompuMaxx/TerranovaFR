@@ -2739,7 +2739,7 @@ static void LoadMoveBg(u16 bgId)
 
 static void LoadDefaultBg(void)
 {
-    DrawMainBattleBackground();
+    DrawMainBattleBackground2();
 }
 
 static void ScriptCmd_restorebg(void)
