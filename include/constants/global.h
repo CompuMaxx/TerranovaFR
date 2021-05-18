@@ -27,7 +27,7 @@
 #define PC_ITEMS_COUNT     120 	//30 -> 120
 #define BAG_ITEMS_COUNT    100 	//42 -> 100
 #define BAG_KEYITEMS_COUNT  50 	//30 -> 50
-#define BAG_POKEBALLS_COUNT 25	//13 -> 25  (24 + Smoke Ball)
+#define BAG_POKEBALLS_COUNT 28	//13 -> 28  (27 + Smoke Ball)
 #define BAG_TMHM_COUNT     107	//58 -> 107 (99 MT + 8 MO)
 #define BAG_BERRIES_COUNT   67	//43 -> 67
 #define OBJECT_EVENT_TEMPLATES_COUNT 64

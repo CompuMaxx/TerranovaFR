@@ -71,10 +71,15 @@ BattleScript_ThrowSafariBall::
 	handleballthrow
 
 BattleScript_SuccessBallThrow::
+	setbyte sMON_CAUGHT, TRUE
 	jumpifhalfword CMP_EQUAL, gLastUsedItem, ITEM_SAFARI_BALL, BattleScript_SafariNoIncGameStat
 	incrementgamestat GAME_STAT_POKEMON_CAPTURES
 BattleScript_SafariNoIncGameStat::
 	printstring STRINGID_GOTCHAPKMNCAUGHT
+	setbyte sGIVEEXP_STATE, 0
+	getexp BS_TARGET
+	jumpifbyte CMP_NOT_EQUAL, sEXP_CATCH, TRUE, BattleScript_TryPrintCaughtMonInfo
+BattleScript_TryPrintCaughtMonInfo:	
 	trysetcaughtmondexflags BattleScript_CaughtPokemonSkipNewDex
 	printstring STRINGID_PKMNDATAADDEDTODEX
 	waitstate
@@ -89,7 +94,6 @@ BattleScript_CaughtPokemonSkipNewDex::
 	printfromtable gCaughtMonStringIds
 	waitmessage 64
 	goto BattleScript_CaughtPokemonDone
-
 BattleScript_CaughtPokemonSkipNickname::
 	givecaughtmon
 BattleScript_CaughtPokemonDone::

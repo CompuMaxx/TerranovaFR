@@ -2382,9 +2382,9 @@ static void PSS_PrintMoveNamesOrCancel(void)
         else
 		{
             if (gSaveBlock2Ptr->optionsLanguage == ENG)
-				AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 3, MACRO_8137270(4), sPSSTextColours[WHITE], TEXT_SPEED_FF, gText_FameChecker_Cancel);
+				AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 5, MACRO_8137270(4) + 4, sPSSTextColours[WHITE], TEXT_SPEED_FF, gText_FameChecker_Cancel);
             if (gSaveBlock2Ptr->optionsLanguage == SPA)
-				AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 3, MACRO_8137270(4), sPSSTextColours[WHITE], TEXT_SPEED_FF, gText_FameChecker_CancelSpa);
+				AddTextPrinterParameterized3(sMonSummaryScreen->window[3], 2, 5, MACRO_8137270(4) + 4, sPSSTextColours[WHITE], TEXT_SPEED_FF, gText_FameChecker_CancelSpa);
 		}
     }
 }
@@ -3281,7 +3281,7 @@ static void sub_8138538(void)
         break;
     case PSS_PAGE_MOVES_INFO:
 		LZ77UnCompVram(gMapSummaryScreenMovesInfo, (void *)(VRAM + 0xF000));
-        LZ77UnCompVram(gMapSummaryScreenMoves, (void *)(VRAM + 0xE000));
+        LZ77UnCompVram(gMapSummaryScreenMovesSelect, (void *)(VRAM + 0xE000));
 		PSS_SetInvisibleHpBar(1);
 		PSS_SetInvisibleExpBar(1);
 		ShowBg(3);

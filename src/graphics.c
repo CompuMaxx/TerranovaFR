@@ -1477,6 +1477,7 @@ const u32 gMapSummaryScreenEgg[] = INCBIN_U32("graphics/summary_screen/bg_egg.bi
 const u32 gMapSummaryScreenKnownMoves[] = INCBIN_U32("graphics/summary_screen/bg_known_moves.bin.lz");
 const u32 gMapSummaryScreenMovesInfo[] = INCBIN_U32("graphics/summary_screen/bg_moves_info.bin.lz");
 const u32 gMapSummaryScreenMoves[] = INCBIN_U32("graphics/summary_screen/bg_moves.bin.lz");
+const u32 gMapSummaryScreenMovesSelect[] = INCBIN_U32("graphics/summary_screen/bg_moves_select.bin.lz");
 const u32 gMapSummaryScreenPokemonInfo[] = INCBIN_U32("graphics/summary_screen/bg_pokemon_info.bin.lz");
 const u32 gMapSummaryScreenPokemonSkills[] = INCBIN_U32("graphics/summary_screen/bg_pokemon_skills.bin.lz");
 

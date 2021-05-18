@@ -6,12 +6,13 @@
 + Main Menu GEN V(LISTO)
 + Option Menu GEN V(LISTO)
 + Pokemon Summary Screen GEN V(LISTO)
-	(Falta mover todos los textos a una sola Window)
+	- Falta el Desplazamiento Cíclico
+	- Falta hacer más fluido el cambio de página
 + Expandir Capacidades de Objeto del Bolso y PC(LISTO)
 	- PC Items 		30 -> 120
 	- Bag Items		42 -> 100
 	- Bag Key Items	30 -> 50
-	- Bag Pokéballs	13 -> 25  (máx en GEN V)
+	- Bag Pokéballs	13 -> 28  (27 máx en GEN VII + Smoke Ball)
 	- Bag TM-HM		58 -> 107 (99 TM + 8 HM)
 	- Bag Berries	43 -> 67  (máx en GEN V)
 + Naming Screen GEN V(LISTO)
@@ -24,7 +25,6 @@
 	- Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
 	- Expandir íconos de Objetos llevados por los Pokémon (Items, Mail, Pokeballs & Berries )
 	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
-+ Diferencia de Género de Pokémon(LISTO)
 + Mejora de Pokémart(LISTO)
 	- Se puede comprar hasta 999 objetos a la vez
 	- Muestra el máximo que se puede comprar en vez de 999
@@ -48,44 +48,97 @@
 	- Correr paletas de los BG al slot 0
 	- Ajustar slots afectados por ataques y efectos
 	- Mejorar distribución de colores en los ataques
-- New Battle UI
++ New Battle UI
 - Sistema de Sombras GEN V
 - Cosplays de Pikachu
-- Text Font GEN V 
+- Text Font GEN V
 - Map Name Popup GEN V
 - Vs Bar GEN IV y V (editar battle_transition.c)
 
 ==============================================
-	Update Mecanismos a nuevas GENs
+	GEN IV
 ==============================================
-+ Update Poké Balls basadas en Clases de Entrenador GEN VII(LISTO)
-+ Update Ajustar EVs a 252 como en la GEN VI(LISTO)
-+ Update Daño de Quemaduras a la GEN VII(1/16 de los PS Máx)(LISTO)
-+ Update Pérdida de Velocidad por Parálisis a la GEN VII(50% de la original)(LISTO)
-+ Update Habilidad Piel Tosca a la GEN VII(Pierde 1/8 de los PS Máx)(LISTO)
-+ Update Sistema de Repartir Experiencia a la GEN VII(100% a los participantes y 50% al resto)(LISTO)
-+ Update Sistema de Obetener Experiencia al Capturar como en la GEN VI(LISTO)
-+ Update Probabilidad de Golpe Crítico a la GEN VI(6.25%, 12.5%, 50% y 100%)(LISTO)
-+ Update Multiplicador de Golpe Crítico a la GEN VI(150% de daño)(LISTO)
-+ Update Huevos nacen en nivel 1 GEN IV(LISTO)
-+ Update Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
-+ Update Incremento de retardo entre frames al correr GEN IV(LISTO)
-+ Update Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
-+ Update Estadísticas coloreadas por Naturaleza GEN IV(LISTO)
++ División Físico, Especial y Estado(LISTO)
++ Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
++ Incremento de retardo entre frames al correr GEN IV(LISTO)
++ Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
++ Estadísticas coloreadas por Naturalezas, rojo para incremento y azul para decremento (GEN IV)
 + Update Sistema de Repelente GEN IV(LISTO)
 	-Falta chequear el resto de los Repelentes una vez agotado el que está en uso
-+ Update Niveles de Obediencia GEN VII(LISTO)
-	Incrementa la obediencia en 10 niveles con cada medalla desde el Nv 20 para la primera
-+ Update Bonus Premier Balls estilo Let's Go Pikachu and Eevee(LISTO)
-	(1 Premier Ball por cada 10 Balls compradas)
-+ Update MT Reusables GEN V(LISTO)
++ Pokémon nacen en nivel 1 en vez de 5 (GEN IV)
++ Un botón ha sido añadido para permitir al player correr sin mantener presionado el boton B. Sistema de AutoRun (GEN IV)
+	- Habilitar la activación y desactivación a través del botón R (FALTA)
++ Diferencia de aspectos de algunos pokémon dependiendo de su género (GEN IV)
++ Se permite correr en interiores de edificios (GEN IV)
+- Base secreta ha sido movido a The Underground (GEN IV)
+- Removido el almacenamiento de objetos en el PC debido ya que el Bolso puede llevar todos los objetos sin límites (GEN IV)
+- Entrenadores pueden caminar junto al Player para iniciar Batallas Dobles (GEN IV)
+- El color del texto ha sidio cambiado de rojo y azul basado en el género del NPC a gris y se ha dejado los colores para resaltar informaión importante (GEN IV)
+- Reintroducida la opción de hacer 7 tipos de pokéballs hechas con Apricors (GEN IV)
+- En vez de Concursos está el Pokéathlon (GEN IV)
+- Habilidad para registrar 2 Keyitems en vez de 1 (GEN IV)
+- La Pokédex ahora puede mostrar las distintas fomas de un pokémon (GEN IV)
+- La introducción de las Flat Battles, un tipo de batalla donde loa pokémon de nivel superior a 50 vuelven al nivel 50 temporalmente (GEN IV)
+- Un rediseño en la interfaz que muestra los objetos en el bolso que facilita el acceso a los objetos (GEN IV)
+==============================================
+	GEN V
+==============================================
++ MT Reusables GEN V(LISTO)
 	(Reusables, Invendibles, Sin Cantidad, Sin poder comprar al ya tenerla)
+- Intercambio de Objetos llevados desde la Party Scren (GEN V)
+- Maldición ahora es tipo Fantasma en vez de ??? (GEN V)
+- Objetos son mostrados en una lista de 6 páginas (GEN V)
+- Las Medallas no son necesarias para para el uso de las MO en el overworld (GEN V)
+- La Elite Four no tiene un oden para ser derrotada (GEN V)
+- Popup de la habilidad y sus efectos (GEN V)
+==============================================
+	GEN VI
+==============================================
++ Ajuste de los EVs a 252 (LISTO)
++ Obtener Experiencia al Capturar (LISTO)
++ Probabilidad de Golpe Crítico (6.25%, 12.5%, 50% y 100%)(LISTO)
++ Multiplicador de Golpe Crítico (150% de daño)(LISTO)
+- Tipos Eléctricos son inmunes a la Parálisis (GEN VI)
+- Nickname incrementado de 10 a 12 caracteres
+- Player name icrementado de 7 a 12 caracteres
+- Movimientos, Objetos y Habilidades incrementados de 12 a 16 caracteres
+- Expandida la capacidad de almacenamiento a 930 pokémon
+- Repartir Experiencia pasa a ser un Key Item que se puede activar o desactivar
+- Somnifero no afecta tipo Planta, con la habilidad Funda o que lleve equipado Gafa Protectora
+- Espora no afecta tipo Planta, con la habilidad Funda o que lleve equipado Gafa Protectora
+- Paralizador no afecta tipo Planta, tipo Eléctrico, con la habilidad Funda o que lleve equipado Gafa Protectora
+
+==============================================
+	GEN VII
+==============================================
++ Poké Balls basadas en Clases de Entrenador (LISTO)
++ Daño de Quemaduras pasa a 1/16 de los PS Máx (LISTO)
++ Pérdida de Velocidad por Parálisis pasa a 50% de la original (LISTO)
++ Habilidad Piel Tosca pasa a perder 1/8 de los PS Máx (LISTO)
++ Sistema de Repartir Experiencia pasa a 100% a los participantes y 50% al resto (LISTO)
++ Niveles de Obediencia (LISTO)
+	Incrementa la obediencia en 10 niveles con cada medalla desde el Nv 20 para la primera
++ Bonus Premier Balls (LISTO)
+	(1 Premier Ball por cada 10 Balls compradas)
+- Introducida la Piedra Hielo
+- Introducida una nueva PokéBall para un total de 27
+- Se muestra la efectividad de un ataque si ya se ha luchado con el pokémon anteriormente
+- Algunos pokémon aprenden ataques una vez evolucionan
+- Confusión tiene un chance de 33% de hacerse daño en vez de 50%
+- El Nickname se puede cambiar en cualquier momento desde la Party Screen
+
+==============================================
+	GEN VIII
+==============================================
+- El Mapa es parte del Menú
+- La Eliet Four ha sido reemplazada por la Champion Cup
+- La Trainer Card ha sido reemplazada por la Champion Card
+- El Nickname solo puede ser cambiado por su entrenador original
 
 ==============================================
 	Addons
 ==============================================
 + Game Speed Up(LISTO)
-+ Correr en interiores de Edificios(LISTO)
 + Decap. Ataques(LISTO)
 + Decap. Clases Entrenador(LISTO)
 + Decap. Especies Pokemon(LISTO)
@@ -99,14 +152,11 @@
 + Decap. Textos Generales strings.c(LISTO)
 + Remover Hagamos Memoria(LISTO)
 + Remover Incremento de Estadísticas provisto por las Medallas(LISTO)
-+ División Físico, Especial y Estado(LISTO)
 - Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)(LISTO)
 - Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)(LISTO)
 + Incrementar límite de dinero a 99.999.999(LISTO)
 + Incrementar límite de fichas a 50.000(LISTO)
 + Extender el número de Direct Sound Tracks de 5 a 12(LISTO)
-+ Sistema de Auto-run (LISTO)
-	- Habilitar la activación y desactivación a través del botón R (FALTA)
 + Evitar que los PKMN huyan en el Safari(LISTO)
 - Remover Sistema de Ayuda
 - Remover opciones de Movimiento de Campo de Menú Pokémon

@@ -2309,7 +2309,8 @@ static void BattleStartClearSetData(void)
     if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_POKEDUDE)) && gSaveBlock2Ptr->optionsBattleSceneOff)
         gHitMarker |= HITMARKER_NO_ANIMATIONS;
     gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsBattleStyle;
-    gMultiHitCounter = 0;
+    gBattleScripting.monCaught = FALSE;
+	gMultiHitCounter = 0;
     gBattleOutcome = 0;
     gBattleControllerExecFlags = 0;
     gPaydayMoney = 0;

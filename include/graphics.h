@@ -5000,6 +5000,7 @@ extern const u32 gMapSummaryScreenEgg[];
 extern const u32 gMapSummaryScreenKnownMoves[];
 extern const u32 gMapSummaryScreenMovesInfo[];
 extern const u32 gMapSummaryScreenMoves[];
+extern const u32 gMapSummaryScreenMovesSelect[];
 extern const u32 gMapSummaryScreenPokemonInfo[];
 extern const u32 gMapSummaryScreenPokemonSkills[];
 

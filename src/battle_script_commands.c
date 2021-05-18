@@ -3158,7 +3158,7 @@ static void atk23_getexp(void)
                  && !gBattleStruct->wildVictorySong)
                 {
                     BattleStopLowHpSound();
-                    PlayBGM(MUS_VICTORY_WILD);
+                //	PlayBGM(MUS_VICTORY_WILD);
                     ++gBattleStruct->wildVictorySong;
                 }
                 if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_HP))
