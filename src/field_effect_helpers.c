@@ -25,7 +25,7 @@ static void UpdateAshFieldEffect_Step2(struct Sprite * sprite);
 void SynchroniseSurfAnim(struct ObjectEvent * objectEvent, struct Sprite * sprite);
 void sub_80DC588(struct ObjectEvent * objectEvent, struct Sprite * sprite);
 static void CreateBobbingEffect(struct ObjectEvent * objectEvent, struct Sprite * linkedSprite, struct Sprite * sprite);
-static void sub_80DC700(struct Sprite * sprite);
+static void SpriteCB_BobbingEffect(struct Sprite * sprite);
 static u32 ShowDisguiseFieldEffect(u8 , u8);
 static void LoadFieldEffectPalette_(u8 fieldEffect, bool8 updateGammaType);
 static void LoadSpecialReflectionPalette(struct Sprite *sprite);
@@ -1092,21 +1092,21 @@ static void CreateBobbingEffect(struct ObjectEvent * objectEvent, struct Sprite 
     }
 }
 
-u8 sub_80DC6B0(u8 oldSpriteId)
+u8 CreateDiveBobbingSprite(u8 oldSpriteId)
 {
     u8 spriteId;
     struct Sprite * sprite;
 
     spriteId = CreateSpriteAtEnd(&gDummySpriteTemplate, 0, 0, -1);
     sprite = &gSprites[spriteId];
-    sprite->callback = sub_80DC700;
+    sprite->callback = SpriteCB_BobbingEffect;
     sprite->invisible = TRUE;
     sprite->data[0] = oldSpriteId;
     sprite->data[1] = 1;
     return spriteId;
 }
 
-static void sub_80DC700(struct Sprite * sprite)
+static void SpriteCB_BobbingEffect(struct Sprite * sprite)
 {
     struct Sprite * oldSprite;
 

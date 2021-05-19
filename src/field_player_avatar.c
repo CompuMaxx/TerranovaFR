@@ -510,7 +510,8 @@ static void PlayerNotOnBikeMoving(u8 direction, u16 heldKeys)
         return;
     }
 
-    if ((heldKeys & B_BUTTON || gSaveBlock2Ptr->optionsAutorun == TRUE) && FlagGet(FLAG_SYS_B_DASH) && !IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior))
+    if (!(gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_UNDERWATER) && (heldKeys & B_BUTTON || gSaveBlock2Ptr->optionsAutorun == TRUE) 
+		&& FlagGet(FLAG_SYS_B_DASH) && !IsRunningDisallowed(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior))
     {
         if (PlayerIsMovingOnRockStairs(direction))
             PlayerRunSlow(direction);
@@ -731,7 +732,10 @@ static void PlayerAvatarTransition_Surfing(struct ObjectEvent * playerObjEvent)
 
 static void PlayerAvatarTransition_Underwater(struct ObjectEvent * playerObjEvent)
 {
-
+    ObjectEventSetGraphicsId(playerObjEvent, GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_UNDERWATER));
+    ObjectEventTurn(playerObjEvent, playerObjEvent->movementDirection);
+    SetPlayerAvatarStateMask(PLAYER_AVATAR_FLAG_UNDERWATER);
+    playerObjEvent->fieldEffectSpriteId = CreateDiveBobbingSprite(playerObjEvent->spriteId);
 }
 
 static void PlayerAvatarTransition_ReturnToField(struct ObjectEvent * playerObjEvent)
@@ -1126,13 +1130,16 @@ void StopPlayerAvatar(void)
     }
 }
 
+// this table originally had NOTHING to do with the player avatar state. It has been updated to be more consistent with the player avatar state flags
 static const u8 sPlayerAvatarGfxIds[][GENDER_COUNT] = {
-    [PLAYER_AVATAR_GFX_NORMAL]     = {OBJ_EVENT_GFX_RED_NORMAL,     OBJ_EVENT_GFX_GREEN_NORMAL},
-    [PLAYER_AVATAR_GFX_BIKE]       = {OBJ_EVENT_GFX_RED_BIKE,       OBJ_EVENT_GFX_GREEN_BIKE},
-    [PLAYER_AVATAR_GFX_RIDE]       = {OBJ_EVENT_GFX_RED_SURF,       OBJ_EVENT_GFX_GREEN_SURF},
-    [PLAYER_AVATAR_GFX_FIELD_MOVE] = {OBJ_EVENT_GFX_RED_FIELD_MOVE, OBJ_EVENT_GFX_GREEN_FIELD_MOVE},
-    [PLAYER_AVATAR_GFX_FISH]       = {OBJ_EVENT_GFX_RED_FISH,       OBJ_EVENT_GFX_GREEN_FISH},
-    [PLAYER_AVATAR_GFX_VSSEEKER]   = {OBJ_EVENT_GFX_RED_VS_SEEKER,  OBJ_EVENT_GFX_GREEN_VS_SEEKER},
+    [PLAYER_AVATAR_STATE_NORMAL]        = {OBJ_EVENT_GFX_RED_NORMAL,    	OBJ_EVENT_GFX_GREEN_NORMAL},
+    [PLAYER_AVATAR_STATE_MACH_BIKE]     = {OBJ_EVENT_GFX_RED_BIKE,      	OBJ_EVENT_GFX_GREEN_BIKE},
+    [PLAYER_AVATAR_STATE_ACRO_BIKE]     = {OBJ_EVENT_GFX_RED_BIKE,      	OBJ_EVENT_GFX_GREEN_BIKE},
+    [PLAYER_AVATAR_STATE_SURFING]       = {OBJ_EVENT_GFX_RED_SURF,      	OBJ_EVENT_GFX_GREEN_SURF},
+    [PLAYER_AVATAR_STATE_UNDERWATER]    = {OBJ_EVENT_GFX_RED_DIVE,      	OBJ_EVENT_GFX_GREEN_SURF},  //change to dive sprite(s)
+    [PLAYER_AVATAR_STATE_CONTROLLABLE]  = {OBJ_EVENT_GFX_RED_FIELD_MOVE,    OBJ_EVENT_GFX_RED_FIELD_MOVE},
+    [PLAYER_AVATAR_STATE_FORCED]       	= {OBJ_EVENT_GFX_RED_FISH,      	OBJ_EVENT_GFX_GREEN_FISH},
+    [PLAYER_AVATAR_STATE_DASH]     		= {OBJ_EVENT_GFX_RED_VS_SEEKER, 	OBJ_EVENT_GFX_GREEN_VS_SEEKER}, //not a real state. same as PLAYER_AVATAR_STATE_WATERING (aka PLAYER_AVATAR_STATE_DASH).
 };
 
 static const u8 sHoennLinkPartnerGfxIds[] = {
@@ -1145,6 +1152,7 @@ u8 GetRivalAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
     return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gender);
 }
 
+// game freak is dumb and decided to make this state-based table not relate to the states defined in global.fieldmap.h
 u8 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
 {
     return sPlayerAvatarGfxIds[state][gender];
@@ -1231,18 +1239,20 @@ void SetPlayerAvatarStateMask(u8 flags)
     gPlayerAvatar.flags |= flags;
 }
 
-static const u8 sPlayerAvatarGfxToStateFlag[][3][GENDER_COUNT] = {
+static const u8 sPlayerAvatarGfxToStateFlag[][4][GENDER_COUNT] = {
     [MALE] = 
 	{
         {OBJ_EVENT_GFX_RED_NORMAL, PLAYER_AVATAR_FLAG_ON_FOOT},
         {OBJ_EVENT_GFX_RED_BIKE,   PLAYER_AVATAR_FLAG_MACH_BIKE},
         {OBJ_EVENT_GFX_RED_SURF,   PLAYER_AVATAR_FLAG_SURFING},
+        {OBJ_EVENT_GFX_RED_DIVE,   PLAYER_AVATAR_FLAG_UNDERWATER},
     },
     [FEMALE] = 
 	{
         {OBJ_EVENT_GFX_GREEN_NORMAL, PLAYER_AVATAR_FLAG_ON_FOOT},
         {OBJ_EVENT_GFX_GREEN_BIKE,   PLAYER_AVATAR_FLAG_MACH_BIKE},
         {OBJ_EVENT_GFX_GREEN_SURF,   PLAYER_AVATAR_FLAG_SURFING},
+        {OBJ_EVENT_GFX_GREEN_SURF,   PLAYER_AVATAR_FLAG_UNDERWATER},
     }
 };
 
@@ -1320,7 +1330,7 @@ void SetPlayerInvisibility(bool8 invisible)
 
 void StartPlayerAvatarSummonMonForFieldMoveAnim(void)
 {
-    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_GFX_FIELD_MOVE));
+    ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByStateId(PLAYER_AVATAR_STATE_CONTROLLABLE));
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], 0);
 }
 

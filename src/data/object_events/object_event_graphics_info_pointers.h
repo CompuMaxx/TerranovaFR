@@ -3,6 +3,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroBike;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroSurf;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroFieldMove;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroFish;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroDive;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroVSSeeker;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_HeroVSSeekerBike;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_GreenNormal;
@@ -158,6 +159,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_RED_SURF]                 = &gObjectEventGraphicsInfo_HeroSurf,
     [OBJ_EVENT_GFX_RED_FIELD_MOVE]           = &gObjectEventGraphicsInfo_HeroFieldMove,
     [OBJ_EVENT_GFX_RED_FISH]                 = &gObjectEventGraphicsInfo_HeroFish,
+    [OBJ_EVENT_GFX_RED_DIVE]                 = &gObjectEventGraphicsInfo_HeroDive,
     [OBJ_EVENT_GFX_RED_VS_SEEKER]            = &gObjectEventGraphicsInfo_HeroVSSeeker,
     [OBJ_EVENT_GFX_RED_VS_SEEKER_BIKE]       = &gObjectEventGraphicsInfo_HeroVSSeekerBike,
     [OBJ_EVENT_GFX_GREEN_NORMAL]             = &gObjectEventGraphicsInfo_GreenNormal,

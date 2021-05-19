@@ -9208,7 +9208,7 @@ static void atkF2_displaydexinfo(void)
         break;
     case 3:
         InitBattleBgsVideo();
-        LoadBattleTextboxAndBackground();
+        LoadBattleTextboxAndBackground2();
         gBattle_BG3_X = 0x100;
         ++gBattleCommunication[0];
         break;

@@ -559,7 +559,8 @@ const u8 gInitialMovementTypeFacingDirections[NUM_FIELD_MAP_OBJECT_TEMPLATES] = 
 #define OBJ_EVENT_PAL_TAG_TRAINER_TOWER_DUDE	0x116E
 #define OBJ_EVENT_PAL_TAG_UNION_ROOM_RECEPTIONIST	0x116F
 
-#define OBJ_EVENT_PAL_TAG_HERO_NORMAL	0x10FC
+#define OBJ_EVENT_PAL_TAG_HERO_NORMAL	0x10FB
+#define OBJ_EVENT_PAL_TAG_HERO_DIVE	0x10FC
 #define OBJ_EVENT_PAL_TAG_GREEN_NORMAL	0x10FD
 #define OBJ_EVENT_PAL_TAG_OBJECT	0x11FE
 #define OBJ_EVENT_PAL_TAG_NONE 0x11FF
@@ -594,6 +595,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gUnknown_83952C8, OBJ_EVENT_PAL_TAG_21},
 //PEOPLE
     {gObjectEventPal_HeroNormal, 			OBJ_EVENT_PAL_TAG_HERO_NORMAL},
+    {gObjectEventPal_HeroDive, 				OBJ_EVENT_PAL_TAG_HERO_DIVE},
     {gObjectEventPal_GreenNormal, 			OBJ_EVENT_PAL_TAG_GREEN_NORMAL},
 	{gObjectEventPal_Gamer, 				OBJ_EVENT_PAL_TAG_GAMER},
 	{gObjectEventPal_Youngster,				OBJ_EVENT_PAL_TAG_YOUNGSTER},

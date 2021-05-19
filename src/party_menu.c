@@ -377,6 +377,7 @@ static void sub_8125F4C(u8 taskId, UNUSED TaskFunc func);
 static void sub_8125F5C(u8 taskId);
 static void sub_8126BD4(void);
 static bool8 MonCanEvolve(void);
+static bool8 SetUpFieldMove_Dive(void);
 
 static EWRAM_DATA struct PartyMenuInternal *sPartyMenuInternal = NULL;
 EWRAM_DATA struct PartyMenu gPartyMenu = {0};
@@ -2722,7 +2723,7 @@ static u8 DisplaySelectionWindow(u8 windowType)
         if (gSaveBlock2Ptr->optionsLanguage == ENG)
 			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[sPartyMenuInternal->actions[i]].text);
         if (gSaveBlock2Ptr->optionsLanguage == SPA)
-			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[30 + sPartyMenuInternal->actions[i]].text);
+			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[31 + sPartyMenuInternal->actions[i]].text);
     }
     Menu_InitCursorInternal(sPartyMenuInternal->windowId[0], 2, 0, 2, 16, sPartyMenuInternal->numActions, 0, 1);
     ScheduleBgCopyTilemapToVram(2);
@@ -2806,7 +2807,7 @@ static void sub_8122138(u8 action)
         if (gSaveBlock2Ptr->optionsLanguage == ENG)
 			AddTextPrinterParameterized4(ptr->windowId[2], 2, 3, 6, attr, 0, sFontColorTable[5], 0, sHMDescriptionTable[action - MENU_FIELD_MOVES]);
         if (gSaveBlock2Ptr->optionsLanguage == SPA)
-			AddTextPrinterParameterized4(ptr->windowId[2], 2, 3, 6, attr, 0, sFontColorTable[5], 0, sHMDescriptionTable[action - MENU_FIELD_MOVES + 12]);
+			AddTextPrinterParameterized4(ptr->windowId[2], 2, 3, 6, attr, 0, sFontColorTable[5], 0, sHMDescriptionTable[action - MENU_FIELD_MOVES + 13]);
         PutWindowTilemap(ptr->windowId[2]);
         ScheduleBgCopyTilemapToVram(2);
     }
@@ -5300,7 +5301,7 @@ bool8 IsMoveHm(u16 move)
 {
     u8 i;
 
-    for (i = 0; i < NUM_HIDDEN_MACHINES - 1; ++i) // no dive
+    for (i = 0; i < NUM_HIDDEN_MACHINES; ++i)
         if (sTMHMMoves[i + NUM_TECHNICAL_MACHINES] == move)
             return TRUE;
     return FALSE;
@@ -7054,6 +7055,25 @@ static bool8 ItemIsBerry(u16 item)
 {
     if (item >= FIRST_BERRY_INDEX && item <= LAST_BERRY_INDEX)
         return TRUE;
+    return FALSE;
+}
+
+// dive
+static void FieldCallback_Dive(void)
+{
+    gFieldEffectArguments[0] = GetCursorSelectionMonId();
+    FieldEffectStart(FLDEFF_USE_DIVE);
+}
+
+static bool8 SetUpFieldMove_Dive(void)
+{
+    gFieldEffectArguments[1] = TrySetDiveWarp();
+    if (gFieldEffectArguments[1] != 0)
+    {
+        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
+        gPostMenuFieldCallback = FieldCallback_Dive;
+        return TRUE;
+    }
     return FALSE;
 }
 

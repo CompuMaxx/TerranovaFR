@@ -84,6 +84,18 @@ const struct SpriteFrameImage gObjectEventPicTable_HeroFish[] = {
     overworld_frame(gObjectEventPic_HeroFish, 4, 4, 11),
 };
 
+const struct SpriteFrameImage gObjectEventPicTable_HeroDive[] = {
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 0),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 1),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 2),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 3),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 4),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 5),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 6),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 7),
+    overworld_frame(gObjectEventPic_HeroDive, 4, 4, 8),
+};
+
 const struct SpriteFrameImage gObjectEventPicTable_GreenNormalRun[] = {
     overworld_frame(gObjectEventPic_GreenNormalRun, 4, 4, 0),
     overworld_frame(gObjectEventPic_GreenNormalRun, 4, 4, 1),
