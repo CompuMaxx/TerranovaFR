@@ -163,6 +163,7 @@
 + Espacio Extra en Save (LISTO)
 + DynamicOverwoldPalette(en desarrollo...)
 	Falta corregir error con Fame Checker
++ Overwold Expansion
 + Implementado Buceo
 - Implementado Treparocas
 

@@ -23,7 +23,7 @@ static void sub_80C9A60(void);
 
 EWRAM_DATA struct MapPosition gPlayerFacingPosition = {};
 
-bool8 CheckObjectGraphicsInFrontOfPlayer(u8 graphicsId)
+bool8 CheckObjectGraphicsInFrontOfPlayer(u16 graphicsId)
 {
     u8 mapObjId;
 

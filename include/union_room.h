@@ -95,7 +95,7 @@ struct UnkStruct_Group
 struct UnionObj
 {
     u8 state;
-    u8 gfxId;
+    u16 gfxId;
     s8 animState;
     u8 schedAnim;
 };

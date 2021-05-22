@@ -1666,7 +1666,7 @@ u8 SpawnSpecialObjectEvent(struct ObjectEventTemplate *objectEventTemplate)
     return TrySpawnObjectEventTemplate(objectEventTemplate, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, cameraX, cameraY);
 }
 
-int SpawnSpecialObjectEventParameterized(u8 graphicsId, u8 movementBehavior, u8 localId, s16 x, s16 y, u8 z)
+u8 SpawnSpecialObjectEventParameterized(u16 graphicsId, u8 movementBehavior, u8 localId, s16 x, s16 y, u8 z)
 {
     struct ObjectEventTemplate objectEventTemplate;
 
@@ -1751,7 +1751,7 @@ u8 AddPseudoObjectEvent(u16 graphicsId, SpriteCallback callback, s16 x, s16 y, u
     return spriteId;
 }
 
-u8 sprite_new(u8 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
+u8 sprite_new(u16 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
 {
     u8 spriteId;
     struct Sprite *sprite;
@@ -1793,7 +1793,7 @@ u8 sprite_new(u8 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
     return spriteId;
 }
 
-u8 sub_805EB44(u8 graphicsId, u8 a1, s16 x, s16 y)
+u8 sub_805EB44(u16 graphicsId, u8 a1, s16 x, s16 y)
 {
     u8 spriteId;
     struct Sprite *sprite;
@@ -1989,7 +1989,7 @@ static void SetPlayerAvatarObjectEventIdAndObjectId(u8 objectEventId, u8 spriteI
     SetPlayerAvatarExtraStateTransition(gObjectEvents[objectEventId].graphicsId, PLAYER_AVATAR_FLAG_CONTROLLABLE);
 }
 
-void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u8 graphicsId)
+void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
 {
     const struct ObjectEventGraphicsInfo *graphicsInfo;
     struct Sprite *sprite;
@@ -2038,7 +2038,7 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u8 graphicsId)
     }
 }
 
-void ObjectEventSetGraphicsIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup, u8 graphicsId)
+void ObjectEventSetGraphicsIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup, u16 graphicsId)
 {
     u8 objectEventId;
 
@@ -2073,7 +2073,7 @@ void PlayerObjectTurn(struct PlayerAvatar *playerAvatar, u8 direction)
     ObjectEventTurn(&gObjectEvents[playerAvatar->objectEventId], direction);
 }
 
-const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u8 graphicsId)
+const struct ObjectEventGraphicsInfo *GetObjectEventGraphicsInfo(u16 graphicsId)
 {
     if (graphicsId >= OBJ_EVENT_GFX_VARS)
         graphicsId = VarGetObjectEventGraphicsId(graphicsId - OBJ_EVENT_GFX_VARS);
@@ -9305,7 +9305,7 @@ void TurnObjectEvent(u8 objectEventId, u8 direction)
     }
 }
 
-void RfuUnionObjectSetFacingDirection(u8 objectEventId, u8 direction)
+void RfuUnionObjectSetFacingDirection(u8 objectEventId, u16 direction)
 {
     u8 animNum;
     int spriteId = GetObjectEventSpriteId(objectEventId);

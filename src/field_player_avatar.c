@@ -1131,7 +1131,7 @@ void StopPlayerAvatar(void)
 }
 
 // this table originally had NOTHING to do with the player avatar state. It has been updated to be more consistent with the player avatar state flags
-static const u8 sPlayerAvatarGfxIds[][GENDER_COUNT] = {
+static const u16 sPlayerAvatarGfxIds[][GENDER_COUNT] = {
     [PLAYER_AVATAR_STATE_NORMAL]        = {OBJ_EVENT_GFX_RED_NORMAL,    	OBJ_EVENT_GFX_GREEN_NORMAL},
     [PLAYER_AVATAR_STATE_MACH_BIKE]     = {OBJ_EVENT_GFX_RED_BIKE,      	OBJ_EVENT_GFX_GREEN_BIKE},
     [PLAYER_AVATAR_STATE_ACRO_BIKE]     = {OBJ_EVENT_GFX_RED_BIKE,      	OBJ_EVENT_GFX_GREEN_BIKE},
@@ -1142,33 +1142,33 @@ static const u8 sPlayerAvatarGfxIds[][GENDER_COUNT] = {
     [PLAYER_AVATAR_STATE_DASH]     		= {OBJ_EVENT_GFX_RED_VS_SEEKER, 	OBJ_EVENT_GFX_GREEN_VS_SEEKER}, //not a real state. same as PLAYER_AVATAR_STATE_WATERING (aka PLAYER_AVATAR_STATE_DASH).
 };
 
-static const u8 sHoennLinkPartnerGfxIds[] = {
+static const u16 sHoennLinkPartnerGfxIds[] = {
     OBJ_EVENT_GFX_RS_BRENDAN,
     OBJ_EVENT_GFX_RS_MAY
 };
 
-u8 GetRivalAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
+u16 GetRivalAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
 {
     return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gender);
 }
 
 // game freak is dumb and decided to make this state-based table not relate to the states defined in global.fieldmap.h
-u8 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
+u16 GetPlayerAvatarGraphicsIdByStateIdAndGender(u8 state, u8 gender)
 {
     return sPlayerAvatarGfxIds[state][gender];
 }
 
-u8 GetRSAvatarGraphicsIdByGender(u8 gender)
+u16 GetRSAvatarGraphicsIdByGender(u8 gender)
 {
     return sHoennLinkPartnerGfxIds[gender];
 }
 
-u8 GetPlayerAvatarGraphicsIdByStateId(u8 state)
+u16 GetPlayerAvatarGraphicsIdByStateId(u8 state)
 {
     return GetPlayerAvatarGraphicsIdByStateIdAndGender(state, gPlayerAvatar.gender);
 }
 
-u8 GetPlayerAvatarGenderByGraphicsId(u8 gfxId)
+u8 GetPlayerAvatarGenderByGraphicsId(u16 gfxId)
 {
     switch (gfxId)
     {
@@ -1256,7 +1256,7 @@ static const u8 sPlayerAvatarGfxToStateFlag[][4][GENDER_COUNT] = {
     }
 };
 
-u8 GetPlayerAvatarStateTransitionByGraphicsId(u8 graphicsId, u8 gender)
+u8 GetPlayerAvatarStateTransitionByGraphicsId(u16 graphicsId, u8 gender)
 {
     u8 i;
 
@@ -1268,7 +1268,7 @@ u8 GetPlayerAvatarStateTransitionByGraphicsId(u8 graphicsId, u8 gender)
     return 1;
 }
 
-u8 GetPlayerAvatarGraphicsIdByCurrentState(void)
+u16 GetPlayerAvatarGraphicsIdByCurrentState(void)
 {
     u8 i;
     u8 flags = gPlayerAvatar.flags;
@@ -1281,7 +1281,7 @@ u8 GetPlayerAvatarGraphicsIdByCurrentState(void)
     return 0;
 }
 
-void SetPlayerAvatarExtraStateTransition(u8 graphicsId, u8 extras)
+void SetPlayerAvatarExtraStateTransition(u16 graphicsId, u8 extras)
 {
     u8 unk = GetPlayerAvatarStateTransitionByGraphicsId(graphicsId, gPlayerAvatar.gender);
 
@@ -1334,12 +1334,12 @@ void StartPlayerAvatarSummonMonForFieldMoveAnim(void)
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], 0);
 }
 
-static const u8 sPlayerAvatarVsSeekerBikeGfxIds[] = {
+static const u16 sPlayerAvatarVsSeekerBikeGfxIds[] = {
     OBJ_EVENT_GFX_RED_VS_SEEKER_BIKE,
     OBJ_EVENT_GFX_GREEN_VS_SEEKER_BIKE
 };
 
-u8 GetPlayerAvatarVsSeekerGfxId(void)
+u16 GetPlayerAvatarVsSeekerGfxId(void)
 {
     if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         return sPlayerAvatarVsSeekerBikeGfxIds[gPlayerAvatar.gender];
