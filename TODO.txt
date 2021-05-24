@@ -78,7 +78,7 @@
 - En vez de Concursos está el Pokéathlon (GEN IV)
 - Habilidad para registrar 2 Keyitems en vez de 1 (GEN IV)
 - La Pokédex ahora puede mostrar las distintas fomas de un pokémon (GEN IV)
-- La introducción de las Flat Battles, un tipo de batalla donde loa pokémon de nivel superior a 50 vuelven al nivel 50 temporalmente (GEN IV)
+- La introducción de las Flat Battles, un tipo de batalla donde los pokémon de nivel superior a 50 vuelven al nivel 50 temporalmente (GEN IV)
 - Un rediseño en la interfaz que muestra los objetos en el bolso que facilita el acceso a los objetos (GEN IV)
 ==============================================
 	GEN V
@@ -164,6 +164,7 @@
 + DynamicOverwoldPalette(en desarrollo...)
 	Falta corregir error con Fame Checker
 + Overwold Expansion
++ Triple Layer
 + Implementado Buceo
 - Implementado Treparocas
 
