@@ -38,6 +38,7 @@
 - Wallpapers Pokémon Box GEN IV & V (En Progreso...)
 - BG Mail GEN IV & V (En Progreso...)
 + OW GEN IV
++ Trainer Sprites GEN IV
 + Sistema de Sombras de Overwolds
 	 Crédito: NotToDisturb (Disturbo)
 - Pokedex GEN V
