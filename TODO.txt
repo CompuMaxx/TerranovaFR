@@ -168,6 +168,7 @@
 + Triple Layer
 + Implementado Buceo
 - Implementado Treparocas
++ Uso repetido de medicinas y carameloraro fuera de batalla 
 
 ==============================================
 	Fixes
