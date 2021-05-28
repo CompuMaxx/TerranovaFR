@@ -32,6 +32,7 @@
 #include "tm_case.h"
 #include "vs_seeker.h"
 #include "constants/fanfares.h"
+#include "constants/flags.h"
 #include "constants/items.h"
 #include "constants/maps.h"
 #include "constants/moves.h"
@@ -189,7 +190,10 @@ static void DisplayItemMessageInCurrentContext(u8 taskId, bool8 inField, u8 text
 
 static void PrintNotTheTimeToUseThat(u8 taskId, bool8 inField)
 {
-    DisplayItemMessageInCurrentContext(taskId, inField, 4, gText_OakForbidsUseOfItemHere);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageInCurrentContext(taskId, inField, 4, gText_OakForbidsUseOfItemHere);
+    else
+		DisplayItemMessageInCurrentContext(taskId, inField, 4, gText_OakForbidsUseOfItemHereSpa);
 }
 
 static void Task_ItemUse_CloseMessageBoxAndReturnToField(u8 taskId)
@@ -262,7 +266,12 @@ void FieldUseFunc_MachBike(u8 taskId)
      || MetatileBehavior_IsHorizontalRail(behavior) == TRUE
      || MetatileBehavior_IsIsolatedVerticalRail(behavior) == TRUE
      || MetatileBehavior_IsIsolatedHorizontalRail(behavior) == TRUE)
-        DisplayItemMessageInCurrentContext(taskId, gTasks[taskId].data[3], 2, gText_8416451);
+		{
+			if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageInCurrentContext(taskId, gTasks[taskId].data[3], 2, gText_8416451);
+			if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageInCurrentContext(taskId, gTasks[taskId].data[3], 2, gText_8416451Spa);
+		}
     else if (Overworld_IsBikingAllowed() == TRUE && !IsBikingDisallowedByPlayer())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_Bicycle;
@@ -335,8 +344,11 @@ void ItemUseOutOfBattle_Itemfinder(u8 taskId)
 
 void FieldUseFunc_CoinCase(u8 taskId)
 {
-    ConvertIntToDecimalStringN(gStringVar1, GetCoins(), STR_CONV_MODE_LEFT_ALIGN, 4);
-    StringExpandPlaceholders(gStringVar4, gText_8416537);
+    ConvertIntToDecimalStringN(gStringVar1, GetCoins(), STR_CONV_MODE_LEFT_ALIGN, 5);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_8416537);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_8416537Spa);
     ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
     if (gTasks[taskId].data[3] == 0)
         DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
@@ -347,7 +359,10 @@ void FieldUseFunc_CoinCase(u8 taskId)
 void FieldUseFunc_PowderJar(u8 taskId)
 {
     ConvertIntToDecimalStringN(gStringVar1, GetBerryPowder(), STR_CONV_MODE_LEFT_ALIGN, 5);
-    StringExpandPlaceholders(gStringVar4, gText_8416644);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_8416644);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_8416644Spa);
     ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
     if (gTasks[taskId].data[3] == 0)
         DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
@@ -370,17 +385,37 @@ void FieldUseFunc_PokeFlute(u8 taskId)
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
         if (gTasks[taskId].data[3] == 0)
-            DisplayItemMessageInBag(taskId, 2, gText_8416690, sub_80A1648);
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageInBag(taskId, 2, gText_8416690, sub_80A1648);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageInBag(taskId, 2, gText_8416690Spa, sub_80A1648);
+		}
         else
-            DisplayItemMessageOnField(taskId, 2, gText_8416690, sub_80A1648);
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageOnField(taskId, 2, gText_8416690, sub_80A1648);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageOnField(taskId, 2, gText_8416690Spa, sub_80A1648);
+		}
     }
     else
     {
         // Now that's a catchy tune!
         if (gTasks[taskId].data[3] == 0)
-            DisplayItemMessageInBag(taskId, 2, gText_841665C, Task_ReturnToBagFromContextMenu);
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageInBag(taskId, 2, gText_841665C, Task_ReturnToBagFromContextMenu);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageInBag(taskId, 2, gText_841665CSpa, Task_ReturnToBagFromContextMenu);
+		}
         else
-            DisplayItemMessageOnField(taskId, 2, gText_841665C, Task_ItemUse_CloseMessageBoxAndReturnToField);
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageOnField(taskId, 2, gText_841665C, Task_ItemUse_CloseMessageBoxAndReturnToField);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageOnField(taskId, 2, gText_841665CSpa, Task_ItemUse_CloseMessageBoxAndReturnToField);
+		}
     }
 }
 
@@ -395,9 +430,19 @@ static void sub_80A1674(u8 taskId)
     if (WaitFanfare(FALSE))
     {
         if (gTasks[taskId].data[3] == 0)
-            DisplayItemMessageInBag(taskId, 2, gText_84166A7, Task_ReturnToBagFromContextMenu);
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageInBag(taskId, 2, gText_84166A7, Task_ReturnToBagFromContextMenu);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageInBag(taskId, 2, gText_84166A7Spa, Task_ReturnToBagFromContextMenu);
+		}
         else
-            DisplayItemMessageOnField(taskId, 2, gText_84166A7, Task_ItemUse_CloseMessageBoxAndReturnToField);
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageOnField(taskId, 2, gText_84166A7, Task_ItemUse_CloseMessageBoxAndReturnToField);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageOnField(taskId, 2, gText_84166A7Spa, Task_ItemUse_CloseMessageBoxAndReturnToField);
+		}
     }
 }
 
@@ -556,7 +601,12 @@ void FieldUseFunc_SuperRepel(u8 taskId)
     }
     else
         // An earlier repel is still in effect
-        DisplayItemMessageInBag(taskId, 2, gText_841659E, Task_ReturnToBagFromContextMenu);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageInBag(taskId, 2, gText_841659E, Task_ReturnToBagFromContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageInBag(taskId, 2, gText_841659ESpa, Task_ReturnToBagFromContextMenu);
+	}
 }
 
 static void sub_80A19E8(u8 taskId)
@@ -565,6 +615,7 @@ static void sub_80A19E8(u8 taskId)
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
         VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(gSpecialVar_ItemId));
+        VarSet(VAR_REPEL_LAST_USED, gSpecialVar_ItemId);
         sub_80A1A44();
         DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
@@ -576,7 +627,10 @@ static void sub_80A1A44(void)
     Pocket_CalculateNItemsAndMaxShowed(ItemId_GetPocket(gSpecialVar_ItemId));
     PocketCalculateInitialCursorPosAndItemsAbove(ItemId_GetPocket(gSpecialVar_ItemId));
     CopyItemName(gSpecialVar_ItemId, gStringVar2);
-    StringExpandPlaceholders(gStringVar4, gText_841658C);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_841658C);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_841658CSpa);
 }
 
 void FieldUseFunc_BlackFlute(u8 taskId)
@@ -587,7 +641,10 @@ void FieldUseFunc_BlackFlute(u8 taskId)
         FlagSet(FLAG_SYS_WHITE_FLUTE_ACTIVE);
         FlagClear(FLAG_SYS_BLACK_FLUTE_ACTIVE);
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
-        StringExpandPlaceholders(gStringVar4, gText_84165D2);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_84165D2);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_84165D2Spa);
         gTasks[taskId].func = sub_80A1B48;
         gTasks[taskId].data[8] = 0;
     }
@@ -596,7 +653,10 @@ void FieldUseFunc_BlackFlute(u8 taskId)
         FlagSet(FLAG_SYS_BLACK_FLUTE_ACTIVE);
         FlagClear(FLAG_SYS_WHITE_FLUTE_ACTIVE);
         CopyItemName(gSpecialVar_ItemId, gStringVar2);
-        StringExpandPlaceholders(gStringVar4, gText_8416600);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_8416600);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_8416600Spa);
         gTasks[taskId].func = sub_80A1B48;
         gTasks[taskId].data[8] = 0;
     }
@@ -744,7 +804,10 @@ void BattleUseFunc_PokeBallEtc(u8 taskId)
     }
     else
     {
-        DisplayItemMessageInBag(taskId, 2, gText_8416631, Task_ReturnToBagFromContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageInBag(taskId, 2, gText_8416631, Task_ReturnToBagFromContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageInBag(taskId, 2, gText_8416631Spa, Task_ReturnToBagFromContextMenu);
     }
 }
 
@@ -758,7 +821,10 @@ void BattleUseFunc_GuardSpec(u8 taskId)
 {
     if (ExecuteTableBasedItemEffect(&gPlayerParty[gBattlerPartyIndexes[gBattlerInMenuId]], gSpecialVar_ItemId, gBattlerPartyIndexes[gBattlerInMenuId], 0))
     {
-        DisplayItemMessageInBag(taskId, 2, gText_WontHaveEffect, Task_ReturnToBagFromContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageInBag(taskId, 2, gText_WontHaveEffect, Task_ReturnToBagFromContextMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageInBag(taskId, 2, gText_WontHaveEffectSpa, Task_ReturnToBagFromContextMenu);
     }
     else
     {
@@ -906,7 +972,10 @@ void FieldUseFunc_OakStopsYou(u8 taskId)
 {
     if (GetPocketByItemId(gSpecialVar_ItemId) == POCKET_BERRY_POUCH)
     {
-        StringExpandPlaceholders(gStringVar4, gText_OakForbidsUseOfItemHere);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_OakForbidsUseOfItemHere);
+        else
+			StringExpandPlaceholders(gStringVar4, gText_OakForbidsUseOfItemHereSpa);
         DisplayItemMessageInBerryPouch(taskId, 4, gStringVar4, Task_BerryPouch_DestroyDialogueWindowAndRefreshListMenu);
     }
     else

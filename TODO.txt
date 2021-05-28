@@ -71,6 +71,7 @@
 	- Habilitar la activación y desactivación a través del botón R (FALTA)
 + Diferencia de aspectos de algunos pokémon dependiendo de su género (GEN IV)
 + Se permite correr en interiores de edificios (GEN IV)
+- Baya Sidra restaura el 25% del total de los PS del pokémon en vez de 30 PS
 - Base secreta ha sido movido a The Underground (GEN IV)
 - Removido el almacenamiento de objetos en el PC debido ya que el Bolso puede llevar todos los objetos sin límites (GEN IV)
 - Entrenadores pueden caminar junto al Player para iniciar Batallas Dobles (GEN IV)
@@ -153,8 +154,8 @@
 + Decap. Textos Generales strings.c(LISTO)
 + Remover Hagamos Memoria(LISTO)
 + Remover Incremento de Estadísticas provisto por las Medallas(LISTO)
-- Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)(LISTO)
-- Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)(LISTO)
++ Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)(LISTO)
++ Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)(LISTO)
 + Incrementar límite de dinero a 99.999.999(LISTO)
 + Incrementar límite de fichas a 50.000(LISTO)
 + Extender el número de Direct Sound Tracks de 5 a 12(LISTO)
@@ -226,7 +227,7 @@
 + item.c
 + item_menu.c
 - item_pc.c
-- item_use.c
++ item_use.c
 - itemfinder.c
 - learn_move.c
 - link.c
