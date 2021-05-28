@@ -50,6 +50,7 @@
 	- Ajustar slots afectados por ataques y efectos
 	- Mejorar distribución de colores en los ataques
 + New Battle UI
+	- Corregir o eliminar el cambio de posiciób de ataques en batalla
 - Sistema de Sombras GEN V
 - Cosplays de Pikachu
 - Text Font GEN V
@@ -170,6 +171,7 @@
 + Implementado Buceo
 - Implementado Treparocas
 + Uso repetido de medicinas y carameloraro fuera de batalla 
++ Posibilidad de hacer invisible al player (settear FLAG_SPAWN_INVISIBLE)
 
 ==============================================
 	Fixes
