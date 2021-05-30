@@ -172,6 +172,7 @@
 - Implementado Treparocas
 + Uso repetido de medicinas y carameloraro fuera de batalla 
 + Posibilidad de hacer invisible al player (settear FLAG_SPAWN_INVISIBLE)
++ Hight Quality Audio Mixer by ipatix
 
 ==============================================
 	Fixes
