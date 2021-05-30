@@ -50,7 +50,7 @@
 	- Ajustar slots afectados por ataques y efectos
 	- Mejorar distribución de colores en los ataques
 + New Battle UI
-	- Corregir o eliminar el cambio de posiciób de ataques en batalla
+	- Corregir o eliminar el cambio de posición de ataques en batalla
 - Sistema de Sombras GEN V
 - Cosplays de Pikachu
 - Text Font GEN V
@@ -107,7 +107,7 @@
 - Movimientos, Objetos y Habilidades incrementados de 12 a 16 caracteres
 - Expandida la capacidad de almacenamiento a 930 pokémon
 - Repartir Experiencia pasa a ser un Key Item que se puede activar o desactivar
-- Somnifero no afecta tipo Planta, con la habilidad Funda o que lleve equipado Gafa Protectora
+- Somnífero no afecta tipo Planta, con la habilidad Funda o que lleve equipado Gafa Protectora
 - Espora no afecta tipo Planta, con la habilidad Funda o que lleve equipado Gafa Protectora
 - Paralizador no afecta tipo Planta, tipo Eléctrico, con la habilidad Funda o que lleve equipado Gafa Protectora
 
