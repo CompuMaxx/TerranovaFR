@@ -57,6 +57,7 @@
 - Text Font GEN V
 - Map Name Popup GEN V
 - Vs Bar GEN IV y V (editar battle_transition.c)
+TEST
 
 ==============================================
 	GEN IV
