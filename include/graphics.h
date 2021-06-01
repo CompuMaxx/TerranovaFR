@@ -4858,11 +4858,11 @@ extern const u16 gHoennTrainerCard_Pal[];
 extern const u32 gHoennTrainerCard_Gfx[];
 
 // battle_interface
-extern const u32 gFile_graphics_battle_interface_ball_status_bar_sheet[];
+extern const u32 gBattleInterface_BallStatusBarSheet[];
 extern const u8 gHealthboxElementsGfxTable[][32];
 extern const u16 gBattleInterface_BallStatusBarPal[];
 extern const u16 gBattleInterface_BallDisplayPal[];
-extern const u16 gUnknown_8D12404[];
+extern const u16 gBattleInterface_BallDisplaySheet[];
 
 // item_menu
 extern const u32 gUnknown_8E830CC[];

@@ -433,7 +433,7 @@ void AddTextPrinterDiffStyle(bool8 allowSkippingDelayWithButtonPress)
     if (result == 0)
         AddTextPrinterParameterized2(0, 4, gStringVar4, GetTextSpeedSetting(), nptr, 8, 1, 3);
     else if (result == 1)
-        AddTextPrinterParameterized2(0, 5, gStringVar4, GetTextSpeedSetting(), nptr, 4, 1, 3);
+        AddTextPrinterParameterized2(0, 1, gStringVar4, GetTextSpeedSetting(), nptr, 4, 1, 3);
     else
         AddTextPrinterParameterized2(0, 2, gStringVar4, GetTextSpeedSetting(), nptr, 2, 1, 3);
 }

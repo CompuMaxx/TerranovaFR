@@ -51,6 +51,7 @@
 	- Mejorar distribución de colores en los ataques
 + New Battle UI
 	- Corregir o eliminar el cambio de posición de ataques en batalla
++ Battle HUD GEN V
 - Sistema de Sombras GEN V
 - Cosplays de Pikachu
 - Text Font GEN V
@@ -197,7 +198,7 @@
 + battle_controller_player.c
 + battle_controller_pokedude.c
 + battle_controller_safari.c
-- battle_interface.c
++ battle_interface.c
 + battle_main.c
 + battle_message.c(posibles fallos...)
 - battle_records.c
