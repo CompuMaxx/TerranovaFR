@@ -1685,7 +1685,6 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
 
 			if (!gBattleSpritesDataPtr->battlerData[battlerId].hpNumbersNoBars)
 			{
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_PS), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
 				if (gSaveBlock2Ptr->optionsLanguage == ENG)
 				{
 					CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_HP), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
@@ -1700,7 +1699,6 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
 
 			if (!gBattleSpritesDataPtr->battlerData[battlerId].hpNumbersNoBars)
 			{
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_PS), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
 				if (gSaveBlock2Ptr->optionsLanguage == ENG)
 				{
 					CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_HP), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
@@ -1719,13 +1717,6 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
     pltAdder += battlerId + 12;
 
     CpuCopy32(statusGfxPtr, (void*)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder) * TILE_SIZE_4BPP), 96);
-    if (IsDoubleBattle() == TRUE || GetBattlerSide(battlerId) == B_SIDE_OPPONENT)
-    {
-        if (!gBattleSpritesDataPtr->battlerData[battlerId].hpNumbersNoBars)
-        {
-            CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_0), (void*)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 32);
-        }
-    }
     TryAddPokeballIconToHealthbox(healthboxSpriteId, FALSE);
 }
 

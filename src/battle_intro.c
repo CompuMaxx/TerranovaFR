@@ -121,9 +121,14 @@ void sub_80BC41C(u8 taskId)
     gBattle_BG1_Y = 0;
     gBattle_BG2_X = 0;
     gBattle_BG2_Y = 0;
+    gBattle_BG3_Y = 0;
+    gBattle_BG3_Y = 0;
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
     SetGpuReg(REG_OFFSET_BLDY, 0);
+	SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_16COLOR | BGCNT_SCREENBASE(28) | BGCNT_TXT256x256);
+	SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_16COLOR | BGCNT_SCREENBASE(30) | BGCNT_TXT512x256);
+	SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3) | BGCNT_CHARBASE(2) | BGCNT_16COLOR | BGCNT_SCREENBASE(26) | BGCNT_TXT512x256);
     SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
     SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR | WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR);
 }
@@ -176,8 +181,7 @@ void BattleIntroSlide(u8 taskId)
         if (!gTasks[taskId].data[2])
         {
 			gScanlineEffect.state = 3;
-			SetGpuReg(REG_OFFSET_BG1VOFS, 0);
-			HideBg(3);
+			gBattle_BG1_Y = 0;
 			++gTasks[taskId].data[0];
         }
         break;
@@ -185,15 +189,12 @@ void BattleIntroSlide(u8 taskId)
 		SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3) | BGCNT_CHARBASE(2) | BGCNT_16COLOR | BGCNT_SCREENBASE(26) | BGCNT_TXT512x256);
 		LZDecompressVram(sBattleTerrainTable[GetBattleTerrainOverride()].tileset, (void*)(VRAM + 0x8000));
 		LZDecompressVram(sBattleTerrainTable[GetBattleTerrainOverride()].tilemap, (void*)(VRAM + 0xD000));
-		ShowBg(3);
-		HideBg(1);
 		++gTasks[taskId].data[0];
         break;
     case 5:
 		SetBgAttribute(1, BG_ATTR_CHARBASEINDEX, 0);
-		SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_16COLOR | BGCNT_SCREENBASE(28) | BGCNT_TXT256x512);
+		SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_16COLOR | BGCNT_SCREENBASE(28) | BGCNT_TXT256x256);
 		CpuFill32(0, (void *)BG_SCREEN_ADDR(28), 2 * BG_SCREEN_SIZE);
-		ShowBg(1);
 		SetBgAttribute(2, BG_ATTR_CHARBASEINDEX, 0);
 		SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_16COLOR | BGCNT_SCREENBASE(30) | BGCNT_TXT512x256);
 		++gTasks[taskId].data[0];

@@ -192,7 +192,7 @@ clean-tools:
 clean: clean-src clean-sounds clean-maps tidy
 
 tidy:
-	$(RM) $(ALL_BUILDS:%=poke%{.gba,.elf,.map})
+	$(RM) $(ALL_BUILDS:%=poke%{.elf,.map})
 	$(RM) -r build
 
 include graphics_file_rules.mk

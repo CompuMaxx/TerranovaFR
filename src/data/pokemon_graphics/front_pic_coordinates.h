@@ -263,7 +263,7 @@ const struct MonCoords gMonFrontPicCoords[] =
 	[SPECIES_MEOWTH] = 
 	{ 
 		.size = 86, 
-		.y_offset = 12,
+		.y_offset = 4,
 	},
 	[SPECIES_PERSIAN] = 
 	{ 
