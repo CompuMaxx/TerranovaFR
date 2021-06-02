@@ -110,6 +110,8 @@
 #define PARTY_MSG_BOOST_PP_WHICH_MOVE       24
 #define PARTY_MSG_DO_WHAT_WITH_ITEM         25
 #define PARTY_MSG_DO_WHAT_WITH_MAIL         26
+#define PARTY_MSG_DO_WHAT_WITH_NICKNAME     27
+#define PARTY_MSG_YOU_MUST_BE_THEIR_OT      28
 #define PARTY_MSG_NONE                      127
 
 // IDs for DisplayPartyPokemonDescriptionText, to display a message in the party pokemon's box
@@ -124,9 +126,10 @@
 #define PARTYBOX_DESC_NOT_ABLE_2  8
 #define PARTYBOX_DESC_LEARNED     9
 
-#define SELECTWINDOW_ACTIONS  0
-#define SELECTWINDOW_ITEM     1
-#define SELECTWINDOW_MAIL     2
-#define SELECTWINDOW_MOVES    3
+#define SELECTWINDOW_ACTIONS  	0
+#define SELECTWINDOW_ITEM     	1
+#define SELECTWINDOW_MAIL     	2
+#define SELECTWINDOW_MOVES    	3
+#define SELECTWINDOW_NICKNAME 	4
 
 #endif // GUARD_CONSTANTS_PARTY_MENU_H

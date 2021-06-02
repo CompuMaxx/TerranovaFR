@@ -20,7 +20,7 @@
 	- Auto cambio de página luego que la primera letra sea mayúscula
 + TextBox GEN IV(LISTO)
 + Party Menu GEN V(LISTO)
-	- Función MOTE (FALTA)
+	- Función MOTE
 	- Funcion Swap Items (FALTA)
 	- Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
 	- Expandir íconos de Objetos llevados por los Pokémon (Items, Mail, Pokeballs & Berries )
@@ -129,7 +129,7 @@
 - Se muestra la efectividad de un ataque si ya se ha luchado con el pokémon anteriormente
 - Algunos pokémon aprenden ataques una vez evolucionan
 - Confusión tiene un chance de 33% de hacerse daño en vez de 50%
-- El Nickname se puede cambiar en cualquier momento desde la Party Screen
++ El Nickname se puede cambiar en cualquier momento desde la Party Screen
 
 ==============================================
 	GEN VIII
@@ -137,7 +137,7 @@
 - El Mapa es parte del Menú
 - La Eliet Four ha sido reemplazada por la Champion Cup
 - La Trainer Card ha sido reemplazada por la Champion Card
-- El Nickname solo puede ser cambiado por su entrenador original
++ El Nickname solo puede ser cambiado por su entrenador original
 
 ==============================================
 	Addons

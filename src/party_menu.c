@@ -34,6 +34,7 @@
 #include "menu_helpers.h"
 #include "new_menu_helpers.h"
 #include "metatile_behavior.h"
+#include "naming_screen.h"
 #include "overworld.h"
 #include "party_menu.h"
 #include "player_pc.h"
@@ -132,6 +133,8 @@ struct PartyMenuBox
 static void BlitBitmapToPartyWindow_LeftColumn(u8 windowId, u8 x, u8 y, u8 width, u8 height, bool8 isEgg);
 static void BlitBitmapToPartyWindow_RightColumn(u8 windowId, u8 x, u8 y, u8 width, u8 height, bool8 isEgg);
 static void CursorCB_Summary(u8 taskId);
+static void CursorCB_Nickname(u8);
+static void CursorCB_ChangeNickname(u8);
 static void CursorCB_Switch(u8 taskId);
 static void CursorCB_Cancel1(u8 taskId);
 static void CursorCB_Item(u8 taskId);
@@ -2638,6 +2641,12 @@ void DisplayPartyMenuStdMessage(u32 stringId)
         case PARTY_MSG_DO_WHAT_WITH_MON:
             *windowPtr = AddWindow(&sDoWhatWithMonMsgWindowTemplate);
             break;
+        case PARTY_MSG_DO_WHAT_WITH_NICKNAME:
+            *windowPtr = AddWindow(&sDoWhatWithItemMsgWindowTemplate);
+            break;
+        case PARTY_MSG_YOU_MUST_BE_THEIR_OT:
+            *windowPtr = AddWindow(&sDoWhatWithItemMsgWindowTemplate);
+            break;
         case PARTY_MSG_DO_WHAT_WITH_ITEM:
             *windowPtr = AddWindow(&sDoWhatWithItemMsgWindowTemplate);
             break;
@@ -2664,7 +2673,7 @@ void DisplayPartyMenuStdMessage(u32 stringId)
         if (gSaveBlock2Ptr->optionsLanguage == ENG)
 			StringExpandPlaceholders(gStringVar4, sActionStringTable[stringId]);
         if (gSaveBlock2Ptr->optionsLanguage == SPA)
-			StringExpandPlaceholders(gStringVar4, sActionStringTable[stringId + 27]);
+			StringExpandPlaceholders(gStringVar4, sActionStringTable[stringId + 29]);
         AddTextPrinterParameterized(*windowPtr, 2, gStringVar4, 0, 2, 0, 0);
         ScheduleBgCopyTilemapToVram(2);
     }
@@ -2698,7 +2707,10 @@ static u8 DisplaySelectionWindow(u8 windowType)
     switch (windowType)
     {
     case SELECTWINDOW_ACTIONS:
-        window = SetWindowTemplateFields(2, 19, 19 - (sPartyMenuInternal->numActions * 2), 10, sPartyMenuInternal->numActions * 2, 14, 0x2BF);
+        window = SetWindowTemplateFields(2, 20, 19 - (sPartyMenuInternal->numActions * 2), 9, sPartyMenuInternal->numActions * 2, 14, 0x2BF);
+        break;
+    case SELECTWINDOW_NICKNAME:
+        window = sNicknameChangeWindowTemplate;
         break;
     case SELECTWINDOW_ITEM:
         window = sItemGiveTakeWindowTemplate;
@@ -2723,7 +2735,7 @@ static u8 DisplaySelectionWindow(u8 windowType)
         if (gSaveBlock2Ptr->optionsLanguage == ENG)
 			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[sPartyMenuInternal->actions[i]].text);
         if (gSaveBlock2Ptr->optionsLanguage == SPA)
-			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[31 + sPartyMenuInternal->actions[i]].text);
+			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[33 + sPartyMenuInternal->actions[i]].text);
     }
     Menu_InitCursorInternal(sPartyMenuInternal->windowId[0], 2, 0, 2, 16, sPartyMenuInternal->numActions, 0, 1);
     ScheduleBgCopyTilemapToVram(2);
@@ -3098,7 +3110,10 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
         }
     }
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
+	{
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SWITCH);
+	    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
+	}
     if (ItemIsMail(GetMonData(&mons[slotId], MON_DATA_HELD_ITEM)))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MAIL);
     else
@@ -4172,6 +4187,66 @@ static void Task_HandleLoseMailMessageYesNoInput(u8 taskId)
         gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
         break;
     }
+}
+
+static void CursorCB_Nickname(u8 taskId)
+{
+    PlaySE(SE_SELECT);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+    PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+    SetPartyMonSelectionActions(gPlayerParty, gPartyMenu.slotId, ACTIONS_NICKNAME);
+    DisplaySelectionWindow(SELECTWINDOW_NICKNAME);
+    DisplayPartyMenuStdMessage(PARTY_MSG_DO_WHAT_WITH_NICKNAME);
+    gTasks[taskId].data[0] = 0xFF;
+    gTasks[taskId].func = Task_HandleSelectionMenuInput;
+}
+
+static void CB2_ReturnToPartyMenuFromNamingScreen(void)
+{
+    gPaletteFade.bufferTransferDisabled = TRUE;
+    gPartyMenu.slotId = GetLastViewedMonIndex();
+    InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, gPartyMenu.action, TRUE, PARTY_MSG_DO_WHAT_WITH_MON, Task_TryCreateSelectionWindow, gPartyMenu.exitCallback);
+}
+
+static void ChangeNickname_CB(void)
+{
+    SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar2);
+    CB2_ReturnToPartyMenuFromNamingScreen();
+}
+
+static void DoChangeNickname(void)
+{
+    u16 species;
+    u8 gender;
+    u32 personality;
+
+	GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar3);
+    GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar2);
+    species = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_SPECIES, NULL);
+    gender = GetMonGender(&gPlayerParty[gSpecialVar_0x8004]);
+    personality = GetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_PERSONALITY, NULL);
+    DoNamingScreen(NAMING_SCREEN_NAME_RATER, gStringVar2, species, gender, personality, ChangeNickname_CB);
+}
+
+static void CursorCB_ChangeNickname(u8 taskId)
+{
+	u32 trainerOtId, monOtId;
+	
+	trainerOtId = gSaveBlock2Ptr->playerTrainerId[0] | (gSaveBlock2Ptr->playerTrainerId[1] << 8) | (gSaveBlock2Ptr->playerTrainerId[2] << 16) | (gSaveBlock2Ptr->playerTrainerId[3] << 24);
+	monOtId = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_OT_ID, NULL);
+	
+	if (trainerOtId == monOtId)
+	{
+		PlaySE(SE_SELECT);
+		gSpecialVar_0x8004 = gPartyMenu.slotId;
+		sPartyMenuInternal->exitCallback = DoChangeNickname;
+		Task_ClosePartyMenu(taskId);
+	}
+	else
+	{
+		PlaySE(SE_FAILURE);
+		DisplayPartyMenuStdMessage(PARTY_MSG_YOU_MUST_BE_THEIR_OT);
+	}
 }
 
 static void CursorCB_Cancel2(u8 taskId)
