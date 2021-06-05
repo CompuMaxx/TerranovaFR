@@ -488,18 +488,18 @@ static const struct WindowTemplate sNicknameChangeWindowTemplate =
     .width = 6,
     .height = 4,
     .paletteNum = 14,
-    .baseBlock = 768,
+    .baseBlock = 774,
 };
 
-static const struct WindowTemplate sItemGiveTakeWindowTemplate =
+static const struct WindowTemplate sItemGiveTakeMoveWindowTemplate =
 {
     .bg = 2,
     .tilemapLeft = 23,
-    .tilemapTop = 13,
+    .tilemapTop = 11,
     .width = 6,
-    .height = 6,
+    .height = 8,
     .paletteNum = 14,
-    .baseBlock = 768,
+    .baseBlock = 774,
 };
 
 static const struct WindowTemplate sMailReadTakeWindowTemplate =
@@ -510,7 +510,7 @@ static const struct WindowTemplate sMailReadTakeWindowTemplate =
     .width = 9,
     .height = 6,
     .paletteNum = 14,
-    .baseBlock = 768,
+    .baseBlock = 774,
 };
 
 static const struct WindowTemplate sMoveSelectWindowTemplate =
@@ -521,7 +521,7 @@ static const struct WindowTemplate sMoveSelectWindowTemplate =
     .width = 10,
     .height = 8,
     .paletteNum = 14,
-    .baseBlock = 768,
+    .baseBlock = 774,
 };
 
 static const struct WindowTemplate sPartyMenuYesNoWindowTemplate =
@@ -692,8 +692,8 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_RESTORE_WHICH_MOVE]     = gText_RestoreWhichMove,
     [PARTY_MSG_BOOST_PP_WHICH_MOVE]    = gText_BoostPp,
     [PARTY_MSG_DO_WHAT_WITH_NICKNAME]  = gText_DoWhatWithNickname,
-    [PARTY_MSG_YOU_MUST_BE_THEIR_OT]   = gText_YouMustBeTheirOT,
     [PARTY_MSG_DO_WHAT_WITH_ITEM]      = gText_DoWhatWithItem,
+    [PARTY_MSG_MOVE_ITEM_TO_WHERE]     = gText_MoveToWhere,
     [PARTY_MSG_DO_WHAT_WITH_MAIL]      = gText_DoWhatWithMail,
     [PARTY_MSG_CHOOSE_MON + 29]             = gText_ChoosePokemonSpa,
     [PARTY_MSG_CHOOSE_MON_OR_CANCEL + 29]   = gText_ChoosePokemonCancelSpa,
@@ -721,8 +721,8 @@ static const u8 *const sActionStringTable[] =
     [PARTY_MSG_RESTORE_WHICH_MOVE + 29]     = gText_RestoreWhichMoveSpa,
     [PARTY_MSG_BOOST_PP_WHICH_MOVE + 29]    = gText_BoostPpSpa,
     [PARTY_MSG_DO_WHAT_WITH_NICKNAME + 29]  = gText_DoWhatWithNicknameSpa,
-    [PARTY_MSG_YOU_MUST_BE_THEIR_OT + 29]   = gText_YouMustBeTheirOTSpa,
     [PARTY_MSG_DO_WHAT_WITH_ITEM + 29]      = gText_DoWhatWithItemSpa,
+    [PARTY_MSG_MOVE_ITEM_TO_WHERE + 29]     = gText_MoveToWhereSpa,
     [PARTY_MSG_DO_WHAT_WITH_MAIL + 29]      = gText_DoWhatWithMailSpa,
 };
 
@@ -1084,6 +1084,7 @@ enum
     MENU_ITEM,
     MENU_GIVE,
     MENU_TAKE_ITEM,
+    MENU_MOVE_ITEM,
     MENU_MAIL,
     MENU_TAKE_MAIL,
     MENU_READ,
@@ -1113,6 +1114,7 @@ static struct
     [MENU_ITEM] = {gText_Item, CursorCB_Item},
     [MENU_GIVE] = {gText_Give, CursorCB_Give},
     [MENU_TAKE_ITEM] = {gText_Take, CursorCB_TakeItem},
+    [MENU_MOVE_ITEM] = {gText_Move, CursorCB_MoveItem},
     [MENU_MAIL] = {gText_Mail, CursorCB_Mail},
     [MENU_TAKE_MAIL] = {gText_Take2, CursorCB_TakeMail},
     [MENU_READ] = {gText_Read2, CursorCB_Read},
@@ -1138,39 +1140,40 @@ static struct
     [MENU_FIELD_MOVES + FIELD_MOVE_SOFT_BOILED] = {gMoveNames[MOVE_SOFT_BOILED], CursorCB_FieldMove},
     [MENU_FIELD_MOVES + FIELD_MOVE_SWEET_SCENT] = {gMoveNames[MOVE_SWEET_SCENT], CursorCB_FieldMove},
     [MENU_FIELD_MOVES + FIELD_MOVE_DIVE] = {gMoveNames[MOVE_DIVE], CursorCB_FieldMove},
-	[MENU_SUMMARY + 33] = {gText_Summary5Spa, CursorCB_Summary},
-    [MENU_NICKNAME + 33] = {gText_NicknameSpa, CursorCB_Nickname},
-    [MENU_CHANGE + 33] = {gText_ShiftSpa, CursorCB_ChangeNickname},
-    [MENU_SWITCH + 33] = {gText_Switch2Spa, CursorCB_Switch},
-    [MENU_CANCEL1 + 33] = {gText_SSCancelSpa, CursorCB_Cancel1},
-    [MENU_ITEM + 33] = {gText_ItemSpa, CursorCB_Item},
-    [MENU_GIVE + 33] = {gText_GiveSpa, CursorCB_Give},
-    [MENU_TAKE_ITEM + 33] = {gText_TakeSpa, CursorCB_TakeItem},
-    [MENU_MAIL + 33] = {gText_MailSpa, CursorCB_Mail},
-    [MENU_TAKE_MAIL + 33] = {gText_Take2Spa, CursorCB_TakeMail},
-    [MENU_READ + 33] = {gText_Read2Spa, CursorCB_Read},
-    [MENU_CANCEL2 + 33] = {gText_SSCancelSpa, CursorCB_Cancel2},
-    [MENU_SHIFT + 33] = {gText_ShiftSpa, CursorCB_SendMon},
-    [MENU_SEND_OUT + 33] = {gText_SendOutSpa, CursorCB_SendMon},
-    [MENU_ENTER + 33] = {gText_EnterSpa, CursorCB_Enter},
-    [MENU_NO_ENTRY + 33] = {gText_NoEntrySpa, CursorCB_NoEntry},
-    [MENU_STORE + 33] = {gText_StoreSpa, CursorCB_Store},
-    [MENU_REGISTER + 33] = {gText_RegisterSpa, CursorCB_Register},
-    [MENU_TRADE1 + 33] = {gText_Trade4Spa, CursorCB_Trade1},
-    [MENU_TRADE2 + 33] = {gText_Trade4Spa, CursorCB_Trade2},
-    [MENU_FIELD_MOVES + FIELD_MOVE_FLASH + 33] = {gMoveNamesSpa[MOVE_FLASH], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_CUT + 33] = {gMoveNamesSpa[MOVE_CUT], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_FLY + 33] = {gMoveNamesSpa[MOVE_FLY], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_STRENGTH + 33] = {gMoveNamesSpa[MOVE_STRENGTH], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_SURF + 33] = {gMoveNamesSpa[MOVE_SURF], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_ROCK_SMASH + 33] = {gMoveNamesSpa[MOVE_ROCK_SMASH], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_WATERFALL + 33] = {gMoveNamesSpa[MOVE_WATERFALL], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_TELEPORT + 33] = {gMoveNamesSpa[MOVE_TELEPORT], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_DIG + 33] = {gMoveNamesSpa[MOVE_DIG], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_MILK_DRINK + 33] = {gMoveNamesSpa[MOVE_MILK_DRINK], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_SOFT_BOILED + 33] = {gMoveNamesSpa[MOVE_SOFT_BOILED], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_SWEET_SCENT + 33] = {gMoveNamesSpa[MOVE_SWEET_SCENT], CursorCB_FieldMove},
-    [MENU_FIELD_MOVES + FIELD_MOVE_DIVE + 33] = {gMoveNames[MOVE_DIVE], CursorCB_FieldMove},
+	[MENU_SUMMARY + 34] = {gText_Summary5Spa, CursorCB_Summary},
+    [MENU_NICKNAME + 34] = {gText_NicknameSpa, CursorCB_Nickname},
+    [MENU_CHANGE + 34] = {gText_ShiftSpa, CursorCB_ChangeNickname},
+    [MENU_SWITCH + 34] = {gText_Switch2Spa, CursorCB_Switch},
+    [MENU_CANCEL1 + 34] = {gText_SSCancelSpa, CursorCB_Cancel1},
+    [MENU_ITEM + 34] = {gText_ItemSpa, CursorCB_Item},
+    [MENU_GIVE + 34] = {gText_GiveSpa, CursorCB_Give},
+    [MENU_TAKE_ITEM + 34] = {gText_TakeSpa, CursorCB_TakeItem},
+    [MENU_MOVE_ITEM + 34] = {gText_MoveSpa, CursorCB_MoveItem},
+    [MENU_MAIL + 34] = {gText_MailSpa, CursorCB_Mail},
+    [MENU_TAKE_MAIL + 34] = {gText_Take2Spa, CursorCB_TakeMail},
+    [MENU_READ + 34] = {gText_Read2Spa, CursorCB_Read},
+    [MENU_CANCEL2 + 34] = {gText_SSCancelSpa, CursorCB_Cancel2},
+    [MENU_SHIFT + 34] = {gText_ShiftSpa, CursorCB_SendMon},
+    [MENU_SEND_OUT + 34] = {gText_SendOutSpa, CursorCB_SendMon},
+    [MENU_ENTER + 34] = {gText_EnterSpa, CursorCB_Enter},
+    [MENU_NO_ENTRY + 34] = {gText_NoEntrySpa, CursorCB_NoEntry},
+    [MENU_STORE + 34] = {gText_StoreSpa, CursorCB_Store},
+    [MENU_REGISTER + 34] = {gText_RegisterSpa, CursorCB_Register},
+    [MENU_TRADE1 + 34] = {gText_Trade4Spa, CursorCB_Trade1},
+    [MENU_TRADE2 + 34] = {gText_Trade4Spa, CursorCB_Trade2},
+    [MENU_FIELD_MOVES + FIELD_MOVE_FLASH + 34] = {gMoveNamesSpa[MOVE_FLASH], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_CUT + 34] = {gMoveNamesSpa[MOVE_CUT], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_FLY + 34] = {gMoveNamesSpa[MOVE_FLY], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_STRENGTH + 34] = {gMoveNamesSpa[MOVE_STRENGTH], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_SURF + 34] = {gMoveNamesSpa[MOVE_SURF], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_ROCK_SMASH + 34] = {gMoveNamesSpa[MOVE_ROCK_SMASH], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_WATERFALL + 34] = {gMoveNamesSpa[MOVE_WATERFALL], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_TELEPORT + 34] = {gMoveNamesSpa[MOVE_TELEPORT], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_DIG + 34] = {gMoveNamesSpa[MOVE_DIG], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_MILK_DRINK + 34] = {gMoveNamesSpa[MOVE_MILK_DRINK], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_SOFT_BOILED + 34] = {gMoveNamesSpa[MOVE_SOFT_BOILED], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_SWEET_SCENT + 34] = {gMoveNamesSpa[MOVE_SWEET_SCENT], CursorCB_FieldMove},
+    [MENU_FIELD_MOVES + FIELD_MOVE_DIVE + 34] = {gMoveNames[MOVE_DIVE], CursorCB_FieldMove},
 };
 
 static const u8 sPartyMenuAction_SummarySwitchCancel[] = {MENU_SUMMARY, MENU_SWITCH, MENU_CANCEL1};
@@ -1180,7 +1183,7 @@ static const u8 sPartyMenuAction_SummaryCancel[] = {MENU_SUMMARY, MENU_CANCEL1};
 static const u8 sPartyMenuAction_EnterSummaryCancel[] = {MENU_ENTER, MENU_SUMMARY, MENU_CANCEL1};
 static const u8 sPartyMenuAction_NoEntrySummaryCancel[] = {MENU_NO_ENTRY, MENU_SUMMARY, MENU_CANCEL1};
 static const u8 sPartyMenuAction_StoreSummaryCancel[] = {MENU_STORE, MENU_SUMMARY, MENU_CANCEL1};
-static const u8 sPartyMenuAction_GiveTakeItemCancel[] = {MENU_GIVE, MENU_TAKE_ITEM, MENU_CANCEL2};
+static const u8 sPartyMenuAction_GiveTakeMoveItemCancel[] = {MENU_GIVE, MENU_TAKE_ITEM, MENU_MOVE_ITEM, MENU_CANCEL2};
 static const u8 sPartyMenuAction_ChangeCancel[] = {MENU_CHANGE, MENU_CANCEL2};
 static const u8 sPartyMenuAction_ReadTakeMailCancel[] = {MENU_READ, MENU_TAKE_MAIL, MENU_CANCEL2};
 static const u8 sPartyMenuAction_RegisterSummaryCancel[] = {MENU_REGISTER, MENU_SUMMARY, MENU_CANCEL1};
@@ -1216,7 +1219,7 @@ static const u8 *const sPartyMenuActions[] =
     [ACTIONS_NO_ENTRY]      = sPartyMenuAction_NoEntrySummaryCancel,
     [ACTIONS_STORE]         = sPartyMenuAction_StoreSummaryCancel,
     [ACTIONS_SUMMARY_ONLY]  = sPartyMenuAction_SummaryCancel,
-    [ACTIONS_ITEM]          = sPartyMenuAction_GiveTakeItemCancel,
+    [ACTIONS_ITEM]          = sPartyMenuAction_GiveTakeMoveItemCancel,
     [ACTIONS_NICKNAME]      = sPartyMenuAction_ChangeCancel,
     [ACTIONS_MAIL]          = sPartyMenuAction_ReadTakeMailCancel,
     [ACTIONS_REGISTER]      = sPartyMenuAction_RegisterSummaryCancel,
@@ -1234,7 +1237,7 @@ static const u8 sPartyMenuActionCounts[] =
     [ACTIONS_NO_ENTRY]      = NELEMS(sPartyMenuAction_NoEntrySummaryCancel),
     [ACTIONS_STORE]         = NELEMS(sPartyMenuAction_StoreSummaryCancel),
     [ACTIONS_SUMMARY_ONLY]  = NELEMS(sPartyMenuAction_SummaryCancel),
-    [ACTIONS_ITEM]          = NELEMS(sPartyMenuAction_GiveTakeItemCancel),
+    [ACTIONS_ITEM]          = NELEMS(sPartyMenuAction_GiveTakeMoveItemCancel),
     [ACTIONS_NICKNAME]      = NELEMS(sPartyMenuAction_ChangeCancel),
     [ACTIONS_MAIL]          = NELEMS(sPartyMenuAction_ReadTakeMailCancel),
     [ACTIONS_REGISTER]      = NELEMS(sPartyMenuAction_RegisterSummaryCancel),

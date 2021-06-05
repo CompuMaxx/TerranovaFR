@@ -858,15 +858,15 @@ void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent)
 			}
 			else if (value >= 10)
 			{
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_CLEAR), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 89) * TILE_SIZE_4BPP), 32);
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0 + (value / 10)), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 90) * TILE_SIZE_4BPP), 32);
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0) + (value % 10), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 91) * TILE_SIZE_4BPP), 32);
+				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_CLEAR), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 91) * TILE_SIZE_4BPP), 32);
+				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0 + (value / 10)), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 89) * TILE_SIZE_4BPP), 32);
+				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0 + (value % 10)), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 90) * TILE_SIZE_4BPP), 32);
 			}
 			else if (value < 10)
 			{
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_CLEAR), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 89) * TILE_SIZE_4BPP), 32);
 				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_CLEAR), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 90) * TILE_SIZE_4BPP), 32);
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0) + value, (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 91) * TILE_SIZE_4BPP), 32);
+				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_CLEAR), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 91) * TILE_SIZE_4BPP), 32);
+				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0 + value), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 89) * TILE_SIZE_4BPP), 32);
 			}
         }
         else // singles, current
@@ -887,7 +887,7 @@ void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent)
 			{
 				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_CLEAR), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 29) * TILE_SIZE_4BPP), 32);
 				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_CLEAR), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 30) * TILE_SIZE_4BPP), 32);
-				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0) + value, (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 31) * TILE_SIZE_4BPP), 32);
+				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_NUMBER_0 + value), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 31) * TILE_SIZE_4BPP), 32);
 			}
         }
     }

@@ -138,6 +138,7 @@ static void CursorCB_ChangeNickname(u8);
 static void CursorCB_Switch(u8 taskId);
 static void CursorCB_Cancel1(u8 taskId);
 static void CursorCB_Item(u8 taskId);
+static void CursorCB_MoveItem(u8 taskId);
 static void CursorCB_Give(u8 taskId);
 static void CursorCB_TakeItem(u8 taskId);
 static void CursorCB_Mail(u8 taskId);
@@ -231,8 +232,6 @@ static void PartyMenuDisplayYesNoMenu(void);
 static void Task_ReturnToChooseMonAfterText(u8 taskId);
 static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir);
 static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir);
-static void UpdatePartySelectionDoubleLayout(s8 *slotPtr, s8 movementDir);
-static s8 GetNewSlotDoubleLayout(s8 slotId, s8 movementDir);
 static void Task_PrintAndWaitForText(u8 taskId);
 static void PartyMenuPrintText(const u8 *text);
 static void SetSwappedHeldItemQuestLogEvent(struct Pokemon *mon, u16 item, u16 item2);
@@ -1314,7 +1313,6 @@ static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir)
         UpdatePartySelectionSingleLayout(slotPtr, movementDir);
     else
         UpdatePartySelectionSingleLayout(slotPtr, movementDir);
-//        UpdatePartySelectionDoubleLayout(slotPtr, movementDir);
     if (*slotPtr != newSlotId)
     {
         PlaySE(SE_SELECT);
@@ -1325,117 +1323,11 @@ static void UpdateCurrentPartySelection(s8 *slotPtr, s8 movementDir)
 
 static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
 {
-    asm_unified("\n\
-		push	{r4,lr}\n\
-		movs	r4, r0\n\
-		lsls	r1, r1,	#0x18\n\
-		asrs	r1, r1,	#0x18\n\
-		movs	r0, #1\n\
-		negs	r0, r0\n\
-		cmp		r1, r0\n\
-		beq		_8120016\n\
-		cmp		r1, r0\n\
-		bgt		_812000c\n\
-		subs	r0, #1\n\
-		cmp		r1, r0\n\
-		beq		_8120028\n\
-		b		_812009a\n\
-	_812000c:\n\
-		cmp		r1, #1\n\
-		beq		_8120052\n\
-		cmp		r1, #2\n\
-		beq		_812006a\n\
-		b		_812009a\n\
-	_8120016:\n\
-		ldrb		r1, [r4]\n\
-		cmp		r1, #1\n\
-		bls		_8120092\n\
-		cmp		r1, #6\n\
-		beq		_812004a\n\
-		cmp		r1, #7\n\
-		beq		_812003a\n\
-		subs	r0, r1,	#2\n\
-		b		_8120098\n\
-	_8120028:\n\
-		ldrb	r1, [r4]\n\
-		cmp		r1, #0\n\
-		beq		_8120092\n\
-		cmp		r1, #6\n\
-		beq		_812004a\n\
-		cmp		r1, #7\n\
-		beq		_812003a\n\
-		subs	r0, r1,	#1\n\
-		b		_8120098\n\
-	_812003a:\n\
-		ldr		r0, _81200a0\n\
-		ldr		r0, [r0]\n\
-		ldrb	r0, [r0,#8]\n\
-		lsls	r0, r0,	#0x1f\n\
-		cmp		r0, #0\n\
-		beq		_812004a\n\
-		movs	r0, #6\n\
-		b		_8120098\n\
-	_812004a:\n\
-		ldr		r0, _81200a4\n\
-		ldrb	r0, [r0]\n\
-		subs	r0, #1\n\
-		b		_8120098\n\
-	_8120052:\n\
-		ldrb	r1, [r4]\n\
-		cmp		r1, #7\n\
-		beq		_8120096\n\
-		cmp		r1, #6\n\
-		beq		_8120092\n\
-		ldr		r0, _81200a4\n\
-		ldrb	r0, [r0]\n\
-		subs	r0, #2\n\
-		cmp		r1, r0\n\
-		bge		_8120082\n\
-		adds	r0, r1,	#2\n\
-		b		_8120098\n\
-	_812006a:\n\
-		ldrb	r1, [r4]\n\
-		cmp		r1, #7\n\
-		beq		_8120096\n\
-		cmp		r1, #6\n\
-		beq		_8120092\n\
-		ldr		r0, _81200a4\n\
-		ldrb	r0, [r0]\n\
-		subs	r0, #1\n\
-		cmp		r1, r0\n\
-		beq		_8120082\n\
-		adds	r0, r1,	#1\n\
-		b		_8120098\n\
-	_8120082:\n\
-		ldr		r0, _81200a0\n\
-		ldr		r0, [r0]\n\
-		ldrb	r0, [r0,#8]\n\
-		lsls	r0, r0,	#0x1f\n\
-		cmp		r0, #0\n\
-		beq		_8120092\n\
-		movs	r0, #6\n\
-		b		_8120098\n\
-	_8120092:\n\
-		movs	r0, #7\n\
-		b		_8120098\n\
-	_8120096:\n\
-		movs	r0, #0\n\
-	_8120098:\n\
-		strb	r0, [r4]\n\
-	_812009a:\n\
-		pop		{r4}\n\
-		pop		{r0}\n\
-		bx		r0\n\
-		.align 2, 0\n\
-	_81200a0: .4byte sPartyMenuInternal\n\
-	_81200a4: .4byte gPlayerPartyCount\n\
-    ");
-
-/*    // PARTY_SIZE + 1 is Cancel, PARTY_SIZE is Confirm
+    // PARTY_SIZE + 1 is Cancel, PARTY_SIZE is Confirm
     switch (movementDir)
     {
     case MENU_DIR_UP:
-        if (*slotPtr == 0)
+        if (*slotPtr == 0 || *slotPtr == 1)
         {
             *slotPtr = PARTY_SIZE + 1;
         }
@@ -1452,133 +1344,73 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
         }
         else
         {
-            --*slotPtr;
+            *slotPtr -= 2;
         }
         break;
     case MENU_DIR_DOWN:
-        if (*slotPtr == PARTY_SIZE + 1)
+        if (*slotPtr == gPlayerPartyCount - 1 || *slotPtr == gPlayerPartyCount - 2)
         {
-            *slotPtr = 0;
+            if (sPartyMenuInternal->chooseHalf)
+                *slotPtr = PARTY_SIZE;
+            else
+                *slotPtr = PARTY_SIZE + 1;
+        }
+        else if (*slotPtr == PARTY_SIZE + 1)
+        {
+			*slotPtr = 0;
+        }
+        else if (*slotPtr == PARTY_SIZE)
+        {
+			*slotPtr = PARTY_SIZE + 1;
         }
         else
         {
-            if (*slotPtr == gPlayerPartyCount - 1)
-            {
-                if (sPartyMenuInternal->chooseHalf)
-                    *slotPtr = PARTY_SIZE;
-                else
-                    *slotPtr = PARTY_SIZE + 1;
-            }
-            else
-            {
-                ++*slotPtr;
-            }
+            *slotPtr += 2;
         }
         break;
     case MENU_DIR_RIGHT:
-        if (gPlayerPartyCount != 1 && *slotPtr == 0)
+        if (*slotPtr == PARTY_SIZE)
         {
-            if (sPartyMenuInternal->lastSelectedSlot == 0)
-                *slotPtr = 1;
+			*slotPtr = PARTY_SIZE +	1;
+        }
+        else if (*slotPtr == PARTY_SIZE + 1)
+        {
+			*slotPtr = 0;
+        }
+		else if (*slotPtr == gPlayerPartyCount - 1)
+		{
+            if (sPartyMenuInternal->chooseHalf)
+                *slotPtr = PARTY_SIZE;
             else
-                *slotPtr = sPartyMenuInternal->lastSelectedSlot;
+                *slotPtr = PARTY_SIZE + 1;
+		}
+        else
+        {
+			++*slotPtr;
         }
         break;
     case MENU_DIR_LEFT:
-        if (*slotPtr != 0 && *slotPtr != PARTY_SIZE && *slotPtr != PARTY_SIZE + 1)
-        {
-            sPartyMenuInternal->lastSelectedSlot = *slotPtr;
-            *slotPtr = 0;
-        }
-        break;
-    }*/
-}
-
-static void UpdatePartySelectionDoubleLayout(s8 *slotPtr, s8 movementDir)
-{
- /*   // PARTY_SIZE + 1 is Cancel, PARTY_SIZE is Confirm
-    // newSlot is used temporarily as a movement direction during its later assignment
-    s8 newSlot = movementDir;
-
-    switch (movementDir)
-    {
-    case MENU_DIR_UP: //LISTO
-        if (*slotPtr == 0 || *slotPtr == 1)
-        {
-            *slotPtr = PARTY_SIZE + 1;
-            break;
-        }
-        else if (*slotPtr == PARTY_SIZE)
-        {
-            *slotPtr = gPlayerPartyCount - 1;
-            break;
-        }
-        else if (*slotPtr == PARTY_SIZE + 1)
-        {
-            if (sPartyMenuInternal->chooseHalf)
-            {
-                *slotPtr = PARTY_SIZE;
-                break;
-            }
-            *slotPtr = gPlayerPartyCount - 1;
-			break;
-        }
-		else
-			*slotPtr = *slotPtr - 2;
-        break;
-    case MENU_DIR_DOWN:
-        if (*slotPtr == PARTY_SIZE + 1)
-        {
-            if (sPartyMenuInternal->chooseHalf)
-            {
-                *slotPtr = PARTY_SIZE;
-                break;
-            }
-            *slotPtr = 0;
-			break;
-        }
-        else if (*slotPtr == PARTY_SIZE)
-        {
-            *slotPtr = PARTY_SIZE + 1;
-            break;
-        }
-        else if (*slotPtr == gPlayerPartyCount - 1 || *slotPtr == gPlayerPartyCount - 2)
-        {
-            if (sPartyMenuInternal->chooseHalf)
-			{
-                *slotPtr = PARTY_SIZE;
-				break;
-			}
-			*slotPtr == PARTY_SIZE + 1;
-			break;
-        }
-		else
-			*slotPtr = *slotPtr + 2;
-        break;
-    case MENU_DIR_RIGHT: //LISTO
         if (*slotPtr == PARTY_SIZE)
         {
-            *slotPtr = PARTY_SIZE + 1;
+			*slotPtr = gPlayerPartyCount - 1;
         }
         else if (*slotPtr == PARTY_SIZE + 1)
         {
-            *slotPtr = 0;
+            if (sPartyMenuInternal->chooseHalf)
+                *slotPtr = PARTY_SIZE;
+            else
+                *slotPtr = gPlayerPartyCount - 1;
         }
-        else if (*slotPtr == gPlayerPartyCount - 1)
+		else if (*slotPtr == 0)
+		{
+			*slotPtr = PARTY_SIZE + 1;
+		}
+        else
         {
-			if (sPartyMenuInternal->chooseHalf)
-				*slotPtr = PARTY_SIZE;
-			else
-				*slotPtr = PARTY_SIZE + 1;
-			break;
+			--*slotPtr;
         }
-		else
-			++*slotPtr;
         break;
-	case MENU_DIR_LEFT:
-        
-        break;
-    } */
+    }
 }
 
 static s8 GetNewSlotDoubleLayout(s8 slotId, s8 movementDir)
@@ -2644,10 +2476,8 @@ void DisplayPartyMenuStdMessage(u32 stringId)
         case PARTY_MSG_DO_WHAT_WITH_NICKNAME:
             *windowPtr = AddWindow(&sDoWhatWithItemMsgWindowTemplate);
             break;
-        case PARTY_MSG_YOU_MUST_BE_THEIR_OT:
-            *windowPtr = AddWindow(&sDoWhatWithItemMsgWindowTemplate);
-            break;
         case PARTY_MSG_DO_WHAT_WITH_ITEM:
+        case PARTY_MSG_MOVE_ITEM_TO_WHERE:
             *windowPtr = AddWindow(&sDoWhatWithItemMsgWindowTemplate);
             break;
         case PARTY_MSG_DO_WHAT_WITH_MAIL:
@@ -2707,13 +2537,13 @@ static u8 DisplaySelectionWindow(u8 windowType)
     switch (windowType)
     {
     case SELECTWINDOW_ACTIONS:
-        window = SetWindowTemplateFields(2, 20, 19 - (sPartyMenuInternal->numActions * 2), 9, sPartyMenuInternal->numActions * 2, 14, 0x2BF);
+        window = SetWindowTemplateFields(2, 20, 19 - (sPartyMenuInternal->numActions * 2), 9, sPartyMenuInternal->numActions * 2, 14, 706);
         break;
     case SELECTWINDOW_NICKNAME:
         window = sNicknameChangeWindowTemplate;
         break;
     case SELECTWINDOW_ITEM:
-        window = sItemGiveTakeWindowTemplate;
+        window = sItemGiveTakeMoveWindowTemplate;
         break;
     case SELECTWINDOW_MAIL:
         window = sMailReadTakeWindowTemplate;
@@ -2735,7 +2565,7 @@ static u8 DisplaySelectionWindow(u8 windowType)
         if (gSaveBlock2Ptr->optionsLanguage == ENG)
 			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[sPartyMenuInternal->actions[i]].text);
         if (gSaveBlock2Ptr->optionsLanguage == SPA)
-			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[33 + sPartyMenuInternal->actions[i]].text);
+			AddTextPrinterParameterized4(sPartyMenuInternal->windowId[0], 2, cursorDimension, (i * 16) + 2, fontAttribute, 0, sFontColorTable[fontColorsId], 0, sCursorOptions[34 + sPartyMenuInternal->actions[i]].text);
     }
     Menu_InitCursorInternal(sPartyMenuInternal->windowId[0], 2, 0, 2, 16, sPartyMenuInternal->numActions, 0, 1);
     ScheduleBgCopyTilemapToVram(2);
@@ -3269,199 +3099,11 @@ static void CursorCB_Switch(u8 taskId)
 #define tSlot2Offset   data[9]
 #define tSlot1SlideDir data[10]
 #define tSlot2SlideDir data[11]
+#define count          data[12]
 //CORREGIR
 static void SwitchSelectedMons(u8 taskId)
 {
-    asm_unified("\n\
-		push	{r4-r7,lr}\n\
-		sub		sp, sp,	#0xc\n\
-		lsls	r0, r0,	#0x18\n\
-		lsrs	r7, r0,	#0x18\n\
-		lsls	r0, r7,	#2\n\
-		adds	r0, r0,	r7\n\
-		lsls	r0, r0,	#3\n\
-		ldr		r1, _8122e84\n\
-		adds	r6, r0,	r1\n\
-		ldr		r4, _8122e88\n\
-		movs	r1, #0xa\n\
-		ldrsb	r1, [r4,r1]\n\
-		movs	r0, #9\n\
-		ldrsb	r0, [r4,r0]\n\
-		cmp		r1, r0\n\
-		bne		_8122e8c\n\
-		movs	r0, r7\n\
-		bl		FinishTwoMonAction\n\
-		b		_8122fe2\n\
-	_8122e84:	.4byte 0x3005098\n\
-	_8122e88:	.4byte gPartyMenu\n\
-	_8122e8c:\n\
-		bl		SetSwitchedPartyOrderQuestLogEvent\n\
-		add		r2, sp,	#0x8\n\
-		movs	r0, #9\n\
-		ldrsb	r0, [r4,r0]\n\
-		ldr		r1, _8122f50\n\
-		ldr		r1, [r1]\n\
-		lsls	r0, r0,	#4\n\
-		adds	r0, r0,	r1\n\
-		ldrb	r0, [r0,#8]\n\
-		movs	r4, #0\n\
-		strb	r0, [r2]\n\
-		movs	r0, r2\n\
-		ldrb	r0, [r0]\n\
-		movs	r1, #1\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6]\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0]\n\
-		movs	r1, #2\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6,#2]\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0]\n\
-		movs	r1, #3\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6,#4]\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0]\n\
-		movs	r1, #4\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6,#6]\n\
-		strh	r4, [r6,#0x10]\n\
-		movs	r1, #4\n\
-		ldrsh	r0, [r6,r1]\n\
-		movs	r0, #1\n\
-		ands	r2, r0\n\
-		cmp		r2, #1\n\
-		beq		_8122eec\n\
-		negs	r0, r0\n\
-		b		_8122eee\n\
-		.2byte 0\n\
-		.4byte 0\n\
-	_8122eec:\n\
-		movs	r0, #1\n\
-	_8122eee:\n\
-		strh	r0, [r6,#0x14]\n\
-		add		r2, sp,	#0x8\n\
-		ldr		r0, _8122f4c\n\
-		ldrb	r0, [r0,#0xa]\n\
-		lsls	r0, r0,	#0x18\n\
-		asrs	r0, r0,	#0x18\n\
-		ldr		r1, _8122f50\n\
-		ldr		r1, [r1]\n\
-		lsls	r0, r0,	#4\n\
-		adds	r0, r0,	r1\n\
-		ldrb	r0, [r0,#8]\n\
-		movs	r4, #0\n\
-		strb	r0, [r2,#1]\n\
-		movs	r0, r2\n\
-		ldrb	r0, [r0,#1]\n\
-		movs	r1, #1\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6,#8]\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0,#1]\n\
-		movs	r1, #2\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6,#0xa]\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0,#1]\n\
-		movs	r1, #3\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6,#0xc]\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0,#1]\n\
-		movs	r1, #4\n\
-		bl		GetWindowAttribute\n\
-		strh	r0, [r6,#0xe]\n\
-		strh	r4, [r6,#0x12]\n\
-		movs	r1, #0xc\n\
-		ldrsh	r0, [r6,r1]\n\
-		movs	r0, #1\n\
-		ands	r2, r0\n\
-		cmp		r2, #1\n\
-		beq		_8122f54\n\
-		negs	r0, r0\n\
-		b		_8122f56\n\
-		.align 4, 0\n\
-	_8122f4c:	.4byte gPartyMenu\n\
-	_8122f50:	.4byte sPartyMenuBoxes\n\
-	_8122f54:\n\
-		movs	r0, #1\n\
-	_8122f56:\n\
-		strh	r0, [r6,#0x16]\n\
-		ldr		r4, _8122fec\n\
-		movs	r0, #4\n\
-		ldrsh	r1, [r6,r0]\n\
-		movs	r2, #6\n\
-		ldrsh	r0, [r6,r2]\n\
-		lsls	r0, r0,	#1\n\
-		muls	r0, r1\n\
-		bl		Alloc\n\
-		str		r0, [r4]\n\
-		ldr		r5, _8122ff0\n\
-		movs	r0, #0xc\n\
-		ldrsh	r1, [r6,r0]\n\
-		movs	r2, #0xe\n\
-		ldrsh	r0, [r6,r2]\n\
-		lsls	r0, r0,	#1\n\
-		muls	r0, r1\n\
-		bl		Alloc\n\
-		str		r0, [r5]\n\
-		ldr		r1, [r4]\n\
-		ldrb	r2, [r6]\n\
-		ldrb	r3, [r6,#2]\n\
-		ldrb	r0, [r6,#4]\n\
-		str		r0, [sp,#0]\n\
-		ldrb	r0, [r6,#6]\n\
-		str		r0, [sp,#0x4]\n\
-		movs	r0, #0\n\
-		bl		CopyToBufferFromBgTilemap\n\
-		ldr		r1, [r5]\n\
-		ldrb	r2, [r6,#8]\n\
-		ldrb	r3, [r6,#0xa]\n\
-		ldrb	r0, [r6,#0xc]\n\
-		str		r0, [sp,#0]\n\
-		ldrb	r0, [r6,#0xe]\n\
-		str		r0, [sp,#0x4]\n\
-		movs	r0, #0\n\
-		bl		CopyToBufferFromBgTilemap\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0]\n\
-		bl		ClearWindowTilemap\n\
-		add		r0, sp,	#0x8\n\
-		ldrb	r0, [r0,#1]\n\
-		bl		ClearWindowTilemap\n\
-		ldr		r4, _8122ff4\n\
-		movs	r0, #9\n\
-		strb	r0, [r4,#0xb]\n\
-		ldrb	r0, [r4,#0x9]\n\
-		movs	r1, #1\n\
-		bl		AnimatePartySlot\n\
-		ldrb	r0, [r4,#0xa]\n\
-		movs	r1, #1\n\
-		bl		AnimatePartySlot\n\
-		movs	r0, r7\n\
-		bl		SlidePartyMenuBoxOneStep\n\
-		ldr		r1, _8122ff8\n\
-		lsls	r0, r7,	#2\n\
-		adds	r0, r0,	r7\n\
-		lsls	r0, r0,	#3\n\
-		adds	r0, r0,	r1\n\
-		ldr		r1, _8122ffc\n\
-		str		r1, [r0]\n\
-	_8122fe2:\n\
-		add		sp, sp,	#0xc\n\
-		pop		{r4-r7}\n\
-		pop		{r0}\n\
-		bx		r0\n\
-		.align 4, 0\n\
-	_8122fec:	.4byte sSlot1TilemapBuffer\n\
-	_8122ff0:	.4byte sSlot2TilemapBuffer\n\
-	_8122ff4:	.4byte gPartyMenu\n\
-	_8122ff8:	.4byte 0x3005090\n\
-	_8122ffc:	.4byte Task_SlideSelectedSlotsOffscreen+1\n\
-	");
-/*    s16 *data = gTasks[taskId].data;
+    s16 *data = gTasks[taskId].data;
     u8 windowIds[2];
 
     if (gPartyMenu.slotId2 == gPartyMenu.slotId)
@@ -3478,20 +3120,20 @@ static void SwitchSelectedMons(u8 taskId)
         tSlot1Width = GetWindowAttribute(windowIds[0], WINDOW_WIDTH);
         tSlot1Height = GetWindowAttribute(windowIds[0], WINDOW_HEIGHT);
         tSlot1Offset = 0;
-        if (tSlot1Width == 1)
-            tSlot1SlideDir = 1;
-        else
+        if (tSlot1Left == 1)
             tSlot1SlideDir = -1;
+        else
+            tSlot1SlideDir = 1;
         windowIds[1] = sPartyMenuBoxes[gPartyMenu.slotId2].windowId;
         tSlot2Left = GetWindowAttribute(windowIds[1], WINDOW_TILEMAP_LEFT);
         tSlot2Top = GetWindowAttribute(windowIds[1], WINDOW_TILEMAP_TOP);
         tSlot2Width = GetWindowAttribute(windowIds[1], WINDOW_WIDTH);
         tSlot2Height = GetWindowAttribute(windowIds[1], WINDOW_HEIGHT);
         tSlot2Offset = 0;
-        if (tSlot2Width == 1)
-            tSlot2SlideDir = 1;
-        else
+        if (tSlot2Left == 1)
             tSlot2SlideDir = -1;
+        else
+            tSlot2SlideDir = 1;
         sSlot1TilemapBuffer = Alloc(2 * tSlot1Height * tSlot1Width);
         sSlot2TilemapBuffer = Alloc(2 * tSlot2Height * tSlot2Width);
         CopyToBufferFromBgTilemap(0, sSlot1TilemapBuffer, tSlot1Left, tSlot1Top, tSlot1Width, tSlot1Height);
@@ -3503,7 +3145,8 @@ static void SwitchSelectedMons(u8 taskId)
         AnimatePartySlot(gPartyMenu.slotId2, 1);
         SlidePartyMenuBoxOneStep(taskId);
         gTasks[taskId].func = Task_SlideSelectedSlotsOffscreen;
-    } */
+		count = 0;
+    }
 }
 
 // returns FALSE if the slot has slid fully offscreen / back onscreen
@@ -3570,137 +3213,12 @@ static void SlidePartyMenuBoxOneStep(u8 taskId)
     if (tSlot2SlideDir != 0)
         MoveAndBufferPartySlot(sSlot2TilemapBuffer, tSlot2Left + tSlot2Offset, tSlot2Top, tSlot2Width, tSlot2Height, tSlot2SlideDir);
     ScheduleBgCopyTilemapToVram(0);
+	count++;
 }
 //CORREGIR
 static void Task_SlideSelectedSlotsOffscreen(u8 taskId)
 {
-    asm_unified("\n\
-		push	{r4-r7,lr}\n\
-		mov		r7, r8\n\
-		push	{r7}\n\
-		sub		sp, sp,	#0xc\n\
-		movs	r4, r0\n\
-		lsls	r4, r4,	#0x18\n\
-		lsrs	r4, r4,	#0x18\n\
-		lsls	r0, r4,	#2\n\
-		adds	r0, r0,	r4\n\
-		lsls	r7, r0,	#3\n\
-		ldr		r0, _8123370\n\
-		mov		r8, r0\n\
-		adds	r6, r7,	r0\n\
-		movs	r0, r4\n\
-		bl		SlidePartyMenuBoxOneStep\n\
-		movs	r0, r4\n\
-		bl		SlidePartyMenuBoxSpritesOneStep\n\
-		ldrh	r1, [r6,#0x14]\n\
-		ldrh	r2, [r6,#0x10]\n\
-		adds	r1, r1,	r2\n\
-		strh	r1, [r6,#0x10]\n\
-		ldrh	r0, [r6,#0x16]\n\
-		ldrh	r3, [r6,#0x12]\n\
-		adds	r0, r0,	r3\n\
-		strh	r0, [r6,#0x12]\n\
-		add		r2, sp,	#0x8\n\
-		ldrh	r0, [r6]\n\
-		adds	r0, r0,	r1\n\
-		strh	r0, [r2]\n\
-		movs	r1, r2\n\
-		ldrh	r0, [r6,#0x12]\n\
-		ldrh	r3, [r6,#8]\n\
-		adds	r2, r0,	r3\n\
-		ldrh	r0, [r6,#0x18]\n\
-		adds	r0, #1\n\
-		strh	r0, [r6,#0x18]\n\
-		cmp		r0, #0x12\n\
-		bls		_8123362\n\
-		movs	r0, #0\n\
-		strh	r0, [r6,#0x18]\n\
-		movs	r0, r0\n\
-		movs	r0, r0\n\
-		movs	r1, #0x14\n\
-		ldrsh	r0, [r6,r1]\n\
-		negs	r0, r0\n\
-		strh	r0, [r6,#0x14]\n\
-		movs	r2, #0x16\n\
-		ldrsh	r0, [r6,r2]\n\
-		negs	r0, r0\n\
-		strh	r0, [r6,#0x16]\n\
-		bl		SwitchPartyMon\n\
-		ldr		r4, _8123374\n\
-		ldrb	r0, [r4,#9]\n\
-		bl		DisplayPartyPokemonData\n\
-		ldrb	r0, [r4,#0xa]\n\
-		bl		DisplayPartyPokemonData\n\
-		movs	r0, #9\n\
-		ldrsb	r0, [r4,r0]\n\
-		ldr		r5, _8123378\n\
-		ldr		r1, [r5]\n\
-		lsls	r0, r0,	#4\n\
-		adds	r0, r0,	r1\n\
-		ldrb	r0, [r0,#8]\n\
-		bl		PutWindowTilemap\n\
-		movs	r0, #0xa\n\
-		ldrsb	r0, [r4,r0]\n\
-		ldr		r1, [r5]\n\
-		lsls	r0, r0,	#4\n\
-		adds	r0, r0,	r1\n\
-		ldrb	r0, [r0,#8]\n\
-		bl		PutWindowTilemap\n\
-		ldr		r0, _812337c\n\
-		ldr		r1, [r0]\n\
-		ldrb	r2, [r6]\n\
-		ldrb	r3, [r6,#2]\n\
-		ldrb	r0, [r6,#4]\n\
-		str		r0, [sp,#0]\n\
-		ldrb	r0, [r6,#6]\n\
-		str		r0, [sp,#0x4]\n\
-		movs	r0, #0\n\
-		bl		CopyToBufferFromBgTilemap\n\
-		ldr		r0, _8123380\n\
-		ldr		r1, [r0]\n\
-		ldrb	r2, [r6,#8]\n\
-		ldrb	r3, [r6,#0xa]\n\
-		ldrb	r0, [r6,#0xc]\n\
-		str		r0, [sp,#0]\n\
-		ldrb	r0, [r6,#0xe]\n\
-		str		r0, [sp,#0x4]\n\
-		movs	r0, #0\n\
-		bl		CopyToBufferFromBgTilemap\n\
-		movs	r0, #9\n\
-		ldrsb	r0, [r4,r0]\n\
-		ldr		r1, [r5]\n\
-		lsls	r0, r0,	#4\n\
-		adds	r0, r0,	r1\n\
-		ldrb	r0, [r0,#8]\n\
-		bl		ClearWindowTilemap\n\
-		movs	r0, #0xa\n\
-		ldrsb	r0, [r4,r0]\n\
-		ldr		r1, [r5]\n\
-		lsls	r0, r0,	#4\n\
-		adds	r0, r0,	r1\n\
-		ldrb	r0, [r0,#8]\n\
-		bl		ClearWindowTilemap\n\
-		mov		r0, r8\n\
-		subs	r0, #8\n\
-		adds	r0, r7,	r0\n\
-		ldr		r1, _8123384\n\
-		str		r1, [r0]\n\
-	_8123362:\n\
-		add		sp, sp,	#0xc\n\
-		pop		{r3}\n\
-		mov		r8, r3\n\
-		pop		{r4-r7}\n\
-		pop		{r0}\n\
-		bx		r0\n\
-		.align 0x4, 0\n\
-	_8123370:	.4byte 0x3005098\n\
-	_8123374:	.4byte gPartyMenu\n\
-	_8123378:	.4byte sPartyMenuBoxes\n\
-	_812337c:	.4byte sSlot1TilemapBuffer\n\
-	_8123380:	.4byte sSlot2TilemapBuffer\n\
-	_8123384:	.4byte Task_SlideSelectedSlotsOnscreen+1\n\
-	");
-/*    s16 *data = gTasks[taskId].data;
+    s16 *data = gTasks[taskId].data;
     u16 slidingSlotPositions[2];
 
     SlidePartyMenuBoxOneStep(taskId);
@@ -3710,7 +3228,7 @@ static void Task_SlideSelectedSlotsOffscreen(u8 taskId)
     slidingSlotPositions[0] = tSlot1Left + tSlot1Offset;
     slidingSlotPositions[1] = tSlot2Left + tSlot2Offset;
     // Both slots have slid offscreen
-    if (slidingSlotPositions[0] > 33 && slidingSlotPositions[1] > 33)
+    if ((slidingSlotPositions[0] > 25 && slidingSlotPositions[1] > 25) && (count > 25))
     {
         tSlot1SlideDir *= -1;
         tSlot2SlideDir *= -1;
@@ -3724,7 +3242,7 @@ static void Task_SlideSelectedSlotsOffscreen(u8 taskId)
         ClearWindowTilemap(sPartyMenuBoxes[gPartyMenu.slotId].windowId);
         ClearWindowTilemap(sPartyMenuBoxes[gPartyMenu.slotId2].windowId);
         gTasks[taskId].func = Task_SlideSelectedSlotsOnscreen;
-    }*/
+    }
 }
 
 static void Task_SlideSelectedSlotsOnscreen(u8 taskId)
@@ -3741,8 +3259,8 @@ static void Task_SlideSelectedSlotsOnscreen(u8 taskId)
         PutWindowTilemap(sPartyMenuBoxes[gPartyMenu.slotId2].windowId);
         ScheduleBgCopyTilemapToVram(0);
         // BUG: memory leak
-         Free(sSlot1TilemapBuffer);
-         Free(sSlot2TilemapBuffer);
+        Free(sSlot1TilemapBuffer);
+        Free(sSlot2TilemapBuffer);
         FinishTwoMonAction(taskId);
     }
     // Continue sliding
@@ -3855,6 +3373,123 @@ static void CursorCB_Item(u8 taskId)
     DisplayPartyMenuStdMessage(PARTY_MSG_DO_WHAT_WITH_ITEM);
     gTasks[taskId].data[0] = 0xFF;
     gTasks[taskId].func = Task_HandleSelectionMenuInput;
+}
+
+static void CursorCB_MoveItemCallback(u8 taskId)
+{
+	u16 item1, item2;
+	u8 buffer[100];
+
+	if (gPaletteFade.active || sub_80BF748())
+		return;
+
+	switch (PartyMenuButtonHandler(&gPartyMenu.slotId2)) {
+		case 1: //User hit A on a Pokemon
+			//Pokemon can't give away items to eggs or themselves
+			if (GetMonData(&gPlayerParty[gPartyMenu.slotId2], MON_DATA_IS_EGG, NULL)
+			|| gPartyMenu.slotId == gPartyMenu.slotId2)
+			{
+				PlaySE(SE_FAILURE);
+				return;
+			}
+
+			PlaySE(SE_SELECT);
+			gPartyMenu.action = 0;
+
+			//Look up held items
+			item1 = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HELD_ITEM, NULL);
+			item2 = GetMonData(&gPlayerParty[gPartyMenu.slotId2], MON_DATA_HELD_ITEM, NULL);
+
+			//Swap the held items
+			SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HELD_ITEM, &item2);
+			SetMonData(&gPlayerParty[gPartyMenu.slotId2], MON_DATA_HELD_ITEM, &item1);
+
+			//Update the held item icons
+			UpdatePartyMonHeldItemSprite(&gPlayerParty[gPartyMenu.slotId], &sPartyMenuBoxes[gPartyMenu.slotId]);
+			UpdatePartyMonHeldItemSprite(&gPlayerParty[gPartyMenu.slotId2], &sPartyMenuBoxes[gPartyMenu.slotId2]);
+
+			//Create the string describing the move
+			if (item2 == ITEM_NONE)
+			{
+				GetMonNickname(&gPlayerParty[gPartyMenu.slotId2], gStringVar1);
+				CopyItemName(item1, gStringVar2);
+				if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(gStringVar4, gText_PkmnWasGivenItem);
+				if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(gStringVar4, gText_PkmnWasGivenItemSpa);
+			}
+			else
+			{
+				GetMonNickname(&gPlayerParty[gPartyMenu.slotId], gStringVar1);
+				CopyItemName(item1, gStringVar2);
+				if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(buffer, gText_SwapItemsPart1);
+				if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(buffer, gText_SwapItemsPart1Spa);
+
+				if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringAppend(buffer, gText_SwapItemsPart2);
+				if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringAppend(buffer, gText_SwapItemsPart2Spa);
+				GetMonNickname(&gPlayerParty[gPartyMenu.slotId2], gStringVar1);
+				CopyItemName(item2, gStringVar2);
+				StringExpandPlaceholders(gStringVar4, buffer);
+			}
+
+			//Display the string
+			DisplayPartyMenuMessage(gStringVar4, 1);
+
+			//Update colors of selected boxes
+			AnimatePartySlot(gPartyMenu.slotId2, 0);
+			AnimatePartySlot(gPartyMenu.slotId, 1);
+
+			//Return to the main party menu
+			ScheduleBgCopyTilemapToVram(2);
+			gTasks[taskId].func = Task_UpdateHeldItemSprite;
+			break;
+		case 2:	 // User hit B or A while on Cancel
+			HandleChooseMonCancel(taskId, &gPartyMenu.slotId2);
+			break;
+	}
+}
+
+static void CursorCB_MoveItem(u8 taskId)
+{
+	struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+
+	PlaySE(SE_SELECT);
+
+	//Delete old windows
+	PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[1]);
+	PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
+
+	if (GetMonData(mon, MON_DATA_HELD_ITEM, NULL) != ITEM_NONE)
+	{
+		gPartyMenu.action = PARTY_ACTION_SWITCH;
+
+		//Show "Move item to where" in bottom left
+		DisplayPartyMenuStdMessage(PARTY_MSG_MOVE_ITEM_TO_WHERE);
+		//Update color of first selected box
+		AnimatePartySlot(gPartyMenu.slotId, 1);
+
+		//Set up callback
+		gPartyMenu.slotId2 = gPartyMenu.slotId;
+		gTasks[taskId].func = CursorCB_MoveItemCallback;
+	}
+	else
+	{
+		//Create and display string about lack of hold item
+		GetMonNickname(mon, gStringVar1);
+		if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnNotHolding);
+		if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnNotHoldingSpa);
+		DisplayPartyMenuMessage(gStringVar4, 1);
+
+		//Return to the main party menu
+		ScheduleBgCopyTilemapToVram(2);
+		gTasks[taskId].func = Task_UpdateHeldItemSprite;
+	}
 }
 
 static void CursorCB_Give(u8 taskId)
@@ -4245,7 +3880,13 @@ static void CursorCB_ChangeNickname(u8 taskId)
 	else
 	{
 		PlaySE(SE_FAILURE);
-		DisplayPartyMenuStdMessage(PARTY_MSG_YOU_MUST_BE_THEIR_OT);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_YouMustBeTheirOT);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_YouMustBeTheirOTSpa);
+		DisplayPartyMenuMessage(gStringVar4, 1);
+		ScheduleBgCopyTilemapToVram(2);
+		gTasks[taskId].func = Task_UpdateHeldItemSprite;
 	}
 }
 

@@ -21,7 +21,7 @@
 + TextBox GEN IV(LISTO)
 + Party Menu GEN V(LISTO)
 	- Función MOTE
-	- Funcion Swap Items (FALTA)
+	- Funcion Swap Items
 	- Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
 	- Expandir íconos de Objetos llevados por los Pokémon (Items, Mail, Pokeballs & Berries )
 	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
@@ -89,7 +89,7 @@
 ==============================================
 + MT Reusables GEN V(LISTO)
 	(Reusables, Invendibles, Sin Cantidad, Sin poder comprar al ya tenerla)
-- Intercambio de Objetos llevados desde la Party Scren (GEN V)
++ Intercambio de Objetos llevados desde la Party Scren (GEN V)
 - Maldición ahora es tipo Fantasma en vez de ??? (GEN V)
 - Objetos son mostrados en una lista de 6 páginas (GEN V)
 - Las Medallas no son necesarias para para el uso de las MO en el overworld (GEN V)

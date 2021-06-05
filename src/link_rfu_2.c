@@ -28,7 +28,7 @@ static u8 sResendBlock8[14];
 static u16 sResendBlock16[7];
 
 EWRAM_DATA struct GFtgtGname gHostRFUtgtGnameBuffer = {};
-GF_RFU_MANAGER Rfu;
+EWRAM_DATA GF_RFU_MANAGER Rfu = {};
 EWRAM_DATA u8 gHostRFUtgtUnameBuffer[PLAYER_NAME_LENGTH + 1] = {};
 
 static void sub_80F8AA4(void);
