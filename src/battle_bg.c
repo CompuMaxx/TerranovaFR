@@ -115,7 +115,7 @@ const struct BgTemplate gBattleBgTemplates[4] = {
         .bg = 1,
         .charBaseIndex = 1,
         .mapBaseIndex = 28,
-        .screenSize = 2,
+        .screenSize = 1,
         .paletteMode = 0,
         .priority = 3,
         .baseTile = 0x000
@@ -125,7 +125,7 @@ const struct BgTemplate gBattleBgTemplates[4] = {
         .mapBaseIndex = 30,
         .screenSize = 1,
         .paletteMode = 0,
-        .priority = 1,
+        .priority = 0,
         .baseTile = 0x000
     }, {
         .bg = 3,
@@ -133,7 +133,7 @@ const struct BgTemplate gBattleBgTemplates[4] = {
         .mapBaseIndex = 26,
         .screenSize = 1,
         .paletteMode = 0,
-        .priority = 2,
+        .priority = 3,
         .baseTile = 0x000
     }
 };
@@ -600,8 +600,8 @@ static void LoadBattleTerrainGfx(u16 terrain)
     if (terrain >= NELEMS(sBattleTerrainTable))
         terrain = 9;
     // Copy to bg3
-    LZDecompressVram(sBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(2));
-    LZDecompressVram(sBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(26));
+    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
+    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
     LoadCompressedPalette(sBattleTerrainTable[terrain].palette, 0x0, 0xC0);
 }
 
@@ -610,18 +610,8 @@ static void LoadBattleTerrainEntryGfx(u16 terrain)
     if (terrain >= NELEMS(sBattleTerrainTable))
         terrain = 9;
     // Copy to bg1
-    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(1));
-    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(28));
-}
-
-static void LoadBattleTerrainGfx2(u16 terrain)
-{
-    if (terrain >= NELEMS(sBattleTerrainTable))
-        terrain = 9;
-    // Copy to bg3
-    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
-    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
-    LoadCompressedPalette(sBattleTerrainTable[terrain].palette, 0x0, 0xC0);
+    LZDecompressVram(sBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(1));
+    LZDecompressVram(sBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(28));
 }
 
 void sub_800F324(void)
@@ -690,53 +680,6 @@ void LoadBattleTextboxAndBackground(void)
 	CopyBgTilemapBufferToVram(0);
     LoadBattleMenuWindowGfx();
     DrawMainBattleBackground();
-}
-
-void DrawMainBattleBackground2(void)
-{
-    LoadBattleTerrainGfx2(GetBattleTerrainOverride());
-}
-
-void LoadMainBattleBackground2(u8 terrain)
-{
-    LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void*)(VRAM + 0x8000));
-    LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void*)(VRAM + 0xD000));
-    LoadCompressedPalette(sBattleTerrainTable[terrain].palette, 0x0, 0xC0);
-}
-
-void LoadBattleTextboxAndBackground2(void)
-{
-    LZDecompressVram(gBattleTiles, (void *)BG_CHAR_ADDR(0));
-	CopyToBgTilemapBuffer(0, gBattleFramesTilemap, 0, 0x000);
-
-    if (gSaveBlock2Ptr->optionsLanguage == ENG)
-	{
-		if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
-		{
-			CopyToBgTilemapBuffer(0, gSafariEngTilemap, 0, 68);
-		}
-		else
-		{
-			CopyToBgTilemapBuffer(0, gBattleEngTilemap, 0, 68);
-		}
-	}
-    if (gSaveBlock2Ptr->optionsLanguage == SPA)
-	{
-		if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
-		{
-			CopyToBgTilemapBuffer(0, gSafariSpaTilemap, 0, 68);
-		}
-		else
-		{
-			CopyToBgTilemapBuffer(0, gBattleSpaTilemap, 0, 68);
-		}
-	}
-	LoadPalette(gFireRedMenuElements2_Pal, 0xD0, 0x20);
-    LoadPalette(gBattleFramesPalette, 0xE0, 0x20);
-	LoadPalette(gBattleTextPalette, 0xF0, 0x16);
-	CopyBgTilemapBufferToVram(0);
-    LoadBattleMenuWindowGfx();
-    DrawMainBattleBackground2();
 }
 
 static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 bgId, u8 destX, u8 destY)

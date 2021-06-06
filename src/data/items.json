@@ -56,7 +56,7 @@
 	},
 	{
 		"english": "Great Ball",
-		"spanish": "Great Ball",
+		"spanish": "Superball",
 		"itemId": "ITEM_GREAT_BALL",
 		"price": "600",
 		"holdEffect": "HOLD_EFFECT_NONE",

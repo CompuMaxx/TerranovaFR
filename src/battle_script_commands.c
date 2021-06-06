@@ -2254,9 +2254,12 @@ void SetMoveEffect(bool8 primary, u8 certain)
             statusChanged = TRUE;
             break;
         case STATUS1_PARALYSIS:
-            if (gBattleMons[gEffectBattler].ability == ABILITY_LIMBER)
+            if ((gBattleMons[gEffectBattler].ability == ABILITY_LIMBER) || (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_ELECTRIC)) 
+				|| (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_GRASS)))
             {
-                if (primary == TRUE || certain == MOVE_EFFECT_CERTAIN)
+                if ((IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_ELECTRIC)) || (IS_BATTLER_OF_TYPE(gEffectBattler, TYPE_GRASS)))
+					 break;
+				if (primary == TRUE || certain == MOVE_EFFECT_CERTAIN)
                 {
                     gLastUsedAbility = ABILITY_LIMBER;
                     RecordAbilityBattle(gEffectBattler, ABILITY_LIMBER);
@@ -9208,7 +9211,7 @@ static void atkF2_displaydexinfo(void)
         break;
     case 3:
         InitBattleBgsVideo();
-        LoadBattleTextboxAndBackground2();
+        LoadBattleTextboxAndBackground();
         gBattle_BG3_X = 0x100;
         ++gBattleCommunication[0];
         break;

@@ -1,31 +1,31 @@
 ==============================================
 	Update Gráficos a nuevas GEN's
 ==============================================
-+ Sprites e Icons Pokemon GEN IV(LISTO)
++ Sprites e Icons Pokemon GEN IV
 	Creditos: DS-style 64x64 Pokémon Sprite Resourses
-+ Main Menu GEN V(LISTO)
-+ Option Menu GEN V(LISTO)
-+ Pokemon Summary Screen GEN V(LISTO)
++ Main Menu GEN V
++ Option Menu GEN V
++ Pokemon Summary Screen GEN V
 	- Falta el Desplazamiento Cíclico
 	- Falta hacer más fluido el cambio de página
-+ Expandir Capacidades de Objeto del Bolso y PC(LISTO)
++ Expandir Capacidades de Objeto del Bolso y PC
 	- PC Items 		30 -> 120
 	- Bag Items		42 -> 100
 	- Bag Key Items	30 -> 50
 	- Bag Pokéballs	13 -> 28  (27 máx en GEN VII + Smoke Ball)
 	- Bag TM-HM		58 -> 107 (99 TM + 8 HM)
 	- Bag Berries	43 -> 67  (máx en GEN V)
-+ Naming Screen GEN V(LISTO)
++ Naming Screen GEN V
 	- Agregados Caracteres Latinos 
 	- Auto cambio de página luego que la primera letra sea mayúscula
-+ TextBox GEN IV(LISTO)
-+ Party Menu GEN V(LISTO)
++ TextBox GEN IV
++ Party Menu GEN V
 	- Función MOTE
 	- Funcion Swap Items
-	- Visualizar Nivel de Pokémon incluso con problemas de estado(LISTO)
+	- Visualizar Nivel de Pokémon incluso con problemas de estado
 	- Expandir íconos de Objetos llevados por los Pokémon (Items, Mail, Pokeballs & Berries )
 	(Debido al sistema MT infinitas, no se puede llevar MT y no hace falta el ícono)
-+ Mejora de Pokémart(LISTO)
++ Mejora de Pokémart
 	- Se puede comprar hasta 999 objetos a la vez
 	- Muestra el máximo que se puede comprar en vez de 999
 	- Si ya no tienes espacio muestra de una vez dicho mensaje
@@ -61,48 +61,89 @@
 ==============================================
 	GEN IV
 ==============================================
-+ División Físico, Especial y Estado(LISTO)
-+ Pokémon sobreviven al veneno con 1 PS GEN IV(LISTO)
-+ Incremento de retardo entre frames al correr GEN IV(LISTO)
-+ Ocultar HealtBox durante animación de movimientos GEN IV(LISTO)
-+ Estadísticas coloreadas por Naturalezas, rojo para incremento y azul para decremento (GEN IV)
-+ Update Sistema de Repelente GEN IV(LISTO)
++ División Físico, Especial y Estado
++ Pokémon sobreviven al veneno con 1 PS
++ Incremento de retardo entre frames al correr
++ Ocultar HealtBox durante animación de movimientos
++ Estadísticas coloreadas por Naturalezas, rojo para incremento y azul para decremento
++ Update Sistema de Repelente
 	-Falta chequear el resto de los Repelentes una vez agotado el que está en uso
-+ Pokémon nacen en nivel 1 en vez de 5 (GEN IV)
-+ Un botón ha sido añadido para permitir al player correr sin mantener presionado el boton B. Sistema de AutoRun (GEN IV)
++ Pokémon nacen en nivel 1 en vez de 5
++ Un botón ha sido añadido para permitir al player correr sin mantener presionado el boton B. Sistema de AutoRun
 	- Habilitar la activación y desactivación a través del botón R (FALTA)
-+ Diferencia de aspectos de algunos pokémon dependiendo de su género (GEN IV)
-+ Se permite correr en interiores de edificios (GEN IV)
++ Diferencia de aspectos de algunos pokémon dependiendo de su género
++ Se permite correr en interiores de edificios
 - Baya Sidra restaura el 25% del total de los PS del pokémon en vez de 30 PS
-- Base secreta ha sido movido a The Underground (GEN IV)
-- Removido el almacenamiento de objetos en el PC debido ya que el Bolso puede llevar todos los objetos sin límites (GEN IV)
-- Entrenadores pueden caminar junto al Player para iniciar Batallas Dobles (GEN IV)
-- El color del texto ha sidio cambiado de rojo y azul basado en el género del NPC a gris y se ha dejado los colores para resaltar informaión importante (GEN IV)
-- Reintroducida la opción de hacer 7 tipos de pokéballs hechas con Apricors (GEN IV)
-- En vez de Concursos está el Pokéathlon (GEN IV)
-- Habilidad para registrar 2 Keyitems en vez de 1 (GEN IV)
-- La Pokédex ahora puede mostrar las distintas fomas de un pokémon (GEN IV)
-- La introducción de las Flat Battles, un tipo de batalla donde los pokémon de nivel superior a 50 vuelven al nivel 50 temporalmente (GEN IV)
-- Un rediseño en la interfaz que muestra los objetos en el bolso que facilita el acceso a los objetos (GEN IV)
+- Base secreta ha sido movido a The Underground
+- Removido el almacenamiento de objetos en el PC debido ya que el Bolso puede llevar todos los objetos sin límites
+- Entrenadores pueden caminar junto al Player para iniciar Batallas Dobles
+- El color del texto ha sidio cambiado de rojo y azul basado en el género del NPC a gris y se ha dejado los colores para resaltar informaión importante
+- Reintroducida la opción de hacer 7 tipos de pokéballs hechas con Apricors
+- En vez de Concursos está el Pokéathlon
+- Habilidad para registrar 2 Keyitems en vez de 1
+- La Pokédex ahora puede mostrar las distintas fomas de un pokémon
+- La introducción de las Flat Battles, un tipo de batalla donde los pokémon de nivel superior a 50 vuelven al nivel 50 temporalmente 
+- Un rediseño en la interfaz que muestra los objetos en el bolso que facilita el acceso a los objetos 
+- Introducción del Centro de Intercambio Global o GTS que permite intercambiar Pokémon con personas de todo el mundo mediante la conexión Wi-Fi. Sin necesidad de códigos de amigo, y con un sistema de búsqueda por Pokémon y características.
+- 107 Pokémon nuevos, algunos son pre-evoluciones o evoluciones de Pokémon ya conocidos, formando un total de 493. Muchos de ellos complementan a criaturas de la 1ª o 2ª generación.
+- 47 nuevas habilidades, elevando el total a 123.
+- 113 nuevos movimientos , formando un total de 467.
+- Nuevos objetos, entre los que destacan el Poké-reloj y el Pokéradar. Esto también incluye 42 nuevas MTs dando un total de 92, y la aparición de los sellos para decorar las Poké Balls y algunos inciensos y piedras evolutivas, necesarias para obtener determinadas pre-evoluciones y evoluciones.
+- El sistema de almacenamiento Pokémon del PC es ahora capaz de comparar Pokémon, además dispone de 18 cajas para albergar 540 Pokémon.
+- El retorno del ciclo día/noche de la segunda generación, con transiciones más detalladas (se incluye el atardecer y la medianoche).
+- Nuevas combinaciones de tipos, entre los que destacan Rotom (eléctrico/fantasma), Giratina (dragón/fantasma), Abomasnow (planta/hielo), Froslass (hielo/fantasma) y Dialga (acero/dragón).
+- Muchos Pokémon de antiguas generaciones presentan aquí sus evoluciones y preevoluciones completando así sus tres fases evolutivas.
+- Nuevos villanos, en esta ocasión nos enfrentaremos al Equipo Galaxia que intenta capturar a los legendarios Dialga y Palkia para sus oscuros propósitos.
+- El mundo está construido en 3D con gráficos prerenderizados, a diferencia de la totalidad de tiles y sprites 2D de las anteriores ediciones.
+- Todos los Pokémon poseen animaciones en estas dos primeras ediciones. Hasta ahora era únicamente común en las versiones especiales Pokémon Esmeralda y Pokémon Cristal.
+- Los Centros Pokémon poseen ahora tres plantas, dividiendo mejor las funciones Wi-Fi de Nintendo DS.
+- Mayor cantidad de Pokémon legendarios y eventos diarios en un juego Pokémon.
+- Los Concursos Pokémon pasan a ser Súper concursos, lo que los hace más longevos, con más fases y más dificultad.
+- Ahora en los Súper concursos, todos los niveles están concentrados en un solo lugar (Ciudad Corazón), haciendo más cómoda la competencia.
+- Aparición de los Pokochos, una actualización de los Pokécubos.
+- Las compras en las tiendas ya no dependen de la ciudad: ahora depende de tu nivel de experiencia el poder comprar ciertos objetos a lo largo del juego, o no.
+- Mayor dificultad en la Liga Pokémon, y posibilidad de volver a combatir con el rival tras acabar la liga.
+- Nuevas formas de evolución. Ahora las criaturas pueden evolucionar por subir un nivel en un lugar determinado (Probopass, Magnezone, Glaceon, Leafeon), por poseer un ataque determinado (Poder pasado, Doble golpe) (que evoluciona a Tangrowth, Mamoswine, Ambipom o Yanmega), por subir un nivel con un objeto equipado (Weavile, Gliscor) o en compañía de un Pokémon específico en el equipo (Mantyke que evoluciona a Mantine si Remoraid está en el equipo).
+- Aparición de la MO despejar y la MO treparrocas, dejando la MO destello como MT. La MO buceo ha sido descartada.
+- Mejoras en la Torre Batalla, y una mayor longevidad del juego tras conseguir las 8 medallas y acabar la Liga Pokémon.
+- Animación de los sprites de Pokémon por primera vez desde sus espaldas, cuando luchan en tu equipo.
+- Animación de los sprites también para los entrenadores.
+- Formas alternas para algunos Pokémon, según el lugar o el objeto que lleven equipado (Giratina, Shaymin, Rotom).
+- Posibilidad de capturar legendarios característicos de otra edición sin necesidad de evento u objeto especial (Articuno, Zapdos y Moltres). Esto también se da lugar en el remake de Pokémon Rojo y Azul (Rojo Fuego/Verde Hoja).
+- La aparición de un nuevo objeto: la cámara lucha, que es un dispositivo que permite grabar combates en lugares como el Frente Batalla y verlos cuantas veces se quiera.
 ==============================================
 	GEN V
 ==============================================
-+ MT Reusables GEN V(LISTO)
++ MT Reusables GEN V
 	(Reusables, Invendibles, Sin Cantidad, Sin poder comprar al ya tenerla)
-+ Intercambio de Objetos llevados desde la Party Scren (GEN V)
-- Maldición ahora es tipo Fantasma en vez de ??? (GEN V)
-- Objetos son mostrados en una lista de 6 páginas (GEN V)
-- Las Medallas no son necesarias para para el uso de las MO en el overworld (GEN V)
-- La Elite Four no tiene un oden para ser derrotada (GEN V)
-- Popup de la habilidad y sus efectos (GEN V)
++ Intercambio de Objetos llevados desde la Party Scren
+- Maldición ahora es tipo Fantasma en vez de ???
+- Objetos son mostrados en una lista de 6 páginas
+- Las Medallas no son necesarias para para el uso de las MO en el overworld
+- La Elite Four no tiene un oden para ser derrotada
+- Popup de la habilidad y sus efectos
+- Es la generación que ha introducido mas líderes de gimnasio, con un total de 14.
+- Es la generación que más Pokémon ha introducido, con 156.
+- Es la primera generación en presentar estas características:
+	- Se tienen dos rivales, Cheren y Bel
+	- Hay un Pokémon con #000 en la Pokédex regional, Victini.
+	- El profesor es un personaje femenino, la Profesora Encina.
+	- Las máquinas técnicas tienen usos ilimitados, como las máquinas ocultas.
+	- Cuenta con un Pokémon legendario de tipo bicho, Genesect.
+	- Hay un gimnasio con tres líderes y se lucha contra el líder que tenga ventaja contra el Pokémon inicial.
+	- La gran mayoría de los líderes de gimnasio y personajes en español poseen nombres derivados de plantas y flores, imitando al japonés, que lo hace desde la primera generación.
+	- No cuentan con un relanzamiento en una tercera versión (con extras y más elementos en la trama), ya que en su lugar se lanzaron un par de secuelas basadas en la misma región años después y con nuevos protagonistas.
+- Es la generación que presenta más Pokémon de evolución tardía, ya que la mayoría sobrepasa el nivel 30 para obtener su primera evolución, sin contar a los Pokémon iniciales o a los segunda evolución (ej: Duosion, Krokorok). Contando con 32 Pokémon de evolución tardía.
+- A partir de esta generación los Pokémon cerrarán los ojos (si tienen ojos visibles) cuando estén dormidos.
 ==============================================
 	GEN VI
 ==============================================
-+ Ajuste de los EVs a 252 (LISTO)
-+ Obtener Experiencia al Capturar (LISTO)
-+ Probabilidad de Golpe Crítico (6.25%, 12.5%, 50% y 100%)(LISTO)
-+ Multiplicador de Golpe Crítico (150% de daño)(LISTO)
-- Tipos Eléctricos son inmunes a la Parálisis (GEN VI)
++ Ajuste de los EVs a 252
++ Obtener Experiencia al Capturar
++ Probabilidad de Golpe Crítico (6.25%, 12.5%, 50% y 100%)
++ Multiplicador de Golpe Crítico (150% de daño)
++ Paralizador no afecta tipo Planta, tipo Eléctrico, con la habilidad Funda o que lleve equipado Gafa Protectora
++ Tipos Eléctricos son inmunes a la Parálisis
 - Nickname incrementado de 10 a 12 caracteres
 - Player name icrementado de 7 a 12 caracteres
 - Movimientos, Objetos y Habilidades incrementados de 12 a 16 caracteres
@@ -110,27 +151,59 @@
 - Repartir Experiencia pasa a ser un Key Item que se puede activar o desactivar
 - Somnífero no afecta tipo Planta, con la habilidad Funda o que lleve equipado Gafa Protectora
 - Espora no afecta tipo Planta, con la habilidad Funda o que lleve equipado Gafa Protectora
-- Paralizador no afecta tipo Planta, tipo Eléctrico, con la habilidad Funda o que lleve equipado Gafa Protectora
-
+- Se puede correr sin Deportivas
+- Gráficos en 3D totalmente renovados y diferentes a cualquier juego anterior tanto en la aventura como en los combates.
+- Los personajes principales son personalizables. Al inicio de la aventura se puede elegir entre tres tonos de piel. Más adelante se puede cambiar el peinado y su color, además de la pigmentación de los ojos mediante lentillas y sobre todo la ropa (al comprar sombreros, prenda superior e inferior, vestidos, calcetines, zapatos, bolsas y accesorios).
+- Se introducen nuevas formas de combatir: los encuentros de horda (1 vs 5 Pokémon salvajes), los combates inversos (invirtiendo la efectividad entre tipos) y los combates aéreos.
+- Se añade el PSS (Player Search System), el cual permite al jugador conectarse con otros jugadores para hacer distintas operaciones como combatir o intercambiar Pokémon.
+- Es posible montar ciertos Pokémon en lugares específicos.
+- Se añaden las megaevoluciones, una forma alternativa de algunos Pokémon haciendo uso de las megapiedras.
+- Se añade el Pokérecreo, un espacio donde el jugador puede interactuar con sus Pokémon para aumentar su cariño, lo que hace que, a veces, el Pokémon esquive ciertos movimientos, realice un golpe crítico o se cure él solo de determinados estados alterados.
+- Se añade el Superentrenamiento, con el que se pueden aumentar los puntos de esfuerzo de tu Pokémon.
+- Los movimientos huevo ahora se pueden heredar de la madre. Esto es útil cuando se busca que la cría herede movimientos huevo además de habilidades, valores individuales, etc., algo difícil de conseguir sólo con el padre. Además, los movimientos que se aprenden por MT o MO ya no se heredan.
+- Se introduce el tipo hada como un nuevo tipo elemental.que es muy efectivo contra el tipo dragón, tipo lucha y tipo siniestro, pero débil al tipo acero, tipo fuego y al tipo veneno.
+- A partir de la sexta generación se producen una serie de cambios:
+- Los Pokémon de tipo acero ya no serán resistentes a movimientos de tipo fantasma o siniestro.
+- Los Pokémon de tipo planta serán inmunes a movimientos de polvos y esporas como paralizador o espora.
+- Los Pokémon de tipo fantasma serán inmunes a los movimientos y habilidades que impiden huir a Pokémon del combate como bloqueo o sombra trampa.
+- Las habilidades de cambio de clima Sequía, Llovizna, Chorro Arena y Nevada, duran solo 5 turnos, antes duraba siempre.
+- Esta generación es la primera en la que se muestran Pokémon con el tipo normal como secundario (Litleo, Pyroar, Helioptile y Heliolisk) y con el tipo volador como primario (Noibat y Noivern).
+- Es la primera generación en las que el tercer legendario del trío protagonista no cuenta con una entrega propia, en este caso Zygarde. Sin embargo sí cuenta con un arco propio en el anime.
+- Es la primera en la que no hay más de una entrega relacionada con su respectiva región.
+- Es la generación que menos Pokémon ha introducido, con un total de 72.
+- A partir de esta generación no se muestra la huella de los Pokémon en la Pokédex.
+- Es la primera generación que no contó con un trío legendario menor (siendo los otros el trío de aves legendarias, perros legendarios, regis, trío del lago y trío de las nubes)
 ==============================================
 	GEN VII
 ==============================================
-+ Poké Balls basadas en Clases de Entrenador (LISTO)
-+ Daño de Quemaduras pasa a 1/16 de los PS Máx (LISTO)
-+ Pérdida de Velocidad por Parálisis pasa a 50% de la original (LISTO)
-+ Habilidad Piel Tosca pasa a perder 1/8 de los PS Máx (LISTO)
-+ Sistema de Repartir Experiencia pasa a 100% a los participantes y 50% al resto (LISTO)
-+ Niveles de Obediencia (LISTO)
-	Incrementa la obediencia en 10 niveles con cada medalla desde el Nv 20 para la primera
-+ Bonus Premier Balls (LISTO)
-	(1 Premier Ball por cada 10 Balls compradas)
++ Poké Balls basadas en Clases de Entrenador
++ Daño de Quemaduras pasa a 1/16 de los PS Máx
++ Pérdida de Velocidad por Parálisis pasa a 50% de la original
++ Habilidad Piel Tosca pasa a perder 1/8 de los PS Máx
++ Sistema de Repartir Experiencia pasa a 100% a los participantes y 50% al resto
++ Niveles de Obediencia
+	- Incrementa la obediencia en 10 niveles con cada medalla desde el Nv 20 para la primera
++ Bonus Premier Balls, 1 Premier Ball por cada 10 Balls compradas
 - Introducida la Piedra Hielo
 - Introducida una nueva PokéBall para un total de 27
 - Se muestra la efectividad de un ataque si ya se ha luchado con el pokémon anteriormente
 - Algunos pokémon aprenden ataques una vez evolucionan
 - Confusión tiene un chance de 33% de hacerse daño en vez de 50%
 + El Nickname se puede cambiar en cualquier momento desde la Party Screen
-
+- La Pokédex tiene en su interior un Rotom, con el que se puede hablar y aconsejará al jugador sobre su destino. Se la conoce como la RotomDex.
+- Se pueden leer códigos QR para obtener información adicional de distintos Pokémon. Igualmente estos códigos se podrán generar para que otros jugadores registren Pokémon en sus Pokédex. El escáner de QR también puede ser usado para recibir Pokémon de evento, como Magearna, leyendo QR especiales como el de Pokémon Ga-Olé.
+- La función del Pokérecreo vuelve con ciertas novedades como la de acicalarlos con peines y secadores de pelo.
+- Introducción de los movimientos Z, movimientos de gran potencia que solo pueden utilizarse una vez por combate.
+- Pokémonturas, Pokémon que ayudan a la gente a llegar a puntos que de otro modo resultarían inaccesibles.
+- Introducción del entrenamiento extremo, una función que permite aumentar los IVs a los Pokémon que ya hayan alcanzado el nivel 100 mediante el uso de un nuevo objeto: las chapas (Chapa dorada,Chapa plateada).
+- Se introduce una nueva modalidad de combate, los Battle Royale, en los cuales 4 jugadores combaten entre sí en un todos contra todos. Cada jugador puede llevar un máximo de 3 Pokémon a un combate de este tipo, y gana el primero que consiga debilitar a todos los Pokémon de uno de los 3 oponentes restantes.
+- Se añade al Pokémon Global Link la nueva función de los torneos amistosos, una modalidad de combate que permite organizar torneos propios con un reglamento personalizado.
+- Una nueva interfaz que permite visualizar durante los combates los cambios en las características que han sufrido los Pokémon presentes en combate.
+- Ahora cuando se combate con un Pokémon con el cual se ya ha luchado con anterioridad, el menú de movimientos muestra la eficacia contra el Pokémon objetivo dependiendo del tipo, indicando si tiene eficacia normal, si es muy eficaz o si no lo es.
+- Los entrenadores aparecen siempre en el campo de batalla detrás de sus Pokémon. También se aprecian nuevos ángulos de la cámara y mejores perspectivas del combate.
+- Surge el recorrido insular, una nueva modalidad que al parecer, es característica de esta región. Consiste en una especie de peregrinaje aventurero por las cuatro islas, el cual todos los entrenadores de Alola deben afrontar. El recorrido en cada isla requiere superar varias pruebas, en las cuales no solo se librarán combates, sino que también se deberán hallar objetos y superar desafíos de ingenio.
+- Para cada prueba correspondiente al recorrido insular, existe un capitán, por cada prueba. Esta modalidad viene a sustituir al líder de gimnasio en esta región. La capitana Nereida, especializada en tipo agua, Lulú, especializada en tipo planta, Chris, especializado en tipo eléctrico, Kiawe, especializado en tipo fuego, Liam, especializado en Tipo normal, Zarala, especializada en tipo fantasma y Rika, especializada en tipo hada. Después de realizar una prueba, aparece el Pokémon dominante con el cual se desarrollará una batalla. Estos superan en tamaño al resto de su especie y su cuerpo se reviste de un aura especial. Por otro lado, tiene la capacidad de reforzarse llamando a otros Pokémon de su especie para irrumpir en el combate.
+- Después de realizar las pruebas de cada isla y de derrotar al Pokémon dominante, se finalizará con la gran prueba, en la cual se deberá derrotar a los Kahuna. Cada isla es gobernada por uno de estos. Los Kahuna son elegidos por los espíritus guardianes. Existen solo cuatro. Kaudan es el kahuna de Melemele y su espíritu guardián es Tapu Koko, de tipo eléctrico y hada. Mayla es la kahuna de Akala y su espíritu guardián es Tapu Lele, de tipo psíquico y hada. Denio es el kahuna de Ula-Ula y su espíritu guardián es Tapu Bulu, de tipo planta y hada. Por último, Hela es la kahuna de Poni y su espíritu guardián es Tapu Fini, de tipo agua y hada.
 ==============================================
 	GEN VIII
 ==============================================
@@ -138,33 +211,37 @@
 - La Eliet Four ha sido reemplazada por la Champion Cup
 - La Trainer Card ha sido reemplazada por la Champion Card
 + El Nickname solo puede ser cambiado por su entrenador original
-
+- Vuelven los gimnasios y las medallas tras su ausencia en Pokémon Sol, Pokémon Luna, Pokémon Ultrasol y Pokémon Ultraluna.
+- A diferencia de Pokémon: Let's Go, Pikachu! y Pokémon: Let's Go, Eevee!, los Pokémon salvajes vuelven a encontrar en la hierba alta de manera aleatoria, y habrá que combatir contra ellos para debilitarlos y atraparlos.
+- Se añade la función Dinamax, que permite capturar y volver gigantes temporalente a los Pokémon, además del Gigantamax, que junto con volverlos gigantes, los cambia de forma durante su uso.
+	Con ella surgen las incursiones en la saga principal, siendo introducidas en Pokémon GO.
+- Se añade el área silvestre, zona de mundo abierto.
 ==============================================
 	Addons
 ==============================================
-+ Game Speed Up(LISTO)
-+ Decap. Ataques(LISTO)
-+ Decap. Clases Entrenador(LISTO)
-+ Decap. Especies Pokemon(LISTO)
-+ Decap. Habilidades(LISTO)
-+ Decap. Lista de Naturalezas(LISTO)
++ Game Speed Up
++ Decap. Ataques
++ Decap. Clases Entrenador
++ Decap. Especies Pokemon
++ Decap. Habilidades
++ Decap. Lista de Naturalezas
 + Decap. Nombres
-+ Decap. Nombres Pokemon(LISTO)
-+ Decap. Objetos(LISTO)
-+ Decap. Tipos de Ataques(LISTO)
-+ Decap. Textos de Mensajes de Batalla(LISTO)
-+ Decap. Textos Generales strings.c(LISTO)
-+ Remover Hagamos Memoria(LISTO)
-+ Remover Incremento de Estadísticas provisto por las Medallas(LISTO)
-+ Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)(LISTO)
-+ Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)(LISTO)
-+ Incrementar límite de dinero a 99.999.999(LISTO)
-+ Incrementar límite de fichas a 50.000(LISTO)
-+ Extender el número de Direct Sound Tracks de 5 a 12(LISTO)
-+ Evitar que los PKMN huyan en el Safari(LISTO)
++ Decap. Nombres Pokemon
++ Decap. Objetos
++ Decap. Tipos de Ataques
++ Decap. Textos de Mensajes de Batalla
++ Decap. Textos Generales strings.c
++ Remover Hagamos Memoria
++ Remover Incremento de Estadísticas provisto por las Medallas
++ Deshabilitar Mochila en batallas (settear FLAG_DISABLE_BAG)
++ Deshabilitar captura de Pokémon (settear FLAG_DISABLE_CATCHING)
++ Incrementar límite de dinero a 99.999.999
++ Incrementar límite de fichas a 50.000
++ Extender el número de Direct Sound Tracks de 5 a 12
++ Evitar que los PKMN huyan en el Safari
 - Remover Sistema de Ayuda
 - Remover opciones de Movimiento de Campo de Menú Pokémon
-+ Espacio Extra en Save (LISTO)
++ Espacio Extra en Save 
 + DynamicOverwoldPalette(en desarrollo...)
 	Falta corregir error con Fame Checker
 + Overwold Expansion
@@ -178,15 +255,15 @@
 ==============================================
 	Fixes
 ==============================================
-+ Fix No contar los Huevos en el Centro Pokémon(LISTO)
-+ Fix Obediencia de MEW & DEOXYS(LISTO)
-+ Fix Rugido Pokémon Errantes(LISTO)
-+ Fix IVs de Pokémon Errantes(LISTO)
-+ Fix Snow Weather(LISTO)
-+ Fix Efectos de Terrenos al desmontar de SURF(LISTO)
-+ Fix Fanfare al obtener Objeto o MT/MO(LISTO)
-+ Fix Protección/Detección/Aguante(LISTO)
-+ Fix Player Facing(LISTO)
++ Fix No contar los Huevos en el Centro Pokémon
++ Fix Obediencia de MEW & DEOXYS
++ Fix Rugido Pokémon Errantes
++ Fix IVs de Pokémon Errantes
++ Fix Snow Weather
++ Fix Efectos de Terrenos al desmontar de SURF
++ Fix Fanfare al obtener Objeto o MT/MO
++ Fix Protección/Detección/Aguante
++ Fix Player Facing
 + Fix Especies de Pokémon en la Pokédex
 
 ==============================================
