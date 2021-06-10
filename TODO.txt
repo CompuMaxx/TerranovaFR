@@ -251,6 +251,7 @@
 + Uso repetido de medicinas y carameloraro fuera de batalla 
 + Posibilidad de hacer invisible al player (settear FLAG_SPAWN_INVISIBLE)
 + Hight Quality Audio Mixer by ipatix
++ Capacidad de ordenar de forma automática los objetos del Bolso
 
 ==============================================
 	Fixes
