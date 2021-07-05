@@ -320,5 +320,6 @@ void sub_8007FFC(struct Sprite* sprite, s16 a2, s16 a3);
 void sub_80075C0(struct Sprite *sprite);
 s16 AllocSpriteTiles(u16 tileCount);
 void obj_pos2_update_enable(struct Sprite* sprite, s16 xmod, s16 ymod);
+u8 GetSpriteMatrixNum(struct Sprite *sprite);
 
 #endif //GUARD_SPRITE_H

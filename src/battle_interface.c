@@ -60,34 +60,24 @@ enum
     HEALTHBOX_GFX_20, //exp bar [8 pixels]
     HEALTHBOX_GFX_STATUS_PSN_BATTLER0,  //status psn "(P"
     HEALTHBOX_GFX_22,                   //status psn "SN"
-    HEALTHBOX_GFX_23,                   //status psn "|)""
     HEALTHBOX_GFX_STATUS_PRZ_BATTLER0,  //status prz
     HEALTHBOX_GFX_25,
-    HEALTHBOX_GFX_26,
     HEALTHBOX_GFX_STATUS_SLP_BATTLER0,  //status slp
     HEALTHBOX_GFX_28,
-    HEALTHBOX_GFX_29,
     HEALTHBOX_GFX_STATUS_FRZ_BATTLER0,  //status frz
     HEALTHBOX_GFX_31,
-    HEALTHBOX_GFX_32,
     HEALTHBOX_GFX_STATUS_BRN_BATTLER0,  //status brn
     HEALTHBOX_GFX_34,
-    HEALTHBOX_GFX_35,
     HEALTHBOX_GFX_STATUS_PSN_BATTLER1,  //status psn "(P"
     HEALTHBOX_GFX_36,                   //status psn "SN"
-    HEALTHBOX_GFX_37,                   //status psn "|)""
     HEALTHBOX_GFX_STATUS_PRZ_BATTLER1,  //status prz
     HEALTHBOX_GFX_38,
-    HEALTHBOX_GFX_39,
     HEALTHBOX_GFX_STATUS_SLP_BATTLER1,  //status slp
     HEALTHBOX_GFX_40,
-    HEALTHBOX_GFX_41,
     HEALTHBOX_GFX_STATUS_FRZ_BATTLER1,  //status frz
     HEALTHBOX_GFX_42,
-    HEALTHBOX_GFX_43,
     HEALTHBOX_GFX_STATUS_BRN_BATTLER1,  //status brn
     HEALTHBOX_GFX_44,
-    HEALTHBOX_GFX_45,
     HEALTHBOX_GFX_STATUS_CLEAR, //misc
     HEALTHBOX_GFX_NUMBER_CLEAR,
     HEALTHBOX_GFX_NUMBER_0,
@@ -101,6 +91,7 @@ enum
     HEALTHBOX_GFX_NUMBER_8,
     HEALTHBOX_GFX_NUMBER_9,
     HEALTHBOX_GFX_NUMBER_SLASH,
+    HEALTHBOX_GFX_CHAR_NV,
     HEALTHBOX_GFX_CHAR_LV,
     HEALTHBOX_GFX_CHAR_MALE,
     HEALTHBOX_GFX_CHAR_MALE_2,
@@ -1680,7 +1671,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
 	{
 		if (GetBattlerSide(battlerId) != B_SIDE_PLAYER)
 		{
-			for (i = 0; i < 3; i++)
+			for (i = 0; i < 2; i++)
 				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_STATUS_CLEAR), (void*)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder + i) * TILE_SIZE_4BPP), 32);
 
 			if (!gBattleSpritesDataPtr->battlerData[battlerId].hpNumbersNoBars)
@@ -1690,11 +1681,16 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
 					CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_HP), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
 					CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_CHAR_LV), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 41) * TILE_SIZE_4BPP), 32);
 				}
+				if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				{
+					CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_PS), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
+					CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_CHAR_NV), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 41) * TILE_SIZE_4BPP), 32);
+				}
 			}
 		}
 		else
 		{
-			for (i = 0; i < 3; i++)
+			for (i = 0; i < 2; i++)
 				CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_STATUS_CLEAR), (void*)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder + i) * TILE_SIZE_4BPP), 32);
 
 			if (!gBattleSpritesDataPtr->battlerData[battlerId].hpNumbersNoBars)
@@ -1707,6 +1703,14 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
 					else
 						CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_CHAR_LV), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 41) * TILE_SIZE_4BPP), 32);
 				}
+				if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				{
+					CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_PS), (void *)(OBJ_VRAM0 + gSprites[healthBarSpriteId].oam.tileNum * TILE_SIZE_4BPP), 64);
+					if (!IsDoubleBattle())
+						CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_CHAR_NV), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 73) * TILE_SIZE_4BPP), 32);
+					else
+						CpuCopy32(GetHealthboxElementGfxPtr(HEALTHBOX_GFX_CHAR_NV), (void*)(OBJ_VRAM0) + ((gSprites[healthboxSpriteId].oam.tileNum + 41) * TILE_SIZE_4BPP), 32);
+				}
 			}
 		}
 		TryAddPokeballIconToHealthbox(healthboxSpriteId, TRUE);
@@ -1716,7 +1720,7 @@ static void UpdateStatusIconInHealthbox(u8 healthboxSpriteId)
     pltAdder = gSprites[healthboxSpriteId].oam.paletteNum * 16;
     pltAdder += battlerId + 12;
 
-    CpuCopy32(statusGfxPtr, (void*)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder) * TILE_SIZE_4BPP), 96);
+    CpuCopy32(statusGfxPtr, (void*)(OBJ_VRAM0 + (gSprites[healthboxSpriteId].oam.tileNum + tileNumAdder) * TILE_SIZE_4BPP), 64);
     TryAddPokeballIconToHealthbox(healthboxSpriteId, FALSE);
 }
 
