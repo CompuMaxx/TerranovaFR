@@ -2640,7 +2640,7 @@ static const u8 sText_QualitySpa[] = _("calidad");
 static const u8 sText_AmountSpa[] = _("cantidad");
 static const u8 sText_AscendingSpa[] = _("ascendente");
 static const u8 sText_DescendingSpa[] = _("descendente");
-static const u8 sText_ItemsSortedSpa[] = _("¡Elementos ordenados por {STR_VAR_1}\nen orden {STR_VAR_2}!");
+static const u8 sText_ItemsSortedSpa[] = _("¡Los elementos han sido ordenados por\n{STR_VAR_1} en orden {STR_VAR_2}!");
 static const u8 *const sSortTypeStringsSpa[] = 
 {
     [SORT_ALPHABETICALLY] = sText_NameSpa,
@@ -3433,9 +3433,9 @@ static void SortBagItems(u8 taskId)
     SortItemsInBag(gBagMenuState.pocket, tSortType);
     CloseBagWindow(10);
     CloseBagWindow(6);
-//	Bag_BuildListMenuTemplate(gBagMenuState.pocket);
-//    data[0] = ListMenuInit(&gMultiuseListMenuTemplate, gBagMenuState.cursorPos[gBagMenuState.pocket], gBagMenuState.itemsAbove[gBagMenuState.pocket]);
-//	DestroyListMenuTask(data[0], &gBagMenuState.cursorPos[gBagMenuState.pocket], &gBagMenuState.itemsAbove[gBagMenuState.pocket]);	
+    Bag_BuildListMenuTemplate(gBagMenuState.pocket);
+    data[0] = ListMenuInit(&gMultiuseListMenuTemplate, gBagMenuState.cursorPos[gBagMenuState.pocket], gBagMenuState.itemsAbove[gBagMenuState.pocket]);
+    DestroyListMenuTask(data[0], &gBagMenuState.cursorPos[gBagMenuState.pocket], &gBagMenuState.itemsAbove[gBagMenuState.pocket]);
     if (gSaveBlock2Ptr->optionsLanguage == ENG)
 	{
 		switch (tSortType)

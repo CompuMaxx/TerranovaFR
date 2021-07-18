@@ -12,7 +12,7 @@ void SummaryScreen_SetUnknownTaskId(u8 a0);
 void SummaryScreen_DestroyUnknownTask(void);
 u8 GetLastViewedMonIndex(void);
 void ShowPokemonSummaryScreen(struct Pokemon * party, u8 cursorPos, u8 lastIdx, void (*callback)(void), u8 a4);
-void sub_8138B38(u8);
+void SetPokemonSummaryScreenMode(u8);
 
 // The Pokemon Summary Screen can operate in different modes. Certain features,
 // such as move re-ordering, are available in the different modes.
@@ -30,6 +30,8 @@ enum PokemonSummaryScreenPage
 {
     PSS_PAGE_INFO,
     PSS_PAGE_SKILLS,
+    PSS_PAGE_IVS,
+    PSS_PAGE_EVS,
     PSS_PAGE_MOVES,
     PSS_PAGE_MOVES_INFO,
     PSS_PAGE_UNK4,
@@ -53,7 +55,18 @@ enum PokemonSummaryScreenStat
     PSS_STAT_DEF,
     PSS_STAT_SPA,
     PSS_STAT_SPD,
-    PSS_STAT_SPE
+    PSS_STAT_SPE,
+};
+
+enum PokemonSummaryScreenStatIvsEvs
+{
+    IVS_EVS_STAT_HP,
+    IVS_EVS_STAT_ATK,
+    IVS_EVS_STAT_DEF,
+    IVS_EVS_STAT_SPA,
+    IVS_EVS_STAT_SPD,
+    IVS_EVS_STAT_SPE,
+    IVS_EVS_STAT_TOTAL,
 };
 
 #define TAG_PSS_UNK_64 0x64

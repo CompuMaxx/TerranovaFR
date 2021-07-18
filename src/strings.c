@@ -840,6 +840,10 @@ const u8 gText_8419C0B[] = _("a trade");
 const u8 gText_8419C13[] = _("Somewhere");
 const u8 gText_8419C1D[] = _("Pokémon Info");
 const u8 gText_8419C2A[] = _("Pokémon Skills");
+const u8 gText_8419C2B[] = _("Pokémon Stats");
+const u8 gText_Total[] = _("Total");
+const u8 gText_IvTittle[] = _("Individual Values");
+const u8 gText_EvTittle[] = _("Effort Values");
 // pokemon_summary_screen
 const u8 gText_8419C39[] = _("Known Moves");
 const u8 gText_8419C45[] = _("No data");
@@ -2208,6 +2212,10 @@ const u8 gText_8419C0BSpa[] = _("un intercambio.");
 const u8 gText_8419C13Spa[] = _("algún lugar.");
 const u8 gText_8419C1DSpa[] = _("Info. Pokémon");
 const u8 gText_8419C2ASpa[] = _("Habil. Pokémon");
+const u8 gText_8419C2BSpa[] = _("Estad. Pokémon");
+const u8 gText_TotalSpa[] = _("Total");
+const u8 gText_IvTittleSpa[] = _("Valores Individuales");
+const u8 gText_EvTittleSpa[] = _("Puntos de Esfuerzo");
 // pokemon_summary_screen
 const u8 gText_8419C39Spa[] = _("Mov. Conocidos");
 const u8 gText_8419C45Spa[] = _("No hay datos.");
