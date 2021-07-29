@@ -148,16 +148,16 @@ static const struct BgTemplate sMainMenuBGTemplate[] = {
 static void CB2_MainMenu(void)
 {
     RunTasks();
+    UpdatePaletteFade();
     AnimateSprites();
     BuildOamBuffer();
-    UpdatePaletteFade();
 }
 
 static void VBlankCB_MainMenu(void)
 {
+    TransferPlttBuffer();
     LoadOam();
     ProcessSpriteCopyRequests();
-    TransferPlttBuffer();
 }
 
 void CB2_InitMainMenu(void)
@@ -218,7 +218,7 @@ static bool32 MainMenuGpuInit(u8 a0)
 	LZ77UnCompVram(gMapMainMenuBG2, (void *)(VRAM + 0xF000));    
     SetMainCallback2(CB2_MainMenu);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
-    taskId = CreateTask(Task_SetWin0BldRegsAndCheckSaveFile, 0);
+	taskId = CreateTask(Task_SetWin0BldRegsAndCheckSaveFile, 0);
     gTasks[taskId].tCursorPos = 0;
     gTasks[taskId].tUnused8 = a0;
     return FALSE;
@@ -312,10 +312,14 @@ static void Task_SetWin0BldRegsNoSaveFileCheck(u8 taskId)
 
 static void Task_WaitFadeAndPrintMainMenuText(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
-        Task_PrintMainMenuText(taskId);
-    }
+	if (!gPaletteFade.active)
+	{
+		if (gTasks[taskId].tUnused8 == TRUE)
+			BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+		else
+			BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_WHITE);
+		Task_PrintMainMenuText(taskId);
+	}
 }
 
 static void Task_PrintMainMenuText(u8 taskId)
@@ -371,10 +375,6 @@ static void Task_WaitDma3AndFadeIn(u8 taskId)
     if (WaitDma3Request(-1) != -1)
     {
         gTasks[taskId].func = Task_UpdateVisualSelection;
-        if (gTasks[taskId].tUnused8 == TRUE)
-			BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0);
-		else
-			BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, 0xFF7F);
         ShowBg(0);
         ShowBg(1);
         ShowBg(2);
@@ -398,7 +398,8 @@ static void Task_HandleMenuInput(u8 taskId)
 
 static void Task_ExecuteMainMenuSelection(u8 taskId)
 {
-    u8 menuAction;
+    u8 menuAction, i;
+	
     if (!gPaletteFade.active)
     {
         switch (gTasks[taskId].tMenuType)
@@ -450,6 +451,7 @@ static void Task_ExecuteMainMenuSelection(u8 taskId)
             break;
 		case OPTION:
 			gMain.savedCallback = CB2_InitMainMenuFromOptions;
+			FreeAllWindowBuffers();
 			SetMainCallback2(CB2_OptionsMenuFromStartMenu); //New OptionMenu
 			DestroyTask(taskId);
 			break;
@@ -539,12 +541,14 @@ static bool8 HandleMenuInput(u8 taskId)
     }
     else if (JOY_NEW(DPAD_UP) && gTasks[taskId].tCursorPos > 0)
     {
-        gTasks[taskId].tCursorPos--;
+        PlaySE(SE_SELECT);
+		gTasks[taskId].tCursorPos--;
         return TRUE;
     }
     else if (JOY_NEW(DPAD_DOWN) && gTasks[taskId].tCursorPos < menuItemCount - 1)
     {
-        gTasks[taskId].tCursorPos++;
+        PlaySE(SE_SELECT);
+		gTasks[taskId].tCursorPos++;
         return TRUE;
     }
 

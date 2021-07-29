@@ -14,6 +14,7 @@
 #include "string_util.h"
 #include "field_fadetransition.h"
 #include "gba/m4a_internal.h"
+#include "constants/songs.h"
 
 // can't include the one in menu_helpers.h since Task_OptionMenu needs bool32 for matching
 bool32 MenuHelpers_CallLinkSomething(void);
@@ -335,19 +336,22 @@ static void Task_OptionMenuProcessInput(u8 taskId)
 {
 	if (gMain.newKeys & A_BUTTON)
     {
+		PlaySE(SE_SELECT);
 		OptionMenu_ClearWindow(DESCRIPTION);
         gTasks[taskId].data[TD_TIMER] = 20;
 		gTasks[taskId].func = Task_OptionMenuSave;
     }
 	else if (gMain.newKeys & B_BUTTON)
     {
+		PlaySE(SE_SELECT);
 		OptionMenu_ClearWindow(DESCRIPTION);
         gTasks[taskId].data[TD_TIMER] = 20;
 		gTasks[taskId].func = Task_OptionMenuCancel;
     }
     else if (gMain.newKeys & DPAD_UP)
     {
-        if (gTasks[taskId].data[TD_MENUSELECTION] == TD_BATTLESTYLE - 1)
+        PlaySE(SE_SELECT);
+		if (gTasks[taskId].data[TD_MENUSELECTION] == TD_BATTLESTYLE - 1)
 		{
 			if (GetGpuReg(REG_OFFSET_BG0VOFS) > 16)
 			{
@@ -371,7 +375,8 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else if (gMain.newKeys & DPAD_DOWN)
     {
-        if (gTasks[taskId].data[TD_MENUSELECTION] == TD_FRAMETYPE - 1)
+        PlaySE(SE_SELECT);
+		if (gTasks[taskId].data[TD_MENUSELECTION] == TD_FRAMETYPE - 1)
 		{
 			if (GetGpuReg(REG_OFFSET_BG0VOFS) < 16)
 			{
@@ -398,65 +403,89 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
     else
     {
-        u8 previousOption;
+		u8 previousOption;
 
         switch (gTasks[taskId].data[TD_MENUSELECTION])
         {
         case MENUITEM_TEXTSPEED:
 			previousOption = gTasks[taskId].data[TD_TEXTSPEED];
             gTasks[taskId].data[TD_TEXTSPEED] = TextSpeed_ProcessInput(gTasks[taskId].data[TD_TEXTSPEED]);
-
+			
             if (previousOption != gTasks[taskId].data[TD_TEXTSPEED])
+			{
+				PlaySE(SE_SELECT);
                 TextSpeed_DrawChoices(gTasks[taskId].data[TD_TEXTSPEED], gTasks[taskId].data[TD_LANGUAGE]);
+			}
             break;
         case MENUITEM_BATTLESCENE:
             previousOption = gTasks[taskId].data[TD_BATTLESCENE];
             gTasks[taskId].data[TD_BATTLESCENE] = BattleScene_ProcessInput(gTasks[taskId].data[TD_BATTLESCENE]);
 
             if (previousOption != gTasks[taskId].data[TD_BATTLESCENE])
+			{
+				PlaySE(SE_SELECT);
                 BattleScene_DrawChoices(gTasks[taskId].data[TD_BATTLESCENE], gTasks[taskId].data[TD_LANGUAGE]);
+			}
 			break;
         case MENUITEM_BATTLESTYLE:
             previousOption = gTasks[taskId].data[TD_BATTLESTYLE];
             gTasks[taskId].data[TD_BATTLESTYLE] = BattleStyle_ProcessInput(gTasks[taskId].data[TD_BATTLESTYLE]);
 
             if (previousOption != gTasks[taskId].data[TD_BATTLESTYLE])
-                BattleStyle_DrawChoices(gTasks[taskId].data[TD_BATTLESTYLE], gTasks[taskId].data[TD_LANGUAGE]);
+			{
+				PlaySE(SE_SELECT);
+				BattleStyle_DrawChoices(gTasks[taskId].data[TD_BATTLESTYLE], gTasks[taskId].data[TD_LANGUAGE]);
+			}
             break;
         case MENUITEM_SOUND:
             previousOption = gTasks[taskId].data[TD_SOUND];
             gTasks[taskId].data[TD_SOUND] = Sound_ProcessInput(gTasks[taskId].data[TD_SOUND]);
 
             if (previousOption != gTasks[taskId].data[TD_SOUND])
-                Sound_DrawChoices(gTasks[taskId].data[TD_SOUND], gTasks[taskId].data[TD_LANGUAGE]);
+			{
+				PlaySE(SE_SELECT);
+				Sound_DrawChoices(gTasks[taskId].data[TD_SOUND], gTasks[taskId].data[TD_LANGUAGE]);
+			}
             break;
         case MENUITEM_BUTTONMODE:
             previousOption = gTasks[taskId].data[TD_BUTTONMODE];
             gTasks[taskId].data[TD_BUTTONMODE] = ButtonMode_ProcessInput(gTasks[taskId].data[TD_BUTTONMODE]);
 
             if (previousOption != gTasks[taskId].data[TD_BUTTONMODE])
+			{
+				PlaySE(SE_SELECT);
                 ButtonMode_DrawChoices(gTasks[taskId].data[TD_BUTTONMODE], gTasks[taskId].data[TD_LANGUAGE]);
+			}
 			break;
         case MENUITEM_FRAMETYPE:
             previousOption = gTasks[taskId].data[TD_FRAMETYPE];
             gTasks[taskId].data[TD_FRAMETYPE] = FrameType_ProcessInput(gTasks[taskId].data[TD_FRAMETYPE]);
 
             if (previousOption != gTasks[taskId].data[TD_FRAMETYPE])
-                FrameType_DrawChoices(gTasks[taskId].data[TD_FRAMETYPE], gTasks[taskId].data[TD_LANGUAGE]);
+			{
+				PlaySE(SE_SELECT);
+				FrameType_DrawChoices(gTasks[taskId].data[TD_FRAMETYPE], gTasks[taskId].data[TD_LANGUAGE]);
+			}
             break;
         case MENUITEM_RUN:
             previousOption = gTasks[taskId].data[TD_RUN];
             gTasks[taskId].data[TD_RUN] = AutoRun_ProcessInput(gTasks[taskId].data[TD_RUN]);
 
             if (previousOption != gTasks[taskId].data[TD_RUN])
-                AutoRun_DrawChoices(gTasks[taskId].data[TD_RUN], gTasks[taskId].data[TD_LANGUAGE]);
+			{
+				PlaySE(SE_SELECT);
+				AutoRun_DrawChoices(gTasks[taskId].data[TD_RUN], gTasks[taskId].data[TD_LANGUAGE]);
+			}
             break;
         case MENUITEM_LANGUAGE:
             previousOption = gTasks[taskId].data[TD_LANGUAGE];
             gTasks[taskId].data[TD_LANGUAGE] = Language_ProcessInput(gTasks[taskId].data[TD_LANGUAGE]);
 
             if (previousOption != gTasks[taskId].data[TD_LANGUAGE])
-                Language_DrawChoices(gTasks[taskId].data[TD_LANGUAGE], gTasks[taskId].data[TD_LANGUAGE]);
+			{
+				PlaySE(SE_SELECT);
+				Language_DrawChoices(gTasks[taskId].data[TD_LANGUAGE], gTasks[taskId].data[TD_LANGUAGE]);
+			}
             break;
         default:
             return;
@@ -469,19 +498,15 @@ static void OptionMenu_ClearWindow(u8 option)
 	if (option == DESCRIPTION)
 	{	
 		FillWindowPixelRect(WIN_DESCRIPTION, 0, 8, 120, 224, 32);
-		CopyWindowToVram(WIN_DESCRIPTION, 2);
 	}
 	else if (option == FRAME)
 	{	
 		FillWindowPixelRect(WIN_TEXT_OPTION, 0, 142, 80, 16, 16);
-		CopyWindowToVram(WIN_TEXT_OPTION, 2);
 	}
 	else if (option == TEXT)
 	{	
 		FillWindowPixelRect(WIN_TEXT_OPTION, 0, 0, 0, 240, 128);
 		FillWindowPixelRect(WIN_DESCRIPTION, 0, 0, 0, 240, 160);
-		CopyWindowToVram(WIN_DESCRIPTION, 2);
-		CopyWindowToVram(WIN_TEXT_OPTION, 2);
 	}
 }
 
@@ -524,7 +549,8 @@ static void Task_OptionMenuCancel(u8 taskId)
 
 static void Task_OptionMenuFadeOut(u8 taskId)
 {
-    if (!gPaletteFade.active)
+    u8 i;
+	if (!gPaletteFade.active)
     {
         DestroyTask(taskId);
         FreeAllWindowBuffers();
@@ -877,7 +903,7 @@ static void OptionMenuDrawChoices(u8 taskId)
     FrameType_DrawChoices(gTasks[taskId].data[TD_FRAMETYPE],gTasks[taskId].data[TD_LANGUAGE]);
     AutoRun_DrawChoices(gTasks[taskId].data[TD_RUN],gTasks[taskId].data[TD_LANGUAGE]);
         
-	CopyWindowToVram(WIN_TEXT_OPTION, 3);
+	CopyWindowToVram(WIN_TEXT_OPTION, COPYWIN_BOTH);
 }
 
 static void DrawOptionMenuTexts(u8 language)
@@ -906,7 +932,7 @@ static void DrawOptionMenuTexts(u8 language)
 		}
 	}
 	
-	CopyWindowToVram(WIN_TEXT_OPTION, 3);
-    CopyWindowToVram(WIN_DESCRIPTION, 3);
+	CopyWindowToVram(WIN_TEXT_OPTION, COPYWIN_BOTH);
+    CopyWindowToVram(WIN_DESCRIPTION, COPYWIN_BOTH);
 }
 
