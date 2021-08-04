@@ -79,13 +79,22 @@ static void Task_PlayerPcExitMailSubmenu(u8 taskId);
 static const u8 *const sItemStorageActionDescriptionPtrs[] = {
     gText_TakeOutItemsFromThePC,
     gText_StoreItemsInThePC,
-    gText_GoBackToThePreviousMenu
+    gText_GoBackToThePreviousMenu,
+    gText_TakeOutItemsFromThePCSpa,
+    gText_StoreItemsInThePCSpa,
+    gText_GoBackToThePreviousMenuSpa,
 };
 
 static const struct MenuAction sMenuActions_TopMenu[] = {
     {gText_ItemStorage, Task_PlayerPcItemStorage},
     {gText_Mailbox, Task_PlayerPcMailbox},
     {gText_TurnOff, Task_PlayerPcTurnOff}
+};
+
+static const struct MenuAction sMenuActions_TopMenuSpa[] = {
+    {gText_ItemStorageSpa, Task_PlayerPcItemStorage},
+    {gText_MailboxSpa, Task_PlayerPcMailbox},
+    {gText_TurnOffSpa, Task_PlayerPcTurnOff}
 };
 
 static const u8 gUnknown_8402200[] = { 0, 1, 2 };
@@ -95,6 +104,12 @@ static const struct MenuAction sMenuActions_ItemPc[] = {
     {gText_WithdrawItem2, Task_PlayerPcWithdrawItem},
     {gText_DepositItem2, Task_PlayerPcDepositItem},
     {gText_FameChecker_Cancel, Task_PlayerPcCancel}
+};
+
+static const struct MenuAction sMenuActions_ItemPcSpa[] = {
+    {gText_WithdrawItem2Spa, Task_PlayerPcWithdrawItem},
+    {gText_DepositItem2Spa, Task_PlayerPcDepositItem},
+    {gText_FameChecker_CancelSpa, Task_PlayerPcCancel}
 };
 
 static const struct ItemSlot gText_NewGame_PCItems[] = {
@@ -107,6 +122,13 @@ static const struct MenuAction sMenuActions_MailSubmenu[] = {
     {gText_MoveToBag, Task_PlayerPcMoveMailToBag},
     {gText_Give2, Task_PlayerPcGiveMailToMon},
     {gText_Exit, Task_PlayerPcExitMailSubmenu}
+};
+
+static const struct MenuAction sMenuActions_MailSubmenuSpa[] = {
+    {gText_ReadSpa, Task_PlayerPcReadMail},
+    {gText_MoveToBagSpa, Task_PlayerPcMoveMailToBag},
+    {gText_Give2Spa, Task_PlayerPcGiveMailToMon},
+    {gText_ExitSpa, Task_PlayerPcExitMailSubmenu}
 };
 
 static const struct WindowTemplate sWindowTemplate_TopMenu_3Items = {
@@ -157,7 +179,10 @@ void BedroomPC(void)
     sItemOrder = gUnknown_8402200;
     sTopMenuItemCount = 3;
     taskId = CreateTask(TaskDummy, 0);
-    DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDoSpa, Task_DrawPlayerPcTopMenu);
 }
 
 void PlayerPC(void)
@@ -169,7 +194,10 @@ void PlayerPC(void)
     sItemOrder = gUnknown_8402203;
     sTopMenuItemCount = 3;
     taskId = CreateTask(TaskDummy, 0);
-    DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDoSpa, Task_DrawPlayerPcTopMenu);
 }
 
 static void Task_DrawPlayerPcTopMenu(u8 taskId)
@@ -180,7 +208,10 @@ static void Task_DrawPlayerPcTopMenu(u8 taskId)
     else
         tWindowId = AddWindow(&sWindowTemplate_TopMenu_4Items);
     SetStdWindowBorderStyle(tWindowId, 0);
-    AddItemMenuActionTextPrinters(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), 16, sTopMenuItemCount, sMenuActions_TopMenu, sItemOrder);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddItemMenuActionTextPrinters(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), 16, sTopMenuItemCount, sMenuActions_TopMenu, sItemOrder);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddItemMenuActionTextPrinters(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), 16, sTopMenuItemCount, sMenuActions_TopMenuSpa, sItemOrder);
     Menu_InitCursor(tWindowId, 2, 0, 2, 16, sTopMenuItemCount, 0);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].func = Task_TopMenuHandleInput;
@@ -215,7 +246,10 @@ static void Task_TopMenuHandleInput(u8 taskId)
 static void Task_ReturnToTopMenu(u8 taskId)
 {
     RestoreHelpContext();
-    DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDoSpa, Task_DrawPlayerPcTopMenu);
 }
 
 static void Task_PlayerPcItemStorage(u8 taskId)
@@ -229,7 +263,10 @@ static void Task_PlayerPcMailbox(u8 taskId)
     gPlayerPcMenuManager.count = CountPCMail();
     if (gPlayerPcMenuManager.count == 0)
     {
-        DisplayItemMessageOnField(taskId, 2, gText_TheresNoMailHere, Task_ReturnToTopMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageOnField(taskId, 2, gText_TheresNoMailHere, Task_ReturnToTopMenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageOnField(taskId, 2, gText_TheresNoMailHereSpa, Task_ReturnToTopMenu);
     }
     else
     {
@@ -249,7 +286,10 @@ static void Task_PlayerPcMailbox(u8 taskId)
         }
         else
         {
-            DisplayItemMessageOnField(taskId, 2, gText_TheresNoMailHere, Task_ReturnToTopMenu);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				DisplayItemMessageOnField(taskId, 2, gText_TheresNoMailHere, Task_ReturnToTopMenu);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				DisplayItemMessageOnField(taskId, 2, gText_TheresNoMailHereSpa, Task_ReturnToTopMenu);
         }
     }
 }
@@ -272,10 +312,16 @@ static void Task_CreateItemStorageSubmenu(u8 taskId, u8 cursorPos)
         SetHelpContext(HELPCONTEXT_PLAYERS_PC_ITEMS);
     tWindowId = AddWindow(&sWindowTemplate_ItemStorageSubmenu);
     SetStdWindowBorderStyle(tWindowId, FALSE);
-    PrintTextArray(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 3, sMenuActions_ItemPc);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		PrintTextArray(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 3, sMenuActions_ItemPc);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		PrintTextArray(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 3, sMenuActions_ItemPcSpa);
     Menu_InitCursor(tWindowId, 2, 0, 2, 16, 3, cursorPos);
     ScheduleBgCopyTilemapToVram(0);
-    PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[cursorPos]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[cursorPos]);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[cursorPos + 3]);
 }
 
 static void PrintStringOnWindow0WithDialogueFrame(const u8 *str)
@@ -292,7 +338,10 @@ static void Task_TopMenu_ItemStorageSubmenu_HandleInput(u8 taskId)
         {
             PlaySE(SE_SELECT);
             Menu_MoveCursor(-1);
-            PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[Menu_GetCursorPos()]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[Menu_GetCursorPos()]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[Menu_GetCursorPos() + 3]);
         }
     }
     else if (JOY_REPT(DPAD_DOWN))
@@ -301,7 +350,10 @@ static void Task_TopMenu_ItemStorageSubmenu_HandleInput(u8 taskId)
         {
             PlaySE(SE_SELECT);
             Menu_MoveCursor(+1);
-            PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[Menu_GetCursorPos()]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[Menu_GetCursorPos()]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[Menu_GetCursorPos() + 3]);
         }
     }
     else if (JOY_NEW(A_BUTTON))
@@ -364,7 +416,10 @@ static void Task_PlayerPcWithdrawItem(u8 taskId)
         ClearStdWindowAndFrameToTransparent(tWindowId, FALSE);
         ClearWindowTilemap(tWindowId);
         RemoveWindow(tWindowId);
-        DisplayItemMessageOnField(taskId, 2, gText_ThereAreNoItems, Task_PlayerPcItemStorage);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageOnField(taskId, 2, gText_ThereAreNoItems, Task_PlayerPcItemStorage);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageOnField(taskId, 2, gText_ThereAreNoItemsSpa, Task_PlayerPcItemStorage);
     }
 }
 
@@ -453,9 +508,16 @@ static void PCMailCompaction(void)
 static void Task_DrawMailboxPcMenu(u8 taskId)
 {
     u8 windowId = MailboxPC_GetAddWindow(0);
-    s32 width = GetStringWidth(2, gText_Mailbox, 0);
+    s32 width;
+	if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		width = GetStringWidth(2, gText_Mailbox, 0);
+	if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		width = GetStringWidth(2, gText_MailboxSpa, 0);
     MailboxPC_GetAddWindow(1);
-    AddTextPrinterParameterized(windowId, 2, gText_Mailbox, (80 - width) / 2, 2, 0, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized(windowId, 2, gText_Mailbox, (80 - width) / 2, 2, 0, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized(windowId, 2, gText_MailboxSpa, (80 - width) / 2, 2, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].tListMenuTaskId = MailboxPC_InitListMenu(&gPlayerPcMenuManager);
     MailboxPC_AddScrollIndicatorArrows(&gPlayerPcMenuManager);
@@ -511,7 +573,10 @@ static void Task_PrintWhatToDoWithSelectedMail(u8 taskId)
     {
         ConvertInternationalString(gStringVar1, LANGUAGE_JAPANESE);
     }
-    StringExpandPlaceholders(gStringVar4, gText_WhatWouldYouLikeToDoWithPlayersMail);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_WhatWouldYouLikeToDoWithPlayersMail);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_WhatWouldYouLikeToDoWithPlayersMailSpa);
     DisplayItemMessageOnField(taskId, 2, gStringVar4, Task_DrawMailSubmenu);
 }
 
@@ -529,7 +594,10 @@ static void Task_DestroyMailboxPcViewAndCancel(u8 taskId)
 static void Task_DrawMailSubmenu(u8 taskId)
 {
     u8 windowId = MailboxPC_GetAddWindow(2);
-    PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 4, sMenuActions_MailSubmenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 4, sMenuActions_MailSubmenu);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 4, sMenuActions_MailSubmenuSpa);
     Menu_InitCursor(windowId, 2, 0, 2, 16, 4, 0);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].func = Task_MailSubmenuHandleInput;
@@ -600,7 +668,10 @@ static void CB2_SetCbToReturnToMailbox(void)
 
 static void Task_PlayerPcMoveMailToBag(u8 taskId)
 {
-    DisplayItemMessageOnField(taskId, 2, gText_MessageWillBeLost, Task_DrawYesNoMenuToConfirmMoveToBag);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, 2, gText_MessageWillBeLost, Task_DrawYesNoMenuToConfirmMoveToBag);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageOnField(taskId, 2, gText_MessageWillBeLostSpa, Task_DrawYesNoMenuToConfirmMoveToBag);
 }
 
 static void Task_DrawYesNoMenuToConfirmMoveToBag(u8 taskId)
@@ -632,11 +703,17 @@ static void Task_TryPutMailInBag_DestroyMsgIfSuccessful(u8 taskId)
     struct MailStruct * mail = &SELECTED_MAIL;
     if (!AddBagItem(mail->itemId, 1))
     {
-        DisplayItemMessageOnField(taskId, 2, gText_BagIsFull, Task_PlayerPcExitMailSubmenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageOnField(taskId, 2, gText_BagIsFull, Task_PlayerPcExitMailSubmenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageOnField(taskId, 2, gText_BagIsFullSpa, Task_PlayerPcExitMailSubmenu);
     }
     else
     {
-        DisplayItemMessageOnField(taskId, 2, gText_MailReturnedToBagMessageErased, Task_PlayerPcExitMailSubmenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageOnField(taskId, 2, gText_MailReturnedToBagMessageErased, Task_PlayerPcExitMailSubmenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageOnField(taskId, 2, gText_MailReturnedToBagMessageErasedSpa, Task_PlayerPcExitMailSubmenu);
         ClearMailStruct(mail);
         PCMailCompaction();
         gPlayerPcMenuManager.count--;
@@ -715,7 +792,10 @@ void Mailbox_ReturnToMailListAfterDeposit(void)
 
 static void Task_Error_NoPokemon(u8 taskId)
 {
-    DisplayItemMessageOnField(taskId, 2, gText_ThereIsNoPokemon, Task_PlayerPcExitMailSubmenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, 2, gText_ThereIsNoPokemon, Task_PlayerPcExitMailSubmenu);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageOnField(taskId, 2, gText_ThereIsNoPokemonSpa, Task_PlayerPcExitMailSubmenu);
 }
 
 static void Task_RedrawPlayerPcMailboxAndSetUpInputHandler(u8 taskId)

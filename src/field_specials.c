@@ -136,18 +136,38 @@ u8 GetPlayerTrainerIdOnesDigit(void)
 
 void BufferBigGuyOrBigGirlString(void)
 {
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        StringCopy(gStringVar1, gText_BigGuy);
-    else
-        StringCopy(gStringVar1, gText_BigGirl);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		if (gSaveBlock2Ptr->playerGender == MALE)
+			StringCopy(gStringVar1, gText_BigGuy);
+		else
+			StringCopy(gStringVar1, gText_BigGirl);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		if (gSaveBlock2Ptr->playerGender == MALE)
+			StringCopy(gStringVar1, gText_BigGuySpa);
+		else
+			StringCopy(gStringVar1, gText_BigGirlSpa);
+	}
 }
 
 void BufferSonOrDaughterString(void)
 {
-    if (gSaveBlock2Ptr->playerGender == MALE)
-        StringCopy(gStringVar1, gText_Daughter);
-    else
-        StringCopy(gStringVar1, gText_Son);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		if (gSaveBlock2Ptr->playerGender == MALE)
+			StringCopy(gStringVar1, gText_Son);
+		else
+			StringCopy(gStringVar1, gText_Daughter);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		if (gSaveBlock2Ptr->playerGender == MALE)
+			StringCopy(gStringVar1, gText_SonSpa);
+		else
+			StringCopy(gStringVar1, gText_DaughterSpa);
+	}
 }
 
 u8 GetBattleOutcome(void)
@@ -717,7 +737,7 @@ static u16 SampleResortGorgeousReward(void)
 
 bool8 CheckAddCoins(void)
 {
-    if (gSpecialVar_Result + gSpecialVar_0x8006 > 9999)
+    if (gSpecialVar_Result + gSpecialVar_0x8006 > 50000)
         return FALSE;
     else
         return TRUE;
@@ -749,7 +769,23 @@ static const u8 *const sFloorNamePointers[] = {
     gText_9F,
     gText_10F,
     gText_11F,
-    gText_Rooftop
+    gText_Rooftop,
+    gText_B4FSpa,
+    gText_B3FSpa,
+    gText_B2FSpa,
+    gText_B1FSpa,
+    gText_1FSpa,
+    gText_2FSpa,
+    gText_3FSpa,
+    gText_4FSpa,
+    gText_5FSpa,
+    gText_6FSpa,
+    gText_7FSpa,
+    gText_8FSpa,
+    gText_9FSpa,
+    gText_10FSpa,
+    gText_11FSpa,
+    gText_RooftopSpa,
 };
 
 static const u8 sUnused_83F5B84[] = {
@@ -1098,8 +1134,14 @@ void DrawElevatorCurrentFloorWindow(void)
         sElevatorCurrentFloorWindowId = AddWindow(&sElevatorCurrentFloorWindowTemplate);
         TextWindow_SetStdFrame0_WithPal(sElevatorCurrentFloorWindowId, 0x21D, 0xD0);
         DrawStdFrameWithCustomTileAndPalette(sElevatorCurrentFloorWindowId, FALSE, 0x21D, 0xD);
-        AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, 2, gText_NowOn, 0, 2, 0xFF, NULL);
-        floorname = sFloorNamePointers[gSpecialVar_0x8005];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, 2, gText_NowOn, 0, 2, 0xFF, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, 2, gText_NowOnSpa, 0, 2, 0xFF, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			floorname = sFloorNamePointers[gSpecialVar_0x8005];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			floorname = sFloorNamePointers[16 + gSpecialVar_0x8005];
         strwidth = GetStringWidth(2, floorname, 0);
         AddTextPrinterParameterized(sElevatorCurrentFloorWindowId, 2, floorname, 56 - strwidth, 16, 0xFF, NULL);
         PutWindowTilemap(sElevatorCurrentFloorWindowId);
@@ -1328,6 +1370,80 @@ static const u8 *const sListMenuLabels[][12] = {
     }
 };
 
+static const u8 *const sListMenuLabelsSpa[][12] = {
+    [LISTMENU_BADGES] = 
+    {
+        gText_BoulderBadgeSpa,
+        gText_CascadeBadgeSpa,
+        gText_ThunderBadgeSpa,
+        gText_RainbowBadgeSpa,
+        gText_SoulBadgeSpa,
+        gText_MarshBadgeSpa,
+        gText_VolcanoBadgeSpa,
+        gText_EarthBadgeSpa,
+        gText_ExitSpa,
+    }, 
+    [LISTMENU_SILPHCO_FLOORS] = 
+    {
+        gText_11FSpa,
+        gText_10FSpa,
+        gText_9FSpa,
+        gText_8FSpa,
+        gText_7FSpa,
+        gText_6FSpa,
+        gText_5FSpa,
+        gText_4FSpa,
+        gText_3FSpa,
+        gText_2FSpa,
+        gText_1FSpa,
+        gText_ExitSpa,
+    }, 
+    [LISTMENU_ROCKET_HIDEOUT_FLOORS] = // Unncessary, MULTICHOICE_ROCKET_HIDEOUT_ELEVATOR is used instead
+    {
+        gText_B1FSpa,
+        gText_B2FSpa,
+        gText_B4FSpa,
+        gText_ExitSpa,
+    }, 
+    [LISTMENU_DEPT_STORE_FLOORS] = // Unncessary, MULTICHOICE_DEPT_STORE_ELEVATOR is used instead
+    {
+        gText_5FSpa,
+        gText_4FSpa,
+        gText_3FSpa,
+        gText_2FSpa,
+        gText_1FSpa,
+        gText_ExitSpa,
+    }, 
+    [LISTMENU_WIRELESS_LECTURE_HEADERS] = // Unnecessary, MULTICHOICE_LINKED_DIRECT_UNION is used instead
+    {
+        gText_LinkedGamePlaySpa,
+        gText_DirectCornerSpa,
+        gText_UnionRoomSpa,
+        gText_QuitSpa,
+    }, 
+    [LISTMENU_BERRY_POWDER] = 
+    {
+        gText_Energypowder_50Spa,
+        gText_EnergyRoot_80Spa,
+        gText_HealPowder_50Spa,
+        gText_RevivalHerb_300Spa,
+        gText_Protein_1000Spa,
+        gText_Iron_1000Spa,
+        gText_Carbos_1000Spa,
+        gText_Calcium_1000Spa,
+        gText_Zinc_1000Spa,
+        gText_HpUp_1000Spa,
+        gText_PpUp_3000Spa,
+        gText_ExitSpa,
+    }, 
+    [LISTMENU_TRAINER_TOWER_FLOORS] = // UnnecessarySpa, MULTICHOICE_ROOFTOP_B1F is used instead
+    {
+        gText_RooftopSpa,
+        gText_B1FSpa,
+        gText_ExitSpa,
+    }
+};
+
 static void Task_CreateScriptListMenu(u8 taskId)
 {
     struct WindowTemplate template;
@@ -1346,7 +1462,10 @@ static void Task_CreateScriptListMenu(u8 taskId)
     mwidth = 0;
     for (i = 0; i < task->data[1]; i++)
     {
-        sListMenuItems[i].label = sListMenuLabels[gSpecialVar_0x8004][i];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			sListMenuItems[i].label = sListMenuLabels[gSpecialVar_0x8004][i];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			sListMenuItems[i].label = sListMenuLabelsSpa[gSpecialVar_0x8004][i];
         sListMenuItems[i].index = i;
         width = GetStringWidth(2, sListMenuItems[i].label, 0);
         if (width > mwidth)
@@ -2050,7 +2169,10 @@ bool8 BufferTMHMMoveName(void)
     // 8004 = item ID
     if (gSpecialVar_0x8004 >= ITEM_TM01 && gSpecialVar_0x8004 <= ITEM_HM08)
     {
-        StringCopy(gStringVar1, gMoveNames[ItemIdToBattleMoveId(gSpecialVar_0x8004)]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(gStringVar1, gMoveNames[ItemIdToBattleMoveId(gSpecialVar_0x8004)]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(gStringVar1, gMoveNamesSpa[ItemIdToBattleMoveId(gSpecialVar_0x8004)]);
         return TRUE;
     }
     else
@@ -2236,21 +2358,30 @@ bool8 CapeBrinkGetMoveToTeachLeadPokemon(void)
         return FALSE;
     if (tutorMonId == 0)
     {
-        StringCopy(gStringVar2, gMoveNames[MOVE_FRENZY_PLANT]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(gStringVar2, gMoveNames[MOVE_FRENZY_PLANT]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(gStringVar2, gMoveNamesSpa[MOVE_FRENZY_PLANT]);
         gSpecialVar_0x8005 = MOVETUTOR_FRENZY_PLANT;
         if (FlagGet(FLAG_TUTOR_FRENZY_PLANT) == TRUE)
             return FALSE;
     }
     else if (tutorMonId == 1)
     {
-        StringCopy(gStringVar2, gMoveNames[MOVE_BLAST_BURN]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(gStringVar2, gMoveNames[MOVE_BLAST_BURN]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(gStringVar2, gMoveNamesSpa[MOVE_BLAST_BURN]);
         gSpecialVar_0x8005 = MOVETUTOR_BLAST_BURN;
         if (FlagGet(FLAG_TUTOR_BLAST_BURN) == TRUE)
             return FALSE;
     }
     else
     {
-        StringCopy(gStringVar2, gMoveNames[MOVE_HYDRO_CANNON]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(gStringVar2, gMoveNames[MOVE_HYDRO_CANNON]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(gStringVar2, gMoveNamesSpa[MOVE_HYDRO_CANNON]);
         gSpecialVar_0x8005 = MOVETUTOR_HYDRO_CANNON;
         if (FlagGet(FLAG_TUTOR_HYDRO_CANNON) == TRUE)
             return FALSE;

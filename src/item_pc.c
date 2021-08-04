@@ -120,6 +120,12 @@ static const struct MenuAction sItemPcSubmenuOptions[] = {
     {gText_FameChecker_Cancel, {.void_u8 = Task_ItemPcCancel}}
 };
 
+static const struct MenuAction sItemPcSubmenuOptionsSpa[] = {
+    {gText_WithdrawSpa,          {.void_u8 = Task_ItemPcWithdraw}},
+    {gText_GiveSpa,         {.void_u8 = Task_ItemPcGive}},
+    {gText_FameChecker_CancelSpa, {.void_u8 = Task_ItemPcCancel}}
+};
+
 static const u8 sTextColors[][3] = {
     {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY},
     {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY},
@@ -485,7 +491,10 @@ static void ItemPc_BuildListMenuTemplate(void)
         sListMenuItems[i].label = ItemId_GetName(gSaveBlock1Ptr->pcItems[i].itemId);
         sListMenuItems[i].index = i;
     }
-    sListMenuItems[i].label = gText_FameChecker_Cancel;
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		sListMenuItems[i].label = gText_FameChecker_Cancel;
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		sListMenuItems[i].label = gText_FameChecker_CancelSpa;
     sListMenuItems[i].index = -2;
 
     gMultiuseListMenuTemplate.items = sListMenuItems;
@@ -530,7 +539,10 @@ static void ItemPc_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *
         else
         {
             CreateItemMenuIcon(ITEM_N_A, sStateDataPtr->itemMenuIconSlot);
-            desc = gText_ReturnToPC;
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				desc = gText_ReturnToPC;
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				desc = gText_ReturnToPCSpa;
         }
         sStateDataPtr->itemMenuIconSlot ^= 1;
         FillWindowPixelBuffer(1, 0);
@@ -577,7 +589,10 @@ static void ItemPc_PrintOrRemoveCursorAt(u8 y, u8 colorIdx)
 
 static void ItemPc_PrintWithdrawItem(void)
 {
-    ItemPc_AddTextPrinterParameterized(2, 0, gText_WithdrawItem, 0, 1, 0, 1, 0, 0);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		ItemPc_AddTextPrinterParameterized(2, 0, gText_WithdrawItem, 0, 1, 0, 1, 0, 0);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		ItemPc_AddTextPrinterParameterized(2, 0, gText_WithdrawItemSpa, 0, 1, 0, 1, 0, 0);
 }
 
 static void ItemPc_PlaceTopMenuScrollIndicatorArrows(void)
@@ -771,7 +786,10 @@ static void ItemPc_MoveItemModeInit(u8 taskId, s16 pos)
     data[1] = pos;
     sStateDataPtr->moveModeOrigPos = pos;
     StringCopy(gStringVar1, ItemId_GetName(ItemPc_GetItemIdBySlotId(data[1])));
-    StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlaced);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlaced);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_WhereShouldTheStrVar1BePlacedSpa);
     FillWindowPixelBuffer(1, 0x00);
     ItemPc_AddTextPrinterParameterized(1, 2, gStringVar4, 0, 3, 2, 3, 0, 0);
     ItemMenuIcons_MoveInsertIndicatorBar(-32, ListMenuGetYCoordForPrintingArrowCursor(data[0]));
@@ -839,10 +857,16 @@ static void Task_ItemPcSubmenuInit(u8 taskId)
 
     ItemPc_SetBorderStyleOnWindow(4);
     windowId = ItemPc_GetOrCreateSubwindow(0);
-    PrintTextArray(4, 2, 8, 2, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, 3, sItemPcSubmenuOptions);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		PrintTextArray(4, 2, 8, 2, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, 3, sItemPcSubmenuOptions);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		PrintTextArray(4, 2, 8, 2, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, 3, sItemPcSubmenuOptionsSpa);
     Menu_InitCursor(4, 2, 0, 2, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, 3, 0);
     CopyItemName(ItemPc_GetItemIdBySlotId(data[1]), gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_Var1IsSelectedSpa);
     ItemPc_AddTextPrinterParameterized(windowId, 2, gStringVar4, 0, 2, 1, 0, 0, 1);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].func = Task_ItemPcSubmenuRun;
@@ -899,7 +923,10 @@ static void ItemPc_DoWithdraw(u8 taskId)
         ItemUse_SetQuestLogEvent(QL_EVENT_WITHDREW_ITEM_PC, NULL, itemId, 0xFFFF);
         CopyItemName(itemId, gStringVar1);
         ConvertIntToDecimalStringN(gStringVar2, data[8], STR_CONV_MODE_LEFT_ALIGN, 3);
-        StringExpandPlaceholders(gStringVar4, gText_WithdrewQuantItem);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_WithdrewQuantItem);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_WithdrewQuantItemSpa);
         windowId = ItemPc_GetOrCreateSubwindow(2);
         AddTextPrinterParameterized(windowId, 2, gStringVar4, 0, 2, 0, NULL);
         gTasks[taskId].func = Task_ItemPcWaitButtonAndFinishWithdrawMultiple;
@@ -907,7 +934,10 @@ static void ItemPc_DoWithdraw(u8 taskId)
     else
     {
         windowId = ItemPc_GetOrCreateSubwindow(2);
-        AddTextPrinterParameterized(windowId, 2, gText_NoMoreRoomInBag, 0, 2, 0, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized(windowId, 2, gText_NoMoreRoomInBag, 0, 2, 0, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized(windowId, 2, gText_NoMoreRoomInBagSpa, 0, 2, 0, NULL);
         gTasks[taskId].func = Task_ItemPcWaitButtonWithdrawMultipleFailed;
     }
 }
@@ -956,7 +986,10 @@ static void ItemPc_WithdrawMultipleInitWindow(u16 slotId)
     u16 itemId = ItemPc_GetItemIdBySlotId(slotId);
 
     CopyItemName(itemId, gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_WithdrawHowMany);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_WithdrawHowMany);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_WithdrawHowManySpa);
     AddTextPrinterParameterized(ItemPc_GetOrCreateSubwindow(1), 2, gStringVar4, 0, 2, 0, NULL);
     ConvertIntToDecimalStringN(gStringVar1, 1, STR_CONV_MODE_LEADING_ZEROS, 3);
     StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
@@ -1013,7 +1046,10 @@ static void Task_ItemPcGive(u8 taskId)
         ItemPc_DestroySubwindow(0);
         ClearWindowTilemap(4);
         PutWindowTilemap(0);
-        ItemPc_PrintOnWindow5WithContinueTask(taskId, gText_ThereIsNoPokemon, gTask_ItemPcWaitButtonAndExitSubmenu);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			ItemPc_PrintOnWindow5WithContinueTask(taskId, gText_ThereIsNoPokemon, gTask_ItemPcWaitButtonAndExitSubmenu);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			ItemPc_PrintOnWindow5WithContinueTask(taskId, gText_ThereIsNoPokemonSpa, gTask_ItemPcWaitButtonAndExitSubmenu);
     }
     else
     {

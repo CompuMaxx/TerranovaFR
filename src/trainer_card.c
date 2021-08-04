@@ -355,6 +355,7 @@ static const u8 sTrainerCardBackNameXPositions[] = {0x8A, 0xD8};
 static const u8 sTrainerCardBackNameYPositions[] = {0xB, 0xA};
 static const u8 sTrainerCardHofDebutXPositions[] = {0xA, 0x10, 0x0, 0x0};
 static const u8 *const sLinkTrainerCardRecordStrings[] = {gText_LinkBattles, gText_LinkCableBattles};
+static const u8 *const sLinkTrainerCardRecordStringsSpa[] = {gText_LinkBattlesSpa, gText_LinkCableBattlesSpa};
 static const u8 sPokemonIconPalSlots[] = {5, 6, 7, 8, 9, 10};
 static const u8 sPokemonIconXOffsets[] = {0, 4, 8, 12, 16, 20};
 static const u8 sStickerPalSlots[] = {11, 12, 13, 14};
@@ -620,7 +621,10 @@ static void Task_TrainerCard(u8 taskId)
     case STATE_WAIT_LINK_PARTNER:
         SetCloseLinkCallback();
         DrawDialogueFrame(0, 1);
-        AddTextPrinterParameterized(0, 2, gText_WaitingTrainerFinishReading, 0, 1, TEXT_SPEED_FF, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized(0, 2, gText_WaitingTrainerFinishReading, 0, 1, TEXT_SPEED_FF, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized(0, 2, gText_WaitingTrainerFinishReadingSpa, 0, 1, TEXT_SPEED_FF, 0);
         CopyWindowToVram(0, COPYWIN_BOTH);
         sTrainerCardDataPtr->mainState = STATE_CLOSE_CARD_LINK;
         break;
@@ -1124,7 +1128,10 @@ static void PrintNameOnCardFront(void)
     u8 buffer[2][32];
     u8* txtPtr;
 
-    txtPtr = StringCopy(buffer[0], gText_TrainerCardName);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		txtPtr = StringCopy(buffer[0], gText_TrainerCardName);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		txtPtr = StringCopy(buffer[0], gText_TrainerCardNameSpa);
     txtPtr = buffer[1];
     StringCopy(txtPtr, sTrainerCardDataPtr->trainerCard.rse.playerName);
     ConvertInternationalString(txtPtr, sTrainerCardDataPtr->language);
@@ -1137,7 +1144,10 @@ static void PrintIdOnCard(void)
     u8 buffer[32];
     u8* txtPtr;
 
-    txtPtr = StringCopy(buffer, gText_TrainerCardIDNo);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		txtPtr = StringCopy(buffer, gText_TrainerCardIDNo);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		txtPtr = StringCopy(buffer, gText_TrainerCardIDNoSpa);
     ConvertIntToDecimalStringN(txtPtr, sTrainerCardDataPtr->trainerCard.rse.trainerId, STR_CONV_MODE_LEADING_ZEROS, 5);
     AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], sTrainerCardIdXPositions[sTrainerCardDataPtr->cardType], sTrainerCardIdYPositions[sTrainerCardDataPtr->cardType], sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
 }
@@ -1153,13 +1163,19 @@ static void PrintMoneyOnCard(void)
     if (sTrainerCardDataPtr->cardType != CARD_TYPE_RSE)
     {
         x = -122 - 6 * StringLength(buffer);
-        AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 20, 56, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoney);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 20, 56, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoney);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 20, 56, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoneySpa);
         AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], x, 56, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
     }
     else
     {
         x = 118 - 6 * StringLength(buffer);
-        AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 16, 57, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoney);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 16, 57, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoney);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 16, 57, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardMoneySpa);
         AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], x, 57, sTrainerCardTextColors, TEXT_SPEED_FF, buffer);
     }    
 }
@@ -1219,9 +1235,19 @@ static void PrintTimeOnCard(void)
 
     FillWindowPixelRect(1, PIXEL_FILL(0), sTrainerCardTimeHoursXPositions[sTrainerCardDataPtr->cardType], sTrainerCardTimeMinutesYPositions[sTrainerCardDataPtr->cardType], 50, 12);
     if (sTrainerCardDataPtr->cardType != CARD_TYPE_RSE)
-        AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 20, 88, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTime);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 20, 88, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTime);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 20, 88, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTimeSpa);
+	}
     else
-        AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 16, 89, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTime);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 16, 89, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTime);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 16, 89, sTrainerCardTextColors, TEXT_SPEED_FF, gText_TrainerCardTimeSpa);
+	}
 
     ConvertIntToDecimalStringN(buffer, hours, STR_CONV_MODE_RIGHT_ALIGN, 3);
     AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], sTrainerCardTimeHoursXPositions[sTrainerCardDataPtr->cardType],
@@ -1257,7 +1283,10 @@ static void BufferNameForCardBack(void)
     ConvertInternationalString(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_NAME], sTrainerCardDataPtr->language);
     if (sTrainerCardDataPtr->cardType == CARD_TYPE_RSE)
     {
-        StringAppend(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_NAME], gText_Var1sTrainerCard);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringAppend(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_NAME], gText_Var1sTrainerCard);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringAppend(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_NAME], gText_Var1sTrainerCardSpa);
     }
 }
 
@@ -1301,7 +1330,10 @@ static void PrintHofDebutTimeOnCard(void)
 {
     if (sTrainerCardDataPtr->hasHofResult)
     {
-        AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], sTrainerCardHofDebutXPositions[sTrainerCardDataPtr->cardType], 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HallOfFameDebut);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], sTrainerCardHofDebutXPositions[sTrainerCardDataPtr->cardType], 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HallOfFameDebut);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], sTrainerCardHofDebutXPositions[sTrainerCardDataPtr->cardType], 35, sTrainerCardTextColors, TEXT_SPEED_FF, gText_HallOfFameDebutSpa);
         AddTextPrinterParameterized3(1, sTrainerCardFontIds[1], 164, 35, sTrainerCardStatColors, TEXT_SPEED_FF, sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_HOF_TIME]);
     }
 }
@@ -1312,8 +1344,16 @@ static void BufferLinkBattleResults(void)
 
     if (sTrainerCardDataPtr->hasLinkResults)
     {
-        StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_LINK_RECORD], sLinkTrainerCardRecordStrings[sTrainerCardDataPtr->cardType]);
-        StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_WIN_LOSS], gText_WinLossRatio);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_LINK_RECORD], sLinkTrainerCardRecordStrings[sTrainerCardDataPtr->cardType]);
+	        StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_WIN_LOSS], gText_WinLossRatio);
+		}		
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_LINK_RECORD], sLinkTrainerCardRecordStringsSpa[sTrainerCardDataPtr->cardType]);
+	        StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_WIN_LOSS], gText_WinLossRatioSpa);
+		}
         ConvertIntToDecimalStringN(buffer, sTrainerCardDataPtr->trainerCard.rse.linkBattleWins, STR_CONV_MODE_RIGHT_ALIGN, 4);
         StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_LINK_WINS], buffer);
         ConvertIntToDecimalStringN(buffer, sTrainerCardDataPtr->trainerCard.rse.linkBattleLosses, STR_CONV_MODE_RIGHT_ALIGN, 4);
@@ -1337,7 +1377,10 @@ static void BufferNumTrades(void)
 {
     if (sTrainerCardDataPtr->hasTrades)
     {
-        StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_TRADES], gText_PokemonTrades);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_TRADES], gText_PokemonTrades);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_TRADES], gText_PokemonTradesSpa);
         ConvertIntToDecimalStringN(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_TRADE_COUNT], sTrainerCardDataPtr->trainerCard.rse.pokemonTrades, STR_CONV_MODE_RIGHT_ALIGN, 5);
     }
 }
@@ -1355,7 +1398,10 @@ static void BufferBerryCrushPoints(void)
 {
     if (sTrainerCardDataPtr->cardType != CARD_TYPE_RSE)
     {
-        StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_BERRY_CRUSH], gText_BerryCrushes);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_BERRY_CRUSH], gText_BerryCrushes);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_BERRY_CRUSH], gText_BerryCrushesSpa);
         ConvertIntToDecimalStringN(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_BERRY_CRUSH_COUNT], sTrainerCardDataPtr->trainerCard.berryCrushPoints, STR_CONV_MODE_RIGHT_ALIGN, 5);
     }
 }
@@ -1373,7 +1419,10 @@ static void BufferUnionRoomStats(void)
 {
     if (sTrainerCardDataPtr->cardType != CARD_TYPE_RSE)
     {
-        StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_UNION_ROOM], gText_UnionRoomTradesBattles);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_UNION_ROOM], gText_UnionRoomTradesBattles);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_UNION_ROOM], gText_UnionRoomTradesBattlesSpa);
         ConvertIntToDecimalStringN(sTrainerCardDataPtr->strings[TRAINER_CARD_STRING_UNION_ROOM_NUM], sTrainerCardDataPtr->trainerCard.unionRoomNum, STR_CONV_MODE_RIGHT_ALIGN, 5);
     }
 }

@@ -1508,8 +1508,16 @@ void sub_800AE1C(void)
     LoadPalette(sWirelessLinkDisplayPal, 0, 0x20);
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(0, 3, 2, 5, sLinkErrorTextColor, 0, gText_CommErrorEllipsis);
-    AddTextPrinterParameterized3(2, 3, 2, 2, sLinkErrorTextColor, 0, gText_MoveCloserToLinkPartner);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		AddTextPrinterParameterized3(0, 3, 2, 5, sLinkErrorTextColor, 0, gText_CommErrorEllipsis);
+		AddTextPrinterParameterized3(2, 3, 2, 2, sLinkErrorTextColor, 0, gText_MoveCloserToLinkPartner);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		AddTextPrinterParameterized3(0, 3, 2, 5, sLinkErrorTextColor, 0, gText_CommErrorEllipsisSpa);
+		AddTextPrinterParameterized3(2, 3, 2, 2, sLinkErrorTextColor, 0, gText_MoveCloserToLinkPartner);
+	}    
     PutWindowTilemap(0);
     PutWindowTilemap(2);
     CopyWindowToVram(0, 0);
@@ -1522,7 +1530,10 @@ void sub_800AED0(void)
 {
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    AddTextPrinterParameterized3(1, 3, 2, 0, sLinkErrorTextColor, 0, gText_CommErrorCheckConnections);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(1, 3, 2, 0, sLinkErrorTextColor, 0, gText_CommErrorCheckConnections);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(1, 3, 2, 0, sLinkErrorTextColor, 0, gText_CommErrorCheckConnectionsSpa);
     PutWindowTilemap(1);
     PutWindowTilemap(2);
     CopyWindowToVram(1, 0);
@@ -1556,11 +1567,17 @@ static void CB2_PrintErrorMessage(void)
     case 130:
         if (gWirelessCommType == 2)
         {
-            AddTextPrinterParameterized3(0, 3, 2, 20, sLinkErrorTextColor, 0, gText_ABtnTitleScreen);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized3(0, 3, 2, 20, sLinkErrorTextColor, 0, gText_ABtnTitleScreen);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized3(0, 3, 2, 20, sLinkErrorTextColor, 0, gText_ABtnTitleScreenSpa);
         }
         else if (gWirelessCommType == 1)
         {
-            AddTextPrinterParameterized3(0, 3, 2, 20, sLinkErrorTextColor, 0, gText_ABtnRegistrationCounter);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized3(0, 3, 2, 20, sLinkErrorTextColor, 0, gText_ABtnRegistrationCounter);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized3(0, 3, 2, 20, sLinkErrorTextColor, 0, gText_ABtnRegistrationCounterSpa);
         }
         break;
     }

@@ -1079,7 +1079,12 @@ static void SetCursorMonData(void *pokemon, u8 mode)
         if (sanityIsBagEgg)
             StringCopyPadded(gPSSData->cursorMonTexts[0], gPSSData->cursorMonNick, CHAR_SPACE, 5);
         else
-            StringCopyPadded(gPSSData->cursorMonTexts[0], gText_EggNickname, CHAR_SPACE, 8);
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringCopyPadded(gPSSData->cursorMonTexts[0], gText_EggNickname, CHAR_SPACE, 8);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringCopyPadded(gPSSData->cursorMonTexts[0], gText_EggNicknameSpa, CHAR_SPACE, 8);
+		}
 
         StringFill(gPSSData->cursorMonTexts[1], CHAR_SPACE, 8);
         StringFill(gPSSData->cursorMonTexts[2], CHAR_SPACE, 8);

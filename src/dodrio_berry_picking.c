@@ -2324,6 +2324,7 @@ static const struct WindowTemplate sUnknown_84755E0 =
 };
 
 static const u8 *const sUnknown_84755E8[] = {gText_BerryPickingRecords, gText_BerriesPicked, gText_BestScore, gText_BerriesInRowFivePlayers};
+static const u8 *const sUnknown_84755E8Spa[] = {gText_BerryPickingRecordsSpa, gText_BerriesPickedSpa, gText_BestScoreSpa, gText_BerriesInRowFivePlayersSpa};
 static const u8 sUnknown_84755F8[] = {4, 7, 4};
 
 ALIGNED(4)
@@ -2379,12 +2380,18 @@ static void sub_81538D0(u8 windowId)
     TextWindow_SetStdFrame0_WithPal(windowId, 0x21D, 0xD0);
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    AddTextPrinterParameterized(windowId, 2, sUnknown_84755E8[0], 1, 1, TEXT_SPEED_FF, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized(windowId, 2, sUnknown_84755E8[0], 1, 1, TEXT_SPEED_FF, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized(windowId, 2, sUnknown_84755E8Spa[0], 1, 1, TEXT_SPEED_FF, NULL);
     for (i = 0; i < 3; i++)
     {
         ConvertIntToDecimalStringN(strbuf, results[i], STR_CONV_MODE_LEFT_ALIGN, sUnknown_84755F8[i]);
         numWidth = GetStringWidth(2, strbuf, -1);
-        AddTextPrinterParameterized(windowId, 2, sUnknown_84755E8[i + 1], 1, sUnknown_84755FC[i][0], TEXT_SPEED_FF, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized(windowId, 2, sUnknown_84755E8[i + 1], 1, sUnknown_84755FC[i][0], TEXT_SPEED_FF, NULL);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized(windowId, 2, sUnknown_84755E8Spa[i + 1], 1, sUnknown_84755FC[i][0], TEXT_SPEED_FF, NULL);
         x = 224 - numWidth;
         AddTextPrinterParameterized(windowId, 2, strbuf, x, sUnknown_8475602[i][0], TEXT_SPEED_FF, NULL);
     }

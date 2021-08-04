@@ -643,7 +643,10 @@ static void BufferMailMessage(void)
     }
     if (sMailViewResources->mailArrangementType == 0)
     {
-        StringCopy(StringCopy(sMailViewResources->authorNameBuffer, sMailViewResources->mail->playerName), gText_From); // ???
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringCopy(StringCopy(sMailViewResources->authorNameBuffer, sMailViewResources->mail->playerName), gText_From); // ???
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringCopy(StringCopy(sMailViewResources->authorNameBuffer, sMailViewResources->mail->playerName), gText_FromSpa); // ???
         sMailViewResources->nameX = sMailViewResources->messageLayout->nameX + 0x60 - 8 * StringLength(sMailViewResources->authorNameBuffer);
     }
     else
@@ -673,8 +676,16 @@ static void AddMailMessagePrinters(void)
             y += sMailViewResources->messageLayout->linesLayout[i].lineHeight;
         }
     }
-    width = GetStringWidth(1, gText_From, 0);
-    AddTextPrinterParameterized3(1, 1, sMailViewResources->nameX, sMailViewResources->messageLayout->nameY, sTextColor, 0, gText_From);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		width = GetStringWidth(1, gText_From, 0);
+		AddTextPrinterParameterized3(1, 1, sMailViewResources->nameX, sMailViewResources->messageLayout->nameY, sTextColor, 0, gText_From);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		width = GetStringWidth(1, gText_FromSpa, 0);
+		AddTextPrinterParameterized3(1, 1, sMailViewResources->nameX, sMailViewResources->messageLayout->nameY, sTextColor, 0, gText_FromSpa);
+	}
     AddTextPrinterParameterized3(1, 1, sMailViewResources->nameX + width, sMailViewResources->messageLayout->nameY, sTextColor, 0, sMailViewResources->authorNameBuffer);
     CopyWindowToVram(0, COPYWIN_BOTH);
     CopyWindowToVram(1, COPYWIN_BOTH);

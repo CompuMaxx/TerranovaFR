@@ -56,6 +56,47 @@ static const u8 *const sMenuTexts[] = {
     [PC_TEXT_SIMPLE]     = gText_PC_Simple,
 };
 
+static const u8 *const sMenuTextsSpa[] = {
+    [PC_TEXT_CANCEL]     = gText_PC_CancelSpa,
+    [PC_TEXT_STORE]      = gText_PC_StoreSpa,
+    [PC_TEXT_WITHDRAW]   = gText_PC_WithdrawSpa,
+    [PC_TEXT_MOVE]       = gText_PC_MoveSpa,
+    [PC_TEXT_SHIFT]      = gText_PC_ShiftSpa,
+    [PC_TEXT_PLACE]      = gText_PC_PlaceSpa,
+    [PC_TEXT_SUMMARY]    = gText_PC_SummarySpa,
+    [PC_TEXT_RELEASE]    = gText_PC_ReleaseSpa,
+    [PC_TEXT_MARK]       = gText_PC_MarkSpa,
+    [PC_TEXT_JUMP]       = gText_PC_JumpSpa,
+    [PC_TEXT_WALLPAPER]  = gText_PC_WallpaperSpa,
+    [PC_TEXT_NAME]       = gText_PC_NameSpa,
+    [PC_TEXT_TAKE]       = gText_PC_TakeSpa,
+    [PC_TEXT_GIVE]       = gText_PC_GiveSpa,
+    [PC_TEXT_GIVE2]      = gText_PC_GiveSpa,
+    [PC_TEXT_SWITCH]     = gText_PC_SwitchSpa,
+    [PC_TEXT_BAG]        = gText_PC_BagSpa,
+    [PC_TEXT_INFO]       = gText_PC_InfoSpa,
+    [PC_TEXT_SCENERY1]   = gText_PC_Scenery1Spa,
+    [PC_TEXT_SCENERY2]   = gText_PC_Scenery2Spa,
+    [PC_TEXT_SCENERY3]   = gText_PC_Scenery3Spa,
+    [PC_TEXT_ETCETERA]   = gText_PC_EtceteraSpa,
+    [PC_TEXT_FOREST]     = gText_PC_ForestSpa,
+    [PC_TEXT_CITY]       = gText_PC_CitySpa,
+    [PC_TEXT_DESERT]     = gText_PC_DesertSpa,
+    [PC_TEXT_SAVANNA]    = gText_PC_SavannaSpa,
+    [PC_TEXT_CRAG]       = gText_PC_CragSpa,
+    [PC_TEXT_VOLCANO]    = gText_PC_VolcanoSpa,
+    [PC_TEXT_SNOW]       = gText_PC_SnowSpa,
+    [PC_TEXT_CAVE]       = gText_PC_CaveSpa,
+    [PC_TEXT_BEACH]      = gText_PC_BeachSpa,
+    [PC_TEXT_SEAFLOOR]   = gText_PC_SeafloorSpa,
+    [PC_TEXT_RIVER]      = gText_PC_RiverSpa,
+    [PC_TEXT_SKY]        = gText_PC_SkySpa,
+    [PC_TEXT_POLKADOT]   = gText_PC_PolkaDotSpa,
+    [PC_TEXT_POKECENTER] = gText_PC_PokecenterSpa,
+    [PC_TEXT_MACHINE]    = gText_PC_MachineSpa,
+    [PC_TEXT_SIMPLE]     = gText_PC_SimpleSpa,
+};
+
 void SetMenuText(u8 textId)
 {
     if (gPSSData->menuItemsCount < MAX_MENU_ITEMS)
@@ -63,7 +104,10 @@ void SetMenuText(u8 textId)
         u8 len;
         struct StorageMenu *menu = &gPSSData->menuItems[gPSSData->menuItemsCount];
 
-        menu->text = sMenuTexts[textId];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			menu->text = sMenuTexts[textId];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			menu->text = sMenuTextsSpa[textId];
         menu->textId = textId;
         len = StringLength(menu->text);
         if (len > gPSSData->menuWidth)

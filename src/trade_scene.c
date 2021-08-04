@@ -1289,7 +1289,10 @@ static bool8 DoTradeAnim_Cable(void)
         }
         break;
     case 10:
-        StringExpandPlaceholders(gStringVar4, gText_XWillBeSentToY);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_XWillBeSentToY);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_XWillBeSentToYSpa);
         DrawTextOnTradeWindow(0, gStringVar4, 0);
 
         if (sTradeData->tradeSpecies[0] != SPECIES_EGG)
@@ -1305,7 +1308,10 @@ static bool8 DoTradeAnim_Cable(void)
         {
             sTradeData->pokeballSpriteId = CreateTradePokeballSprite(sTradeData->pokePicSpriteIdxs[0], gSprites[sTradeData->pokePicSpriteIdxs[0]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff);
             sTradeData->state++;
-            StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1Spa);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
         }
         break;
@@ -1666,7 +1672,10 @@ static bool8 DoTradeAnim_Cable(void)
                                       DISPCNT_BG0_ON |
                                       DISPCNT_BG2_ON |
                                       DISPCNT_OBJ_ON);
-        StringExpandPlaceholders(gStringVar4, gText_XSentOverY);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_XSentOverY);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_XSentOverYSpa);
         DrawTextOnTradeWindow(0, gStringVar4, 0);
         sTradeData->state = 167;
         sTradeData->timer = 0;
@@ -1697,7 +1706,10 @@ static bool8 DoTradeAnim_Cable(void)
         if (sTradeData->timer == 250)
         {
             sTradeData->state++;
-            StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfXSpa);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
             sTradeData->timer = 0;
         }
@@ -1786,7 +1798,10 @@ static bool8 DoTradeAnim_Wireless(void)
         }
         break;
     case 10:
-        StringExpandPlaceholders(gStringVar4, gText_XWillBeSentToY);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_XWillBeSentToY);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_XWillBeSentToYSpa);
         DrawTextOnTradeWindow(0, gStringVar4, 0);
 
         if (sTradeData->tradeSpecies[0] != SPECIES_EGG)
@@ -1802,7 +1817,10 @@ static bool8 DoTradeAnim_Wireless(void)
         {
             sTradeData->pokeballSpriteId = CreateTradePokeballSprite(sTradeData->pokePicSpriteIdxs[0], gSprites[sTradeData->pokePicSpriteIdxs[0]].oam.paletteNum, 120, 32, 2, 1, 0x14, 0xfffff);
             sTradeData->state++;
-            StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_ByeByeVar1Spa);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
         }
         break;
@@ -2187,7 +2205,10 @@ static bool8 DoTradeAnim_Wireless(void)
                                       DISPCNT_BG0_ON |
                                       DISPCNT_BG2_ON |
                                       DISPCNT_OBJ_ON);
-        StringExpandPlaceholders(gStringVar4, gText_XSentOverY);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_XSentOverY);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_XSentOverYSpa);
         DrawTextOnTradeWindow(0, gStringVar4, 0);
         sTradeData->state = 167;
         sTradeData->timer = 0;
@@ -2218,7 +2239,10 @@ static bool8 DoTradeAnim_Wireless(void)
         if (sTradeData->timer == 250)
         {
             sTradeData->state++;
-            StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfX);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_TakeGoodCareOfXSpa);
             DrawTextOnTradeWindow(0, gStringVar4, 0);
             sTradeData->timer = 0;
         }
@@ -2542,7 +2566,10 @@ static void CB2_HandleTradeEnded(void)
     {
     case 0:
         gMain.state++;
-        StringExpandPlaceholders(gStringVar4, gText_CommunicationStandby5);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_CommunicationStandby5);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_CommunicationStandby5Spa);
         DrawTextOnTradeWindow(0, gStringVar4, 0);
         break;
     case 1:
@@ -2569,7 +2596,10 @@ static void CB2_HandleTradeEnded(void)
         break;
     case 2:
         gMain.state = 50;
-        StringExpandPlaceholders(gStringVar4, gText_SavingDontTurnOffThePower2);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_SavingDontTurnOffThePower2);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_SavingDontTurnOffThePower2Spa);
         DrawTextOnTradeWindow(0, gStringVar4, 0);
         break;
     case 50:

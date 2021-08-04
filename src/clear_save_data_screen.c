@@ -106,7 +106,10 @@ static void Task_DrawClearSaveDataScreen(u8 taskId)
         break;
     case 4:
         DrawStdFrameWithCustomTileAndPalette(1, TRUE, 0x001, 0xF);
-        AddTextPrinterParameterized4(1, 2, 0, 3, 1, 1, sTextColor, 0, gText_841B69E);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized4(1, 2, 0, 3, 1, 1, sTextColor, 0, gText_841B69E);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized4(1, 2, 0, 3, 1, 1, sTextColor, 0, gText_841B69ESpa);
         CopyWindowToVram(1, COPYWIN_GFX);
         break;
     case 5:
@@ -138,7 +141,10 @@ static void Task_HandleYesNoMenu(u8 taskId)
         case 0:
             PlaySE(SE_SELECT);
             FillWindowPixelBuffer(1, PIXEL_FILL(1));
-            AddTextPrinterParameterized4(1, 2, 0, 3, 1, 1, sTextColor, 0, gText_841B6B9);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized4(1, 2, 0, 3, 1, 1, sTextColor, 0, gText_841B6B9);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized4(1, 2, 0, 3, 1, 1, sTextColor, 0, gText_841B6B9Spa);
             CopyWindowToVram(1, COPYWIN_BOTH);
             ClearSaveData();
             break;

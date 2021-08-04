@@ -208,7 +208,12 @@ static u8 *MapNamePopupAppendFloorNum(u8 *dest, s8 floorNum)
         return dest;
     *dest++ = CHAR_SPACE;
     if (floorNum == 0x7F)
-        return StringCopy(dest, gText_Rooftop2);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			return StringCopy(dest, gText_Rooftop2);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			return StringCopy(dest, gText_Rooftop2Spa);
+	}
     if (floorNum < 0)
     {
         *dest++ = CHAR_B;

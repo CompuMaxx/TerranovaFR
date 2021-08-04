@@ -625,7 +625,10 @@ static void Task_EvolutionScene(u8 taskId)
     case 1: // print 'whoa, poke is evolving!!!' msg
         if (!gPaletteFade.active)
         {
-            StringExpandPlaceholders(gStringVar4, gText_PkmnIsEvolving);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_PkmnIsEvolving);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_PkmnIsEvolvingSpa);
             BattlePutTextOnWindow(gStringVar4, 0);
             gTasks[taskId].tState++;
         }
@@ -721,7 +724,10 @@ static void Task_EvolutionScene(u8 taskId)
     case 14: // congratulations string and rename prompt
         if (IsCryFinished())
         {
-            StringExpandPlaceholders(gStringVar4, gText_CongratsPkmnEvolved);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_CongratsPkmnEvolved);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_CongratsPkmnEvolvedSpa);
             BattlePutTextOnWindow(gStringVar4, 0);
             PlayBGM(MUS_EVOLVED);
             gTasks[taskId].tState++;
@@ -802,9 +808,19 @@ static void Task_EvolutionScene(u8 taskId)
         if (IsCryFinished())
         {
             if (gTasks[taskId].tEvoWasStopped)
-                StringExpandPlaceholders(gStringVar4, gText_EllipsisQuestionMark);
+			{
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(gStringVar4, gText_EllipsisQuestionMark);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(gStringVar4, gText_EllipsisQuestionMarkSpa);
+			}
             else
-                StringExpandPlaceholders(gStringVar4, gText_PkmnStoppedEvolving);
+			{
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(gStringVar4, gText_PkmnStoppedEvolving);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(gStringVar4, gText_PkmnStoppedEvolvingSpa);
+			}
 
             BattlePutTextOnWindow(gStringVar4, 0);
             gTasks[taskId].tEvoWasStopped = TRUE;
@@ -859,7 +875,10 @@ static void Task_EvolutionScene(u8 taskId)
             if (!IsTextPrinterActive(0) && !IsSEPlaying())
             {
                 HandleBattleWindow(0x17, 8, 0x1D, 0xD, 0);
-                BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					BattlePutTextOnWindow(gText_BattleYesNoChoice, 0xE);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					BattlePutTextOnWindow(gText_BattleYesNoChoiceSpa, 0xE);
                 gTasks[taskId].tLearnMoveState++;
                 sEvoCursorPos = 0;
                 BattleCreateYesNoCursorAt();
@@ -1006,7 +1025,10 @@ static void Task_TradeEvolutionScene(u8 taskId)
     switch (gTasks[taskId].tState)
     {
     case 0:
-        StringExpandPlaceholders(gStringVar4, gText_PkmnIsEvolving);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnIsEvolving);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_PkmnIsEvolvingSpa);
         DrawTextOnTradeWindow(0, gStringVar4, 1);
         gTasks[taskId].tState++;
         break;
@@ -1100,7 +1122,10 @@ static void Task_TradeEvolutionScene(u8 taskId)
     case 12:
         if (IsCryFinished())
         {
-            StringExpandPlaceholders(gStringVar4, gText_CongratsPkmnEvolved);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_CongratsPkmnEvolved);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_CongratsPkmnEvolvedSpa);
             DrawTextOnTradeWindow(0, gStringVar4, 1);
             PlayFanfare(MUS_EVOLVED);
             gTasks[taskId].tState++;
@@ -1136,7 +1161,10 @@ static void Task_TradeEvolutionScene(u8 taskId)
             else
             {
                 PlayBGM(MUS_EVOLUTION);
-                DrawTextOnTradeWindow(0, gText_CommunicationStandby5, 1);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					DrawTextOnTradeWindow(0, gText_CommunicationStandby5, 1);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					DrawTextOnTradeWindow(0, gText_CommunicationStandby5Spa, 1);
                 gTasks[taskId].tState++;
             }
         }
@@ -1169,7 +1197,10 @@ static void Task_TradeEvolutionScene(u8 taskId)
     case 17:
         if (IsCryFinished())
         {
-            StringExpandPlaceholders(gStringVar4, gText_EllipsisQuestionMark);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_EllipsisQuestionMark);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_EllipsisQuestionMarkSpa);
             DrawTextOnTradeWindow(0, gStringVar4, 1);
             gTasks[taskId].tEvoWasStopped = TRUE;
             gTasks[taskId].tState = 13;

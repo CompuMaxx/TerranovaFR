@@ -59,7 +59,10 @@ bool32 RunSaveFailedScreen(void)
         break;
     case 3:
         ClearMapBuffer();
-        PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_CheckingBackupMemory);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_CheckingBackupMemory);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_CheckingBackupMemorySpa);
         UpdateMapBufferWithText();
         sSaveFailedScreenState = 4;
         break;
@@ -75,12 +78,18 @@ bool32 RunSaveFailedScreen(void)
         if (TryWipeDamagedSectors() == TRUE)
         {
             gSaveSucceeded = SAVE_STATUS_OK;
-            PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_SaveCompleted);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_SaveCompleted);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_SaveCompletedSpa);
         }
         else
         {
             gSaveSucceeded = SAVE_STATUS_ERROR;
-            PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_BackupMemoryDamaged);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_BackupMemoryDamaged);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				PrintTextOnSaveFailedScreen(gText_SaveFailedScreen_BackupMemoryDamagedSpa);
         }
         sSaveFailedScreenState = 6;
         break;

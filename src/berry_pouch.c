@@ -183,6 +183,14 @@ static const struct MenuAction sContextMenuActions[] = {
     {gText_StringDummy,   NULL}
 };
 
+static const struct MenuAction sContextMenuActionsSpa[] = {
+    {gText_UseSpa,  Task_BerryPouch_Use},
+    {gText_TossSpa, Task_BerryPouch_Toss},
+    {gText_GiveSpa, Task_BerryPouch_Give},
+    {gText_ExitSpa, Task_BerryPouch_Exit},
+    {gText_StringDummy,   NULL}
+};
+
 static const u8 sOptions_UseGiveTossExit[] = {
     BP_ACTION_USE,
     BP_ACTION_GIVE,
@@ -657,7 +665,10 @@ static void SetUpListMenuTemplate(void)
         sListMenuItems[i].label = &sListMenuStrbuf[i * 27];
         sListMenuItems[i].index = i;
     }
-    sListMenuItems[i].label = gText_Close;
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		sListMenuItems[i].label = gText_Close;
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		sListMenuItems[i].label = gText_CloseSpa;
     sListMenuItems[i].index = i;
     gMultiuseListMenuTemplate.items = sListMenuItems;
     if (sStaticCnt.type != BERRYPOUCH_FROMBERRYCRUSH)
@@ -758,7 +769,12 @@ static void PrintSelectedBerryDescription(s32 itemIdx)
     if (itemIdx != sResources->listMenuNumItems)
         str = ItemId_GetDescription(BagGetItemIdByPocketPosition(POCKET_BERRY_POUCH, itemIdx));
     else
-        str = gText_TheBerryPouchWillBePutAway;
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			str = gText_TheBerryPouchWillBePutAway;
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			str = gText_TheBerryPouchWillBePutAwaySpa;
+	}
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     BerryPouchPrint(1, 2, str, 0, 2, 2, 0, 0, 0);
 }
@@ -800,8 +816,18 @@ static void DestroyScrollIndicatorArrows(void)
 
 static void PrintBerryPouchHeaderCentered(void)
 {
-    u32 slack = 72 - GetStringWidth(1, gText_BerryPouch, 0);
-    BerryPouchPrint(2, 1, gText_BerryPouch, slack / 2, 1, 0, 0, 0, 0);
+    u32 slack;
+	
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		slack = 72 - GetStringWidth(1, gText_BerryPouch, 0);
+		BerryPouchPrint(2, 1, gText_BerryPouch, slack / 2, 1, 0, 0, 0, 0);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		slack = 72 - GetStringWidth(1, gText_BerryPouchSpa, 0);
+		BerryPouchPrint(2, 1, gText_BerryPouchSpa, slack / 2, 1, 0, 0, 0, 0);
+	}
 }
 
 void BerryPouch_CursorResetToTop(void)
@@ -1023,11 +1049,17 @@ static void CreateNormalContextMenu(u8 taskId)
         sContextMenuNumOptions = 4;
     }
     windowId = GetOrCreateVariableWindow(sContextMenuNumOptions + 9);
-    AddItemMenuActionTextPrinters(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumOptions, sContextMenuActions, sContextMenuOptions);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddItemMenuActionTextPrinters(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumOptions, sContextMenuActions, sContextMenuOptions);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddItemMenuActionTextPrinters(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumOptions, sContextMenuActionsSpa, sContextMenuOptions);
     Menu_InitCursor(windowId, 2, 0, 2, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumOptions, 0);
     windowId2 = GetOrCreateVariableWindow(6);
     CopySelectedListMenuItemName(data[1], gStringVar1);
-    StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_Var1IsSelected);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_Var1IsSelectedSpa);
     BerryPouchPrint(windowId2, 2, gStringVar4, 0, 2, 1, 2, 0, 1);
 }
 
@@ -1093,7 +1125,10 @@ static void Task_BerryPouch_Toss(u8 taskId)
         Task_AskTossMultiple(taskId);
     else
     {
-        InitTossQuantitySelectUI(taskId, gText_TossOutHowManyStrVar1s);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			InitTossQuantitySelectUI(taskId, gText_TossOutHowManyStrVar1s);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			InitTossQuantitySelectUI(taskId, gText_TossOutHowManyStrVar1sSpa);
         CreateScrollIndicatorArrows_TossQuantity();
         gTasks[taskId].func = Task_Toss_SelectMultiple;
     }
@@ -1103,7 +1138,10 @@ static void Task_AskTossMultiple(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
     ConvertIntToDecimalStringN(gStringVar2, data[8], STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_ThrowAwayStrVar2OfThisItemQM);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ThrowAwayStrVar2OfThisItemQM);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_ThrowAwayStrVar2OfThisItemQMSpa);
     BerryPouchPrint(GetOrCreateVariableWindow(7), 2, gStringVar4, 0, 2, 1, 2, 0, 1);
     CreateYesNoMenuWin3(taskId, &sYesNoFuncs_Toss);
 }
@@ -1157,7 +1195,10 @@ static void Task_TossYes(u8 taskId)
     DestroyVariableWindow(7);
     CopySelectedListMenuItemName(data[1], gStringVar1);
     ConvertIntToDecimalStringN(gStringVar2, data[8], STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_ThrewAwayStrVar2StrVar1s);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ThrewAwayStrVar2StrVar1s);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_ThrewAwayStrVar2StrVar1sSpa);
     BerryPouchPrint(GetOrCreateVariableWindow(9), 2, gStringVar4, 0, 2, 1, 2, 0, 1);
     gTasks[taskId].func = Task_WaitButtonThenTossBerries;
 }
@@ -1201,7 +1242,10 @@ static void Task_BerryPouch_Give(u8 taskId)
 
 static void Task_Give_PrintThereIsNoPokemon(u8 taskId)
 {
-    DisplayItemMessageInBerryPouch(taskId, 2, gText_ThereIsNoPokemon, Task_WaitButtonBeforeDialogueWindowDestruction);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageInBerryPouch(taskId, 2, gText_ThereIsNoPokemon, Task_WaitButtonBeforeDialogueWindowDestruction);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageInBerryPouch(taskId, 2, gText_ThereIsNoPokemonSpa, Task_WaitButtonBeforeDialogueWindowDestruction);
 }
 
 static void Task_WaitButtonBeforeDialogueWindowDestruction(u8 taskId)
@@ -1246,7 +1290,10 @@ static void Task_ContextMenu_FromPartyGiveMenu(u8 taskId)
     if (!itemid_link_can_give_berry(itemId))
     {
         CopyItemName(itemId, gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_TheStrVar1CantBeHeldHere);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_TheStrVar1CantBeHeldHere);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_TheStrVar1CantBeHeldHereSpa);
         DisplayItemMessageInBerryPouch(taskId, 2, gStringVar4, Task_WaitButtonBeforeDialogueWindowDestruction);
     }
     else
@@ -1268,7 +1315,10 @@ static void Task_ContextMenu_Sell(u8 taskId)
     if (itemid_get_market_price(gSpecialVar_ItemId) == 0)
     {
         CopyItemName(gSpecialVar_ItemId, gStringVar1);
-        StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThat);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_OhNoICantBuyThatSpa);
         DisplayItemMessageInBerryPouch(taskId, GetDialogBoxFontId(), gStringVar4, Task_BerryPouch_DestroyDialogueWindowAndRefreshListMenu);
     }
     else
@@ -1284,7 +1334,10 @@ static void Task_ContextMenu_Sell(u8 taskId)
             if (data[2] > 99)
                 data[2] = 99;
             CopyItemName(gSpecialVar_ItemId, gStringVar1);
-            StringExpandPlaceholders(gStringVar4, gText_HowManyWouldYouLikeToSell);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_HowManyWouldYouLikeToSell);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_HowManyWouldYouLikeToSellSpa);
             DisplayItemMessageInBerryPouch(taskId, GetDialogBoxFontId(), gStringVar4, Task_Sell_PrintSelectMultipleUI);
         }
     }
@@ -1294,7 +1347,10 @@ static void Task_AskSellMultiple(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
     ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(POCKET_BERRY_POUCH, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkay);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkay);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_ICanPayThisMuch_WouldThatBeOkaySpa);
     DisplayItemMessageInBerryPouch(taskId, GetDialogBoxFontId(), gStringVar4, Task_SellMultiple_CreateYesNoMenu);
 }
 
@@ -1374,7 +1430,10 @@ static void Task_SellYes(u8 taskId)
     ScheduleBgCopyTilemapToVram(0);
     CopyItemName(gSpecialVar_ItemId, gStringVar1);
     ConvertIntToDecimalStringN(gStringVar3, itemid_get_market_price(BagGetItemIdByPocketPosition(POCKET_BERRY_POUCH, data[1])) / 2 * data[8], STR_CONV_MODE_LEFT_ALIGN, 6);
-    StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYen);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYen);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_TurnedOverItemsWorthYenSpa);
     DisplayItemMessageInBerryPouch(taskId, 2, gStringVar4, Task_SellBerries_PlaySfxAndRemoveBerries);
 }
 

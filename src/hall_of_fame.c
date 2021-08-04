@@ -452,7 +452,10 @@ static void Task_Hof_InitTeamSaveData(u8 taskId)
     *lastSavedTeam = *sHofMonPtr;
 
     DrawDialogueFrame(0, 0);
-    AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffThePower2, 0, NULL, 2, 1, 3);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffThePower2, 0, NULL, 2, 1, 3);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized2(0, 2, gText_SavingDontTurnOffThePower2Spa, 0, NULL, 2, 1, 3);
     CopyWindowToVram(0, COPYWIN_BOTH);
     gTasks[taskId].func = Task_Hof_TrySaveData;
 }
@@ -638,7 +641,10 @@ static void Task_Hof_WaitAndPrintPlayerInfo(u8 taskId)
         FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 0x20, 0x20);
         HallOfFame_PrintPlayerInfo(1, 2);
         DrawDialogueFrame(0, 0);
-        AddTextPrinterParameterized2(0, 2, gText_LeagueChamp, 0, NULL, 2, 1, 3);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized2(0, 2, gText_LeagueChamp, 0, NULL, 2, 1, 3);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized2(0, 2, gText_LeagueChampSpa, 0, NULL, 2, 1, 3);
         CopyWindowToVram(0, COPYWIN_BOTH);
         gTasks[taskId].func = Task_Hof_ExitOnKeyPressed;
     }
@@ -838,12 +844,25 @@ static void Task_HofPC_DrawSpritesPrintText(u8 taskId)
     BlendPalettes(0xFFFF0000, 0xC, HALL_OF_FAME_BG_PAL);
 
     ConvertIntToDecimalStringN(gStringVar1, gTasks[taskId].data[1], STR_CONV_MODE_LEFT_ALIGN, 3);
-    StringExpandPlaceholders(gStringVar4, gText_HOFNumber);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_HOFNumber);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_HOFNumberSpa);
 
     if (gTasks[taskId].data[0] <= 0)
-        TopBarWindowPrintTwoStrings(gStringVar4, gText_UPDOWNPick_ABUTTONBBUTTONCancel, 0, 0, TRUE);
-    else
-        TopBarWindowPrintTwoStrings(gStringVar4, gText_UPDOWNPick_ABUTTONNext_BBUTTONBack, 0, 0, TRUE);
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			TopBarWindowPrintTwoStrings(gStringVar4, gText_UPDOWNPick_ABUTTONBBUTTONCancel, 0, 0, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			TopBarWindowPrintTwoStrings(gStringVar4, gText_UPDOWNPick_ABUTTONBBUTTONCancelSpa, 0, 0, TRUE);
+	}    
+	else
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			TopBarWindowPrintTwoStrings(gStringVar4, gText_UPDOWNPick_ABUTTONNext_BBUTTONBack, 0, 0, TRUE);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			TopBarWindowPrintTwoStrings(gStringVar4, gText_UPDOWNPick_ABUTTONNext_BBUTTONBackSpa, 0, 0, TRUE);
+	}
 
     gTasks[taskId].func = Task_HofPC_PrintMonInfo;
 }
@@ -966,9 +985,15 @@ static void Task_HofPC_HandleExit(u8 taskId)
 
 static void Task_HofPC_PrintDataIsCorrupted(u8 taskId)
 {
-    TopBarWindowPrintString(gText_ABUTTONExit, 8, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		TopBarWindowPrintString(gText_ABUTTONExit, 8, TRUE);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		TopBarWindowPrintString(gText_ABUTTONExitSpa, 8, TRUE);
     DrawDialogueFrame(0, 0);
-    AddTextPrinterParameterized2(0, 2, gText_HOFCorrupted, 0, NULL, 2, 1, 3);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized2(0, 2, gText_HOFCorrupted, 0, NULL, 2, 1, 3);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized2(0, 2, gText_HOFCorruptedSpa, 0, NULL, 2, 1, 3);
     CopyWindowToVram(0, COPYWIN_BOTH);
     gTasks[taskId].func = Task_HofPC_ExitOnButtonPress;
 }
@@ -981,10 +1006,18 @@ static void Task_HofPC_ExitOnButtonPress(u8 taskId)
 
 static void HallOfFame_PrintWelcomeText(u8 not, u8 used)
 {
-    u8 x = (0xD0 - GetStringWidth(2, gText_WelcomeToHOF, 0)) / 2;
+    u8 x;
+	
+	if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		x = (0xD0 - GetStringWidth(2, gText_WelcomeToHOF, 0)) / 2;
+	if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		x = (0xD0 - GetStringWidth(2, gText_WelcomeToHOFSpa, 0)) / 2;
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     PutWindowTilemap(0);
-    AddTextPrinterParameterized3(0, 2, x, 1, sTextColors[0], 0, gText_WelcomeToHOF);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(0, 2, x, 1, sTextColors[0], 0, gText_WelcomeToHOF);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(0, 2, x, 1, sTextColors[0], 0, gText_WelcomeToHOFSpa);
     CopyWindowToVram(0, COPYWIN_BOTH);
 }
 
@@ -1063,11 +1096,17 @@ static void HallOfFame_PrintMonInfo(struct HallofFameMon* currMon, u8 unused1, u
 
         AddTextPrinterParameterized3(0, 2, 0x80, 1, sTextColors[0], 0, text);
 
-        stringPtr = StringCopy(text, gText_Level);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			stringPtr = StringCopy(text, gText_Level);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			stringPtr = StringCopy(text, gText_LevelSpa);
         ConvertIntToDecimalStringN(stringPtr, currMon->lvl, STR_CONV_MODE_LEFT_ALIGN, 3);
         AddTextPrinterParameterized3(0, 2, 0x20, 0x11, sTextColors[0], 0, text);
 
-        stringPtr = StringCopy(text, gText_IDNumber);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			stringPtr = StringCopy(text, gText_IDNumber);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			stringPtr = StringCopy(text, gText_IDNumberSpa);
         ConvertIntToDecimalStringN(stringPtr, (u16)(currMon->tid), STR_CONV_MODE_LEADING_ZEROS, 5);
         AddTextPrinterParameterized3(0, 2, 0x60, 0x11, sTextColors[0], 0, text);
 
@@ -1084,12 +1123,18 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
     PutWindowTilemap(1);
     DrawStdFrameWithCustomTileAndPalette(1, FALSE, 0x21D, 0xD);
-    AddTextPrinterParameterized4(1, 2, 4, 3, 0, 0, sTextColors[1], 0, gText_Name);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized4(1, 2, 4, 3, 0, 0, sTextColors[1], 0, gText_Name);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized4(1, 2, 4, 3, 0, 0, sTextColors[1], 0, gText_NameSpa);
 
     AddTextPrinterParameterized3(1, 2, textWidth - GetStringWidth(2, gSaveBlock2Ptr->playerName, 0), 3, sTextColors[1], 0, gSaveBlock2Ptr->playerName);
 
     trainerId = (gSaveBlock2Ptr->playerTrainerId[0]) | (gSaveBlock2Ptr->playerTrainerId[1] << 8);
-    AddTextPrinterParameterized3(1, 2, 4, 18, sTextColors[1], 0, gText_IDNumber);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(1, 2, 4, 18, sTextColors[1], 0, gText_IDNumber);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(1, 2, 4, 18, sTextColors[1], 0, gText_IDNumberSpa);
     text[0] = (trainerId % 100000) / 10000 + CHAR_0;
     text[1] = (trainerId % 10000) / 1000 + CHAR_0;
     text[2] = (trainerId % 1000) / 100 + CHAR_0;
@@ -1098,7 +1143,10 @@ static void HallOfFame_PrintPlayerInfo(u8 unused1, u8 unused2)
     text[5] = EOS;
     AddTextPrinterParameterized3(1, 2, textWidth - 30, 18, sTextColors[1], 0, text);
 
-    AddTextPrinterParameterized3(1, 2, 4, 32, sTextColors[1], 0, gText_MainMenuTime);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(1, 2, 4, 32, sTextColors[1], 0, gText_MainMenuTime);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(1, 2, 4, 32, sTextColors[1], 0, gText_MainMenuTimeSpa);
     text[0] = (gSaveBlock2Ptr->playTimeHours / 100) + CHAR_0;
     text[1] = (gSaveBlock2Ptr->playTimeHours % 100) / 10 + CHAR_0;
     text[2] = (gSaveBlock2Ptr->playTimeHours % 10) + CHAR_0;

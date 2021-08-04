@@ -1988,11 +1988,17 @@ static bool8 SlotsTask_GraphicsInit(u8 * state, struct SlotMachineSetupTaskData 
         FillWindowPixelBuffer(1, 0xFF);
         PutWindowTilemap(1);
 
-        x = 236 - GetStringWidth(0, gText_SlotMachineControls, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			x = 236 - GetStringWidth(0, gText_SlotMachineControls, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			x = 236 - GetStringWidth(0, gText_SlotMachineControlsSpa, 0);
         textColor[0] = TEXT_DYNAMIC_COLOR_6;
         textColor[1] = TEXT_COLOR_WHITE;
         textColor[2] = TEXT_COLOR_DARK_GRAY;
-        AddTextPrinterParameterized3(1, 0, x, 0, textColor, 0, gText_SlotMachineControls);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(1, 0, x, 0, textColor, 0, gText_SlotMachineControls);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(1, 0, x, 0, textColor, 0, gText_SlotMachineControlsSpa);
         CopyBgTilemapBufferToVram(0);
 
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | 0x20 | DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
@@ -2118,7 +2124,10 @@ static bool8 SlotsTask_MessageOutOfCoins(u8 * state, struct SlotMachineSetupTask
     switch (*state)
     {
     case 0:
-        Slot_PrintOnWindow0(gText_OutOfCoins);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			Slot_PrintOnWindow0(gText_OutOfCoins);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			Slot_PrintOnWindow0(gText_OutOfCoinsSpa);
         CopyWindowToVram(0, COPYWIN_BOTH);
         (*state)++;
         break;
@@ -2135,7 +2144,10 @@ static bool8 SlotsTask_AskQuitPlaying(u8 * state, struct SlotMachineSetupTaskDat
     switch (*state)
     {
     case 0:
-        Slot_PrintOnWindow0(gText_QuitPlaying);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			Slot_PrintOnWindow0(gText_QuitPlaying);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			Slot_PrintOnWindow0(gText_QuitPlayingSpa);
         Slot_CreateYesNoMenu(0);
         CopyWindowToVram(0, COPYWIN_BOTH);
         (*state)++;

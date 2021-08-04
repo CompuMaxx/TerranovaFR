@@ -438,9 +438,23 @@ static const u8 *const sTradeUITextPtrs[] = {
     gText_Trade_PressBButtonToExit
 };
 
+static const u8 *const sTradeUITextPtrsSpa[] = {
+    gText_Trade_CancelSpa,
+    gText_Trade_ChooseAPokemonSpa,
+    gText_Trade_SummarySpa,
+    gText_Trade_TradeSpa,
+    gText_Trade_CancelTradeSpa,
+    gText_Trade_PressBButtonToExitSpa,
+};
+
 static const struct MenuAction sMenuAction_SummaryTrade[] = {
     {gText_841E10A, { .void_u8 = TradeMenuAction_Summary }},
     {gText_841E112, { .void_u8 = TradeMenuAction_Trade }}
+};
+
+static const struct MenuAction sMenuAction_SummaryTradeSpa[] = {
+    {gText_841E10ASpa, { .void_u8 = TradeMenuAction_Summary }},
+    {gText_841E112Spa, { .void_u8 = TradeMenuAction_Trade }}
 };
 
 static const u8 *const sTradeErrorOrStatusMessagePtrs[] = {
@@ -453,6 +467,18 @@ static const u8 *const sTradeErrorOrStatusMessagePtrs[] = {
     gText_PkmnCantBeTradedNow, // That POKéMON can't be traded now
     gText_EggCantBeTradedNow, // An EGG can't be traded now
     gText_OtherTrainersPkmnCantBeTraded  // The other TRAINER's POKéMON can't be traded now
+};
+
+static const u8 *const sTradeErrorOrStatusMessagePtrsSpa[] = {
+    gText_841E118Spa, // Communication standby
+    gText_841E145Spa, // The trade has been canceled.
+    gText_841E16BSpa, // That's your only POKéMON for battle
+    gText_8417094Spa, // That's your only POKéMON for battle
+    gText_841E199Spa, // Waiting for your friend to finish
+    gText_841E1C5Spa, // Your friend wants to trade POKéMON
+    gText_PkmnCantBeTradedNowSpa, // That POKéMON can't be traded now
+    gText_EggCantBeTradedNowSpa, // An EGG can't be traded now
+    gText_OtherTrainersPkmnCantBeTradedSpa  // The other TRAINER's POKéMON can't be traded now
 };
 
 static const u8 sTextColor_PartyMonNickname[] = { TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY };
@@ -880,8 +906,16 @@ static void CB2_ReturnFromLinkTrade2(void)
         DrawTextWindowAndBufferTiles(gSaveBlock2Ptr->playerName, sSpriteTextTilePtrs[0], 0, 0, gDecompressionBuffer, 3);
         id = GetMultiplayerId();
         DrawTextWindowAndBufferTiles(gLinkPlayers[id ^ 1].name, sSpriteTextTilePtrs[3], 0, 0, gDecompressionBuffer, 3);
-        DrawTextWindowAndBufferTiles(sTradeUITextPtrs[TRADEUITEXT_CANCEL], sSpriteTextTilePtrs[6], 0, 0, gDecompressionBuffer, 2);
-        RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], sSpriteTextTilePtrs[8], 24);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			DrawTextWindowAndBufferTiles(sTradeUITextPtrs[TRADEUITEXT_CANCEL], sSpriteTextTilePtrs[6], 0, 0, gDecompressionBuffer, 2);
+			RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], sSpriteTextTilePtrs[8], 24);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			DrawTextWindowAndBufferTiles(sTradeUITextPtrsSpa[TRADEUITEXT_CANCEL], sSpriteTextTilePtrs[6], 0, 0, gDecompressionBuffer, 2);
+			RenderTextToVramViaBuffer(sTradeUITextPtrsSpa[TRADEUITEXT_CHOOSE], sSpriteTextTilePtrs[8], 24);
+		}
         gMain.state++;
         sTradeMenuResourcesPtr->loadUISpritesState = 0;
         break;
@@ -1073,8 +1107,16 @@ void CB2_ReturnToTradeMenuFromSummary(void)
         DrawTextWindowAndBufferTiles(gSaveBlock2Ptr->playerName, sSpriteTextTilePtrs[0], 0, 0, gDecompressionBuffer, 3);
         id = GetMultiplayerId();
         DrawTextWindowAndBufferTiles(gLinkPlayers[id ^ 1].name, sSpriteTextTilePtrs[3], 0, 0, gDecompressionBuffer, 3);
-        DrawTextWindowAndBufferTiles(sTradeUITextPtrs[TRADEUITEXT_CANCEL], sSpriteTextTilePtrs[6], 0, 0, gDecompressionBuffer, 2);
-        RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], sSpriteTextTilePtrs[8], 24);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			DrawTextWindowAndBufferTiles(sTradeUITextPtrs[TRADEUITEXT_CANCEL], sSpriteTextTilePtrs[6], 0, 0, gDecompressionBuffer, 2);
+			RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], sSpriteTextTilePtrs[8], 24);
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			DrawTextWindowAndBufferTiles(sTradeUITextPtrsSpa[TRADEUITEXT_CANCEL], sSpriteTextTilePtrs[6], 0, 0, gDecompressionBuffer, 2);
+			RenderTextToVramViaBuffer(sTradeUITextPtrsSpa[TRADEUITEXT_CHOOSE], sSpriteTextTilePtrs[8], 24);
+		}
         gMain.state++;
         sTradeMenuResourcesPtr->loadUISpritesState = 0;
         break;
@@ -1729,7 +1771,10 @@ static void TradeMenuCB_0(void)
         {
             DrawTextBorderOuter(1, 1, 14);
             FillWindowPixelBuffer(1, PIXEL_FILL(1));
-            UnionRoomAndTradeMenuPrintOptions(1, 3, 16, 2, sMenuAction_SummaryTrade);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				UnionRoomAndTradeMenuPrintOptions(1, 3, 16, 2, sMenuAction_SummaryTrade);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				UnionRoomAndTradeMenuPrintOptions(1, 3, 16, 2, sMenuAction_SummaryTradeSpa);
             Menu_InitCursor(1, 3, 0, 0, 16, 2, 0);
             PutWindowTilemap(1);
             CopyWindowToVram(1, COPYWIN_BOTH);
@@ -1744,7 +1789,10 @@ static void TradeMenuCB_0(void)
         {
             CreateYesNoMenu(&sWindowTemplate_YesNo, 3, 0, 2, 0x001, 14, 0);
             sTradeMenuResourcesPtr->tradeMenuCBnum = 4;
-            RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_ASKCANCEL], (void *)OBJ_VRAM0 + sTradeMenuResourcesPtr->cursorStartTile * 32, 24);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_ASKCANCEL], (void *)OBJ_VRAM0 + sTradeMenuResourcesPtr->cursorStartTile * 32, 24);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				RenderTextToVramViaBuffer(sTradeUITextPtrsSpa[TRADEUITEXT_ASKCANCEL], (void *)OBJ_VRAM0 + sTradeMenuResourcesPtr->cursorStartTile * 32, 24);
         }
     }
     if (JOY_NEW(R_BUTTON))
@@ -1760,7 +1808,10 @@ static void RedrawChooseAPokemonWindow(void)
     PrintTradePartnerPartyNicknames();
     sTradeMenuResourcesPtr->tradeMenuCBnum = 0;
     gSprites[sTradeMenuResourcesPtr->tradeMenuCursorSpriteIdx].invisible = FALSE;
-    RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], (void *)OBJ_VRAM0 + sTradeMenuResourcesPtr->cursorStartTile * 32, 24);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], (void *)OBJ_VRAM0 + sTradeMenuResourcesPtr->cursorStartTile * 32, 24);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		RenderTextToVramViaBuffer(sTradeUITextPtrsSpa[TRADEUITEXT_CHOOSE], (void *)OBJ_VRAM0 + sTradeMenuResourcesPtr->cursorStartTile * 32, 24);
 }
 
 static void TradeMenuCB_1(void)
@@ -2212,7 +2263,10 @@ static void BuildMovesString(u8 *movesString, u8 whichParty, u8 whichMon)
         {
             if (moves[i] != MOVE_NONE)
             {
-                StringAppend(movesString, gMoveNames[moves[i]]);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringAppend(movesString, gMoveNames[moves[i]]);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringAppend(movesString, gMoveNamesSpa[moves[i]]);
             }
 
             StringAppend(movesString, sText_Newline);
@@ -2362,7 +2416,10 @@ static void RedrawPartyWindow(u8 whichParty)
     PrintPartyLevelsAndGendersDirectlyOnVram(whichParty);
     PrintPartyNicknames(whichParty);
     ShowTradePartyMonIcons(whichParty);
-    RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], (void *)OBJ_VRAM0 + 32 * sTradeMenuResourcesPtr->cursorStartTile, 24);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		RenderTextToVramViaBuffer(sTradeUITextPtrs[TRADEUITEXT_CHOOSE], (void *)OBJ_VRAM0 + 32 * sTradeMenuResourcesPtr->cursorStartTile, 24);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		RenderTextToVramViaBuffer(sTradeUITextPtrsSpa[TRADEUITEXT_CHOOSE], (void *)OBJ_VRAM0 + 32 * sTradeMenuResourcesPtr->cursorStartTile, 24);
     sTradeMenuResourcesPtr->menuRedrawState[whichParty] = 0;
 }
 
@@ -2442,7 +2499,10 @@ static void RunScheduledLinkTasks(void)
 static void PrintTradeErrorOrStatusMessage(u8 idx)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
-    AddTextPrinterParameterized(0, 3, sTradeErrorOrStatusMessagePtrs[idx], 0, 2, 0xFF, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized(0, 3, sTradeErrorOrStatusMessagePtrs[idx], 0, 2, 0xFF, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized(0, 3, sTradeErrorOrStatusMessagePtrsSpa[idx], 0, 2, 0xFF, NULL);
     DrawTextBorderOuter(0, 0x014, 12);
     PutWindowTilemap(0);
     CopyWindowToVram(0, COPYWIN_BOTH);

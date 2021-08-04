@@ -408,19 +408,43 @@ static void Task_RushInjuredPokemonToCenter(u8 taskId)
             gTasks[taskId].data[0] = 1;
         break;
     case 1:
-        if (PrintWhiteOutRecoveryMessage(taskId, gText_PlayerScurriedToCenter, 2, 8))
-        {
-            ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], 2);
-            ++gTasks[taskId].data[0];
-        }
-        break;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			if (PrintWhiteOutRecoveryMessage(taskId, gText_PlayerScurriedToCenter, 2, 8))
+			{
+				ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], 2);
+				++gTasks[taskId].data[0];
+			}
+			break;
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			if (PrintWhiteOutRecoveryMessage(taskId, gText_PlayerScurriedToCenterSpa, 2, 8))
+			{
+				ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], 2);
+				++gTasks[taskId].data[0];
+			}
+			break;
+		}
     case 4:
-        if (PrintWhiteOutRecoveryMessage(taskId, gText_PlayerScurriedBackHome, 2, 8))
-        {
-            ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], 2);
-            ++gTasks[taskId].data[0];
-        }
-        break;
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		{
+			if (PrintWhiteOutRecoveryMessage(taskId, gText_PlayerScurriedBackHome, 2, 8))
+			{
+				ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], 2);
+				++gTasks[taskId].data[0];
+			}
+			break;
+		}
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		{
+			if (PrintWhiteOutRecoveryMessage(taskId, gText_PlayerScurriedBackHomeSpa, 2, 8))
+			{
+				ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], 2);
+				++gTasks[taskId].data[0];
+			}
+			break;
+		}
     case 2:
     case 5:
         windowId = gTasks[taskId].data[1];

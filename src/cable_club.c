@@ -60,7 +60,11 @@ static const u8 *const sStarsMessagePtrs[] = {
     gText_841DF8B,
     gText_841DF92,
     gText_841DF99,
-    gText_841DFA0
+    gText_841DFA0,
+    gText_841DF8BSpa,
+    gText_841DF92Spa,
+    gText_841DF99Spa,
+    gText_841DFA0Spa,
 };
 
 static void CreateLinkupTask(u8 lower, u8 higher)
@@ -78,7 +82,10 @@ static void PrintNewCountOnLinkPlayerCountDisplayWindow(u16 windowId, s32 num)
 {
     ConvertIntToDecimalStringN(gStringVar1, num, STR_CONV_MODE_LEFT_ALIGN, 1);
     SetStdWindowBorderStyle(windowId, FALSE);
-    StringExpandPlaceholders(gStringVar4, gText_841DF82);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringExpandPlaceholders(gStringVar4, gText_841DF82);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringExpandPlaceholders(gStringVar4, gText_841DF82Spa);
     AddTextPrinterParameterized(windowId, 2, gStringVar4, 0, 0, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(windowId, COPYWIN_BOTH);
 }
@@ -205,13 +212,19 @@ static void Task_Linkup1(u8 taskId)
         if (IsLinkMaster() == TRUE)
         {
             PlaySE(SE_PIN);
-            ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancelSpa);
             gTasks[taskId].func = Task_LinkupMaster_2;
         }
         else
         {
             PlaySE(SE_BOO);
-            ShowFieldAutoScrollMessage(gText_CableClub_AwaitingLinkupBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				ShowFieldAutoScrollMessage(gText_CableClub_AwaitingLinkupBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				ShowFieldAutoScrollMessage(gText_CableClub_AwaitingLinkupBCancelSpa);
             gTasks[taskId].func = Task_LinkupSlave_2;
         }
     }
@@ -238,7 +251,10 @@ static void Task_LinkupMaster_3(u8 taskId)
             sub_800A900(linkPlayerCount);
             DestroyLinkPlayerCountDisplayWindow(data[5]);
             ConvertIntToDecimalStringN(gStringVar1, linkPlayerCount, STR_CONV_MODE_LEFT_ALIGN, 1);
-            ShowFieldAutoScrollMessage(gText_CableClub_StartLinkWithXPlayersAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				ShowFieldAutoScrollMessage(gText_CableClub_StartLinkWithXPlayersAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				ShowFieldAutoScrollMessage(gText_CableClub_StartLinkWithXPlayersAConfirmBCancelSpa);
             gTasks[taskId].func = Task_LinkupMaster_4;
         }
     }
@@ -250,12 +266,18 @@ static void Task_LinkupMaster_4(u8 taskId)
     {
         if (GetSavedPlayerCount() != GetLinkPlayerCount_2())
         {
-            ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancelSpa);
             gTasks[taskId].func = Task_LinkupMaster_2;
         }
         else if (JOY_HELD(B_BUTTON))
         {
-            ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancel);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				ShowFieldAutoScrollMessage(gText_CableClub_WhenAllPlayersReadyAConfirmBCancelSpa);
             gTasks[taskId].func = Task_LinkupMaster_2;
         }
         else if (JOY_HELD(A_BUTTON))
@@ -776,7 +798,10 @@ static void Task_EnterCableClubSeat(u8 taskId)
     switch (task->data[0])
     {
     case 0:
-        ShowFieldMessage(gText_CableClub_PleaseWaitBCancel);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			ShowFieldMessage(gText_CableClub_PleaseWaitBCancel);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			ShowFieldMessage(gText_CableClub_PleaseWaitBCancelSpa);
         task->data[0] = 1;
         break;
     case 1:
@@ -930,7 +955,10 @@ bool32 GetSeeingLinkPlayerCardMsg(u8 who)
     stars = GetTrainerCardStars(who);
     if (stars == 0)
         return FALSE;
-    StringCopy(gStringVar2, sStarsMessagePtrs[stars - 1]);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		StringCopy(gStringVar2, sStarsMessagePtrs[stars - 1]);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		StringCopy(gStringVar2, sStarsMessagePtrs[stars - 1 + 4]);
     return TRUE;
 }
 

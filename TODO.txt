@@ -279,73 +279,72 @@
 + battle_interface.c
 + battle_main.c
 + battle_message.c(posibles fallos...)
-- battle_records.c
++ battle_records.c
 + battle_script_commands.c
 + battle_setup.c
-- berry_crush_2.c
-- berry_crush_3.c
-- berry_pouch.c
-- berry_powder.c
-- cable_club.c
-- clear_save_data_screen.c
++ berry_crush_2.c
++ berry_crush_3.c
++ berry_pouch.c
++ berry_powder.c
++ cable_club.c
++ clear_save_data_screen.c
 + coin.c
 - credits.c(falta)
 + daycare.c
-- diploma.c
-- dodrio_berry_picking.c
-- dodrio_berry_picking_2.c(falta)
++ diploma.c
++ dodrio_berry_picking.c
 - easy_chat.c(falta)
 - easy_chat_2.c(falta)
 - easy_chat_3.c
-- evolution_scene.c
-- fame_checker.c(falta)
++ evolution_scene.c
+- fame_checker.c(falta, posiblemente innecesario)
 + field_player_avatar.c
 + field_poison.c
-- field_screen_effect.c
-- field_specials.c (aun falta...)
-- hall_of_fame.c
-- help_system.c
-- help_system_812B1E0.c(falta)
++ field_screen_effect.c
++ field_specials.c
++ hall_of_fame.c
+- help_system.c(falta, posiblemente innecesario)
+- help_system_812B1E0.c(falta, posiblemente innecesario)
 + item.c
 + item_menu.c
-- item_pc.c
++ item_pc.c
 + item_use.c
-- itemfinder.c
-- learn_move.c
-- link.c
-- mail.c
-- mailbox_pc.c
-- map_name_popup.c
++ itemfinder.c
++ learn_move.c
++ link.c
++ mail.c
++ mailbox_pc.c
++ map_name_popup.c
 + main_menu.c
-- menu.c
++ menu.c
 + money.c
 - mystery_event_msg.c(falta)
 - mystery_event_script.c(falta)
 - mystery_gift_menu.c(falta)
 + naming_screen.c
-- oak_speech.c(falta)
++ oak_speech.c
 + option_menu.c
 + party_menu.c
-- player_pc.c
++ player_pc.c
 - pokedex_screen.c(traducir al implementar la nueva Dex)
-- pokemon_storage_system_2.c
-- pokemon_storage_system_3.c
-- pokemon_storage_system_5.c
-- pokemon_storage_system_6.c
++ pokemon_storage_system_2.c
++ pokemon_storage_system_3.c
++ pokemon_storage_system_5.c
++ pokemon_storage_system_6.c
 + pokemon_summary_screen.c
-- prof_pc.c(falta)
++ prof_pc.c
 - quest_log.c(falta, posiblemente innecesario)
 - quest_log_events.c(falta, posiblemente innecesario)
 - region_map.c(falta, editar de acuerdo a la nueva(s) región(es))
-- save_failed_screen.c
++ save_failed_screen.c
 - script_menu.c(falta, editar de acuerdo a la nueva(s) región(es))
 + shop.c
-- slot_machine.c
++ slot_machine.c
 + start_menu.c
 + tm_case.c
-- trade.c
-- trade_scene.c
-- trainer_card.c
++ trade.c
++ trade_scene.c
++ trainer_card.c
 - trainer_tower.c(falta)
 - union_room.c(falta)
 - union_room_battle.c(falta)

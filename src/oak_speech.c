@@ -99,6 +99,12 @@ extern const u8 gText_ABUTTONNext_BBUTTONBack[];
 extern const u8 gText_Boy[];
 extern const u8 gText_Girl[];
 
+extern const u8 gText_ControlsSpa[];
+extern const u8 gText_ABUTTONNextSpa[];
+extern const u8 gText_ABUTTONNext_BBUTTONBackSpa[];
+extern const u8 gText_BoySpa[];
+extern const u8 gText_GirlSpa[];
+
 ALIGNED(4) static const u16 sHelpDocsPalette[] = INCBIN_U16("graphics/oak_speech/help_docs_palette.gbapal");
 static const u32 sOakSpeechGfx_GameStartHelpUI[] = INCBIN_U32("graphics/oak_speech/game_start_help_ui.4bpp.lz");
 static const u32 sNewGameAdventureIntroTilemap[] = INCBIN_U32("graphics/oak_speech/new_game_adventure_intro_tilemap.bin.lz");
@@ -273,6 +279,12 @@ static const u8 *const sNewGameAdventureIntroTextPointers[] = {
     gText_NewGame_AdventureIntro3
 };
 
+static const u8 *const sNewGameAdventureIntroTextPointersSpa[] = {
+    gText_NewGame_AdventureIntro1Spa,
+    gText_NewGame_AdventureIntro2Spa,
+    gText_NewGame_AdventureIntro3Spa
+};
+
 static const struct CompressedSpriteSheet sOakSpeech_PikaSpriteSheets[3] = {
     { (const void *)sOakSpeechGfx_Pika1, 0x0400, 0x1001 },
     { (const void *)sOakSpeechGfx_Pika2, 0x0200, 0x1002 },
@@ -392,6 +404,11 @@ static const u8 *const sHelpDocsPtrs[] = {
     gText_NewGame_HelpDocs5, gText_NewGame_HelpDocs6, gText_NewGame_HelpDocs7
 };
 
+static const u8 *const sHelpDocsPtrsSpa[] = {
+    gText_NewGame_HelpDocs2Spa, gText_NewGame_HelpDocs3Spa, gText_NewGame_HelpDocs4Spa,
+    gText_NewGame_HelpDocs5Spa, gText_NewGame_HelpDocs6Spa, gText_NewGame_HelpDocs7Spa
+};
+
 static const u8 *const sMaleNameChoices[] = {
 #if defined(FIRERED)
     gText_NameChoice_Red,
@@ -422,6 +439,36 @@ static const u8 *const sMaleNameChoices[] = {
     gText_NameChoice_Roak
 };
 
+static const u8 *const sMaleNameChoicesSpa[] = {
+#if defined(FIRERED)
+    gText_NameChoice_RedSpa,
+    gText_NameChoice_FireSpa,
+    gText_NameChoice_AshSpa,
+    gText_NameChoice_KeneSpa,
+    gText_NameChoice_GekiSpa,
+#elif defined(LEAFGREEN)
+    gText_NameChoice_GreenSpa,
+    gText_NameChoice_LeafSpa,
+    gText_NameChoice_GarySpa,
+    gText_NameChoice_KazSpa,
+    gText_NameChoice_ToruSpa,
+#endif
+    gText_NameChoice_JakSpa,
+    gText_NameChoice_JanneSpa,
+    gText_NameChoice_JonnSpa,
+    gText_NameChoice_KamonSpa,
+    gText_NameChoice_KarlSpa,
+    gText_NameChoice_TaylorSpa,
+    gText_NameChoice_OscarSpa,
+    gText_NameChoice_HiroSpa,
+    gText_NameChoice_MaxSpa,
+    gText_NameChoice_JonSpa,
+    gText_NameChoice_RalphSpa,
+    gText_NameChoice_KaySpa,
+    gText_NameChoice_ToshSpa,
+    gText_NameChoice_RoakSpa
+};
+
 static const u8 *const sFemaleNameChoices[] = {
 #if defined(FIRERED)
     gText_NameChoice_Red,
@@ -449,6 +496,33 @@ static const u8 *const sFemaleNameChoices[] = {
     gText_NameChoice_Suzi
 };
 
+static const u8 *const sFemaleNameChoicesSpa[] = {
+#if defined(FIRERED)
+    gText_NameChoice_RedSpa,
+    gText_NameChoice_FireSpa,
+#elif defined(LEAFGREEN)
+    gText_NameChoice_GreenSpa,
+    gText_NameChoice_LeafSpa,
+#endif
+    gText_NameChoice_OmiSpa,
+    gText_NameChoice_JodiSpa,
+    gText_NameChoice_AmandaSpa,
+    gText_NameChoice_HillarySpa,
+    gText_NameChoice_MakeySpa,
+    gText_NameChoice_MichiSpa,
+    gText_NameChoice_PaulaSpa,
+    gText_NameChoice_JuneSpa,
+    gText_NameChoice_CassieSpa,
+    gText_NameChoice_ReySpa,
+    gText_NameChoice_SedaSpa,
+    gText_NameChoice_KikoSpa,
+    gText_NameChoice_MinaSpa,
+    gText_NameChoice_NorieSpa,
+    gText_NameChoice_SaiSpa,
+    gText_NameChoice_MomoSpa,
+    gText_NameChoice_SuziSpa
+};
+
 static const u8 *const sRivalNameChoices[] = {
 #if defined(FIRERED)
     gText_NameChoice_Green,
@@ -460,6 +534,20 @@ static const u8 *const sRivalNameChoices[] = {
     gText_NameChoice_Ash,
     gText_NameChoice_Kene,
     gText_NameChoice_Geki
+#endif
+};
+
+static const u8 *const sRivalNameChoicesSpa[] = {
+#if defined(FIRERED)
+    gText_NameChoice_GreenSpa,
+    gText_NameChoice_GarySpa,
+    gText_NameChoice_KazSpa,
+    gText_NameChoice_Toru
+#elif defined(LEAFGREEN)
+    gText_NameChoice_RedSpa,
+    gText_NameChoice_AshSpa,
+    gText_NameChoice_KeneSpa,
+    gText_NameChoice_GekiSpa
 #endif
 };
 
@@ -578,11 +666,17 @@ static void Task_OaksSpeech1(u8 taskId)
 
 static void CreateHelpDocsPage1(void)
 {
-    TopBarWindowPrintTwoStrings(gText_Controls, gText_ABUTTONNext, 0, 0, 1);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		TopBarWindowPrintTwoStrings(gText_Controls, gText_ABUTTONNext, 0, 0, 1);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		TopBarWindowPrintTwoStrings(gText_ControlsSpa, gText_ABUTTONNextSpa, 0, 0, 1);
     sOakSpeechResources->unk_0014[0] = AddWindow(sHelpDocsWindowTemplatePtrs[sOakSpeechResources->unk_0012]);
     PutWindowTilemap(sOakSpeechResources->unk_0014[0]);
     FillWindowPixelBuffer(sOakSpeechResources->unk_0014[0], 0x00);
-    AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[0], 2, 2, 0, 1, 1, sTextColor_HelpSystem, 0, gText_NewGame_HelpDocs1);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[0], 2, 2, 0, 1, 1, sTextColor_HelpSystem, 0, gText_NewGame_HelpDocs1);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[0], 2, 2, 0, 1, 1, sTextColor_HelpSystem, 0, gText_NewGame_HelpDocs1Spa);
     CopyWindowToVram(sOakSpeechResources->unk_0014[0], COPYWIN_BOTH);
     FillBgTilemapBufferRect_Palette0(1, 0x3000, 1, 3, 5, 16);
     CopyBgTilemapBufferToVram(1);
@@ -598,13 +692,19 @@ static void Task_OakSpeech4(u8 taskId)
     }
     else
     {
-        TopBarWindowPrintString(gText_ABUTTONNext_BBUTTONBack, 0, 1);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			TopBarWindowPrintString(gText_ABUTTONNext_BBUTTONBack, 0, 1);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			TopBarWindowPrintString(gText_ABUTTONNext_BBUTTONBackSpa, 0, 1);
         for (i = 0; i < 3; i++)
         {
             sOakSpeechResources->unk_0014[i] = AddWindow(&sHelpDocsWindowTemplatePtrs[sOakSpeechResources->unk_0012][i]);
             PutWindowTilemap(sOakSpeechResources->unk_0014[i]);
             FillWindowPixelBuffer(sOakSpeechResources->unk_0014[i], 0x00);
-            AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[i], 2, 6, 0, 1, 1, sTextColor_HelpSystem, 0, sHelpDocsPtrs[i + r7 * 3]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[i], 2, 6, 0, 1, 1, sTextColor_HelpSystem, 0, sHelpDocsPtrs[i + r7 * 3]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[i], 2, 6, 0, 1, 1, sTextColor_HelpSystem, 0, sHelpDocsPtrsSpa[i + r7 * 3]);
             CopyWindowToVram(sOakSpeechResources->unk_0014[i], COPYWIN_BOTH);
         }
 
@@ -723,7 +823,10 @@ static void Task_OakSpeech6(u8 taskId)
     {
         PlayBGM(MUS_NEW_GAME_INTRO);
         ClearTopBarWindow();
-        TopBarWindowPrintString(gText_ABUTTONNext, 0, 1);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			TopBarWindowPrintString(gText_ABUTTONNext, 0, 1);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			TopBarWindowPrintString(gText_ABUTTONNextSpa, 0, 1);
         sOakSpeechResources->unk_0008 = MallocAndDecompress(sNewGameAdventureIntroTilemap, &sp14);
         CopyToBgTilemapBufferRect(1, sOakSpeechResources->unk_0008, 0, 2, 30, 19);
         CopyBgTilemapBufferToVram(1);
@@ -736,7 +839,10 @@ static void Task_OakSpeech6(u8 taskId)
         sOakSpeechResources->unk_0012 = 0;
         gMain.state = 0;
         data[15] = 16;
-        AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointers[0]);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointers[0]);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointersSpa[0]);
         data[5] = CreateTextCursorSpriteForOakSpeech(0, 0xe2, 0x91, 0, 0);
         gSprites[data[5]].oam.objMode = ST_OAM_OBJ_BLEND;
         gSprites[data[5]].oam.priority = 0;
@@ -796,16 +902,25 @@ static void Task_OakSpeech7(u8 taskId)
         if (data[15] <= 0)
         {
             FillWindowPixelBuffer(data[14], 0x00);
-            AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointers[sOakSpeechResources->unk_0012]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointers[sOakSpeechResources->unk_0012]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointersSpa[sOakSpeechResources->unk_0012]);
             if (sOakSpeechResources->unk_0012 == 0)
             {
                 ClearTopBarWindow();
-                TopBarWindowPrintString(gText_ABUTTONNext, 0, 1);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					TopBarWindowPrintString(gText_ABUTTONNext, 0, 1);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					TopBarWindowPrintString(gText_ABUTTONNextSpa, 0, 1);
             }
             else
             {
                 ClearTopBarWindow();
-                TopBarWindowPrintString(gText_ABUTTONNext_BBUTTONBack, 0, 1);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					TopBarWindowPrintString(gText_ABUTTONNext_BBUTTONBack, 0, 1);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					TopBarWindowPrintString(gText_ABUTTONNext_BBUTTONBackSpa, 0, 1);
             }
             gMain.state++;
         }
@@ -914,7 +1029,10 @@ static void Task_OakSpeech10(u8 taskId)
             data[3]--;
         else
         {
-            OaksSpeechPrintMessage(gText_Oak_WelcomeToTheWorld, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				OaksSpeechPrintMessage(gText_Oak_WelcomeToTheWorld, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				OaksSpeechPrintMessage(gText_Oak_WelcomeToTheWorldSpa, sOakSpeechResources->textSpeed);
             gTasks[taskId].func = Task_OakSpeech11;
         }
     }
@@ -924,7 +1042,10 @@ static void Task_OakSpeech11(u8 taskId)
 {
     if (!IsTextPrinterActive(0))
     {
-        OaksSpeechPrintMessage(gText_Oak_WorldInhabited1, sOakSpeechResources->textSpeed);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			OaksSpeechPrintMessage(gText_Oak_WorldInhabited1, sOakSpeechResources->textSpeed);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			OaksSpeechPrintMessage(gText_Oak_WorldInhabited1Spa, sOakSpeechResources->textSpeed);
         gTasks[taskId].data[3] = 30;
         gTasks[taskId].func = Task_OakSpeech12;
     }
@@ -962,7 +1083,10 @@ static void Task_OakSpeech13(u8 taskId)
         gTasks[taskId].data[3]++;
         if (gTasks[taskId].data[3] == 32)
         {
-            OaksSpeechPrintMessage(gText_Oak_WorldInhabited2, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				OaksSpeechPrintMessage(gText_Oak_WorldInhabited2, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				OaksSpeechPrintMessage(gText_Oak_WorldInhabited2Spa, sOakSpeechResources->textSpeed);
             PlayCry1(SPECIES_NIDORAN_F, 0);
         }
     }
@@ -972,7 +1096,10 @@ static void Task_OakSpeech14(u8 taskId)
 {
     if (!IsTextPrinterActive(0))
     {
-        OaksSpeechPrintMessage(gText_Oak_PetsBattlingStudy, sOakSpeechResources->textSpeed);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			OaksSpeechPrintMessage(gText_Oak_PetsBattlingStudy, sOakSpeechResources->textSpeed);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			OaksSpeechPrintMessage(gText_Oak_PetsBattlingStudySpa, sOakSpeechResources->textSpeed);
         gTasks[taskId].func = Task_OakSpeech15;
     }
 }
@@ -1017,7 +1144,10 @@ static void Task_OakSpeech16(u8 taskId)
         }
         else
         {
-            OaksSpeechPrintMessage(gText_Oak_TellMeALittleAboutYourself, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				OaksSpeechPrintMessage(gText_Oak_TellMeALittleAboutYourself, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				OaksSpeechPrintMessage(gText_Oak_TellMeALittleAboutYourselfSpa, sOakSpeechResources->textSpeed);
             gTasks[taskId].func = Task_OakSpeech17;
         }
     }
@@ -1048,7 +1178,10 @@ static void Task_OakSpeech18(u8 taskId)
         {
             data[1] = -60;
             DestroyOaksSpeechTrainerPic();
-            OaksSpeechPrintMessage(gText_Oak_AskPlayerGender, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				OaksSpeechPrintMessage(gText_Oak_AskPlayerGender, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				OaksSpeechPrintMessage(gText_Oak_AskPlayerGenderSpa, sOakSpeechResources->textSpeed);
             gTasks[taskId].func = Task_OakSpeech19;
         }
     }
@@ -1065,11 +1198,17 @@ static void Task_OakSpeech19(u8 taskId)
         sOakSpeechResources->textColor[0] = 1;
         sOakSpeechResources->textColor[1] = 2;
         sOakSpeechResources->textColor[2] = 3;
-        AddTextPrinterParameterized3(gTasks[taskId].data[13], 2, 8, 1, sOakSpeechResources->textColor, 0, gText_Boy);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(gTasks[taskId].data[13], 2, 8, 1, sOakSpeechResources->textColor, 0, gText_Boy);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(gTasks[taskId].data[13], 2, 8, 1, sOakSpeechResources->textColor, 0, gText_BoySpa);
         sOakSpeechResources->textColor[0] = 1;
         sOakSpeechResources->textColor[1] = 2;
         sOakSpeechResources->textColor[2] = 3;
-        AddTextPrinterParameterized3(gTasks[taskId].data[13], 2, 8, 17, sOakSpeechResources->textColor, 0, gText_Girl);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized3(gTasks[taskId].data[13], 2, 8, 17, sOakSpeechResources->textColor, 0, gText_Girl);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized3(gTasks[taskId].data[13], 2, 8, 17, sOakSpeechResources->textColor, 0, gText_GirlSpa);
         Menu_InitCursor(gTasks[taskId].data[13], 2, 0, 1, GetFontAttribute(2, 1) + 2, 2, 0);
         CopyWindowToVram(gTasks[taskId].data[13], COPYWIN_BOTH);
         gTasks[taskId].func = Task_OakSpeech20;
@@ -1129,7 +1268,10 @@ static void Task_OakSpeech23(u8 taskId)
         else
         {
             data[1] = 0;
-            OaksSpeechPrintMessage(gText_Oak_AskPlayerName, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				OaksSpeechPrintMessage(gText_Oak_AskPlayerName, sOakSpeechResources->textSpeed);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				OaksSpeechPrintMessage(gText_Oak_AskPlayerNameSpa, sOakSpeechResources->textSpeed);
             gTasks[taskId].func = Task_OakSpeech24;
         }
     }
@@ -1170,11 +1312,17 @@ static void Task_OakSpeech28(u8 taskId)
     PrintNameChoiceOptions(taskId, sOakSpeechResources->unk_0010);
     if (sOakSpeechResources->unk_0010 == 0)
     {
-        OaksSpeechPrintMessage(gText_Oak_AskPlayerName, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			OaksSpeechPrintMessage(gText_Oak_AskPlayerName, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			OaksSpeechPrintMessage(gText_Oak_AskPlayerNameSpa, 0);
     }
     else
     {
-        OaksSpeechPrintMessage(gText_Oak_AskRivalName, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			OaksSpeechPrintMessage(gText_Oak_AskRivalName, 0);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			OaksSpeechPrintMessage(gText_Oak_AskRivalNameSpa, 0);
     }
     gTasks[taskId].func = Task_OakSpeech29;
 }
@@ -1236,11 +1384,17 @@ static void Task_OakSpeech26(u8 taskId)
         {
             if (sOakSpeechResources->unk_0010 == 0)
             {
-                StringExpandPlaceholders(gStringVar4, gText_Oak_FinalizePlayerName);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(gStringVar4, gText_Oak_FinalizePlayerName);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(gStringVar4, gText_Oak_FinalizePlayerNameSpa);
             }
             else
             {
-                StringExpandPlaceholders(gStringVar4, gText_Oak_ConfirmRivalName);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					StringExpandPlaceholders(gStringVar4, gText_Oak_ConfirmRivalName);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					StringExpandPlaceholders(gStringVar4, gText_Oak_ConfirmRivalNameSpa);
             }
             OaksSpeechPrintMessage(gStringVar4, sOakSpeechResources->textSpeed);
             data[15] = 0;
@@ -1275,7 +1429,10 @@ static void Task_OakSpeech27(u8 taskId)
         }
         else
         {
-            StringExpandPlaceholders(gStringVar4, gText_Oak_RememberRivalName);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, gText_Oak_RememberRivalName);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, gText_Oak_RememberRivalNameSpa);
             OaksSpeechPrintMessage(gStringVar4, sOakSpeechResources->textSpeed);
             gTasks[taskId].func = Task_OakSpeech31;
         }
@@ -1331,7 +1488,10 @@ static void Task_OakSpeech34(u8 taskId)
 
     if (data[2] != 0)
     {
-        OaksSpeechPrintMessage(gText_Oak_IntroduceRival, sOakSpeechResources->textSpeed);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			OaksSpeechPrintMessage(gText_Oak_IntroduceRival, sOakSpeechResources->textSpeed);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			OaksSpeechPrintMessage(gText_Oak_IntroduceRivalSpa, sOakSpeechResources->textSpeed);
         sOakSpeechResources->unk_0010 = 1;
         gTasks[taskId].func = Task_OakSpeech35;
     }
@@ -1365,7 +1525,10 @@ static void Task_OakSpeech36(u8 taskId)
 {
     if (gTasks[taskId].data[2] != 0)
     {
-        StringExpandPlaceholders(gStringVar4, gText_Oak_LegendAboutToUnfold);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			StringExpandPlaceholders(gStringVar4, gText_Oak_LegendAboutToUnfold);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			StringExpandPlaceholders(gStringVar4, gText_Oak_LegendAboutToUnfoldSpa);
         OaksSpeechPrintMessage(gStringVar4, sOakSpeechResources->textSpeed);
         gTasks[taskId].data[3] = 30;
         gTasks[taskId].func = Task_OakSpeech37;
@@ -1858,11 +2021,24 @@ static void PrintNameChoiceOptions(u8 taskId, u8 state)
     PutWindowTilemap(data[13]);
     DrawStdFrameWithCustomTileAndPalette(data[13], 1, GetStdWindowBaseTileNum(), 14);
     FillWindowPixelBuffer(gTasks[taskId].data[13], 0x11);
-    AddTextPrinterParameterized(data[13], 2, gText_NewName, 8, 1, 0, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized(data[13], 2, gText_NewName, 8, 1, 0, NULL);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized(data[13], 2, gText_NewNameSpa, 8, 1, 0, NULL);
     if (state == 0)
-        textPtrs = gSaveBlock2Ptr->playerGender == MALE ? sMaleNameChoices : sFemaleNameChoices;
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			textPtrs = gSaveBlock2Ptr->playerGender == MALE ? sMaleNameChoices : sFemaleNameChoices;
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			textPtrs = gSaveBlock2Ptr->playerGender == MALE ? sMaleNameChoicesSpa : sFemaleNameChoicesSpa;
+	}
     else
-        textPtrs = sRivalNameChoices;
+	{
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			textPtrs = sRivalNameChoices;
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			textPtrs = sRivalNameChoicesSpa;
+	}
     for (i = 0; i < 4; i++)
     {
         AddTextPrinterParameterized(data[13], 2, textPtrs[i], 8, 16 * (i + 1) + 1, 0, NULL);
@@ -1880,14 +2056,27 @@ static void GetDefaultName(u8 arg0, u8 namePick)
     if (arg0 == 0)
     {
         if (gSaveBlock2Ptr->playerGender == MALE)
-            src = sMaleNameChoices[Random() % 19];
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				src = sMaleNameChoices[Random() % 19];
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				src = sMaleNameChoicesSpa[Random() % 19];
+		}
         else
-            src = sFemaleNameChoices[Random() % 19];
+		{
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				src = sFemaleNameChoices[Random() % 19];
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				src = sFemaleNameChoicesSpa[Random() % 19];
+		}
         dest = gSaveBlock2Ptr->playerName;
     }
     else
     {
-        src = sRivalNameChoices[namePick];
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			src = sRivalNameChoices[namePick];
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			src = sRivalNameChoicesSpa[namePick];
         dest = gSaveBlock1Ptr->rivalName;
     }
     for (i = 0; i < PLAYER_NAME_LENGTH && src[i] != EOS; i++)

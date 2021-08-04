@@ -256,19 +256,34 @@ static void DiplomaPrintText(void)
     DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gSaveBlock2Ptr->playerName);
     if (HasAllMons())
     {
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B68F);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B68F);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B68FSpa);
     }
     else
     {
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B698);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B698);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gText_841B698Spa);
     }
     FillWindowPixelBuffer(0, 0);
-    DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B60E);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B60E);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B60ESpa);
     width = GetStringWidth(2, arr, -1);
     AddTextPrinterParameterized3(0, 2, 0x78 - (width / 2), 4, gUnknown_8415A04, -1, arr);
-    DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B619);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B619);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DynamicPlaceholderTextUtil_ExpandPlaceholders(arr, gText_841B619Spa);
     width = GetStringWidth(2, arr, -1);
     AddTextPrinterParameterized3(0, 0x2, 0x78 - (width / 2), 0x1E, gUnknown_8415A04, -1, arr);
-    AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, gUnknown_8415A04, 0, gText_841B684);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, gUnknown_8415A04, 0, gText_841B684);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		AddTextPrinterParameterized3(0, 0x2, 0x78, 0x69, gUnknown_8415A04, 0, gText_841B684Spa);
     PutWindowTilemap(0);
 }

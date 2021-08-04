@@ -261,6 +261,40 @@ static const struct StorageAction sPCStorageActionTexts[] = {
     [PC_TEXT_CANT_STORE_MAIL] = {gText_MailCantBeStored, PC_TEXT_FMT_NORMAL},
 };
 
+static const struct StorageAction sPCStorageActionTextsSpa[] = {
+    [PC_TEXT_EXIT_BOX] = {gText_ExitFromBoxSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_WHAT_YOU_DO] = {gText_WhatDoYouWantToDoSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_PICK_A_THEME] = {gText_PleasePickAThemeSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_PICK_A_WALLPAPER] = {gText_PickTheWallpaperSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_IS_SELECTED] = {gText_PkmnIsSelectedSpa, PC_TEXT_FMT_MON_NAME_1},
+    [PC_TEXT_JUMP_TO_WHICH_BOX] = {gText_JumpToWhichBoxSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_DEPOSIT_IN_WHICH_BOX] = {gText_DepositInWhichBox, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_WAS_DEPOSITED] = {gText_PkmnWasDepositedSpa, PC_TEXT_FMT_MON_NAME_1},
+    [PC_TEXT_BOX_IS_FULL] = {gText_BoxIsFull2Spa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_RELEASE_POKE] = {gText_ReleaseThisPokemonSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_WAS_RELEASED] = {gText_PkmnWasReleasedSpa, PC_TEXT_FMT_MON_NAME_4},
+    [PC_TEXT_BYE_BYE] = {gText_ByeByePkmnSpa, PC_TEXT_FMT_MON_NAME_6},
+    [PC_TEXT_MARK_POKE] = {gText_MarkYourPkmnSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_LAST_POKE] = {gText_ThatsYourLastPkmnSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_PARTY_FULL] = {gText_YourPartysFullSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_HOLDING_POKE] = {gText_YoureHoldingAPkmnSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_WHICH_ONE_WILL_TAKE] = {gText_WhichOneWillYouTakeSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_CANT_RELEASE_EGG] = {gText_YouCantReleaseAnEggSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_CONTINUE_BOX] = {gText_ContinueBoxOperationsSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_CAME_BACK] = {gText_PkmnCameBackSpa, PC_TEXT_FMT_MON_NAME_1},
+    [PC_TEXT_WORRIED] = {gText_WasItWorriedAboutYouSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_SURPRISE] = {gText_FourEllipsesExclamationSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_PLEASE_REMOVE_MAIL] = {gText_PleaseRemoveTheMailSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_IS_SELECTED2] = {gText_PkmnIsSelectedSpa, PC_TEXT_FMT_ITEM_NAME},
+    [PC_TEXT_GIVE_TO_MON] = {gText_GiveToAPkmnSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_PLACED_IN_BAG] = {gText_PlacedItemInBagSpa, PC_TEXT_FMT_ITEM_NAME},
+    [PC_TEXT_BAG_FULL] = {gText_BagIsFull2Spa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_PUT_IN_BAG] = {gText_PutItemInBagSpa, PC_TEXT_FMT_NORMAL},
+    [PC_TEXT_ITEM_IS_HELD] = {gText_ItemIsNowHeldSpa, PC_TEXT_FMT_ITEM_NAME},
+    [PC_TEXT_CHANGED_TO_ITEM] = {gText_ChangedToNewItemSpa, PC_TEXT_FMT_ITEM_NAME},
+    [PC_TEXT_CANT_STORE_MAIL] = {gText_MailCantBeStoredSpa, PC_TEXT_FMT_NORMAL},
+};
+
 // Yes/No menu
 static const struct WindowTemplate sYesNoWindowTemplate = {
     .bg = 0,
@@ -2562,35 +2596,71 @@ static void PrintStorageActionText(u8 id)
     u8 *txtPtr;
 
     DynamicPlaceholderTextUtil_Reset();
-    switch (sPCStorageActionTexts[id].format)
-    {
-    case PC_TEXT_FMT_NORMAL:
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		switch (sPCStorageActionTexts[id].format)
+		{
+		case PC_TEXT_FMT_NORMAL:
         break;
-    case PC_TEXT_FMT_MON_NAME_1:
-    case PC_TEXT_FMT_MON_NAME_2:
-    case PC_TEXT_FMT_MON_NAME_3:
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->cursorMonNick);
+		case PC_TEXT_FMT_MON_NAME_1:
+		case PC_TEXT_FMT_MON_NAME_2:
+		case PC_TEXT_FMT_MON_NAME_3:
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->cursorMonNick);
         break;
-    case PC_TEXT_FMT_MON_NAME_4:
-    case PC_TEXT_FMT_MON_NAME_5:
-    case PC_TEXT_FMT_MON_NAME_6:
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->field_21E0);
+		case PC_TEXT_FMT_MON_NAME_4:
+		case PC_TEXT_FMT_MON_NAME_5:
+		case PC_TEXT_FMT_MON_NAME_6:
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->field_21E0);
         break;
-    case PC_TEXT_FMT_ITEM_NAME:
-        if (IsActiveItemMoving())
-            txtPtr = StringCopy(gPSSData->itemName, GetMovingItemName());
-        else
-            txtPtr = StringCopy(gPSSData->itemName, gPSSData->cursorMonTexts[3]);
+		case PC_TEXT_FMT_ITEM_NAME:
+			if (IsActiveItemMoving())
+				txtPtr = StringCopy(gPSSData->itemName, GetMovingItemName());
+			else
+				txtPtr = StringCopy(gPSSData->itemName, gPSSData->cursorMonTexts[3]);
 
-        while (*(txtPtr - 1) == CHAR_SPACE)
-            txtPtr--;
+			while (*(txtPtr - 1) == CHAR_SPACE)
+				txtPtr--;
 
-        *txtPtr = EOS;
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->itemName);
+			*txtPtr = EOS;
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->itemName);
         break;
-    }
+		}
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		switch (sPCStorageActionTextsSpa[id].format)
+		{
+		case PC_TEXT_FMT_NORMAL:
+		break;
+		case PC_TEXT_FMT_MON_NAME_1:
+		case PC_TEXT_FMT_MON_NAME_2:
+		case PC_TEXT_FMT_MON_NAME_3:
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->cursorMonNick);
+        break;
+		case PC_TEXT_FMT_MON_NAME_4:
+		case PC_TEXT_FMT_MON_NAME_5:
+		case PC_TEXT_FMT_MON_NAME_6:
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->field_21E0);
+        break;
+		case PC_TEXT_FMT_ITEM_NAME:
+			if (IsActiveItemMoving())
+				txtPtr = StringCopy(gPSSData->itemName, GetMovingItemName());
+			else
+				txtPtr = StringCopy(gPSSData->itemName, gPSSData->cursorMonTexts[3]);
 
-    DynamicPlaceholderTextUtil_ExpandPlaceholders(gPSSData->field_2190, sPCStorageActionTexts[id].text);
+			while (*(txtPtr - 1) == CHAR_SPACE)
+				txtPtr--;
+
+			*txtPtr = EOS;
+			DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gPSSData->itemName);
+        break;
+		}
+	}
+
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DynamicPlaceholderTextUtil_ExpandPlaceholders(gPSSData->field_2190, sPCStorageActionTexts[id].text);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DynamicPlaceholderTextUtil_ExpandPlaceholders(gPSSData->field_2190, sPCStorageActionTextsSpa[id].text);
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
     AddTextPrinterParameterized(1, 1, gPSSData->field_2190, 0, 2, TEXT_SPEED_FF, NULL);
     DrawTextBorderOuter(1, 2, 13);

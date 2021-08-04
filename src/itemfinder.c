@@ -143,7 +143,10 @@ void ItemUseOnFieldCB_Itemfinder(u8 taskId)
     }
     else
     {
-        DisplayItemMessageOnField(taskId, 2, gText_NopeTheresNoResponse, Task_NoResponse_CleanUp);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			DisplayItemMessageOnField(taskId, 2, gText_NopeTheresNoResponse, Task_NoResponse_CleanUp);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			DisplayItemMessageOnField(taskId, 2, gText_NopeTheresNoResponseSpa, Task_NoResponse_CleanUp);
     }
 }
 
@@ -479,7 +482,10 @@ static u8 GetPlayerDirectionTowardsHiddenItem(s16 itemX, s16 itemY)
 
 static void Task_ItemfinderResponsePrintMessage(u8 taskId)
 {
-    DisplayItemMessageOnField(taskId, 2, gText_ItemfinderResponding, Task_ItemfinderResponseCleanUp);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, 2, gText_ItemfinderResponding, Task_ItemfinderResponseCleanUp);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageOnField(taskId, 2, gText_ItemfinderRespondingSpa, Task_ItemfinderResponseCleanUp);
 }
 
 static void Task_ItemfinderResponseCleanUp(u8 taskId)
@@ -493,7 +499,10 @@ static void Task_ItemfinderResponseCleanUp(u8 taskId)
 
 static void Task_ItemfinderUnderfootPrintMessage(u8 taskId)
 {
-    DisplayItemMessageOnField(taskId, 2, gText_ItemfinderShakingWildly, Task_ItemfinderUnderfootDigUpItem);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+		DisplayItemMessageOnField(taskId, 2, gText_ItemfinderShakingWildly, Task_ItemfinderUnderfootDigUpItem);
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+		DisplayItemMessageOnField(taskId, 2, gText_ItemfinderShakingWildlySpa, Task_ItemfinderUnderfootDigUpItem);
 }
 
 static void Task_ItemfinderUnderfootDigUpItem(u8 taskId)

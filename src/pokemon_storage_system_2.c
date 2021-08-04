@@ -47,6 +47,14 @@ static const struct PSS_MenuStringPtrs sUnknown_83CDA20[] = {
     {gText_SeeYa,           gText_SeeYaDescription      }
 };
 
+static const struct PSS_MenuStringPtrs sUnknown_83CDA20Spa[] = {
+    {gText_WithdrawPokemonSpa, gText_WithdrawMonDescriptionSpa},
+    {gText_DepositPokemonSpa,  gText_DepositMonDescriptionSpa },
+    {gText_MovePokemonSpa,     gText_MoveMonDescriptionSpa    },
+    {gText_MoveItemsSpa,       gText_MoveItemsDescriptionSpa  },
+    {gText_SeeYaSpa,           gText_SeeYaDescriptionSpa      },
+};
+
 void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero2, u8 *buffer, s32 bytesToBuffer)
 {
     s32 i, tileBytesToBuffer, remainingBytes;
@@ -245,7 +253,10 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
         LoadStdWindowFrameGfx();
         DrawDialogueFrame(0, 0);
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
-        AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, TEXT_SPEED_FF, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, TEXT_SPEED_FF, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20Spa[task->data[1]].desc, TEXT_SPEED_FF, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
         CopyWindowToVram(0, COPYWIN_BOTH);
         CopyWindowToVram(task->data[15], COPYWIN_BOTH);
         task->data[0]++;
@@ -271,7 +282,10 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             {
                 task->data[1] = task->data[3];
                 FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20Spa[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
             }
             break;
         case MENU_B_PRESSED:
@@ -286,13 +300,19 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             if (task->data[2] == 0 && CountPartyMons() == PARTY_SIZE)
             {
                 FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, 2, gText_PartyFull, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					AddTextPrinterParameterized2(0, 2, gText_PartyFull, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					AddTextPrinterParameterized2(0, 2, gText_PartyFullSpa, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
                 task->data[0] = 3;
             }
             else if (task->data[2] == 1 && CountPartyMons() == 1)
             {
                 FillWindowPixelBuffer(0, PIXEL_FILL(1));
-                AddTextPrinterParameterized2(0, 2, gText_JustOnePkmn, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+                if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					AddTextPrinterParameterized2(0, 2, gText_JustOnePkmn, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+                if (gSaveBlock2Ptr->optionsLanguage == SPA)
+					AddTextPrinterParameterized2(0, 2, gText_JustOnePkmnSpa, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
                 task->data[0] = 3;
             }
             else
@@ -307,7 +327,10 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
         if (JOY_NEW(A_BUTTON | B_BUTTON))
         {
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20Spa[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
             task->data[0] = 2;
         }
         else if (JOY_NEW(DPAD_UP))
@@ -317,7 +340,10 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             Menu_MoveCursor(-1);
             task->data[1] = Menu_GetCursorPos();
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20Spa[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
             task->data[0] = 2;
         }
         else if (JOY_NEW(DPAD_DOWN))
@@ -327,7 +353,10 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
             Menu_MoveCursor(1);
             task->data[1] = Menu_GetCursorPos();
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
-            AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized2(0, 2, sUnknown_83CDA20Spa[task->data[1]].desc, 0, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
             task->data[0] = 2;
         }
         break;
@@ -381,7 +410,16 @@ static void PSS_CreatePCMenu(u8 whichMenu, s16 *windowIdPtr)
 
     DrawStdWindowFrame(windowId, FALSE);
     PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, NELEMS(sUnknown_83CDA20), (void *)sUnknown_83CDA20);
-    Menu_InitCursor(windowId, 2, 0, 2, 16, NELEMS(sUnknown_83CDA20), whichMenu);
+    if (gSaveBlock2Ptr->optionsLanguage == ENG)
+	{
+		PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, NELEMS(sUnknown_83CDA20), (void *)sUnknown_83CDA20);
+		Menu_InitCursor(windowId, 2, 0, 2, 16, NELEMS(sUnknown_83CDA20), whichMenu);
+	}
+    if (gSaveBlock2Ptr->optionsLanguage == SPA)
+	{
+		PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, NELEMS(sUnknown_83CDA20Spa), (void *)sUnknown_83CDA20Spa);
+		Menu_InitCursor(windowId, 2, 0, 2, 16, NELEMS(sUnknown_83CDA20Spa), whichMenu);
+	}
     *windowIdPtr = windowId;
 }
 
@@ -395,6 +433,7 @@ void Cb2_ExitPSS(void)
 void ResetPokemonStorageSystem(void)
 {
     u16 boxId, boxPosition;
+	u8 *dest;
 
     SetCurrentBox(0);
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
@@ -404,7 +443,10 @@ void ResetPokemonStorageSystem(void)
     }
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)
     {
-        u8 *dest = StringCopy(GetBoxNamePtr(boxId), gText_Box);
+        if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			dest = StringCopy(GetBoxNamePtr(boxId), gText_Box);
+        if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			dest = StringCopy(GetBoxNamePtr(boxId), gText_BoxSpa);
         ConvertIntToDecimalStringN(dest, boxId + 1, STR_CONV_MODE_LEFT_ALIGN, 2);
     }
     for (boxId = 0; boxId < TOTAL_BOXES_COUNT; boxId++)

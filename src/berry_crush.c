@@ -318,7 +318,16 @@ static const u8 *const sBerryCrushMessages[] = {
     gText_BerryCrush_NoBerries,
     gText_BerryCrush_MemberDroppedOut,
     gText_BerryCrush_TimeUp,
-    gText_BerryCrush_CommunicationStandby
+    gText_BerryCrush_CommunicationStandby,
+    gText_BerryCrush_AreYouReadySpa,
+    gText_BerryCrush_WaitForOthersToChooseBerrySpa,
+    gText_BerryCrush_GainedXUnitsOfPowderSpa,
+    gText_BerryCrush_RecordingGameResultsSpa,
+    gText_BerryCrush_WantToPlayAgainSpa,
+    gText_BerryCrush_NoBerriesSpa,
+    gText_BerryCrush_MemberDroppedOutSpa,
+    gText_BerryCrush_TimeUpSpa,
+    gText_BerryCrush_CommunicationStandbySpa,
 };
 
 static u32 (*const sBerryCrushCommands[])(struct BerryCrushGame * berryCrushGame, u8 *params) = {
@@ -1090,12 +1099,18 @@ static u32 BerryCrushCommand_PrintMessage(struct BerryCrushGame * game, u8 *para
         DrawDialogueFrame(0, FALSE);
         if (params[1] & 2)
         {
-            StringExpandPlaceholders(gStringVar4, sBerryCrushMessages[params[0]]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, sBerryCrushMessages[params[0]]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, sBerryCrushMessages[params[0] + 9]);
             AddTextPrinterParameterized2(0, 2, gStringVar4, game->textSpeed, 0, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
         }
         else
         {
-            AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[params[0]], game->textSpeed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[params[0]], game->textSpeed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[params[0] + 9], game->textSpeed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
         }
         CopyWindowToVram(0, COPYWIN_BOTH);
         break;
@@ -2137,9 +2152,15 @@ static u32 BerryCrushCommand_PlayAgainFailureMessage(struct BerryCrushGame * gam
     case 0:
         DrawDialogueFrame(0, FALSE);
         if (game->unk14 == 3)
-            AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[BCTEXT_CANCEL_NOBERRIES], game->textSpeed, NULL, 2, 1, 3);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[BCTEXT_CANCEL_NOBERRIES], game->textSpeed, NULL, 2, 1, 3);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[BCTEXT_CANCEL_NOBERRIES + 9], game->textSpeed, NULL, 2, 1, 3);
         else
-            AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[BCTEXT_CANCEL_DROPPEDOUT], game->textSpeed, NULL, 2, 1, 3);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[BCTEXT_CANCEL_DROPPEDOUT], game->textSpeed, NULL, 2, 1, 3);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				AddTextPrinterParameterized2(0, 2, sBerryCrushMessages[BCTEXT_CANCEL_DROPPEDOUT + 9], game->textSpeed, NULL, 2, 1, 3);
         CopyWindowToVram(0, COPYWIN_BOTH);
         break;
     case 1:
@@ -2659,8 +2680,16 @@ static void PrintBerryCrushResultWindow(struct BerryCrushGame * game, u8 command
             if (i != 0 && bcPlayers->stats[command][i] != bcPlayers->stats[command][i - 1])
                 linkIdToPrint = i;
             ConvertIntToDecimalStringN(gStringVar1, bcPlayers->stats[command][i], STR_CONV_MODE_RIGHT_ALIGN, 4);
-            realX = x - GetStringWidth(2, sBCRankingHeaders[command], -1) - 4;
-            AddTextPrinterParameterized3(game->spritesManager.unk82, 2, realX, y + 14 * i, sBerryCrushTextColorTable[0], 0, sBCRankingHeaders[command]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+			{
+				realX = x - GetStringWidth(2, sBCRankingHeaders[command], -1) - 4;
+				AddTextPrinterParameterized3(game->spritesManager.unk82, 2, realX, y + 14 * i, sBerryCrushTextColorTable[0], 0, sBCRankingHeaders[command]);
+            }
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+			{
+				realX = x - GetStringWidth(2, sBCRankingHeaders[command + 6], -1) - 4;
+				AddTextPrinterParameterized3(game->spritesManager.unk82, 2, realX, y + 14 * i, sBerryCrushTextColorTable[0], 0, sBCRankingHeaders[command + 6]);
+            }
             AddTextPrinterParameterized3(game->spritesManager.unk82, 2, realX - 24, y + 14 * i, sBerryCrushTextColorTable[0], 0, gStringVar1);
             break;
         case 1:
@@ -2678,7 +2707,10 @@ static void PrintBerryCrushResultWindow(struct BerryCrushGame * game, u8 command
             }
             realX = score / 1000000u;
             ConvertIntToDecimalStringN(gStringVar2, realX, STR_CONV_MODE_LEADING_ZEROS, 2);
-            StringExpandPlaceholders(gStringVar4, sBCRankingHeaders[command]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, sBCRankingHeaders[command]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, sBCRankingHeaders[command + 6]);
             realX2 = x - 4;
             AddTextPrinterParameterized3(game->spritesManager.unk82, 2, realX2 - GetStringWidth(2, gStringVar4, 0), y + 14 * i, sBerryCrushTextColorTable[0], 0, gStringVar4);
             break;
@@ -2690,7 +2722,10 @@ static void PrintBerryCrushResultWindow(struct BerryCrushGame * game, u8 command
             if (j >= LAST_BERRY_INDEX - FIRST_BERRY_INDEX + 2)
                 j = 0;
             StringCopy(gStringVar1, gBerries[j].name);
-            StringExpandPlaceholders(gStringVar4, sBCRankingHeaders[command]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				StringExpandPlaceholders(gStringVar4, sBCRankingHeaders[command]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				StringExpandPlaceholders(gStringVar4, sBCRankingHeaders[command + 6]);
             AddTextPrinterParameterized3(game->spritesManager.unk82, 2, x - GetStringWidth(2, gStringVar4, -1) - 4, y + 14 * i, sBerryCrushTextColorTable[0], 0, gStringVar4);
             break;
         }
@@ -2795,7 +2830,10 @@ bool32 sub_814E644(struct BerryCrushGame * game, struct BerryCrushGame_138 * spr
             spriteManager->unk80 = 5;
             return FALSE;
         case 12:
-            PrintTextCentered(spriteManager->unk82, 22, 4, sBCRankingHeaders[game->unk68.unk20[0][7] + 3]);
+            if (gSaveBlock2Ptr->optionsLanguage == ENG)
+				PrintTextCentered(spriteManager->unk82, 22, 4, sBCRankingHeaders[game->unk68.unk20[0][7] + 3]);
+            if (gSaveBlock2Ptr->optionsLanguage == SPA)
+				PrintTextCentered(spriteManager->unk82, 22, 4, sBCRankingHeaders[game->unk68.unk20[0][7] + 3 + 6]);
             PrintBerryCrushResultWindow(game, 1, 0xB0, 8 * gUnknown_846E448[0][playerCountMinus2] - game->playerCount * 14);
             spriteManager->unk80 = 5;
             return FALSE;
