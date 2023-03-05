@@ -35,6 +35,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Gamer;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldMan1;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldManLyingDown;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_OldWoman1;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberFWater;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberMWater;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberFLand;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_TuberMLand;
@@ -83,6 +84,7 @@ const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Brock;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Misty;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_LtSurge;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Erika;
+const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Janine;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Koga;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Sabrina;
 const struct ObjectEventGraphicsInfo gObjectEventGraphicsInfo_Blaine;
@@ -191,6 +193,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_OLD_MAN_1]                = &gObjectEventGraphicsInfo_OldMan1,
     [OBJ_EVENT_GFX_OLD_MAN_LYING_DOWN]       = &gObjectEventGraphicsInfo_OldManLyingDown,
     [OBJ_EVENT_GFX_OLD_WOMAN_1]              = &gObjectEventGraphicsInfo_OldWoman1,
+//  [OBJ_EVENT_GFX_TUBER_F_WATER]            = &gObjectEventGraphicsInfo_TuberFWater,
     [OBJ_EVENT_GFX_TUBER_M_WATER]            = &gObjectEventGraphicsInfo_TuberMWater,
     [OBJ_EVENT_GFX_TUBER_F_LAND]             = &gObjectEventGraphicsInfo_TuberFLand,
     [OBJ_EVENT_GFX_TUBER_M_LAND]             = &gObjectEventGraphicsInfo_TuberMLand,
@@ -239,6 +242,7 @@ const struct ObjectEventGraphicsInfo *const gObjectEventGraphicsInfoPointers[NUM
     [OBJ_EVENT_GFX_MISTY]                    = &gObjectEventGraphicsInfo_Misty,
     [OBJ_EVENT_GFX_LT_SURGE]                 = &gObjectEventGraphicsInfo_LtSurge,
     [OBJ_EVENT_GFX_ERIKA]                    = &gObjectEventGraphicsInfo_Erika,
+//  [OBJ_EVENT_GFX_JANINE]                   = &gObjectEventGraphicsInfo_Erika,
     [OBJ_EVENT_GFX_KOGA]                     = &gObjectEventGraphicsInfo_Koga,
     [OBJ_EVENT_GFX_SABRINA]                  = &gObjectEventGraphicsInfo_Sabrina,
     [OBJ_EVENT_GFX_BLAINE]                   = &gObjectEventGraphicsInfo_Blaine,

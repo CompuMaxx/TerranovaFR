@@ -71,39 +71,39 @@ static const u8 sPartyMenuSpriteCoords[PARTY_LAYOUT_COUNT][PARTY_SIZE][4 * 2] =
 {
     [PARTY_LAYOUT_SINGLE] = 
     {
-        {0x22, 0x0C, 0x22, 0x18, 0x1A, 0x21, 0x18, 0x10},
-        {0x92, 0x14, 0x92, 0x20, 0x8A, 0x29, 0x88, 0x18},
-        {0x22, 0x34, 0x22, 0x40, 0x1A, 0x49, 0x18, 0x38},
-        {0x92, 0x3C, 0x92, 0x48, 0x8A, 0x51, 0x88, 0x40},
-        {0x22, 0x5C, 0x22, 0x68, 0x1A, 0x71, 0x18, 0x60},
-        {0x92, 0x64, 0x92, 0x70, 0x8A, 0x79, 0x88, 0x68},
+        { 34,  12,  34,  24,  26,  33,  24,  16},
+        {146,  20, 146,  32, 138,  41, 136,  24},
+        { 34,  52,  34,  64,  26,  73,  24,  56},
+        {146,  60, 146,  72, 138,  81, 136,  64},
+        { 34,  92,  34, 104,  26, 113,  24,  96},
+        {146, 100, 146, 112, 138, 121, 136, 104},
     },
     [PARTY_LAYOUT_DOUBLE] = 
     {
-        {0x22, 0x0C, 0x22, 0x18, 0x1A, 0x21, 0x18, 0x10},
-        {0x92, 0x14, 0x92, 0x20, 0x8A, 0x29, 0x88, 0x18},
-        {0x22, 0x34, 0x22, 0x40, 0x1A, 0x49, 0x18, 0x38},
-        {0x92, 0x3C, 0x92, 0x48, 0x8A, 0x51, 0x88, 0x40},
-        {0x22, 0x5C, 0x22, 0x68, 0x1A, 0x71, 0x18, 0x60},
-        {0x92, 0x64, 0x92, 0x70, 0x8A, 0x79, 0x88, 0x68},
+        { 34,  12,  34,  24,  26,  33,  24,  16},
+        {146,  20, 146,  32, 138,  41, 136,  24},
+        { 34,  52,  34,  64,  26,  73,  24,  56},
+        {146,  60, 146,  72, 138,  81, 136,  64},
+        { 34,  92,  34, 104,  26, 113,  24,  96},
+        {146, 100, 146, 112, 138, 121, 136, 104},
     },
     [PARTY_LAYOUT_MULTI] = 
     {
-        {0x22, 0x0C, 0x22, 0x18, 0x1A, 0x21, 0x18, 0x10},
-        {0x92, 0x14, 0x92, 0x20, 0x8A, 0x29, 0x88, 0x18},
-        {0x22, 0x34, 0x22, 0x40, 0x1A, 0x49, 0x18, 0x38},
-        {0x22, 0x5C, 0x22, 0x68, 0x1A, 0x71, 0x18, 0x60},
-        {0x92, 0x3C, 0x92, 0x48, 0x8A, 0x51, 0x88, 0x40},
-        {0x92, 0x64, 0x92, 0x70, 0x8A, 0x79, 0x88, 0x68},
+        { 34,  12,  34,  24,  26,  33,  24,  16},
+        {146,  20, 146,  32, 138,  41, 136,  24},
+        { 34,  52,  34,  64,  26,  73,  24,  56},
+        { 34,  92,  34, 104,  26, 113,  24,  96},
+        {146,  60, 146,  72, 138,  81, 136,  64},
+        {146, 100, 146, 112, 138, 121, 136, 104},
     },
     [PARTY_LAYOUT_MULTI_SHOWCASE] = 
     {
-        {0x22, 0x0C, 0x22, 0x18, 0x1A, 0x21, 0x18, 0x10},
-        {0x22, 0x34, 0x22, 0x40, 0x1A, 0x49, 0x18, 0x38},
-        {0x22, 0x5C, 0x22, 0x68, 0x1A, 0x71, 0x18, 0x60},
-        {0x92, 0x14, 0x92, 0x20, 0x8A, 0x29, 0x88, 0x18},
-        {0x92, 0x3C, 0x92, 0x48, 0x8A, 0x51, 0x88, 0x40},
-        {0x92, 0x64, 0x92, 0x70, 0x8A, 0x79, 0x88, 0x68},
+        { 34,  12,  34,  24,  26,  33,  24,  16},
+        { 34,  52,  34,  64,  26,  73,  24,  56},
+        { 34,  92,  34, 104,  26, 113,  24,  96},
+        {146,  20, 146,  32, 138,  41, 136,  24},
+        {146,  60, 146,  72, 138,  81, 136,  64},
+        {146, 100, 146, 112, 138, 121, 136, 104},
     },
 };
 
@@ -573,7 +573,7 @@ static const u8 sMainSlotTileNums[] =
 	 9, 10, 11, 11, 12, 13, 13, 13, 13, 13, 13, 13, 13, 14, 
 	15, 16, 17, 17, 18, 19, 19, 19, 19, 19, 19, 19, 19, 20, 
 	21, 17, 17, 17, 22, 56, 57, 49, 49, 49, 49, 49, 49, 50, 
-	25, 17, 17, 17, 26, 51, 52, 60, 60, 60, 60, 60, 53, 54, 
+	25, 17, 17, 17, 26, 58, 59, 60, 60, 60, 60, 60, 53, 54, 
 	30, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 32, 33,
 };
 
@@ -1282,19 +1282,6 @@ static struct
     [FIELD_MOVE_SOFT_BOILED]  = {SetUpFieldMove_SoftBoiled,  PARTY_MSG_NOT_ENOUGH_HP},
     [FIELD_MOVE_SWEET_SCENT]  = {SetUpFieldMove_SweetScent,  PARTY_MSG_CANT_USE_HERE},
     [FIELD_MOVE_DIVE]         = {SetUpFieldMove_Dive,        PARTY_MSG_CANT_USE_HERE},
-	[FIELD_MOVE_FLASH + 13]        = {SetUpFieldMove_Flash,       PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_CUT + 13]          = {SetUpFieldMove_Cut,         PARTY_MSG_NOTHING_TO_CUT+ 27},
-    [FIELD_MOVE_FLY + 13]          = {SetUpFieldMove_Fly,         PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_STRENGTH + 13]     = {SetUpFieldMove_Strength,    PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_SURF + 13]         = {SetUpFieldMove_Surf,        PARTY_MSG_CANT_SURF_HERE+ 27},
-    [FIELD_MOVE_ROCK_SMASH + 13]   = {SetUpFieldMove_RockSmash,   PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_WATERFALL + 13]    = {SetUpFieldMove_Waterfall,   PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_TELEPORT + 13]     = {SetUpFieldMove_Teleport,    PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_DIG + 13]          = {SetUpFieldMove_Dig,         PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_MILK_DRINK + 13]   = {SetUpFieldMove_SoftBoiled,  PARTY_MSG_NOT_ENOUGH_HP+ 27},
-    [FIELD_MOVE_SOFT_BOILED + 13]  = {SetUpFieldMove_SoftBoiled,  PARTY_MSG_NOT_ENOUGH_HP+ 27},
-    [FIELD_MOVE_SWEET_SCENT + 13]  = {SetUpFieldMove_SweetScent,  PARTY_MSG_CANT_USE_HERE+ 27},
-    [FIELD_MOVE_DIVE + 13]         = {SetUpFieldMove_Dive,        PARTY_MSG_CANT_USE_HERE+ 27},
 };
 
 static const u8 *const sUnionRoomTradeMessages[] =

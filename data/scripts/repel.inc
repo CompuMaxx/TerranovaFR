@@ -23,7 +23,6 @@ EventScript_RepelWoreOff_NoMoreRepels:
 	compare VAR_RESULT, 0
 	goto_if_eq PrinText_RepelWoreOff
 	goto PrinText_RepelWoreOffSpa
-	
 EndScript:
 	closemessage
 	release
@@ -54,17 +53,15 @@ PrinText_RepelWoreOff_PlayerUsedVar2Spa:
 	msgbox gText_PlayerUsedVar2Spa, MSGBOX_SIGN
 	goto EndScript
 
+
 Text_RepelWoreOff: @ 82A4B33
 	.string "REPEL's effect wore off…$"
 Text_RepelWoreOff_UseAnother:
-	.string "REPEL's effect wore off…\n"
-	.string "Use another?$"
+	.string "REPEL's effect wore off…\nUse another?$"
 Text_RepelWoreOffSpa: @ 82A4B33
-	.string "El Repelente ha dejado de hacer\n"
-	.string "efecto.$"
+	.string "El Repelente ha dejado de hacer\nefecto.$"
 Text_RepelWoreOff_UseAnotherSpa:
-	.string "El Repelente ha dejado de hacer\n"
-	.string "efecto. ¿Usar otro?$"
+	.string "El Repelente ha dejado de hacer\nefecto. ¿Usar otro?$"
 
 EventScript_PoisonSurvial::
 	lock

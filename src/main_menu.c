@@ -17,6 +17,7 @@
 #include "pokedex_screen.h"
 #include "link.h"
 #include "oak_speech.h"
+#include "quest_log.h"
 #include "palette.h"
 #include "pokeball.h"
 #include "overworld.h"
@@ -446,6 +447,7 @@ static void Task_ExecuteMainMenuSelection(u8 taskId)
             gPlttBufferUnfaded[0] = RGB_BLACK;
             gPlttBufferFaded[0] = RGB_BLACK;
             gUnknown_2031DE0 = 0;
+            FreeAllWindowBuffers();
 			SetMainCallback2(CB2_ContinueSavedGame);	//Remove Quest Log
 			DestroyTask(taskId);						//Remove Quest Log
             break;

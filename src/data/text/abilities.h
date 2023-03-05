@@ -76,7 +76,9 @@ static const u8 sPurePowerDescription[] = _("Raises ATTACK.");
 static const u8 sShellArmorDescription[] = _("Blocks critical hits.");
 static const u8 sCacophonyDescription[] = _("Avoids sound-based moves.");
 static const u8 sAirLockDescription[] = _("Negates weather effects.");
-
+////////////////
+//  SPANISH   //
+////////////////
 static const u8 sNoneDescriptionSpa[] = _("Ninguna en particular.");
 static const u8 sStenchDescriptionSpa[] = _("Aleja a POKéMON salvajes.");
 static const u8 sDrizzleDescriptionSpa[] = _("Hace que llueva en combate.");

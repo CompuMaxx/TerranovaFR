@@ -76,6 +76,18 @@ static bool8 BT_Phase2Mugshot_WaitForBlackFade(struct Task *task);
 static bool8 BT_Phase2Mugshot_End(struct Task *task);
 static bool8 BT_Phase2AntiClockwiseSpiral_Init(struct Task *task);
 static bool8 BT_Phase2AntiClockwiseSpiral_Update(struct Task *task);
+static bool8 BT_Phase2VsGymHGSS_Init(struct Task *task);
+static bool8 BT_Phase2VsGymHGSS_Update(struct Task *task);
+static bool8 BT_Phase2VsGymPT_Init(struct Task *task);
+static bool8 BT_Phase2VsGymPT_Update(struct Task *task);
+static bool8 BT_Phase2VsPiramid_Init(struct Task *task);
+static bool8 BT_Phase2VsPiramid_Update(struct Task *task);
+static bool8 BT_Phase2VsElite4HGSS_Init(struct Task *task);
+static bool8 BT_Phase2VsElite4HGSS_Update(struct Task *task);
+static bool8 BT_Phase2VsElite4PT_Init(struct Task *task);
+static bool8 BT_Phase2VsElite4PT_Update(struct Task *task);
+static bool8 BT_Phase2VsTeamRocket_Init(struct Task *task);
+static bool8 BT_Phase2VsTeamRocket_Update(struct Task *task);
 static bool8 BT_Phase2BlackWaveToRight_Init(struct Task *task);
 static bool8 BT_Phase2BlackWaveToRight_UpdateWave(struct Task *task);
 static bool8 BT_Phase2BlackWaveToRight_End(struct Task *task);
@@ -127,6 +139,12 @@ static void BT_Phase2StartAgathaMugshot(u8 taskId);
 static void BT_Phase2StartLanceMugshot(u8 taskId);
 static void BT_Phase2StartBlueMugshot(u8 taskId);
 static void BT_Phase2AntiClockwiseSpiral(u8 taskId);
+static void BT_Phase2VsGymHGSS(u8 taskId);
+static void BT_Phase2VsGymPT(u8 taskId);
+static void BT_Phase2VsPiramid(u8 taskId);
+static void BT_Phase2VsElite4HGSS(u8 taskId);
+static void BT_Phase2VsElite4PT(u8 taskId);
+static void BT_Phase2VsTeamRocket(u8 taskId);
 static void BT_Phase1Task(u8 taskId);
 static void BT_Phase2Mugshot(u8 taskId);
 static void BT_Phase1SubTask(u8 taskId);
@@ -209,6 +227,13 @@ static const TaskFunc sBT_Phase1Tasks[] =
     BT_Phase1Task,
     BT_Phase1Task,
     BT_Phase1Task,
+	//New BT
+    BT_Phase1Task,
+    BT_Phase1Task,
+    BT_Phase1Task,
+    BT_Phase1Task,
+    BT_Phase1Task,
+    BT_Phase1Task,
 };
 
 static const TaskFunc sBT_Phase2Tasks[] =
@@ -231,6 +256,12 @@ static const TaskFunc sBT_Phase2Tasks[] =
     [B_TRANSITION_LANCE]                 = BT_Phase2StartLanceMugshot,
     [B_TRANSITION_BLUE]                  = BT_Phase2StartBlueMugshot,
     [B_TRANSITION_ANTI_CLOCKWISE_SPIRAL] = BT_Phase2AntiClockwiseSpiral,
+    [B_TRANSITION_VS_GYM_HGSS]           = BT_Phase2VsGymHGSS,
+    [B_TRANSITION_VS_GYM_PT]             = BT_Phase2VsGymPT,
+    [B_TRANSITION_VS_PIRAMID]            = BT_Phase2VsPiramid,
+    [B_TRANSITION_VS_ELITE_4_HGSS]       = BT_Phase2VsElite4HGSS,
+    [B_TRANSITION_VS_ELITE_4_PT]         = BT_Phase2VsElite4PT,
+    [B_TRANSITION_VS_TEAM_ROCKET]        = BT_Phase2VsTeamRocket,
 };
 
 static const TransitionStateFunc sBT_MainPhases[] =
@@ -322,6 +353,42 @@ static const TransitionStateFunc sBT_Phase2AntiClockwiseSpiralFuncs[] =
 {
     BT_Phase2AntiClockwiseSpiral_Init,
     BT_Phase2AntiClockwiseSpiral_Update,
+};
+
+static const TransitionStateFunc sBT_Phase2VsGymHGSSFuncs[] =
+{
+    BT_Phase2VsGymHGSS_Init,
+    BT_Phase2VsGymHGSS_Update,
+};
+
+static const TransitionStateFunc sBT_Phase2VsGymPTFuncs[] =
+{
+    BT_Phase2VsGymPT_Init,
+    BT_Phase2VsGymPT_Update,
+};
+
+static const TransitionStateFunc sBT_Phase2VsPiramidFuncs[] =
+{
+    BT_Phase2VsPiramid_Init,
+    BT_Phase2VsPiramid_Update,
+};
+
+static const TransitionStateFunc sBT_Phase2VsElite4HGSSFuncs[] =
+{
+    BT_Phase2VsElite4HGSS_Init,
+    BT_Phase2VsElite4HGSS_Update,
+};
+
+static const TransitionStateFunc sBT_Phase2VsElite4PTFuncs[] =
+{
+    BT_Phase2VsElite4PT_Init,
+    BT_Phase2VsElite4PT_Update,
+};
+
+static const TransitionStateFunc sBT_Phase2VsTeamRocketFuncs[] =
+{
+    BT_Phase2VsTeamRocket_Init,
+    BT_Phase2VsTeamRocket_Update,
 };
 
 static const TransitionStateFunc sBT_Phase2MugshotFuncs[] =
@@ -1494,6 +1561,36 @@ static void BT_Phase2AntiClockwiseSpiral(u8 taskId)
     while (sBT_Phase2AntiClockwiseSpiralFuncs[gTasks[taskId].tState](&gTasks[taskId]));
 }
 
+static void BT_Phase2VsGymHGSS(u8 taskId)
+{
+    while (sBT_Phase2VsGymHGSSFuncs[gTasks[taskId].tState](&gTasks[taskId]));
+}
+
+static void BT_Phase2VsGymPT(u8 taskId)
+{
+    while (sBT_Phase2VsGymPTFuncs[gTasks[taskId].tState](&gTasks[taskId]));
+}
+
+static void BT_Phase2VsPiramid(u8 taskId)
+{
+    while (sBT_Phase2VsPiramidFuncs[gTasks[taskId].tState](&gTasks[taskId]));
+}
+
+static void BT_Phase2VsElite4HGSS(u8 taskId)
+{
+    while (sBT_Phase2VsElite4HGSSFuncs[gTasks[taskId].tState](&gTasks[taskId]));
+}
+
+static void BT_Phase2VsElite4PT(u8 taskId)
+{
+    while (sBT_Phase2VsElite4PTFuncs[gTasks[taskId].tState](&gTasks[taskId]));
+}
+
+static void BT_Phase2VsTeamRocket(u8 taskId)
+{
+    while (sBT_Phase2VsTeamRocketFuncs[gTasks[taskId].tState](&gTasks[taskId]));
+}
+
 static void BT_AntiClockwiseSpiral_DoUpdateFrame(s16 initRadius, s16 deltaAngleMax, u8 offsetMaybe)
 {
     u8 theta = 0;
@@ -1724,6 +1821,70 @@ static bool8 BT_Phase2AntiClockwiseSpiral_Update(struct Task *task)
     }
     return FALSE;
 }
+
+///////////////////////////////////////////////////////////////////
+
+static bool8 BT_Phase2VsGymHGSS_Init(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsGymHGSS_Update(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsGymPT_Init(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsGymPT_Update(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsPiramid_Init(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsPiramid_Update(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsElite4HGSS_Init(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsElite4HGSS_Update(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsElite4PT_Init(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsElite4PT_Update(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsTeamRocket_Init(struct Task *task)
+{
+	return;
+}
+
+static bool8 BT_Phase2VsTeamRocket_Update(struct Task *task)
+{
+	return;
+}
+
+///////////////////////////////////////////////////////////////////
 
 static void VBCB_BT_Phase2AntiClockwiseBlackFade(void)
 {

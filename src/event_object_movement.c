@@ -1622,6 +1622,7 @@ static u8 TrySetupObjectEventSprite(struct ObjectEventTemplate *objectEventTempl
     sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
     sprite->pos1.x += 8;
     sprite->pos1.y += 16 + sprite->centerToCornerVecY;
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(spriteTemplate->paletteTag);
     sprite->coordOffsetEnabled = TRUE;
     sprite->data[0] = objectEventId;
     objectEvent->spriteId = spriteId;
@@ -1761,7 +1762,11 @@ u8 sprite_new(u16 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     MakeObjectTemplateFromObjectEventGraphicsInfo(graphicsId, UpdateObjectEventSpriteSubpriorityAndVisibility, &spriteTemplate, &subspriteTables);
-    *(u16 *)&spriteTemplate.paletteTag = SPRITE_INVALID_TAG;
+    if (spriteTemplate.paletteTag != SPRITE_INVALID_TAG)
+    {
+		LoadObjectEventPalette(spriteTemplate.paletteTag);
+		UpdatePaletteGammaType(IndexOfSpritePaletteTag(spriteTemplate.paletteTag), GAMMA_ALT);
+    }
     x += 7;
     y += 7;
     sub_8063BC4(&x, &y, 8, 16);
@@ -1776,11 +1781,6 @@ u8 sprite_new(u16 graphicsId, u8 a1, s16 x, s16 y, u8 z, u8 direction)
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = a1;
         sprite->data[1] = z;
-        if (graphicsInfo->paletteSlot >= 16)
-        {
-            PatchObjectPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot | 0xF0);
-        }
-
         if (subspriteTables != NULL)
         {
             SetSubspriteTables(sprite, subspriteTables);
@@ -1803,7 +1803,6 @@ u8 sub_805EB44(u16 graphicsId, u8 a1, s16 x, s16 y)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     MakeObjectTemplateFromObjectEventGraphicsInfo(graphicsId, SpriteCallbackDummy, &spriteTemplate, &subspriteTables);
-    *(u16 *)&spriteTemplate.paletteTag = SPRITE_INVALID_TAG;
 
     spriteId = CreateSpriteAtEnd(&spriteTemplate, x, y, 0);
     if (spriteId != MAX_SPRITES)
@@ -1811,14 +1810,18 @@ u8 sub_805EB44(u16 graphicsId, u8 a1, s16 x, s16 y)
         sprite = &gSprites[spriteId];
         sprite->centerToCornerVecY = -(graphicsInfo->height >> 1);
         sprite->pos1.y += sprite->centerToCornerVecY;
-        sprite->oam.paletteNum = graphicsInfo->paletteSlot;
         sprite->data[0] = a1;
-
+		if (graphicsInfo->paletteSlot != SPRITE_INVALID_TAG)
+		{
+			LoadObjectEventPalette(spriteTemplate.paletteTag);
+			UpdatePaletteGammaType(IndexOfSpritePaletteTag(spriteTemplate.paletteTag), GAMMA_ALT);
+		}
         if (subspriteTables != NULL)
         {
             SetSubspriteTables(sprite, subspriteTables);
             sprite->subspriteMode = SUBSPRITES_IGNORE_PRIORITY;
         }
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(spriteTemplate.paletteTag);
         StartSpriteAnim(sprite, GetFaceDirectionAnimNum(DIR_SOUTH));
     }
     return spriteId;
@@ -1931,6 +1934,7 @@ static void sub_805EE3C(u8 objectEventId, s16 x, s16 y)
     spriteFrameImage.size = graphicsInfo->size;
     MakeObjectTemplateFromObjectEventGraphicsInfoWithCallbackIndex(objectEvent->graphicsId, objectEvent->movementType, &spriteTemplate, &subspriteTables);
     spriteTemplate.images = &spriteFrameImage;
+
 	if (spriteTemplate.paletteTag != SPRITE_INVALID_TAG)
     {
         LoadObjectEventPalette(spriteTemplate.paletteTag);
@@ -1956,6 +1960,7 @@ static void sub_805EE3C(u8 objectEventId, s16 x, s16 y)
         {
             SetSubspriteTables(sprite, subspriteTables);
         }
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(spriteTemplate.paletteTag);
         sprite->coordOffsetEnabled = TRUE;
         sprite->data[0] = objectEventId;
         objectEvent->spriteId = spriteId;
@@ -1998,9 +2003,10 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
 
     graphicsInfo = GetObjectEventGraphicsInfo(graphicsId);
     sprite = &gSprites[objectEvent->spriteId];
-    if (graphicsInfo->paletteSlot == 0)
+    if (graphicsInfo->paletteTag1 != 0xFFFF)
     {
-        PatchObjectPalette(graphicsInfo->paletteTag1, graphicsInfo->paletteSlot);
+        LoadObjectEventPalette(graphicsInfo->paletteTag1);
+        UpdatePaletteGammaType(IndexOfSpritePaletteTag(graphicsInfo->paletteTag1), GAMMA_ALT);
     }
 
     var = sprite->images->size / TILE_SIZE_4BPP;
@@ -2013,7 +2019,7 @@ void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u16 graphicsId)
     sprite->images = graphicsInfo->images;
     sprite->anims = graphicsInfo->anims;
     sprite->subspriteTables = graphicsInfo->subspriteTables;
-    sprite->oam.paletteNum = graphicsInfo->paletteSlot;
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(graphicsInfo->paletteTag1);
     if (!sprite->usingSheet)
     {
         s32 var2;

@@ -397,7 +397,7 @@ static const struct WindowTemplate sUnknown_83CDA48 = {
     .bg = 0,
     .tilemapLeft = 1,
     .tilemapTop = 1,
-    .width = 17,
+    .width = 14, //17
     .height = 10,
     .paletteNum = 15,
     .baseBlock = 0x001
@@ -409,7 +409,6 @@ static void PSS_CreatePCMenu(u8 whichMenu, s16 *windowIdPtr)
     windowId = AddWindow(&sUnknown_83CDA48);
 
     DrawStdWindowFrame(windowId, FALSE);
-    PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, NELEMS(sUnknown_83CDA20), (void *)sUnknown_83CDA20);
     if (gSaveBlock2Ptr->optionsLanguage == ENG)
 	{
 		PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, NELEMS(sUnknown_83CDA20), (void *)sUnknown_83CDA20);

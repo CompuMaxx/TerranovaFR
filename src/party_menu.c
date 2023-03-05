@@ -531,51 +531,48 @@ static bool8 ShowPartyMenu(void)
         ++gMain.state;
         break;
     case 12:
-        ++gMain.state;
-        break;
-    case 13:
         LoadPartyMenuAilmentGfx();
         ++gMain.state;
         break;
-    case 14:
+    case 13:
         LoadMonIconPalettes();
         ++gMain.state;
         break;
-    case 15:
+    case 14:
         if (CreatePartyMonSpritesLoop())
         {
             sPartyMenuInternal->data[0] = 0;
             ++gMain.state;
         }
         break;
-    case 16:
+    case 15:
         if (RenderPartyMenuBoxes())
         {
             sPartyMenuInternal->data[0] = 0;
             ++gMain.state;
         }
         break;
-    case 17:
+    case 16:
         ++gMain.state;
         break;
-    case 18:
+    case 17:
         CreateCancelConfirmWindows(sPartyMenuInternal->chooseHalf);
         ++gMain.state;
         break;
-    case 19:
+    case 18:
         SetHelpContext(HELPCONTEXT_PARTY_MENU);
         ++gMain.state;
         break;
-    case 20:
+    case 19:
         CreateTask(sPartyMenuInternal->task, 0);
         DisplayPartyMenuStdMessage(sPartyMenuInternal->messageId);
         ++gMain.state;
         break;
-    case 21:
+    case 20:
         BlendPalettes(0xFFFFFFFF, 16, RGB_BLACK);
         ++gMain.state;
         break;
-    case 22:
+    case 21:
         BeginNormalPaletteFade(0xFFFFFFFF, -2, 16, 0, RGB_BLACK);
         gPaletteFade.bufferTransferDisabled = FALSE;
         ++gMain.state;
@@ -980,17 +977,15 @@ void AnimatePartySlot(u8 slot, u8 animNum)
             else
                 SetBgTilemapPalette(1, 23, 17, 7, 2, 2);
         }
-        else if (animNum == 0)
-        {
-            SetBgTilemapPalette(1, 23, 18, 7, 2, 1);
-        }
         else
         {
-            SetBgTilemapPalette(1, 23, 18, 7, 2, 2);
+            if (animNum == 0)
+                SetBgTilemapPalette(1, 23, 18, 7, 2, 1);
+            else
+                SetBgTilemapPalette(1, 23, 18, 7, 2, 2);
         }
         break;
     }
-    PartyMenuStartSpriteAnim(spriteId, animNum);
     ScheduleBgCopyTilemapToVram(1);
 }
 
@@ -1204,9 +1199,7 @@ static void HandleChooseMonCancel(u8 taskId, s8 *slotPtr)
     default:
         PlaySE(SE_SELECT);
         if (gPartyMenu.menuType == PARTY_MENU_TYPE_CHOOSE_HALF)
-        {
             DisplayCancelChooseMonYesNo(taskId);
-        }
         else
         {
             if (!MenuHelpers_LinkSomething())
@@ -1328,13 +1321,9 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
     {
     case MENU_DIR_UP:
         if (*slotPtr == 0 || *slotPtr == 1)
-        {
             *slotPtr = PARTY_SIZE + 1;
-        }
         else if (*slotPtr == PARTY_SIZE)
-        {
             *slotPtr = gPlayerPartyCount - 1;
-        }
         else if (*slotPtr == PARTY_SIZE + 1)
         {
             if (sPartyMenuInternal->chooseHalf)
@@ -1343,9 +1332,7 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
                 *slotPtr = gPlayerPartyCount - 1;
         }
         else
-        {
             *slotPtr -= 2;
-        }
         break;
     case MENU_DIR_DOWN:
         if (*slotPtr == gPlayerPartyCount - 1 || *slotPtr == gPlayerPartyCount - 2)
@@ -1356,27 +1343,15 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
                 *slotPtr = PARTY_SIZE + 1;
         }
         else if (*slotPtr == PARTY_SIZE + 1)
-        {
 			*slotPtr = 0;
-        }
-        else if (*slotPtr == PARTY_SIZE)
-        {
-			*slotPtr = PARTY_SIZE + 1;
-        }
         else
-        {
             *slotPtr += 2;
-        }
         break;
     case MENU_DIR_RIGHT:
         if (*slotPtr == PARTY_SIZE)
-        {
 			*slotPtr = PARTY_SIZE +	1;
-        }
         else if (*slotPtr == PARTY_SIZE + 1)
-        {
 			*slotPtr = 0;
-        }
 		else if (*slotPtr == gPlayerPartyCount - 1)
 		{
             if (sPartyMenuInternal->chooseHalf)
@@ -1385,15 +1360,11 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
                 *slotPtr = PARTY_SIZE + 1;
 		}
         else
-        {
 			++*slotPtr;
-        }
         break;
     case MENU_DIR_LEFT:
         if (*slotPtr == PARTY_SIZE)
-        {
 			*slotPtr = gPlayerPartyCount - 1;
-        }
         else if (*slotPtr == PARTY_SIZE + 1)
         {
             if (sPartyMenuInternal->chooseHalf)
@@ -1402,13 +1373,9 @@ static void UpdatePartySelectionSingleLayout(s8 *slotPtr, s8 movementDir)
                 *slotPtr = gPlayerPartyCount - 1;
         }
 		else if (*slotPtr == 0)
-		{
 			*slotPtr = PARTY_SIZE + 1;
-		}
         else
-        {
 			--*slotPtr;
-        }
         break;
     }
 }
@@ -1711,7 +1678,6 @@ static void SetPartyMonsAllowedInMinigame(void)
     if (gPartyMenu.menuType == PARTY_MENU_TYPE_MINIGAME)
     {
         u8 i;
-
         ptr = &gPartyMenu.data1;
         gPartyMenu.data1 = 0;
         if (gSpecialVar_0x8005 == 0)
@@ -2940,14 +2906,14 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
         }
     }
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
-	{
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SWITCH);
-	    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
-	}
     if (ItemIsMail(GetMonData(&mons[slotId], MON_DATA_HELD_ITEM)))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MAIL);
     else
+	{
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
+	    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME);
+	}
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
 

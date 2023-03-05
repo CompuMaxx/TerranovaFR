@@ -23,7 +23,7 @@ static const u8 sGentleNatureName[] = _("Gentle");
 static const u8 sSassyNatureName[] = _("Sassy");
 static const u8 sCarefulNatureName[] = _("Careful");
 static const u8 sQuirkyNatureName[] = _("Quirky");
-
+// SPANISH
 static const u8 sHardyNatureNameSpa[] = _("Fuerte");
 static const u8 sLonelyNatureNameSpa[] = _("Huraña");
 static const u8 sBraveNatureNameSpa[] = _("Audaz");

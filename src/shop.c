@@ -958,6 +958,13 @@ static void Task_BuyMenu(u8 taskId)
                 else
 					BuyMenuDisplayMessage(taskId, gText_YouDontHaveMoneySpa, BuyMenuReturnToItemList);
             }
+			else if (quantityInBag == 999)
+			{
+				if (gSaveBlock2Ptr->optionsLanguage == ENG)
+					BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThis, BuyMenuReturnToItemList);
+				else
+					BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThisSpa, BuyMenuReturnToItemList);
+			}
 			else if (itemId >= ITEM_TM01 && itemId <= ITEM_HM08)
 			{
 				if (quantityInBag != 0)
@@ -983,13 +990,6 @@ static void Task_BuyMenu(u8 taskId)
 					else
 						BuyMenuDisplayMessage(taskId, gText_Var1AndYouWantedVar2Spa, CreateBuyMenuConfirmPurchaseWindow);
 				}
-			}
-			else if (quantityInBag == 999)
-			{
-				if (gSaveBlock2Ptr->optionsLanguage == ENG)
-					BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThis, BuyMenuReturnToItemList);
-				else
-					BuyMenuDisplayMessage(taskId, gText_NoMoreRoomForThisSpa, BuyMenuReturnToItemList);
 			}
             else
             {
@@ -1024,8 +1024,6 @@ static void Task_BuyHowManyDialogueInit(u8 taskId)
     maxQuantity = GetMoney(&gSaveBlock1Ptr->money) / itemid_get_market_price(tItemId);
 	if (maxQuantity > (999 - quantityInBag))
         gShopData.maxQuantity = (999 - quantityInBag);
-	else if (maxQuantity > 999)
-        gShopData.maxQuantity = 999;
     else
         gShopData.maxQuantity = maxQuantity;
     

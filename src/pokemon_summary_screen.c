@@ -213,13 +213,10 @@ struct PokemonSummaryScreenData
     u8 mode; /* 0x3208 */
     u8 lastIndex; /* 0x3210 */
     u8 curPageIndex; /* 0x3214 */
-    u8 unk3218; /* 0x3218 */
     u8 isBoxMon; /* 0x321C */
     u8 typeIcons[2]; /* 0x3220 */
 
     u8 pageFlipDirection; /* 0x3224 */
-    u8 unk3228; /* 0x3228 */
-    u8 unk322C; /* 0x322C */
 
     u8 lockMovesFlag; /* 0x3234 */
 
@@ -240,7 +237,7 @@ struct PokemonSummaryScreenData
     u8 loadBgGfxStep; /* 0x3278 */
     u8 spriteCreationStep; /* 0x327C */
     u8 bufferStringsStep; /* 0x3280 */
-    u8 unk3284; /* 0x3284 */
+    u8 state3284; /* 0x3284 */
     u8 selectMoveInputHandlerState; /* 0x3288 */
     u8 switchMonTaskState; /* 0x328C */
 
@@ -363,8 +360,8 @@ static EWRAM_DATA u8 sMoveSwapCursorPos = 0;
 static EWRAM_DATA struct MonPicBounceState * sMonPicBounceState = NULL;
 
 static const u32 sUnknown_84636C0[] = INCBIN_U32("graphics/interface/pokesummary_unk_84636C0.gbapal");
-static const u16 sUnknown_84636E0[] = INCBIN_U16("graphics/interface/pokesummary_unk_84636E0.gbapal");
-static const u32 sUnknown_8463700[] = INCBIN_U32("graphics/interface/pokesummary_unk_8463700.gbapal");
+static const u16 sMonMarkingSpritePalette[] = INCBIN_U16("graphics/interface/pokesummary_unk_84636E0.gbapal");
+//static const u32 sUnknown_8463700[] = INCBIN_U32("graphics/interface/pokesummary_unk_8463700.gbapal");
 
 static const struct OamData sMoveSelectionCursorOamData =
 {
@@ -457,12 +454,6 @@ static const union AnimCmd sStatusAilmentIconAnim_FNT[] =
     ANIMCMD_JUMP(0),
 };
 
-static const union AnimCmd sStatusAilmentIconAnim_Blank[] = 
-{
-    ANIMCMD_FRAME(28, 20),
-    ANIMCMD_JUMP(0),
-};
-
 static const union AnimCmd * const sStatusAilmentIconAnimTable[] =
 {
     sStatusAilmentIconAnim_PSN,
@@ -472,7 +463,6 @@ static const union AnimCmd * const sStatusAilmentIconAnimTable[] =
     sStatusAilmentIconAnim_BRN,
     sStatusAilmentIconAnim_PKRS,
     sStatusAilmentIconAnim_FNT,
-    sStatusAilmentIconAnim_Blank
 };
 
 static const struct OamData sHpOrExpBarOamData = {
@@ -980,15 +970,15 @@ enum
 
 static const u8 sPSSTextColours[][3] =
 {
-    [DARK] = {0, 14, 13},		//Text Dark
-    [WHITE_TITLE] = {0, 1, 2}, 	//Text White (title) 
-    [BLUE_SHADOW] = {0, 15, 7}, //Red Shadow
-    [WHITE] = {0, 15, 14},		//Text White
-    [RED_SHADOW] = {0, 15, 1}, 	//Blue Shadow
-    [BLUE] = {0, 7, 6}, 		//Male Symbol
-    [RED] = {0, 1, 2}, 			//Female Symbol (red)
-    [ORANGE] = {0, 3, 14}, 		//Low PP
-    [RED_2] = {0, 1, 14}, 		//Whithout PP
+    [DARK]        = {0, 14, 13}, //Text Dark
+    [WHITE_TITLE] = {0,  1,  2}, //Text White (title) 
+    [BLUE_SHADOW] = {0, 15,  7}, //Red Shadow
+    [WHITE]       = {0, 15, 14}, //Text White
+    [RED_SHADOW]  = {0, 15,  1}, //Blue Shadow
+    [BLUE]        = {0,  7,  6}, //Male Symbol
+    [RED]         = {0,  1,  2}, //Female Symbol (red)
+    [ORANGE]      = {0,  3, 14}, //Low PP
+    [RED_2]       = {0,  1, 14}, //Whithout PP
 };
 
 static const u8 sMultiBattlePartyOrder[] =
@@ -1021,17 +1011,17 @@ static const s8 sEggPicShakeXDelta_ItWillTakeSomeTime[] =
     1, 1, 0, -1, -1, 0, -1, -1, 0, 1, 1
 };
 
-static const s8 sUnknown_8463FDF[] =
+static const s8 sEggPicShakeXDelta_OccasionallyMoves[] =
 {
     2, 1, 0, -1, -2, 0, -2, -1, 0, 1, 2
 };
 
-static const s8 sUnknown_8463FEA[] =
+static const s8 sEggPicShakeXDelta_AlmostReadyToHatch[] =
 {
     2, 1, 1, 0, -1, -1, -2, 0, -2, -1, -1, 0, 1, 1, 2
 };
 
-static const u16 * const sHpBarPalettes[] =
+static const u16 * const sHpBarPals[] =
 {
     gPal0SummaryScreen,
     gPal1SummaryScreen,
@@ -1108,9 +1098,6 @@ void ShowPokemonSummaryScreen(struct Pokemon * party, u8 cursorPos, u8 lastIdx, 
     sMonSummaryScreen->skillsPageBgNum = 2;
     sMonSummaryScreen->infoAndMovesPageBgNum = 1;
     sMonSummaryScreen->flippingPages = FALSE;
-
-    sMonSummaryScreen->unk3228 = 0;
-    sMonSummaryScreen->unk322C = 1;
 
     BufferSelectedMonData(&sMonSummaryScreen->currentMon);
     sMonSummaryScreen->isEgg = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_IS_EGG);
@@ -1367,7 +1354,7 @@ static void Task_PokeSum_FlipPages(u8 taskId)
 
 static void Task_FlipPages_FromInfo(u8 taskId)
 {
-    switch (sMonSummaryScreen->unk3284)
+    switch (sMonSummaryScreen->state3284)
     {
     case 0:
         sMonSummaryScreen->lockMovesFlag = TRUE;
@@ -1412,19 +1399,19 @@ static void Task_FlipPages_FromInfo(u8 taskId)
     default:
         PokeSum_SetHelpContext();
         gTasks[sMonSummaryScreen->inputHandlerTaskId].func = Task_HandleInput_SelectMove;
-        sMonSummaryScreen->unk3284 = 0;
+        sMonSummaryScreen->state3284 = 0;
         sMonSummaryScreen->lockMovesFlag = FALSE;
         sMonSummaryScreen->inhibitPageFlipInput = FALSE;
         return;
     }
 
-    sMonSummaryScreen->unk3284++;
+    sMonSummaryScreen->state3284++;
     return;
 }
 
 static void Task_BackOutOfSelectMove(u8 taskId)
 {
-    switch (sMonSummaryScreen->unk3284)
+    switch (sMonSummaryScreen->state3284)
     {
     case 0:
         sMonSummaryScreen->lockMovesFlag = TRUE;
@@ -1461,13 +1448,13 @@ static void Task_BackOutOfSelectMove(u8 taskId)
     default:
         PokeSum_SetHelpContext();
         gTasks[sMonSummaryScreen->inputHandlerTaskId].func = Task_InputHandler_Info;
-        sMonSummaryScreen->unk3284 = 0;
+        sMonSummaryScreen->state3284 = 0;
         sMonSummaryScreen->lockMovesFlag = FALSE;
         sMonSummaryScreen->inhibitPageFlipInput = FALSE;
         return;
     }
 
-    sMonSummaryScreen->unk3284++;
+    sMonSummaryScreen->state3284++;
     return;
 }
 
@@ -1654,9 +1641,9 @@ static u8 PokeSum_HandleLoadBgGfx(void)
         break;
     case 4:
         LZ77UnCompVram(gMapSummaryScreenBg, (void *)(VRAM + 0xF800));
-        break;
-    case 5:
-        LoadPalette(sUnknown_8463700, 0x80, 0x20);
+  //      break;
+  //  case 5:
+  //      LoadPalette(sUnknown_8463700, 0x80, 0x20);
         return TRUE;
     }
 
@@ -3936,8 +3923,8 @@ static void SpriteCB_PokeSum_EggPicShake(struct Sprite * sprite)
     case 1:
         if (sMonPicBounceState->initDelay++ >= 90)
         {
-            sprite->pos1.x += sUnknown_8463FDF[sMonPicBounceState->animFrame];
-            if (++sMonPicBounceState->animFrame >= NELEMS(sUnknown_8463FDF))
+            sprite->pos1.x += sEggPicShakeXDelta_OccasionallyMoves[sMonPicBounceState->animFrame];
+            if (++sMonPicBounceState->animFrame >= NELEMS(sEggPicShakeXDelta_OccasionallyMoves))
             {
                 sMonPicBounceState->animFrame = 0;
                 sMonPicBounceState->initDelay = 0;
@@ -3948,8 +3935,8 @@ static void SpriteCB_PokeSum_EggPicShake(struct Sprite * sprite)
     case 2:
         if (sMonPicBounceState->initDelay++ >= 60)
         {
-            sprite->pos1.x += sUnknown_8463FEA[sMonPicBounceState->animFrame];
-            if (++sMonPicBounceState->animFrame >= NELEMS(sUnknown_8463FEA))
+            sprite->pos1.x += sEggPicShakeXDelta_AlmostReadyToHatch[sMonPicBounceState->animFrame];
+            if (++sMonPicBounceState->animFrame >= NELEMS(sEggPicShakeXDelta_AlmostReadyToHatch))
             {
                 sMonPicBounceState->animFrame = 0;
                 sMonPicBounceState->initDelay = 0;
@@ -4376,9 +4363,9 @@ static void CreateHpBarObjs(u16 tileTag, u16 palTag)
             .tag = tileTag
         };
 
-        struct SpritePalette palette1 = {.data = sHpBarPalettes[0], .tag = palTag};
-        struct SpritePalette palette2 = {.data = sHpBarPalettes[1], .tag = palTag + 1};
-        struct SpritePalette palette3 = {.data = sHpBarPalettes[2], .tag = palTag + 2};
+        struct SpritePalette palette1 = {.data = sHpBarPals[0], .tag = palTag};
+        struct SpritePalette palette2 = {.data = sHpBarPals[1], .tag = palTag + 1};
+        struct SpritePalette palette3 = {.data = sHpBarPals[2], .tag = palTag + 2};
 
         LoadSpriteSheet(&sheet);
         LoadSpritePalette(&palette1);
@@ -4838,7 +4825,7 @@ static void PokeSum_CreateMonMarkingsSprite(void)
     u32 markings = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_MARKINGS);
 
     DestroySpriteAndFreeResources(sMonSummaryScreen->markingSprite);
-    sMonSummaryScreen->markingSprite = CreateMonMarkingSprite_SelectCombo(TAG_PSS_UNK_8C, TAG_PSS_UNK_8C, sUnknown_84636E0);
+    sMonSummaryScreen->markingSprite = CreateMonMarkingSprite_SelectCombo(TAG_PSS_UNK_8C, TAG_PSS_UNK_8C, sMonMarkingSpritePalette);
 
     if (sMonSummaryScreen->markingSprite != NULL)
     {
@@ -5171,7 +5158,7 @@ static bool32 IsStatsPagesUnlocked(void)
 {
     if (FlagGet(FLAG_STATS_PAGE_UNLOCKED))
         return TRUE;
-    return FALSE;
+    return TRUE; //FALSE
 }
 
 static void ScrollPSSBackground(void)
