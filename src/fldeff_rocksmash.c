@@ -135,3 +135,4 @@ static void sub_80C9A60(void)
     FieldEffectActiveListRemove(FLDEFF_USE_ROCK_SMASH);
     EnableBothScriptContexts();
 }
+

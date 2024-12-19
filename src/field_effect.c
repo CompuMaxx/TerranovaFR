@@ -3211,7 +3211,6 @@ static void UseFlyEffect_7(struct Task * task)
         struct ObjectEvent * objectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
         ObjectEventClearHeldMovementIfActive(objectEvent);
         objectEvent->inanimate = FALSE;
-        objectEvent->hasShadow = FALSE;
         sub_8087204(task->data[1], objectEvent->spriteId);
         StartSpriteAnim(&gSprites[task->data[1]], gSaveBlock2Ptr->playerGender * 2 + 1);
         sub_80877FC(&gSprites[task->data[1]], 0);
@@ -3449,6 +3448,7 @@ static void FlyInEffect_1(struct Task * task)
         ObjectEventTurn(objectEvent, DIR_WEST);
         StartSpriteAnim(&gSprites[objectEvent->spriteId], 0x16);
         objectEvent->invisible = FALSE;
+        objectEvent->noShadow= TRUE;
         task->data[1] = sub_8087168();
         sub_80871C8(task->data[1]);
         sub_8087204(task->data[1], objectEvent->spriteId);

@@ -20,7 +20,7 @@ const struct SpriteFrameImage gUnknown_83A5374[] = { obj_frame_tiles(gUnknown_83
 const struct SpriteTemplate gUnknown_83A537C =
 {
     .tileTag = SPRITE_INVALID_TAG,
-    .paletteTag = OBJ_EVENT_PAL_TAG_8,
+    .paletteTag = OBJ_EVENT_PAL_TAG_SHADOW,
     .oam = &gObjectEventBaseOam_8x8,
     .anims = gUnknown_83A5358,
     .images = gUnknown_83A535C,
@@ -31,7 +31,7 @@ const struct SpriteTemplate gUnknown_83A537C =
 const struct SpriteTemplate gUnknown_83A5394 =
 {
     .tileTag = SPRITE_INVALID_TAG,
-    .paletteTag = OBJ_EVENT_PAL_TAG_8,
+    .paletteTag = OBJ_EVENT_PAL_TAG_SHADOW,
     .oam = &gObjectEventBaseOam_16x8,
     .anims = gUnknown_83A5358,
     .images = gUnknown_83A5364,
@@ -42,7 +42,7 @@ const struct SpriteTemplate gUnknown_83A5394 =
 const struct SpriteTemplate gUnknown_83A53AC =
 {
     .tileTag = SPRITE_INVALID_TAG,
-    .paletteTag = OBJ_EVENT_PAL_TAG_8,
+    .paletteTag = OBJ_EVENT_PAL_TAG_SHADOW,
     .oam = &gObjectEventBaseOam_32x8,
     .anims = gUnknown_83A5358,
     .images = gUnknown_83A536C,
@@ -53,7 +53,7 @@ const struct SpriteTemplate gUnknown_83A53AC =
 const struct SpriteTemplate gUnknown_83A53C4 =
 {
     .tileTag = SPRITE_INVALID_TAG,
-    .paletteTag = OBJ_EVENT_PAL_TAG_8,
+    .paletteTag = OBJ_EVENT_PAL_TAG_SHADOW,
     .oam = &gObjectEventBaseOam_64x32,
     .anims = gUnknown_83A5358,
     .images = gUnknown_83A5374,

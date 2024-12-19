@@ -12,10 +12,12 @@
 #include "battle_transition.h"
 #include "field_effect.h"
 #include "field_weather.h"
+#include "field_weather_effects.h"
 #include "field_camera.h"
 #include "trainer_pokemon_sprites.h"
 #include "scanline_effect.h"
 #include "event_object_movement.h"
+#include "constants/event_objects.h"
 #include "constants/songs.h"
 
 typedef bool8 (*TransitionStateFunc)(struct Task *task);
@@ -928,6 +930,7 @@ static bool8 BT_Phase2BigPokeball_Init(struct Task *task)
     sTransitionStructPtr->win0V = WIN_RANGE(0, 0xA0);
     sTransitionStructPtr->bldCnt = BLDCNT_TGT1_BG0 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG0 | BLDCNT_TGT2_BG1 | BLDCNT_TGT2_BG2 | BLDCNT_TGT2_BG3 | BLDCNT_TGT2_OBJ | BLDCNT_TGT2_BD;
     sTransitionStructPtr->bldAlpha = (task->tEvb << 8) | task->tEva;
+    UpdateShadowColor(0x3DEF);
     for (i = 0; i < 160; ++i)
         gScanlineEffectRegBuffers[1][i] = 0xF0;
     SetVBlankCallback(VBCB_BT_Phase2BigPokeball1);
@@ -2768,6 +2771,8 @@ static void VBCB_BT_Phase2BlackDoodles(void)
 #define tFadeInSpeed data[5]
 #define tDelayCounter data[6]
 #define tCoeff data[7]
+#define tBldCntSaved data[8]
+#define tShadowColor data[9]
 
 static void BT_CreatePhase1SubTask(s16 fadeOutDelay, s16 fadeInDelay, s16 blinkTimes, s16 fadeOutSpeed, s16 fadeInSpeed)
 {
@@ -2795,16 +2800,27 @@ static void BT_Phase1SubTask(u8 taskId)
 
 static bool8 BT_Phase1_FadeOut(struct Task *task)
 {
+    u8 paletteNum = IndexOfSpritePaletteTag(TAG_WEATHER_START);
+    u16 index = (paletteNum+16)*16+9; // SHADOW_COLOR_INDEX
     if (task->tDelayCounter == 0 || --task->tDelayCounter == 0)
     {
         task->tDelayCounter = task->tFadeOutDelay;
         task->tCoeff += task->tFadeOutSpeed;
         if (task->tCoeff > 16)
             task->tCoeff = 16;
+        if (paletteNum < 16)
+            task->tShadowColor = gPlttBufferFaded[index];
         BlendPalettes(-1, task->tCoeff, RGB(11, 11, 11));
+        if (paletteNum < 16)
+            gPlttBufferFaded[index] = task->tShadowColor;
     }
     if (task->tCoeff > 15)
     {
+        // Save BLDCNT and turn off targets temporarily
+        task->tBldCntSaved = GetGpuReg(REG_OFFSET_BLDCNT);
+        SetGpuReg(REG_OFFSET_BLDCNT, task->tBldCntSaved & ~(BLDCNT_TGT2_BG0 | BLDCNT_TGT2_BG1 | BLDCNT_TGT2_BG2 | BLDCNT_TGT2_BG3));
+        if (paletteNum < 16)
+            gPlttBufferFaded[index] = RGB(11, 11, 11);
         ++task->tState;
         task->tDelayCounter = task->tFadeInDelay;
     }
@@ -2813,6 +2829,7 @@ static bool8 BT_Phase1_FadeOut(struct Task *task)
 
 static bool8 BT_Phase1_FadeIn(struct Task *task)
 {
+    u8 paletteNum = IndexOfSpritePaletteTag(TAG_WEATHER_START);
     if (task->tDelayCounter == 0 || --task->tDelayCounter == 0)
     {
         task->tDelayCounter = task->tFadeInDelay;
@@ -2820,6 +2837,12 @@ static bool8 BT_Phase1_FadeIn(struct Task *task)
         if (task->tCoeff < 0)
             task->tCoeff = 0;
         BlendPalettes(0xFFFFFFFF, task->tCoeff, RGB(11, 11, 11));
+        // Restore BLDCNT
+        SetGpuReg(REG_OFFSET_BLDCNT, task->tBldCntSaved);
+        if (paletteNum < 16) {
+            u16 index = (paletteNum+16)*16+9; // SHADOW_COLOR_INDEX
+            gPlttBufferFaded[index] = task->tShadowColor;
+        }
     }
     if (task->tCoeff == 0)
     {
@@ -2843,6 +2866,8 @@ static bool8 BT_Phase1_FadeIn(struct Task *task)
 #undef tFadeInSpeed
 #undef tDelayCounter
 #undef tCoeff
+#undef tBldCntSaved
+#undef tShadowColor
 
 static void BT_InitCtrlBlk(void)
 {

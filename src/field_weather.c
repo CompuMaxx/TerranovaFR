@@ -8,6 +8,7 @@
 #include "task.h"
 #include "trig.h"
 #include "constants/field_weather.h"
+#include "constants/map_types.h"
 #include "constants/weather.h"
 #include "constants/songs.h"
 
@@ -243,6 +244,8 @@ static void Task_WeatherMain(u8 taskId)
 
 static void None_Init(void)
 {
+    Weather_SetBlendCoeffs(10, 10);
+    gWeatherPtr->noShadows = FALSE;
     gWeatherPtr->gammaTargetIndex = 0;
     gWeatherPtr->gammaStepDelay = 0;
 }
@@ -782,7 +785,10 @@ void FadeScreen(u8 mode, s8 delay)
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_SCREEN_FADING_IN;
         gWeatherPtr->fadeInActive = 1;
         gWeatherPtr->fadeInCounter = 0;
-        Weather_SetBlendCoeffs(gWeatherPtr->currBlendEVA, gWeatherPtr->currBlendEVB);
+        if (gMapHeader.mapType != MAP_TYPE_INDOOR && gWeatherPtr->currWeather == WEATHER_NONE)
+            Weather_SetBlendCoeffs(10, 10);
+        else
+            Weather_SetBlendCoeffs(gWeatherPtr->currBlendEVA, gWeatherPtr->currBlendEVB);
         gWeatherPtr->readyForInit = TRUE;
     }
 }
@@ -850,7 +856,10 @@ void FadeSelectedPals(u8 mode, s8 delay, u32 selectedPalettes)
         gWeatherPtr->palProcessingState = WEATHER_PAL_STATE_SCREEN_FADING_IN;
         gWeatherPtr->fadeInActive = 1;
         gWeatherPtr->fadeInCounter = 0;
-        Weather_SetBlendCoeffs(gWeatherPtr->currBlendEVA, gWeatherPtr->currBlendEVB);
+        if (gMapHeader.mapType != MAP_TYPE_INDOOR && gWeatherPtr->currWeather == WEATHER_NONE)
+            Weather_SetBlendCoeffs(10, 10);
+        else
+            Weather_SetBlendCoeffs(gWeatherPtr->currBlendEVA, gWeatherPtr->currBlendEVB);
         gWeatherPtr->readyForInit = TRUE;
     }
 }

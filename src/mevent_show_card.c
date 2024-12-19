@@ -450,3 +450,4 @@ static void sub_81461D8(void)
         FreeSpritePaletteByTag(0x8000);
     }
 }
+

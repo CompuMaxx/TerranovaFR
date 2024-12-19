@@ -49,7 +49,6 @@ static void GetGroundEffectFlags_Puddle(struct ObjectEvent*, u32*);
 static void GetGroundEffectFlags_Ripple(struct ObjectEvent*, u32*);
 static void GetGroundEffectFlags_Seaweed(struct ObjectEvent*, u32*);
 static void GetGroundEffectFlags_JumpLanding(struct ObjectEvent*, u32*);
-static void GetGroundEffectFlags_Shadow(struct ObjectEvent*, u32*);
 static u8 ObjectEventCheckForReflectiveSurface(struct ObjectEvent*);
 static u8 GetReflectionTypeByMetatileBehavior(u32);
 static void InitObjectPriorityByZCoord(struct Sprite *sprite, u8 z);
@@ -482,6 +481,7 @@ const u8 gInitialMovementTypeFacingDirections[NUM_FIELD_MAP_OBJECT_TEMPLATES] = 
 #define OBJ_EVENT_PAL_TAG_33 0x1122
 #define OBJ_EVENT_PAL_TAG_34 0x1123
 
+#define OBJ_EVENT_PAL_TAG_SHADOW 0x1100
 #define OBJ_EVENT_PAL_TAG_GAMER	0x1124
 #define OBJ_EVENT_PAL_TAG_YOUNGSTER	0x1125
 #define OBJ_EVENT_PAL_TAG_PICNICKER	0x1126
@@ -1977,7 +1977,7 @@ static void sub_805EFF4(struct ObjectEvent *objectEvent)
 {
     objectEvent->singleMovementActive = FALSE;
     objectEvent->triggerGroundEffectsOnMove = TRUE;
-    objectEvent->hasShadow = FALSE;
+    objectEvent->noShadow  = FALSE;
     objectEvent->hasReflection = FALSE;
     objectEvent->inShortGrass = FALSE;
     objectEvent->inShallowFlowingWater = FALSE;
@@ -5781,6 +5781,7 @@ bool8 sub_8065058(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 static bool8 MovementAction_Jump2Down_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     maybe_shadow_1(objectEvent, sprite, DIR_SOUTH, 2, 0);
+    objectEvent->noShadow = FALSE;
     return MovementAction_Jump2Down_Step1(objectEvent, sprite);
 }
 
@@ -5788,7 +5789,7 @@ static bool8 MovementAction_Jump2Down_Step1(struct ObjectEvent *objectEvent, str
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -5798,6 +5799,7 @@ static bool8 MovementAction_Jump2Down_Step1(struct ObjectEvent *objectEvent, str
 static bool8 MovementAction_Jump2Up_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     maybe_shadow_1(objectEvent, sprite, DIR_NORTH, 2, 0);
+    objectEvent->noShadow = FALSE;
     return MovementAction_Jump2Up_Step1(objectEvent, sprite);
 }
 
@@ -5805,7 +5807,7 @@ static bool8 MovementAction_Jump2Up_Step1(struct ObjectEvent *objectEvent, struc
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -5815,6 +5817,7 @@ static bool8 MovementAction_Jump2Up_Step1(struct ObjectEvent *objectEvent, struc
 static bool8 MovementAction_Jump2Left_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     maybe_shadow_1(objectEvent, sprite, DIR_WEST, 2, 0);
+    objectEvent->noShadow = FALSE;
     return MovementAction_Jump2Left_Step1(objectEvent, sprite);
 }
 
@@ -5822,7 +5825,7 @@ static bool8 MovementAction_Jump2Left_Step1(struct ObjectEvent *objectEvent, str
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -5832,6 +5835,7 @@ static bool8 MovementAction_Jump2Left_Step1(struct ObjectEvent *objectEvent, str
 static bool8 MovementAction_Jump2Right_Step0(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
     maybe_shadow_1(objectEvent, sprite, DIR_EAST, 2, 0);
+    objectEvent->noShadow = FALSE;
     return MovementAction_Jump2Right_Step1(objectEvent, sprite);
 }
 
@@ -5839,7 +5843,7 @@ static bool8 MovementAction_Jump2Right_Step1(struct ObjectEvent *objectEvent, st
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6783,7 +6787,7 @@ static bool8 MovementAction_JumpDown_Step1(struct ObjectEvent *objectEvent, stru
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6800,7 +6804,7 @@ static bool8 MovementAction_JumpUp_Step1(struct ObjectEvent *objectEvent, struct
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6817,7 +6821,7 @@ static bool8 MovementAction_JumpLeft_Step1(struct ObjectEvent *objectEvent, stru
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6834,7 +6838,7 @@ static bool8 MovementAction_JumpRight_Step1(struct ObjectEvent *objectEvent, str
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6851,7 +6855,7 @@ static bool8 MovementAction_JumpInPlaceDown_Step1(struct ObjectEvent *objectEven
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6868,7 +6872,7 @@ static bool8 MovementAction_JumpInPlaceUp_Step1(struct ObjectEvent *objectEvent,
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6885,7 +6889,7 @@ static bool8 MovementAction_JumpInPlaceLeft_Step1(struct ObjectEvent *objectEven
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6902,7 +6906,7 @@ static bool8 MovementAction_JumpInPlaceRight_Step1(struct ObjectEvent *objectEve
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6919,7 +6923,7 @@ static bool8 MovementAction_JumpInPlaceDownUp_Step1(struct ObjectEvent *objectEv
 {
     if (sub_8065058(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6936,7 +6940,7 @@ static bool8 MovementAction_JumpInPlaceUpDown_Step1(struct ObjectEvent *objectEv
 {
     if (sub_8065058(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6953,7 +6957,7 @@ static bool8 MovementAction_JumpInPlaceLeftRight_Step1(struct ObjectEvent *objec
 {
     if (sub_8065058(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -6970,7 +6974,7 @@ static bool8 MovementAction_JumpInPlaceRightLeft_Step1(struct ObjectEvent *objec
 {
     if (sub_8065058(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7345,7 +7349,7 @@ static bool8 MovementAction_AcroWheelieHopFaceDown_Step1(struct ObjectEvent *obj
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7362,7 +7366,7 @@ static bool8 MovementAction_AcroWheelieHopFaceUp_Step1(struct ObjectEvent *objec
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7379,7 +7383,7 @@ static bool8 MovementAction_AcroWheelieHopFaceLeft_Step1(struct ObjectEvent *obj
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7396,7 +7400,7 @@ static bool8 MovementAction_AcroWheelieHopFaceRight_Step1(struct ObjectEvent *ob
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7413,7 +7417,7 @@ static bool8 MovementAction_AcroWheelieHopDown_Step1(struct ObjectEvent *objectE
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7430,7 +7434,7 @@ static bool8 MovementAction_AcroWheelieHopUp_Step1(struct ObjectEvent *objectEve
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7447,7 +7451,7 @@ static bool8 MovementAction_AcroWheelieHopLeft_Step1(struct ObjectEvent *objectE
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7464,7 +7468,7 @@ static bool8 MovementAction_AcroWheelieHopRight_Step1(struct ObjectEvent *object
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7481,7 +7485,7 @@ static bool8 MovementAction_AcroWheelieJumpDown_Step1(struct ObjectEvent *object
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7498,7 +7502,7 @@ static bool8 MovementAction_AcroWheelieJumpUp_Step1(struct ObjectEvent *objectEv
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7515,7 +7519,7 @@ static bool8 MovementAction_AcroWheelieJumpLeft_Step1(struct ObjectEvent *object
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7532,7 +7536,7 @@ static bool8 MovementAction_AcroWheelieJumpRight_Step1(struct ObjectEvent *objec
 {
     if (sub_8065028(objectEvent, sprite))
     {
-        objectEvent->hasShadow = FALSE;
+        objectEvent->noShadow  = FALSE;
         sprite->data[2] = 2;
         return TRUE;
     }
@@ -7994,7 +7998,6 @@ static void GetAllGroundEffectFlags_OnSpawn(struct ObjectEvent *objEvent, u32 *f
     GetGroundEffectFlags_ShallowFlowingWater(objEvent, flags);
     GetGroundEffectFlags_ShortGrass(objEvent, flags);
     GetGroundEffectFlags_HotSprings(objEvent, flags);
-	GetGroundEffectFlags_Shadow(objEvent, flags);
 }
 
 static void GetAllGroundEffectFlags_OnBeginStep(struct ObjectEvent *objEvent, u32 *flags)
@@ -8009,7 +8012,6 @@ static void GetAllGroundEffectFlags_OnBeginStep(struct ObjectEvent *objEvent, u3
     GetGroundEffectFlags_Puddle(objEvent, flags);
     GetGroundEffectFlags_ShortGrass(objEvent, flags);
     GetGroundEffectFlags_HotSprings(objEvent, flags);
-	GetGroundEffectFlags_Shadow(objEvent, flags);
 }
 
 static void GetAllGroundEffectFlags_OnFinishStep(struct ObjectEvent *objEvent, u32 *flags)
@@ -8023,7 +8025,6 @@ static void GetAllGroundEffectFlags_OnFinishStep(struct ObjectEvent *objEvent, u
     GetGroundEffectFlags_HotSprings(objEvent, flags);
     GetGroundEffectFlags_Seaweed(objEvent, flags);
     GetGroundEffectFlags_JumpLanding(objEvent, flags);
-	GetGroundEffectFlags_Shadow(objEvent, flags);
 }
 
 static void ObjectEventUpdateMetatileBehaviors(struct ObjectEvent *objEvent)
@@ -8219,81 +8220,6 @@ static void GetGroundEffectFlags_JumpLanding(struct ObjectEvent *objEvent, u32 *
             }
         }
     }
-}
-
-
-static const u8 sDisallowedIds[] = {
-    OBJ_EVENT_GFX_SEAGALLOP,
-    OBJ_EVENT_GFX_SS_ANNE,
-};
-
-static const u8 sDisallowedWeathers[] = {
-    WEATHER_RAIN,
-    WEATHER_FOG_HORIZONTAL,
-};
-
-typedef bool8 (*MetatileFunc)(u8);
-static const MetatileFunc sDisallowedMetatiles[] = {
-    MetatileBehavior_IsTallGrass_2,
-    MetatileBehavior_IsLongGrass,
-};
-
-static bool8 IsShadowAllowedInId(struct ObjectEvent *objEvent) {
-    u8 i;
-
-    for (i = 0; i < NELEMS(sDisallowedIds); i++) {
-        if (sDisallowedIds[i] == objEvent->graphicsId) 
-            return FALSE;
-    }
-
-    return TRUE;
-}
-
-static bool8 IsShadowAllowedInWeather() {
-    u8 i;
-    bool8 currWeatherDisallowed = FALSE;
-    bool8 nextWeatherDisallowed = FALSE;
-
-    for (i = 0; i < NELEMS(sDisallowedWeathers); i++) {
-        if(gWeatherPtr->currWeather == sDisallowedWeathers[i]) {
-            currWeatherDisallowed = TRUE;
-            //If the weather hasn't changed completely, no shadow will show
-            //Force "nextWeatherDisallowed" to avoid duplicated return statements
-            if(!gWeatherPtr->weatherChangeComplete)
-                nextWeatherDisallowed = TRUE;
-        }
-        if(gWeatherPtr->nextWeather == sDisallowedWeathers[i])
-            nextWeatherDisallowed = TRUE;
-
-        if (currWeatherDisallowed && nextWeatherDisallowed) {
-            return FALSE;
-        }
-    }
-
-    return TRUE;
-}
-
-static bool8 IsShadowAllowedInMetatile(struct ObjectEvent *objEvent) {
-    u8 i;
-
-    for (i = 0; i < NELEMS(sDisallowedMetatiles); i++) {
-        if (sDisallowedMetatiles[i](objEvent->currentMetatileBehavior)) 
-            return FALSE;
-    }
-
-    return TRUE;
-}
-
-static void GetGroundEffectFlags_Shadow(struct ObjectEvent *objEvent, u32 *flags) 
-{
-    if(objEvent->invisible || !objEvent->active || !IsShadowAllowedInId(objEvent) || !IsShadowAllowedInWeather() || !IsShadowAllowedInMetatile(objEvent))
-	{
-        objEvent->hasShadow = FALSE;
-        return;
-    }
-    if(objEvent->hasShadow)
-        return;
-    *flags |= GROUND_EFFECT_SHADOW;
 }
 
 static u8 ObjectEventCheckForReflectiveSurface(struct ObjectEvent *objEvent)
@@ -8709,8 +8635,7 @@ void GroundEffect_Seaweed(struct ObjectEvent *objEvent, struct Sprite *sprite)
 
 void GroundEffect_Shadow(struct ObjectEvent *objEvent, struct Sprite *sprite) 
 {
-    objEvent->hasShadow = TRUE;
-    StartFieldEffectForObjectEvent(FLDEFF_SHADOW, objEvent);
+    SetUpShadow(objEvent, sprite);
 }
 
 static void (*const sGroundEffectFuncs[])(struct ObjectEvent *objEvent, struct Sprite *sprite) = {
@@ -8734,7 +8659,6 @@ static void (*const sGroundEffectFuncs[])(struct ObjectEvent *objEvent, struct S
     GroundEffect_ShortGrass,
     GroundEffect_HotSprings,
     GroundEffect_Seaweed,
-	GroundEffect_Shadow,
 };
 
 static void DoFlaggedGroundEffects(struct ObjectEvent *objEvent, struct Sprite *sprite, u32 flags)
@@ -8747,6 +8671,8 @@ static void DoFlaggedGroundEffects(struct ObjectEvent *objEvent, struct Sprite *
     for (i = 0; i < NELEMS(sGroundEffectFuncs); i++, flags >>= 1)
         if (flags & 1)
             sGroundEffectFuncs[i](objEvent, sprite);
+    if (!(gWeatherPtr->noShadows || objEvent->inHotSprings || objEvent->inSandPile || MetatileBehavior_IsPuddle(objEvent->currentMetatileBehavior)))
+        GroundEffect_Shadow(objEvent, sprite);
 }
 
 void filters_out_some_ground_effects(struct ObjectEvent *objEvent, u32 *flags)
@@ -9451,9 +9377,9 @@ u32 StartFieldEffectForObjectEvent(u8 fieldEffectId, struct ObjectEvent * object
 
 void DoShadowFieldEffect(struct ObjectEvent *objectEvent)
 {
-    if (!objectEvent->hasShadow)
+    if (!objectEvent->noShadow )
     {
-        objectEvent->hasShadow = TRUE;
+        objectEvent->noShadow  = TRUE;
         StartFieldEffectForObjectEvent(FLDEFF_SHADOW, objectEvent);
     }
 }

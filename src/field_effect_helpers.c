@@ -8,6 +8,7 @@
 #include "fieldmap.h"
 #include "metatile_behavior.h"
 #include "palette.h"
+#include "constants/event_objects.h"
 #include "constants/field_effects.h"
 #include "constants/songs.h"
 
@@ -29,8 +30,17 @@ static void SpriteCB_BobbingEffect(struct Sprite * sprite);
 static u32 ShowDisguiseFieldEffect(u8 , u8);
 static void LoadFieldEffectPalette_(u8 fieldEffect, bool8 updateGammaType);
 static void LoadSpecialReflectionPalette(struct Sprite *sprite);
+u32 FldEff_Shadow(void);
 
 extern u16 gReflectionPaletteBuffer[];
+
+void SetUpShadow(struct ObjectEvent *objectEvent, struct Sprite *sprite) 
+{
+  gFieldEffectArguments[0] = objectEvent->localId;
+  gFieldEffectArguments[1] = gSaveBlock1Ptr->location.mapNum;
+  gFieldEffectArguments[2] = gSaveBlock1Ptr->location.mapGroup;
+  FldEff_Shadow();
+}
 
 void SetUpReflection(struct ObjectEvent * objectEvent, struct Sprite * sprite, bool8 stillReflection)
 {
@@ -239,22 +249,31 @@ u32 FldEff_Shadow(void)
     u8 objectEventId;
     const struct ObjectEventGraphicsInfo * graphicsInfo;
     u8 spriteId;
+    s32 i;
+    
+    for (i = 0; i < MAX_SPRITES; i++) 
+    {
+      // Return early if a shadow sprite already exists
+      if (gSprites[i].data[0] == gFieldEffectArguments[0] && gSprites[i].callback == UpdateShadowFieldEffect)
+        return 0;
+    }
 
     objectEventId = GetObjectEventIdByLocalIdAndMap(gFieldEffectArguments[0], gFieldEffectArguments[1], gFieldEffectArguments[2]);
     graphicsInfo = GetObjectEventGraphicsInfo(gObjectEvents[objectEventId].graphicsId);
     LoadFieldEffectPalette_(gShadowEffectTemplateIds[graphicsInfo->shadowSize], FALSE);
-	spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[gShadowEffectTemplateIds[graphicsInfo->shadowSize]], 0, 0, 0x94);
+	if (graphicsInfo->shadowSize == SHADOW_SIZE_NONE)
+        return 0; // don't create a shadow at all
+    // higher = farther back; shadows should be behind object events
+    spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[gShadowEffectTemplateIds[graphicsInfo->shadowSize]], 0, 0, 0x94 + 1);
     if (spriteId != MAX_SPRITES)
     {
+        gSprites[spriteId].oam.objMode = ST_OAM_OBJ_BLEND; // BLEND
         gSprites[spriteId].coordOffsetEnabled = TRUE;
         gSprites[spriteId].data[0] = gFieldEffectArguments[0];
         gSprites[spriteId].data[1] = gFieldEffectArguments[1];
         gSprites[spriteId].data[2] = gFieldEffectArguments[2];
         gSprites[spriteId].data[3] = (graphicsInfo->height >> 1) - gShadowVerticalOffsets[graphicsInfo->shadowSize];
-//		gSprites[spriteId].oam.objMode = ST_OAM_OBJ_BLEND;
     }
-//	SetGpuReg(REG_OFFSET_DISPCNT, 0x1F40);
-//	SetGpuReg(REG_OFFSET_BLDALPHA, 0x0A10);
 	return 0;
 }
 
@@ -275,13 +294,17 @@ void UpdateShadowFieldEffect(struct Sprite * sprite)
         sprite->oam.priority = linkedSprite->oam.priority;
         sprite->pos1.x = linkedSprite->pos1.x;
         sprite->pos1.y = linkedSprite->pos1.y + sprite->data[3];
-        if (!objectEvent->active || !objectEvent->hasShadow
+        sprite->invisible = linkedSprite->invisible;
+        if (!objectEvent->active
+         || objectEvent->noShadow
+         || objectEvent->inHotSprings
+         || objectEvent->inSandPile
+         || gWeatherPtr->noShadows
          || MetatileBehavior_IsPokeGrass(objectEvent->currentMetatileBehavior)
+         || MetatileBehavior_IsPuddle(objectEvent->currentMetatileBehavior)
          || MetatileBehavior_IsSurfable(objectEvent->currentMetatileBehavior)
-         || MetatileBehavior_IsSurfable(objectEvent->previousMetatileBehavior)
-         || MetatileBehavior_IsReflective(objectEvent->currentMetatileBehavior)
-         || MetatileBehavior_IsReflective(objectEvent->previousMetatileBehavior))
-        {
+         || MetatileBehavior_IsSurfable(objectEvent->previousMetatileBehavior))
+         {
             FieldEffectStop(sprite, FLDEFF_SHADOW);
         }
     }
